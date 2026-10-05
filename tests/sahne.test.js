@@ -7,15 +7,16 @@ const { sayfaAc } = require('./yardimci');
     const r = { temalar: [], cerceve: ['ates', 'simsek', 'galaksi', 'cyberc', 'piksel', 'kurt'].every(k => FRM[k] && frameHtml('<img width="40">', k).includes('fq')) };
     for (const k of ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder']) {
       setTheme(k);
-      r.temalar.push([k, document.documentElement.dataset.theme === k, document.documentElement.dataset.scene === '1', document.getElementById('sahne').children.length, PREMT.includes(k)]);
+      r.temalar.push([k, document.documentElement.dataset.theme === k, document.documentElement.dataset.scene === '1', k === 'minecraft' ? (document.querySelector('#sahne canvas.mc') && document.querySelector('#sahne canvas.mc').width > 0 ? 9 : 0) : document.getElementById('sahne').children.length, PREMT.includes(k)]);
     }
+    r.doku = getComputedStyle(document.documentElement).getPropertyValue('--mc-stone').includes('data:image/png');
     setTheme('dark'); r.temiz = [document.documentElement.dataset.scene === undefined, document.getElementById('sahne').children.length];
     return r;
   });
   assert.strictEqual(o.temalar.length, 12);
   for (const t of o.temalar) { assert.ok(t[1] && t[2] && t[3] > 5 && t[4], 'sahne eksik: ' + t[0]); }
-  assert.ok(o.cerceve); assert.deepStrictEqual(o.temiz, [true, 0]);
+  assert.ok(o.cerceve); assert.ok(o.doku, 'Minecraft dokuları üretilmedi'); assert.deepStrictEqual(o.temiz, [true, 0]);
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok sahne: 12 canlı tema çiziliyor, temizleniyor; 6 yeni çerçeve tanımlı');
+  console.log('ok sahne: 12 canlı tema çiziliyor, temizleniyor; 6 yeni çerçeve tanımlı, blok dünyası dokuları üretiliyor');
   await s.kapat();
 })().catch(e => { console.error('HATA sahne:', e.message); process.exit(1); });
