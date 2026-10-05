@@ -5,7 +5,7 @@ const { sayfaAc } = require('./yardimci');
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms)), r = { tema: {} }, root = document.documentElement, game = document.getElementById('game');
-    const T = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'korsan', 'lofi'];
+    const T = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'lofi', 'pati'];
     for (const k of T) {
       game.hidden = true; setTheme(k); await wait(30);
       const menuDongu = !!SHN._stop;

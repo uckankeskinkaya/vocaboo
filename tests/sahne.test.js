@@ -5,7 +5,7 @@ const { sayfaAc } = require('./yardimci');
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(() => {
     const r = { temalar: [], cerceve: ['ates', 'simsek', 'galaksi', 'cyberc', 'orkide', 'zehir'].every(k => FRM[k] && /class="(fq|rk) /.test(frameHtml('<img width="40">', k))) };
-    for (const k of ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'korsan', 'lofi']) {
+    for (const k of ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'lofi', 'pati']) {
       setTheme(k);
       r.temalar.push([k, document.documentElement.dataset.theme === k, document.documentElement.dataset.scene === '1', k === 'minecraft' ? (document.querySelector('#sahne canvas.mc') && document.querySelector('#sahne canvas.mc').width > 0 ? 9 : 0) : document.getElementById('sahne').children.length, PREMT.includes(k)]);
     }
@@ -16,6 +16,9 @@ const { sayfaAc } = require('./yardimci');
     r.onizle = [document.documentElement.dataset.theme, !!document.getElementById('tpv'), localStorage.getItem('ka_theme'), document.getElementById('tpvy').textContent, document.querySelector('#tpv small').textContent];
     thPrevEnd();
     r.onizleKapat = [document.documentElement.dataset.theme, !!document.getElementById('tpv')];
+    thPrev('lofi', 115000, false); document.getElementById('tpvo').click();
+    r.macOnizle = [document.documentElement.dataset.oyun, document.getElementById('oyunsahne').dataset.s, !!document.getElementById('tpvg')];
+    thPrevEnd(); r.macOnizle.push(!!document.getElementById('tpvg'), document.documentElement.dataset.oyun === undefined);
     thPrev('kod', 100000, true); panel('<p>x</p>');
     r.onizleGezinti = [document.documentElement.dataset.theme, !!document.getElementById('tpv')];
     r.rutbe = !FRM.kurt && !FRM.piksel && ['cyberc'].every(k => frameHtml('<img width="84">', k).includes('class="rk rk-' + k)) && frameHtml('<img width="30">', 'cyberc').includes(' sm"');
@@ -25,6 +28,7 @@ const { sayfaAc } = require('./yardimci');
   assert.strictEqual(o.temalar.length, 16);
   for (const t of o.temalar) { assert.ok(t[1] && t[2] && t[3] > 5 && t[4], 'sahne eksik: ' + t[0]); }
   assert.ok(o.cerceve);
+  assert.deepStrictEqual(o.macOnizle, ['1', 'lofi', true, false, true], 'Pazar maç içi önizleme');
   assert.ok(o.htmlSaydam, 'html arka planı sahneyi (z-index:-1) örtüyor');
   assert.deepStrictEqual(o.onizle.slice(0, 3), ['witcher', true, 'dark']); assert.strictEqual(o.onizle[3], 'Satın al'); assert.match(o.onizle[4], /^Önizleme · 🪙 150[.,]000$/);
   assert.deepStrictEqual(o.onizleKapat, ['dark', false]);

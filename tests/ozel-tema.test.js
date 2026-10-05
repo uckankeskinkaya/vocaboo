@@ -5,7 +5,7 @@ const { sayfaAc } = require('./yardimci');
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms)), r = { efekt: {}, blok: {} };
-    const TEMALAR = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'korsan', 'lofi'];
+    const TEMALAR = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'lofi', 'pati'];
     document.getElementById('home').hidden = false;
     const dugme = document.createElement('button'); dugme.id = 'dz'; dugme.textContent = 'x'; dugme.style.cssText = 'position:fixed;left:50px;top:300px;width:80px;height:40px;z-index:5'; document.body.appendChild(dugme);
     const bas = () => dugme.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 90, clientY: 320 }));

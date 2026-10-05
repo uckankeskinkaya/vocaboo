@@ -1,4 +1,4 @@
-// v25: Dört yeni sahneli temanın oyun içi arka planları: Saat İşleri, Gök Adaları, Korsan Koyu, Lo-fi Oda.
+// v25: Dört yeni sahneli temanın oyun içi arka planları: Saat İşleri, Gök Adaları, Lo-fi Oda, Pati Bahçesi.
 // Hepsi kodla çizilir (SVG + CSS). Motor: js/35 (OSEKLE). Menü sahneleri js/27'de.
 (function(){
 if(!window.OSEKLE)return;
@@ -108,41 +108,6 @@ const adCss=BASE+`
 §O .xf{transform-origin:10px 4px;animation:os3-flap .5s ease-in-out infinite}
 §O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 65%,rgba(120,180,240,.3))}`;
 
-/* ───── KORSAN KOYU ───── */
-const wave=(c,h,a)=>{let d='M0 '+h;for(let x=0;x<=800;x+=50)d+=' Q'+(x+25)+' '+(h-a)+' '+(x+50)+' '+h;return '<path d="'+d+' V200 H0Z" fill="'+c+'"/>'};
-const koHtml=()=>{
-  let h=many(50,()=>{const s=rr(1,2.6);return '<i class="sx" style="left:'+fx(rr(0,100))+'%;top:'+fx(rr(0,55))+'%;width:'+fx(s)+'px;height:'+fx(s)+'px;'+tm(2,5)+'"></i>'});
-  h+='<u class="mo"></u><u class="mr"></u>';
-  h+=sv('xl','0 0 80 220','<path d="M0 220 Q10 190 30 186 L60 186 Q76 196 80 220Z" fill="#0b1a28"/><path d="M28 186 L33 60 L51 60 L56 186Z" fill="#f2efe6"/><path d="M29.6 150 L54.4 150 L53.6 128 L30.4 128Z M31.2 106 L52.8 106 L52 84 L32 84Z" fill="#c8323a"/><rect x="29" y="44" width="26" height="16" fill="#2a2a34"/><rect x="32" y="46" width="20" height="12" fill="#ffe9a0" class="xlp"/><path d="M26 44 L42 28 L58 44Z" fill="#c8323a"/><path d="M24 60 H60" stroke="#2a2a34" stroke-width="3"/>');
-  h+='<u class="bm"></u>';
-  h+='<u class="sh">'+sv('xs','0 0 220 180','<path d="M106 10 L106 130 M60 30 L60 130 M150 40 L150 130" stroke="#2a1a10" stroke-width="4"/><path d="M110 16 Q150 50 110 110Z M64 36 Q96 66 64 112Z M154 46 Q184 76 154 116Z" fill="#e8dcc0" opacity=".92"/><path d="M106 10 L130 16 L106 24Z" fill="#111"/><circle cx="114" cy="16" r="2.4" fill="#eee"/><path d="M10 120 L210 120 L186 156 Q110 168 34 156Z" fill="#3a2414"/><path d="M14 126 H206" stroke="#6a4424" stroke-width="3"/><circle cx="60" cy="140" r="3.4" fill="#ffd36b" class="xlp"/><circle cx="96" cy="140" r="3.4" fill="#ffd36b" class="xlp"/><circle cx="132" cy="140" r="3.4" fill="#ffd36b" class="xlp"/><circle cx="168" cy="140" r="3.4" fill="#ffd36b" class="xlp"/><path d="M186 120 L214 100" stroke="#2a1a10" stroke-width="3"/>','width:100%;height:auto')+'</u>';
-  h+='<u class="wv w1">'+sv('xwv" preserveAspectRatio="none','0 0 800 200',wave('#0f3d5e',40,14),'width:200%;height:100%')+'</u>';
-  h+='<u class="wv w2">'+sv('xwv" preserveAspectRatio="none','0 0 800 200',wave('#124a70',40,18),'width:200%;height:100%')+'</u>';
-  h+='<u class="wv w3">'+sv('xwv" preserveAspectRatio="none','0 0 800 200',wave('#17587f',40,22),'width:200%;height:100%')+'</u>';
-  for(let j=0;j<3;j++)h+='<u class="gu" style="top:'+fx(rr(12,40))+'%;--d:-'+fx(rr(0,40))+'s">'+sv('xbd','0 0 20 10','<g class="xf"><path d="M0 2 Q5 -2 10 5 Q15 -2 20 2" fill="none" stroke="#dfe8f0" stroke-width="1.6"/></g>','width:20px;height:auto')+'</u>';
-  h+='<u class="mi"></u><u class="vg"></u>';
-  return h};
-const koCss=BASE+`
-§O{background:linear-gradient(#020812 0%,#08203a 45%,#0e3350 70%,#0a2a42 100%)}
-§O .sx{border-radius:50%;background:#fff;animation:os3-tw var(--t) ease-in-out var(--d) infinite}
-§O .mo{left:14%;top:6%;width:min(22vw,96px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 40%,#fffbe6,#f3e3b0 60%,#d8c48a);box-shadow:0 0 60px 18px rgba(255,240,190,.28)}
-§O .mr{left:calc(14% + 2vw);bottom:4%;width:min(18vw,80px);height:46%;background:repeating-linear-gradient(transparent 0 6px,rgba(255,240,190,.5) 6px 8px);-webkit-mask:linear-gradient(transparent,#000 30%,#000 80%,transparent);mask:linear-gradient(transparent,#000 30%,#000 80%,transparent);transform-origin:50% 0;animation:os3-shim 3s ease-in-out infinite}
-§O .xl{right:2%;bottom:16%;width:76px;height:auto}
-§O .xlp{animation:os3-glow 1.6s ease-in-out infinite}
-§O .bm{right:calc(2% + 36px);bottom:calc(16% + 137px);width:min(120vw,560px);height:46px;transform-origin:100% 50%;background:linear-gradient(270deg,rgba(255,236,170,.75),rgba(255,236,170,0));clip-path:polygon(0 0,100% 42%,100% 58%,0 100%);animation:os3-beam 8s linear infinite}
-§O .sh{left:4%;bottom:10%;width:min(60vw,280px);transform-origin:50% 90%;animation:os3-rock 5s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(0,0,0,.6))}
-§O .xs{position:relative}
-§O .wv{left:0;width:100%;overflow:hidden}
-§O .xwv{position:relative;animation:os3-wave var(--t,14s) linear infinite}
-§O .w1{bottom:6%;height:16%;--t:22s;opacity:.95}
-§O .w2{bottom:2%;height:12%;--t:16s}
-§O .w3{bottom:-2%;height:9%;--t:11s}
-§O .gu{left:0;animation:os3-pan 36s linear var(--d) infinite}
-§O .gu .xbd{position:relative}
-§O .xf{transform-origin:10px 4px;animation:os3-flap .6s ease-in-out infinite}
-§O .mi{left:0;right:0;bottom:8%;height:18%;background:linear-gradient(transparent,rgba(150,190,220,.18),transparent)}
-§O .vg{background:radial-gradient(ellipse at 50% 45%,transparent 50%,rgba(0,5,15,.65))}`;
-
 /* ───── LO-FI ODA ───── */
 const loHtml=()=>{
   let city='';let x=0;while(x<300){const w=rr(16,34),ht=rr(30,110);city+='<rect x="'+fx(x)+'" y="'+fx(200-ht)+'" width="'+fx(w)+'" height="'+fx(ht)+'" fill="#2a1d4a"/>';for(let wy=200-ht+6;wy<196;wy+=9)for(let wx=x+4;wx<x+w-4;wx+=7)if(Math.random()<.3)city+='<rect class="xwn" x="'+fx(wx)+'" y="'+fx(wy)+'" width="3" height="4" fill="'+(Math.random()<.3?'#ff9ec7':'#ffcf7a')+'" style="'+tm(3,8)+'"/>';x+=w+rr(1,4)}
@@ -178,8 +143,77 @@ const loCss=BASE+`
 §O .nt{top:70%;font:700 20px sans-serif;color:#ffc6e0;text-shadow:0 0 8px #ff9ec7;animation:os3-note var(--t) ease-out var(--d) infinite;opacity:0}
 §O .vg{background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(10,0,20,.6))}`;
 
+/* ───── PATİ BAHÇESİ ───── */
+const dog=()=>sv('xdg','0 0 160 170',`
+  <g class="xdt"><path d="M44 128 Q12 122 16 90 Q22 84 26 92 Q30 112 50 118Z" fill="#d9945a"/></g>
+  <ellipse cx="68" cy="126" rx="42" ry="36" fill="#e8a868"/>
+  <ellipse cx="52" cy="152" rx="24" ry="14" fill="#d9945a"/><ellipse cx="40" cy="162" rx="12" ry="6" fill="#fff3e0"/>
+  <ellipse cx="96" cy="120" rx="18" ry="28" fill="#fff3e0"/>
+  <rect x="82" y="128" width="13" height="36" rx="6" fill="#e8a868"/><rect x="99" y="128" width="13" height="36" rx="6" fill="#e8a868"/>
+  <ellipse cx="88" cy="164" rx="9" ry="5" fill="#fff3e0"/><ellipse cx="106" cy="164" rx="9" ry="5" fill="#fff3e0"/>
+  <path d="M80 92 Q104 102 128 90 L128 98 Q104 110 80 100Z" fill="#e5484d"/><circle cx="106" cy="104" r="5" fill="#ffd34a" stroke="#c99a1a" stroke-width="1.5"/>
+  <circle cx="104" cy="62" r="34" fill="#e8a868"/>
+  <ellipse cx="128" cy="76" rx="22" ry="16" fill="#fff3e0"/>
+  <ellipse cx="143" cy="70" rx="7" ry="5" fill="#2a1a12"/><ellipse cx="141" cy="68" rx="2.2" ry="1.4" fill="#fff" opacity=".7"/>
+  <path d="M128 82 Q134 90 142 82" stroke="#2a1a12" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <g class="xtg"><path d="M131 86 Q131 102 138 102 Q145 102 142 86Z" fill="#ff7a8a"/></g>
+  <g class="xek"><ellipse cx="114" cy="56" rx="4.5" ry="5.5" fill="#2a1a12"/><circle cx="115.5" cy="54" r="1.6" fill="#fff"/></g>
+  <ellipse cx="98" cy="70" rx="8" ry="5" fill="#ff9a9a" opacity=".45"/>
+  <g class="xer"><path d="M86 36 Q60 30 62 74 Q74 82 88 60Z" fill="#a8603a"/></g>`);
+const cat=()=>sv('xkt','0 0 120 110',`
+  <g class="xkq"><path d="M72 70 Q96 76 92 104 Q86 108 84 100 Q86 82 66 78Z" fill="#e8964a"/></g>
+  <ellipse cx="60" cy="68" rx="24" ry="18" fill="#f2a65a"/>
+  <path d="M48 56 L52 80 M58 52 L60 82 M68 54 L68 80" stroke="#d9823a" stroke-width="3"/>
+  <circle cx="34" cy="48" r="18" fill="#f2a65a"/>
+  <path d="M20 38 L18 18 L32 32Z M40 32 L50 16 L50 38Z" fill="#f2a65a"/><path d="M22 34 L21 24 L28 32Z M43 32 L48 23 L48 35Z" fill="#ffb3b3"/>
+  <g class="xek"><path d="M26 48 Q29 45 32 48" stroke="#2a1a12" stroke-width="2.2" fill="none"/><path d="M38 48 Q41 45 44 48" stroke="#2a1a12" stroke-width="2.2" fill="none"/></g>
+  <path d="M33 54 L35 54 L34 56Z" fill="#ff7a8a"/>
+  <path d="M30 56 L14 54 M30 58 L14 60 M38 56 L54 54 M38 58 L54 60" stroke="#fff" stroke-width="1" opacity=".8"/>
+  <ellipse cx="46" cy="84" rx="8" ry="4" fill="#f2a65a"/><ellipse cx="66" cy="84" rx="8" ry="4" fill="#f2a65a"/>`);
+const bfly=(c,st)=>'<u class="bf" style="'+st+'">'+sv('xbf','0 0 30 24','<g class="xbw"><path d="M15 12 Q2 -2 2 8 Q2 16 15 12 Q4 22 8 24 Q14 24 15 12Z M15 12 Q28 -2 28 8 Q28 16 15 12 Q26 22 22 24 Q16 24 15 12Z" fill="'+c+'"/></g><rect x="14" y="6" width="2" height="14" rx="1" fill="#3a2a1a"/>','width:38px;height:auto')+'</u>';
+const paHtml=()=>{
+  let h='<u class="su"></u>'+many(4,i=>'<u class="cl" style="top:'+fx(3+i*9)+'%;--t:'+fx(rr(60,110))+'s;--d:-'+fx(rr(0,100))+'s;--s:'+fx(rr(.6,1.1))+'"></u>');
+  h+='<u class="hl a"></u><u class="hl b"></u>';
+  h+=sv('xtr','0 0 200 400','<path d="M150 400 C150 300 160 220 140 160 C130 130 110 110 70 96" stroke="#7a5230" stroke-width="22" fill="none" stroke-linecap="round"/><path d="M146 230 C170 200 190 196 200 190" stroke="#7a5230" stroke-width="12" fill="none" stroke-linecap="round"/>'+[[80,60,46],[130,40,52],[180,70,44],[110,100,40],[60,110,34],[175,140,36]].map(c=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+c[2]+'" fill="#5cb84a"/><circle cx="'+(c[0]-8)+'" cy="'+(c[1]-8)+'" r="'+(c[2]*.6)+'" fill="#6fca58"/>').join('')+'<circle cx="96" cy="72" r="5" fill="#ff6a6a"/><circle cx="150" cy="50" r="5" fill="#ff6a6a"/><circle cx="170" cy="96" r="5" fill="#ff6a6a"/>');
+  h+=cat();
+  h+=sv('xfn','0 0 400 60','<defs><pattern id="fp" width="24" height="60" patternUnits="userSpaceOnUse"><path d="M4 60 V12 L10 4 L16 12 V60Z" fill="#fffaf0" stroke="#d8cbb0" stroke-width="1.2"/></pattern></defs><rect y="20" width="400" height="7" fill="#f2e8d4"/><rect y="42" width="400" height="7" fill="#f2e8d4"/><rect width="400" height="60" fill="url(#fp)"/>','');
+  h+=sv('xdh','0 0 120 110','<path d="M14 50 L60 8 L106 50Z" fill="#e0573a"/><path d="M8 54 L60 4 L112 54 L106 58 L60 16 L14 58Z" fill="#b8402a"/><rect x="20" y="52" width="80" height="58" fill="#c98a4a"/><path d="M20 66 H100 M20 80 H100 M20 94 H100" stroke="#a87038" stroke-width="2"/><path d="M42 110 V82 Q60 62 78 82 V110Z" fill="#3a2414"/><g transform="translate(48 58)"><rect x="4" y="2" width="16" height="6" rx="3" fill="#fff"/><circle cx="4" cy="2" r="3" fill="#fff"/><circle cx="4" cy="8" r="3" fill="#fff"/><circle cx="20" cy="2" r="3" fill="#fff"/><circle cx="20" cy="8" r="3" fill="#fff"/></g>');
+  h+='<u class="gs"></u>'+many(12,()=>'<u class="fw" style="left:'+fx(rr(0,98))+'%;bottom:'+fx(rr(1,12))+'%;--c:'+['#ff8fb3','#ffd34a','#ffffff','#b48cff'][Math.floor(rr(0,4))]+'"></u>');
+  h+=dog();
+  h+='<u class="yb">'+sv('xyb','0 0 40 40','<circle cx="20" cy="20" r="18" fill="#ff8fb3"/><path d="M6 12 Q20 22 34 12 M4 22 Q20 34 36 22 M12 4 Q22 20 14 36 M28 4 Q18 20 26 36" stroke="#e05a8a" stroke-width="2" fill="none"/>','width:34px;height:auto')+'</u>';
+  h+=bfly('#ffb84a','left:20%;top:34%;--t:14s;--d:0s')+bfly('#8fd0ff','left:60%;top:20%;--t:18s;--d:-6s')+bfly('#ff8fd0','left:40%;top:48%;--t:16s;--d:-11s');
+  h+='<u class="vg"></u>';
+  return h};
+const paCss=BASE+`
+§O{background:linear-gradient(#8fd0ff 0%,#c8e9ff 40%,#e9f7e0 70%,#b9e39a 100%)}
+§O .su{left:6%;top:3%;width:min(24vw,100px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff6c8 0 40%,rgba(255,226,120,.55) 55%,transparent 72%)}
+§O .cl{left:0;width:calc(150px * var(--s));height:calc(40px * var(--s));border-radius:40px;background:#fff;opacity:.92;box-shadow:calc(34px * var(--s)) calc(-16px * var(--s)) 0 calc(4px * var(--s)) #fff,calc(76px * var(--s)) calc(-4px * var(--s)) 0 0 #fff;animation:os3-pan var(--t) linear var(--d) infinite}
+§O .hl{left:-10%;right:-10%;border-radius:50% 50% 0 0}
+§O .hl.a{bottom:14%;height:30%;background:#a6d98a}
+§O .hl.b{bottom:-6%;height:30%;background:#8fd16a}
+§O .xtr{right:-14%;top:-4%;width:min(56vw,250px);height:auto}
+§O .xkt{right:4%;top:calc(-4% + min(56vw,250px) * .44);width:min(22vw,96px);height:auto}
+§O .xkq{transform-origin:70px 74px;animation:os3-tail 2.6s ease-in-out infinite}
+§O .xek{transform-box:fill-box;transform-origin:center;animation:os4-blink 5s infinite}
+§O .xfn{left:0;bottom:12%;width:100%;height:9%;}
+§O .xdh{right:2%;bottom:8%;width:min(30vw,130px);height:auto;filter:drop-shadow(0 4px 4px rgba(60,90,40,.3))}
+§O .gs{left:0;right:0;bottom:0;height:13%;background:linear-gradient(#7cc457,#5aa83c);box-shadow:0 -6px 0 #8fd16a}
+§O .fw{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,#ffd34a 0 30%,var(--c) 32%);box-shadow:0 0 0 2px var(--c)}
+§O .xdg{left:1%;bottom:2%;width:min(42vw,190px);height:auto;filter:drop-shadow(0 4px 4px rgba(60,90,40,.3))}
+§O .xdt{transform-origin:46px 124px;animation:os4-wag .35s ease-in-out infinite}
+§O .xer{transform-origin:86px 40px;animation:os3-leaf 3s ease-in-out infinite}
+§O .xtg{transform-origin:136px 86px;animation:os4-pant .5s ease-in-out infinite}
+§O .yb{left:46%;bottom:5%;animation:os4-roll 7s ease-in-out infinite}
+§O .xyb{position:relative;animation:os4-spin2 7s ease-in-out infinite}
+§O .bf{animation:os4-fly var(--t) ease-in-out var(--d) infinite}
+§O .xbf{position:relative}
+§O .xbw{transform-origin:15px 12px;animation:os4-wing .3s ease-in-out infinite}
+§O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 65%,rgba(120,180,90,.25))}
+:root[data-theme="pati"][data-oyun] .k:not(.g):not(.o):not(.r):not(.w){background:rgba(255,255,255,.5)}`;
+document.head.insertAdjacentHTML('beforeend','<style>@keyframes os4-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}@keyframes os4-wag{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}@keyframes os4-pant{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.18)}}@keyframes os4-roll{0%,100%{transform:translateX(-12vw)}50%{transform:translateX(18vw)}}@keyframes os4-spin2{0%,100%{transform:rotate(-200deg)}50%{transform:rotate(300deg)}}@keyframes os4-fly{0%,100%{transform:translate(0,0)}25%{transform:translate(30vw,-6vh)}50%{transform:translate(10vw,8vh)}75%{transform:translate(-14vw,-4vh)}}@keyframes os4-wing{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.4)}}</style>');
+
+OSEKLE('pati',{html:paHtml,css:paCss});
 OSEKLE('saat',{html:saHtml,css:saCss});
 OSEKLE('adalar',{html:adHtml,css:adCss});
-OSEKLE('korsan',{html:koHtml,css:koCss});
 OSEKLE('lofi',{html:loHtml,css:loCss});
 })();

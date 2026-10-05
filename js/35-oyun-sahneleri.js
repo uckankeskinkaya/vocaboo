@@ -78,9 +78,11 @@ for(const k in OS)css+=OS[k].css.replace(/§O/g,'#oyunsahne[data-s="'+k+'"]')+'\
 document.head.insertAdjacentHTML('beforeend','<style id="oyun-sahne-css">'+css+'</style>');
 const OSN=document.createElement('div');OSN.id='oyunsahne';OSN.setAttribute('aria-hidden','true');document.body.appendChild(OSN);
 window.OSEKLE=(k,d)=>{OS[k]=d;document.head.insertAdjacentHTML('beforeend','<style class="oyun-sahne-ek">'+d.css.replace(/§O/g,'#oyunsahne[data-s="'+k+'"]')+'</style>');if(OSN.dataset.s===k)OSN.dataset.s=''};
-let durdu=false;
+let durdu=false,zor=false;
+// Pazar önizlemesi: oyun açık olmadan oyun sahnesini göster
+window.oyunSahnesiZorla=v=>{zor=!!v;OSN.dataset.s='';guncelle()};
 function guncelle(){
-  const r=document.documentElement,t=r.dataset.theme,g=$('game'),acik=g&&!g.hidden&&!!OS[t]&&!!r.dataset.scene;
+  const r=document.documentElement,t=r.dataset.theme,g=$('game'),acik=(zor||(g&&!g.hidden))&&!!OS[t]&&!!r.dataset.scene;
   if(acik){
     if(OSN.dataset.s!==t){OSN.dataset.s=t;OSN.innerHTML=fixX(OS[t].html())}
     r.dataset.oyun='1';

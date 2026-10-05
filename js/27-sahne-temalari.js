@@ -216,17 +216,15 @@ const SD=[
 §S .is::after{content:'';position:absolute;left:8%;right:8%;top:9px;height:70px;background:linear-gradient(#a07a52,#6e5236);clip-path:polygon(0 0,100% 0,62% 100%,40% 70%)}
 @keyframes sc-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}`],
 
-['korsan','Korsan Koyu',1,'#071726','12,34,54',.7,'#f3ead6','#9fb3c3','#e9b44c','#1b1204',['rgba(233,180,76,.4)','rgba(40,120,170,.45)','rgba(20,60,100,.5)'],
- ['https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',null],120000,
- ()=>'<u class="mo"></u>'+ps(30,()=>'left:'+f1(R(0,100))+'%;top:'+f1(R(0,45))+'%;--t:'+f1(R(2,5))+'s;--d:-'+f1(R(0,5))+'s')+'<u class="w w1"></u><u class="w w2"></u><u class="w w3"></u>',
-`§S{background:linear-gradient(#030b16,#0b2238 55%,#0e3350)}
-§S .mo{right:14%;top:8%;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#fffbe6,#f3e3b0 60%,#d8c48a);box-shadow:0 0 50px 14px rgba(255,240,190,.3)}
-§S i{width:2px;height:2px;border-radius:50%;background:#fff;animation:sc-tw var(--t) ease-in-out var(--d) infinite}
-§S .w{left:-20%;right:-20%;border-radius:50% 50% 0 0/30px 30px 0 0;animation:sc-drift 6s ease-in-out infinite alternate}
-§S .w1{bottom:0;height:34%;background:linear-gradient(#0f3d5e,#082236);opacity:.95}
-§S .w2{bottom:0;height:24%;background:linear-gradient(#124a70,#0a2a42);animation-duration:5s;animation-direction:alternate-reverse}
-§S .w3{bottom:0;height:13%;background:linear-gradient(#17587f,#0b2f4a);animation-duration:4s}
-§T :is(h1,.greet h2){font-family:'Pirata One',serif;letter-spacing:.5px}`],
+['pati','Pati Bahçesi',0,'#e6f6dc','255,255,255',.74,'#2a3a1e','#667a56','#e07a3a','#ffffff',['rgba(160,220,120,.55)','rgba(255,200,140,.5)','rgba(255,170,190,.45)'],
+ ['https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap',"'Fredoka'"],115000,
+ ()=>cloud(3).replace(/<u /g,'<u class="c" ')+ps(14,i=>'left:'+f1(8+i*6+(i%2)*4)+'%;top:'+f1(88-i*6.2)+'%;--d:-'+f1(i*.45)+'s;transform:rotate(28deg)','u').replace(/<u /g,'<u class="pw" '),
+`§S{background:linear-gradient(#a8dcff,#dff2ff 45%,#e6f6dc 70%,#b9e39a)}
+§S::before{content:'';position:absolute;left:8%;top:6%;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,#fff6c8 0 40%,rgba(255,226,120,.5) 55%,transparent 72%)}
+§S::after{content:'';position:absolute;left:0;right:0;bottom:0;height:16%;background:radial-gradient(60% 100% at 30% 100%,#8fd16a,transparent 70%),radial-gradient(60% 100% at 80% 100%,#7cc457,transparent 70%)}
+§S .c{left:0;width:160px;height:44px;border-radius:44px;background:#fff;opacity:.9;box-shadow:36px -16px 0 4px #fff,80px -4px 0 0 #fff;animation:sc-pan var(--t) linear var(--d) infinite}
+§S .pw{width:26px;height:26px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23c08a5a'%3E%3Cellipse cx='20' cy='27' rx='9' ry='8'/%3E%3Cellipse cx='8' cy='16' rx='4' ry='5'/%3E%3Cellipse cx='16' cy='9' rx='4' ry='5'/%3E%3Cellipse cx='25' cy='9' rx='4' ry='5'/%3E%3Cellipse cx='33' cy='16' rx='4' ry='5'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;opacity:0;animation:sc-paw 6.3s linear var(--d) infinite}
+@keyframes sc-paw{0%{opacity:0}4%{opacity:.75}40%{opacity:.6}55%,100%{opacity:0}}`],
 
 ['lofi','Lo-fi Oda',1,'#1d1430','44,30,66',.7,'#fbefff','#c3a8d8','#ff9ec7','#2a0f1f',['rgba(255,158,199,.4)','rgba(140,110,255,.4)','rgba(255,190,120,.3)'],
  null,110000,
@@ -251,7 +249,7 @@ SD.forEach(d=>{
     +(ui?T+' :is(body,button,input){'+ui+'}\n':'')
     +d[14].replace(/§S/g,S).replace(/§T/g,T)+'\n';
 });
-Object.assign(EN,{'Saat İşleri':'Clockwork','Gök Adaları':'Sky Islands','Korsan Koyu':'Pirate Cove','Lo-fi Oda':'Lo-fi Room','Yağmurlu Gece':'Rainy Night','Kış Masalı':'Winter Tale','Derin Deniz':'Deep Sea','Büyülü Orman':'Enchanted Forest','Sakura Yağmuru':'Sakura Rain','Kod Yağmuru':'Code Rain','Ejderha Ateşi':"Dragon's Fire",'Galaksi':'Galaxy','Canavar Avcısı':'Monster Slayer','Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.':'Themes are fan-made and not affiliated with any game or company.','🎬 Canlı sahneli temalar':'🎬 Live-scene themes'});
+Object.assign(EN,{'Pati Bahçesi':'Paw Garden','Saat İşleri':'Clockwork','Gök Adaları':'Sky Islands','Lo-fi Oda':'Lo-fi Room','Yağmurlu Gece':'Rainy Night','Kış Masalı':'Winter Tale','Derin Deniz':'Deep Sea','Büyülü Orman':'Enchanted Forest','Sakura Yağmuru':'Sakura Rain','Kod Yağmuru':'Code Rain','Ejderha Ateşi':"Dragon's Fire",'Galaksi':'Galaxy','Canavar Avcısı':'Monster Slayer','Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.':'Themes are fan-made and not affiliated with any game or company.','🎬 Canlı sahneli temalar':'🎬 Live-scene themes'});
 document.head.insertAdjacentHTML('beforeend',`<style id="sahne-oyun">
 /* Oyun ekranı: sahnenin üstünde tuşlar ve kareler her zaman okunur kalsın */
 :root[data-scene] .k{background:rgba(255,255,255,.22);color:var(--fg);border:1px solid rgba(255,255,255,.34);box-shadow:0 2px 0 rgba(0,0,0,.4);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}

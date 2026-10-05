@@ -57,20 +57,14 @@ const ejHtml=()=>{
     <path d="M44 70 Q118 34 184 100 Q108 120 44 70Z" fill="url(#ejg)" stroke="#3a0a02" stroke-width="3"/>
     <g clip-path="url(#ejc)"><g class="pp"><ellipse cx="116" cy="82" rx="7" ry="30" fill="#120200"/><ellipse cx="116" cy="82" rx="16" ry="34" fill="#ff5a00" opacity=".25"/></g></g>
     <ellipse cx="96" cy="70" rx="7" ry="4" fill="#fff8d0" opacity=".85"/>
-   </g>
-   <path d="M30 60 Q110 6 196 86 Q120 30 30 60Z" fill="#1c0604" ${O}/>`;
+   </g>`;
   let h='<u class="hg"></u>'+sv('ej','0 0 400 170',`<defs>
     <radialGradient id="ejg" cx=".55" cy=".55" r=".6"><stop offset="0" stop-color="#fff4a8"/><stop offset=".35" stop-color="#ffc21a"/><stop offset=".75" stop-color="#f06a0a"/><stop offset="1" stop-color="#7a1a02"/></radialGradient>
     <clipPath id="ejc"><path d="M44 70 Q118 34 184 100 Q108 120 44 70Z"/></clipPath></defs>
-   <path d="M0 40 Q200 -30 400 40 L400 170 Q300 120 260 150 Q200 175 140 150 Q100 120 0 170Z" fill="#100302" opacity=".55"/>
-   <path d="M150 120 Q200 100 250 120" fill="none" ${O}/>
-   <path d="M120 40 Q140 20 160 34 M240 34 Q260 20 280 40 M60 120 Q80 112 100 122 M300 122 Q320 112 340 120" fill="none" ${O}/>
-   <g class="ew">${eye}</g><g class="ew" transform="translate(400 0) scale(-1 1)">${eye}</g>
-   <g class="nz"><ellipse cx="182" cy="150" rx="6" ry="3" fill="#ff7a1a"/><ellipse cx="218" cy="150" rx="6" ry="3" fill="#ff7a1a"/></g>`);
-  h+=many(8,i=>'<i class="sm" style="left:'+fx(i%2?55:45)+'%;--w:'+fx(rr(-40,40))+'px;'+tm(3,5)+'"></i>');
-  for(let i=0;i<80;i++){const x=rr(-2,100),y=rr(0,1);h+='<u class="cn" style="left:'+fx(x)+'%;bottom:'+fx(Math.max(0,(20-Math.abs(x-50)/4.5)*y))+'%;transform:rotate('+fx(rr(-30,30))+'deg)"></u>'}
-  h+=many(7,()=>'<u class="gm" style="left:'+fx(rr(8,92))+'%;bottom:'+fx(rr(1,9))+'%;--c:'+['#ff3b5c','#3bd1ff','#4dff88','#c77dff'][Math.floor(rr(0,4))]+'"></u>');
-  h+=many(12,()=>'<u class="gl" style="left:'+fx(rr(5,95))+'%;bottom:'+fx(rr(1,18))+'%;'+tm(1.5,3.5)+'"></u>');
+   <g class="ew">${eye}</g><g class="ew" transform="translate(400 0) scale(-1 1)">${eye}</g>`);
+  for(let i=0;i<34;i++){const x=rr(-2,100),y=rr(0,1);h+='<u class="cn" style="left:'+fx(x)+'%;bottom:'+fx(Math.max(0,(9-Math.abs(x-50)/9)*y))+'%;transform:rotate('+fx(rr(-30,30))+'deg)"></u>'}
+  h+=many(3,()=>'<u class="gm" style="left:'+fx(rr(8,92))+'%;bottom:'+fx(rr(1,5))+'%;--c:'+['#ff3b5c','#3bd1ff','#4dff88','#c77dff'][Math.floor(rr(0,4))]+'"></u>');
+  h+=many(5,()=>'<u class="gl" style="left:'+fx(rr(5,95))+'%;bottom:'+fx(rr(1,8))+'%;'+tm(1.5,3.5)+'"></u>');
   h+=many(10,()=>'<i class="em" style="--x:'+fx(rr(0,100))+'%;--z:'+fx(rr(2,4))+'px;--w:'+fx(rr(-40,40))+'px;'+tm(6,11)+'"></i>');
   h+='<u class="vg"></u>';
   return h};
