@@ -9,6 +9,7 @@ const { sayfaAc } = require('./yardimci');
       setTheme(k);
       r.temalar.push([k, document.documentElement.dataset.theme === k, document.documentElement.dataset.scene === '1', k === 'minecraft' ? (document.querySelector('#sahne canvas.mc') && document.querySelector('#sahne canvas.mc').width > 0 ? 9 : 0) : document.getElementById('sahne').children.length, PREMT.includes(k)]);
     }
+    setTheme('okyanus'); r.htmlSaydam = getComputedStyle(document.documentElement).backgroundColor === 'rgba(0, 0, 0, 0)';
     r.doku = getComputedStyle(document.documentElement).getPropertyValue('--mc-stone').includes('data:image/png');
     setTheme('dark');
     thPrev('witcher', 150000, false);
@@ -24,6 +25,7 @@ const { sayfaAc } = require('./yardimci');
   assert.strictEqual(o.temalar.length, 12);
   for (const t of o.temalar) { assert.ok(t[1] && t[2] && t[3] > 5 && t[4], 'sahne eksik: ' + t[0]); }
   assert.ok(o.cerceve);
+  assert.ok(o.htmlSaydam, 'html arka planı sahneyi (z-index:-1) örtüyor');
   assert.deepStrictEqual(o.onizle.slice(0, 3), ['witcher', true, 'dark']); assert.strictEqual(o.onizle[3], 'Satın al'); assert.match(o.onizle[4], /^Önizleme · 🪙 150[.,]000$/);
   assert.deepStrictEqual(o.onizleKapat, ['dark', false]);
   assert.deepStrictEqual(o.onizleGezinti, ['dark', false]);

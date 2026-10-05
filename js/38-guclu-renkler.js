@@ -35,7 +35,7 @@ for(const k in P){const t=TM[k],p=P[k];if(!t)continue;
 // varsayılan (tema seçilmemiş) açık/koyu
 const L=P.light,D=P.dark,v=(p,d)=>'--bg:'+p[0]+';--panel:rgba('+p[1]+','+(d?.7:.74)+');--fg:'+p[2]+';--dim:'+p[3]+';--ac:'+p[4]+';--acf:'+p[5]+';--m1:'+p[6]+';--m2:'+p[7]+';--m3:'+p[8];
 c+=':root:not([data-theme]){'+v(L,0)+'}@media (prefers-color-scheme:dark){:root:not([data-theme]){'+v(D,1)+'}}\n';
-c+=`html{background:var(--bg)}
+c+=`
 :root[data-anim="1"] body::before,:root[data-anim="1"] body::after,:root[data-anim="1"]::before{inset:0;will-change:auto}
 @keyframes xf2{0%,100%{opacity:.2}50%{opacity:1}}
 @keyframes dg1{from{transform:translate3d(-3%,-2%,0) scale(1.22)}to{transform:translate3d(3%,2%,0) scale(1.34)}}
