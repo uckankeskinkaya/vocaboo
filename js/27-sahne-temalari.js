@@ -12,28 +12,12 @@ const cloud=n=>ps(n,i=>'top:'+(6+i*13)+'%;--t:'+(70+i*30)+'s;--d:-'+(i*37)+'s','
 const SD=[
 ['cyber','Cyberpunk 2077',1,'#05040a','10,10,20',.78,'#e9f6ff','#86a9bd','#fcee0a','#0a0a00',['rgba(252,238,10,.55)','rgba(0,240,255,.45)','rgba(255,0,60,.5)'],
  ['https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap',"'Rajdhani'"],150000,
- ()=>{
-  let far='',near='',sg='';
-  for(let i=0;i<13;i++)far+='<u class="bf" style="left:'+f1(i*8-3)+'%;width:'+f1(R(6,10))+'%;height:'+f1(R(22,46))+'%"></u>';
-  for(let i=0;i<9;i++)near+='<u class="bn'+(i%3===1?' an':'')+'" style="left:'+f1(i*11.5-3)+'%;width:'+f1(R(8,13))+'%;height:'+f1(R(16,36))+'%;--c:'+['#00f0ff','#ff003c','#fcee0a'][i%3]+'"></u>';
-  [['ネオン','#00f0ff',1],['24/7','#ff003c',0],['夜市','#fcee0a',1],['VOCA','#ff2a6d',0],['電脳','#00f0ff',1]].forEach((s,i)=>sg+='<u class="ns'+(s[2]?' v':'')+'" style="left:'+f1(5+i*19+R(0,5))+'%;bottom:'+f1(R(34,50))+'%;--c:'+s[1]+';--d:-'+f1(R(0,6))+'s">'+s[0]+'</u>');
-  return '<u class="city">'+far+near+sg+'</u>'
-   +ps(6,i=>'top:'+f1(R(12,42))+'%;--t:'+f1(R(5,12))+'s;--d:-'+f1(R(0,12))+'s;--c:'+(i%2?'#ff003c':'#00f0ff')+(i%2?';animation-direction:reverse':''),'u').replace(/<u /g,'<u class="car" ')
-   +rain(22)
+ ()=>'<canvas class="nc"></canvas>'+rain(18)
    +ps(6,()=>'top:'+f1(R(4,92))+'%;height:'+f1(R(1,7))+'%;--t:'+f1(R(3.5,8))+'s;--d:-'+f1(R(0,8))+'s','u').replace(/<u /g,'<u class="gb" ')
-   +'<u class="tr"></u>';
- },
-`§S{background:linear-gradient(#05040a 0%,#12061f 40%,#2a0838 66%,#5b0d3a 85%,#ff2a6d 130%)}
-§S::before{content:'';position:absolute;left:-50%;right:-50%;bottom:0;height:30%;background-image:linear-gradient(90deg,rgba(0,240,255,.55) 1px,transparent 1px),linear-gradient(rgba(255,0,60,.5) 1px,transparent 1px);background-size:52px 52px;transform:perspective(260px) rotateX(62deg);transform-origin:50% 100%;animation:sc-grid 1.4s linear infinite;-webkit-mask:linear-gradient(transparent,#000);mask:linear-gradient(transparent,#000)}
+   +'<u class="tr"></u>',
+`§S{background:#07040f}
+§S canvas{position:absolute;inset:0;display:block;width:100%;height:100%;animation:sc-cityg 7s linear infinite}
 §S::after{content:'';position:absolute;inset:0;z-index:3;background:linear-gradient(transparent,rgba(0,240,255,.09) 50%,transparent) 0 -160px/100% 160px no-repeat,repeating-linear-gradient(0deg,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);animation:sc-scanbar 5s linear infinite}
-§S .city{inset:0;animation:sc-cityg 7s linear infinite}
-§S .bf{bottom:30%;background:radial-gradient(circle,rgba(255,42,109,.4) 1px,transparent 1.6px) 0 0/9px 12px,#120a22;opacity:.85}
-§S .bn{bottom:24%;background:radial-gradient(circle,rgba(252,238,10,.6) 1px,transparent 1.6px) 0 0/10px 14px,linear-gradient(#0b0716,#05030a);box-shadow:inset 0 2px 0 var(--c),0 0 18px -4px var(--c)}
-§S .bn.an::before{content:'';position:absolute;left:30%;bottom:100%;width:2px;height:42px;background:#3a2f4f}
-§S .bn.an::after{content:'';position:absolute;left:calc(30% - 2px);bottom:calc(100% + 42px);width:6px;height:6px;border-radius:50%;background:#ff003c;box-shadow:0 0 10px #ff003c;animation:sc-blink 1.4s steps(1) infinite}
-§S .ns{font:700 15px/1 'Rajdhani',sans-serif;color:var(--c);padding:5px;border:2px solid var(--c);border-radius:3px;text-shadow:0 0 6px var(--c),0 0 14px var(--c);box-shadow:0 0 14px -2px var(--c),inset 0 0 8px -2px var(--c);background:rgba(5,4,10,.65);letter-spacing:.08em;animation:sc-neon 6s linear var(--d) infinite}
-§S .ns.v{writing-mode:vertical-rl;letter-spacing:.18em}
-§S .car{left:0;width:20px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--c));box-shadow:0 0 8px var(--c);animation:sc-car var(--t) linear var(--d) infinite}
 §S i{top:-10%;width:1px;height:70px;background:linear-gradient(transparent,var(--c,#00f0ff));opacity:.5;animation:sc-fall var(--t) linear var(--d) infinite}
 §S .gb{left:-5%;right:-5%;z-index:2;opacity:0;mix-blend-mode:screen;background:linear-gradient(90deg,transparent,rgba(0,240,255,.45) 20%,rgba(255,0,60,.4) 60%,transparent);animation:sc-gband var(--t) linear var(--d) infinite}
 §S .tr{inset:0;z-index:2;opacity:0;background:repeating-linear-gradient(0deg,rgba(255,0,60,.16) 0 2px,transparent 2px 9px,rgba(0,240,255,.14) 9px 11px,transparent 11px 23px);animation:sc-tear 11s linear infinite}
@@ -56,9 +40,7 @@ const SD=[
 @keyframes sc-cityg{0%,86%,100%{transform:none;filter:none}87%{transform:translateX(-7px) skewX(-3deg);filter:drop-shadow(5px 0 rgba(255,0,60,.85)) drop-shadow(-5px 0 rgba(0,240,255,.85))}88%{transform:translateX(9px);filter:drop-shadow(-6px 0 rgba(255,0,60,.85)) drop-shadow(6px 0 rgba(0,240,255,.85)) hue-rotate(70deg)}89%{transform:translate(-4px,3px) skewX(4deg);filter:invert(.15) drop-shadow(4px 0 rgba(255,0,60,.8))}90%{transform:none;filter:none}95%{transform:none;filter:none}95.6%{transform:translateX(4px);filter:drop-shadow(-3px 0 rgba(0,240,255,.8))}96.2%{transform:none;filter:none}}
 @keyframes sc-gband{0%,88%{opacity:0;transform:none}89%{opacity:1;transform:translateX(-50px)}90.5%{opacity:.7;transform:translateX(36px) scaleY(.4)}92%{opacity:1;transform:translateX(-14px)}93%{opacity:0;transform:none}100%{opacity:0}}
 @keyframes sc-tear{0%,62%,66%,100%{opacity:0;transform:none}62.6%{opacity:1;transform:translateY(-8px)}63.4%{opacity:.6;transform:translateY(12px)}64.2%{opacity:1;transform:none}65%{opacity:0}}
-@keyframes sc-neon{0%,18%,22%,60%,63%,100%{opacity:1}19%,21%,61%{opacity:.2}20%,62%{opacity:.85}}
-@keyframes sc-blink{50%{opacity:.1}}
-@keyframes sc-car{from{transform:translateX(-12vw)}to{transform:translateX(112vw)}}`],
+`],
 
 ['witcher','Witcher',1,'#04070c','16,20,20',.82,'#ede6d0','#a9ae9a','#d9b25a','#1c1405',['rgba(201,162,74,.45)','rgba(107,23,23,.5)','rgba(160,190,210,.3)'],
  ['https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap',"'Cinzel'"],150000,
