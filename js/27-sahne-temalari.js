@@ -95,7 +95,7 @@ const SD=[
 §T{--line:rgba(255,255,255,.18)}
 §T #app{text-shadow:2px 2px 0 #3f3f3f}
 §T #app :is(p,small,label,.dim){color:#e8e8e8}
-§T :is(.cd,.lvl,.seg button,.cfb button,#res button){border:2px solid #000!important;border-radius:0!important;color:#fff;background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#727272;box-shadow:inset 2px 2px 0 #a9a9a9,inset -2px -3px 0 #4b4b4b}
+§T :is(.cd,.lvl,.seg button,.cfb button,#res button,.k){border:2px solid #000!important;border-radius:0!important;color:#fff;background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#727272;box-shadow:inset 2px 2px 0 #a9a9a9,inset -2px -3px 0 #4b4b4b}
 §T :is(.cd,.lvl,.seg button,.cfb button,#res button):hover{background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#7f86b8;box-shadow:inset 2px 2px 0 #c3c9ff,inset -2px -3px 0 #4f5585}
 §T .cd small{color:#e6e6e6}
 §T :is(.pl,.sc,.bi,#def,.mstat){border:2px solid #111;border-radius:0!important;background:rgba(0,0,0,.6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
@@ -212,6 +212,20 @@ SD.forEach(d=>{
     +d[14].replace(/§S/g,S).replace(/§T/g,T)+'\n';
 });
 Object.assign(EN,{'Yağmurlu Gece':'Rainy Night','Kış Masalı':'Winter Tale','Derin Deniz':'Deep Sea','Büyülü Orman':'Enchanted Forest','Sakura Yağmuru':'Sakura Rain','Kod Yağmuru':'Code Rain','Ejderha Ateşi':"Dragon's Fire",'Galaksi':'Galaxy','Canavar Avcısı':'Monster Slayer','Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.':'Themes are fan-made and not affiliated with any game or company.','🎬 Canlı sahneli temalar':'🎬 Live-scene themes'});
+document.head.insertAdjacentHTML('beforeend',`<style id="sahne-oyun">
+/* Oyun ekranı: sahnenin üstünde tuşlar ve kareler her zaman okunur kalsın */
+:root[data-scene] .k{background:rgba(255,255,255,.22);color:var(--fg);border:1px solid rgba(255,255,255,.34);box-shadow:0 2px 0 rgba(0,0,0,.4);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+:root[data-scene][data-light] .k{background:rgba(255,255,255,.78);border-color:rgba(20,30,60,.22);box-shadow:0 2px 0 rgba(20,30,60,.18)}
+:root[data-scene] .k.g{background:var(--g);color:#fff;border-color:transparent}
+:root[data-scene] .k.o{background:var(--o);color:#fff;border-color:transparent}
+:root[data-scene] .k.r{background:rgba(229,72,77,.5);color:#fff;border-color:transparent;opacity:1}
+:root[data-scene] .k.w{background:var(--ac);color:var(--acf);border-color:transparent;font-weight:800}
+:root[data-scene] .tile:not(.g):not(.o):not(.r){background:rgba(0,0,0,.38);border:2px solid rgba(255,255,255,.34)}
+:root[data-scene][data-light] .tile:not(.g):not(.o):not(.r){background:rgba(255,255,255,.7);border-color:rgba(20,30,60,.3)}
+:root[data-scene] .tile.cu{border-color:var(--ac);box-shadow:0 0 12px var(--ac)}
+:root[data-scene] .tile.f{border-color:var(--fg)}
+:root[data-scene] .tile,:root[data-scene] .k{text-shadow:none}
+</style>`);
 document.head.insertAdjacentHTML('beforeend',`<style id="sahne-css">
 #sahne{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;display:none}
 :root[data-scene] #sahne{display:block}
@@ -235,9 +249,9 @@ function sahneKur(t){
   const d=SCN[t],r=document.documentElement;
   if(SHN&&SHN._stop){SHN._stop();SHN._stop=null}
   if(!SHN){SHN=document.createElement('div');SHN.id='sahne';SHN.setAttribute('aria-hidden','true');document.body.appendChild(SHN)}
-  if(!d){delete r.dataset.scene;SHN.dataset.s='';SHN.innerHTML='';return}
+  if(!d){delete r.dataset.scene;delete r.dataset.light;SHN.dataset.s='';SHN.innerHTML='';return}
   sfont(d.font);
-  r.dataset.scene='1';SHN.dataset.s=t;
+  r.dataset.scene='1';SHN.dataset.s=t;if(TM[t]&&!TM[t][1]){r.dataset.light='1'}else delete r.dataset.light;
   SHN.innerHTML=fixX(d.html());
   if(d.after)SHN._stop=d.after(SHN)||null;
 }
