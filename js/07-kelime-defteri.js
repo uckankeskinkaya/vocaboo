@@ -31,11 +31,18 @@ function shareRes(){
   if(navigator.share){navigator.share({text:t}).catch(()=>{})}else{try{navigator.clipboard.writeText(t);toast('Sonuç kopyalandı')}catch(e){toast('Kopyalanamadı')}}
 }
 // Haftalık şampiyon ekranı: her yeni haftanın ilk açılışında geçen haftanın ilk 3'ü
+// Haftalık şampiyonlar: ödül sunucuda verilir (weekly_award, pazartesi 00:10). Podyum haftada bir gösterilir;
+// ödülü kazanan, "+puan ve rozet" mesajını bir kez görür (başka cihazda tekrar çıkmaz).
 async function champCheck(){
-  const wk=dStr(dayNum()-((dayNum()+3)%7));let seen=null;
+  const wk=dStr(dayNum()-((dayNum()+3)%7)),gecen=dStr(dayNum()-((dayNum()+3)%7)-7);let seen=null;
   try{seen=localStorage.getItem('ka_champ');localStorage.setItem('ka_champ',wk)}catch(e){}
-  if(seen===null||seen===wk)return;
-  const r=await sb.from('weekly_scores').select('best_score,profiles!inner(username)').eq('week',dStr(dayNum()-((dayNum()+3)%7)-7)).eq('profiles.cls',true).gt('best_score',0).order('best_score',{ascending:false}).limit(3);
-  const d=r.data||[];if(!d.length)return;
-  cfAsk('Geçen haftanın şampiyonları\n'+d.map((x,i)=>['🥇','🥈','🥉'][i]+' '+x.profiles.username+', '+x.best_score+' puan').join('\n'),'Tamam','Tüm tablo',null,()=>aBoard('last'));
+  const r=await sb.rpc('champ_week');
+  const d=r&&!r.error&&r.data;if(!d||!Array.isArray(d.podium)||!d.podium.length)return;
+  const ben=d.me&&!d.me.seen,yeni=seen!==null&&seen!==wk&&d.week===gecen;
+  if(!ben&&!yeni)return;
+  const rk=['🥇','🥈','🥉'];
+  const satirlar=d.podium.slice(0,3).map(x=>(rk[(+x.r||1)-1]||'')+' '+String(x.u||'?')+', '+(+x.s||0)+' puan').join('\n');
+  const odul=ben?'\n\nSen '+(+d.me.r||0)+'. oldun! +'+(+d.me.pts||0)+' puan ve rozet kazandın.':'';
+  cfAsk('Geçen haftanın şampiyonları\n'+satirlar+odul,'Tamam','Tüm tablo',null,()=>aBoard('last'));
+  if(ben){sb.rpc('champ_seen').then(()=>{loadProf()},()=>{})}
 }

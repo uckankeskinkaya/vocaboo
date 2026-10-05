@@ -47,3 +47,15 @@ drop table if exists public.pw_temp;
 -- 20261005_realtime_ozel_kanal.sql dosyasını geri almak için:
 drop policy if exists "ka kanallarini giris yapanlar okur" on realtime.messages;
 drop policy if exists "ka kanallarina giris yapanlar yazar" on realtime.messages;
+
+-- ---------------------------------------------------------------
+-- 20261005_yedek_ve_zamanlama.sql / bakim / haftalik_sampiyon dosyalarını geri almak için:
+select cron.unschedule(jobid) from cron.job where jobname in ('vocaboo-bakim','vocaboo-yedek','vocaboo-haftalik-sampiyon','vocaboo-gecici-sifre');
+drop function if exists public.yedek_al();
+drop function if exists public.pw_temp_temizle();
+drop function if exists public.bakim();
+drop function if exists public.weekly_award(date);
+drop function if exists public.champ_week();
+drop function if exists public.champ_seen();
+-- (weekly_champs tablosu ve profiles.weekly_wins/weekly_podiums sütunları verileri koruması için bırakılır.)
+-- Otomatik yedekleri silmek istersen: drop schema yedek_otomatik cascade;

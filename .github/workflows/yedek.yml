@@ -1,0 +1,57 @@
+# Veritabanı yedeği: 2 günde bir, ŞİFRELİ olarak (AES-256) GitHub'a artifact olarak kaydedilir (14 gün saklanır).
+# Çalışması için depo ayarlarında (Settings > Secrets and variables > Actions) iki gizli değer gerekir:
+#   SUPABASE_DB_URL : Supabase panelinde Connect > "Session pooler" bağlantı adresi (şifre dahil)
+#   YEDEK_PAROLA    : yedeği şifrelemek için uzun, rastgele bir parola (kaybedersen yedek açılamaz!)
+# İkisi de yoksa görev kendini atlar, hata vermez.
+# Yedeği açmak: gpg -d yedek-TARIH.tar.gpg | tar x   sonra: pg_restore -d <hedef> public.dump
+name: Veritabanı yedeği
+on:
+  schedule:
+    - cron: '0 2 */2 * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  yedek:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ayar kontrolü
+        id: ayar
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+          PAROLA: ${{ secrets.YEDEK_PAROLA }}
+        run: |
+          if [ -z "$DB" ] || [ -z "$PAROLA" ]; then
+            echo "SUPABASE_DB_URL ve YEDEK_PAROLA tanımlı değil; harici yedek atlandı."
+            echo "hazir=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "hazir=1" >> "$GITHUB_OUTPUT"
+          fi
+      - name: pg_dump 17 kur
+        if: steps.ayar.outputs.hazir == '1'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y -qq postgresql-client-17
+      - name: Yedek al ve şifrele
+        if: steps.ayar.outputs.hazir == '1'
+        env:
+          DB: ${{ secrets.SUPABASE_DB_URL }}
+          PAROLA: ${{ secrets.YEDEK_PAROLA }}
+        run: |
+          set -euo pipefail
+          T=$(date -u +%Y%m%d)
+          /usr/lib/postgresql/17/bin/pg_dump "$DB" --no-owner --no-privileges --schema=public -Fc -f public.dump
+          /usr/lib/postgresql/17/bin/pg_dump "$DB" --no-owner --no-privileges --data-only --table=auth.users --table=auth.identities -Fc -f auth.dump
+          tar cf "yedek-$T.tar" public.dump auth.dump
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$PAROLA" --symmetric --cipher-algo AES256 -o "yedek-$T.tar.gpg" "yedek-$T.tar"
+          rm -f public.dump auth.dump "yedek-$T.tar"
+          ls -l yedek-*.tar.gpg
+      - name: Yedeği sakla
+        if: steps.ayar.outputs.hazir == '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: veritabani-yedegi
+          path: yedek-*.tar.gpg
+          retention-days: 14

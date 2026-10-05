@@ -2,6 +2,9 @@
 name: Testler
 on:
   push:
+    branches-ignore:
+      - 'yedek/**'
+      - gh-pages
   pull_request:
 permissions:
   contents: read

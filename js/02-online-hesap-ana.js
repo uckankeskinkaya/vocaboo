@@ -333,7 +333,10 @@ const BD=[
 ['Günlük 30 gün','🏆',p=>p.best_daily_streak>=30],
 ['10 günlük zafer','☀️',p=>p.daily_wins>=10],
 ['Keskin nişancı','💎',p=>{const t=(p.words_solved||0)+(p.words_failed||0);return t>=50&&p.words_solved/t>=.8}],
-['Fotoğraflı profil','🖼️',p=>!!p.avatar]
+['Fotoğraflı profil','🖼️',p=>!!p.avatar],
+['Haftanın şampiyonu','🥇',p=>(p.weekly_wins||0)>=1],
+['3 hafta şampiyon','🏅',p=>(p.weekly_wins||0)>=3],
+['Podyum 5 kez','🎖️',p=>(p.weekly_podiums||0)>=5]
 ];
 function bdHTML(P){
   const n=BD.filter(b=>b[2](P)).length;
