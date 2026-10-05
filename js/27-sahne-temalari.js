@@ -42,7 +42,7 @@ const SD=[
 @keyframes sc-tear{0%,62%,66%,100%{opacity:0;transform:none}62.6%{opacity:1;transform:translateY(-8px)}63.4%{opacity:.6;transform:translateY(12px)}64.2%{opacity:1;transform:none}65%{opacity:0}}
 `],
 
-['witcher','Kurt Avcısı',1,'#04070c','16,20,20',.82,'#ede6d0','#a9ae9a','#d9b25a','#1c1405',['rgba(201,162,74,.45)','rgba(107,23,23,.5)','rgba(160,190,210,.3)'],
+['witcher','Canavar Avcısı',1,'#04070c','16,20,20',.82,'#ede6d0','#a9ae9a','#d9b25a','#1c1405',['rgba(201,162,74,.45)','rgba(107,23,23,.5)','rgba(160,190,210,.3)'],
  ['https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap',"'Cinzel'"],150000,
  ()=>{
   const mt=(n,a,b)=>{let h=R(a,b);const p=['0 100%'];for(let i=0;i<=n;i++){h=Math.max(a,Math.min(b,h+R(-16,16)));p.push(f1(i*100/n)+'% '+f1(h)+'%')}p.push('100% 100%');return 'clip-path:polygon('+p.join(',')+')'};
@@ -87,7 +87,7 @@ const SD=[
 §T #nav button.on{color:#e8c674;background:rgba(201,162,74,.1)}
 @keyframes sc-flap{to{transform:scaleY(.25)}}`],
 
-['minecraft','Blok Dünyası',1,'#4f86d9','0,0,0',.55,'#ffffff','#e4e4e4','#5dd33a','#0b1f05',['#4f86d9','#6fb847','#8a5a31'],
+['minecraft','Blockcraft',1,'#4f86d9','0,0,0',.55,'#ffffff','#e4e4e4','#5dd33a','#0b1f05',['#4f86d9','#6fb847','#8a5a31'],
  [null,"'Vocacraft'"],150000,
  ()=>'<canvas class="mc"></canvas>',
 `§S{background:linear-gradient(#4f86e0 0%,#86b2f2 30%,#c9e0ff 46%,#c9e0ff)}
@@ -211,7 +211,7 @@ SD.forEach(d=>{
     +(ui?T+' :is(body,button,input){'+ui+'}\n':'')
     +d[14].replace(/§S/g,S).replace(/§T/g,T)+'\n';
 });
-Object.assign(EN,{'Yağmurlu Gece':'Rainy Night','Kış Masalı':'Winter Tale','Derin Deniz':'Deep Sea','Büyülü Orman':'Enchanted Forest','Sakura Yağmuru':'Sakura Rain','Kod Yağmuru':'Code Rain','Ejderha Ateşi':"Dragon's Fire",'Galaksi':'Galaxy','Kurt Avcısı':'Wolf Hunter','Blok Dünyası':'Block World','Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.':'Themes are fan-made and not affiliated with any game or company.','🎬 Canlı sahneli temalar':'🎬 Live-scene themes'});
+Object.assign(EN,{'Yağmurlu Gece':'Rainy Night','Kış Masalı':'Winter Tale','Derin Deniz':'Deep Sea','Büyülü Orman':'Enchanted Forest','Sakura Yağmuru':'Sakura Rain','Kod Yağmuru':'Code Rain','Ejderha Ateşi':"Dragon's Fire",'Galaksi':'Galaxy','Canavar Avcısı':'Monster Slayer','Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.':'Themes are fan-made and not affiliated with any game or company.','🎬 Canlı sahneli temalar':'🎬 Live-scene themes'});
 document.head.insertAdjacentHTML('beforeend',`<style id="sahne-css">
 #sahne{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;display:none}
 :root[data-scene] #sahne{display:block}

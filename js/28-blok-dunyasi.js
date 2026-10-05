@@ -1,4 +1,4 @@
-// v17: Blok Dünyası teması: dönen 3B blok dünyası (WebGL). Dokular kodla üretilir, dışarıdan görsel yok.
+// v17: Blockcraft teması: dönen 3B blok dünyası (WebGL). Dokular kodla üretilir, dışarıdan görsel yok.
 // Yazı tipi: piksel yazı tipleri (ikisi de SIL OFL, fonts/ klasöründe lisanslarıyla). Tema değişince döngü durur.
 (function(){
 const rng=s=>()=>{s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
