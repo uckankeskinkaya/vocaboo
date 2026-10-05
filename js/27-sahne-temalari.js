@@ -244,9 +244,9 @@ document.head.insertAdjacentHTML('beforeend',`<style id="sahne-oyun">
 document.head.insertAdjacentHTML('beforeend',`<style id="sahne-css">
 #sahne{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;display:none}
 :root[data-scene] #sahne{display:block}
-#sahne *,#sahne *::before,#sahne *::after{all:unset}
-#sahne i,#sahne u{position:absolute;display:block;pointer-events:none;font-style:normal;text-decoration:none}
-#sahne i{left:var(--x)}
+#sahne *:not(svg):not(svg *),#sahne *:not(svg):not(svg *)::before,#sahne *:not(svg):not(svg *)::after{all:unset}
+#sahne i:not(svg *),#sahne u:not(svg *){position:absolute;display:block;pointer-events:none;font-style:normal;text-decoration:none}
+#sahne i:not(svg *){left:var(--x)}
 @keyframes sc-fall{from{transform:translate3d(0,0,0)}to{transform:translate3d(var(--w,0px),115vh,0)}}
 @keyframes sc-rise{from{transform:translate3d(0,0,0);opacity:0}12%{opacity:1}85%{opacity:1}to{transform:translate3d(var(--w,0px),-115vh,0);opacity:0}}
 @keyframes sc-tw{0%,100%{opacity:.12}50%{opacity:1}}

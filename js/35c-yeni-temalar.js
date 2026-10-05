@@ -73,40 +73,72 @@ const saCss=BASE+`
 §O .vg{background:radial-gradient(ellipse at 50% 45%,transparent 45%,rgba(0,0,0,.7))}`;
 
 /* ───── GÖK ADALARI ───── */
-const island=(w,tree,fall,house)=>{
-  let s='<path d="M10 40 Q100 20 190 40 L170 60 L150 110 L120 90 L100 160 L84 100 L60 120 L40 64Z" fill="url(#ir)"/>'+
-    '<path d="M4 40 Q100 14 196 40 Q100 56 4 40Z" fill="#6cc65a"/><path d="M4 40 Q100 56 196 40 L192 48 Q100 64 8 48Z" fill="#4e9e44"/>';
-  if(fall)s+='<path d="M150 46 L150 200" stroke="#bfe8ff" stroke-width="8" opacity=".85" stroke-dasharray="12 8" class="xw"/><path d="M150 46 L150 200" stroke="#fff" stroke-width="3" opacity=".7" stroke-dasharray="6 14" class="xw"/>';
-  if(tree)s+='<rect x="56" y="14" width="6" height="22" fill="#7a5230"/><circle cx="59" cy="10" r="14" fill="#3f9e48"/><circle cx="50" cy="16" r="9" fill="#52b85a"/><circle cx="69" cy="15" r="9" fill="#52b85a"/>';
-  if(house)s+='<rect x="104" y="18" width="30" height="20" fill="#f6e2c0"/><path d="M100 20 L119 4 L138 20Z" fill="#e0573a"/><rect x="114" y="26" width="8" height="12" fill="#7a5230"/><rect x="125" y="23" width="6" height="6" fill="#8fd0ff"/>';
-  return sv('xi','0 0 200 200','<defs><linearGradient id="ir" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b08458"/><stop offset="1" stop-color="#6a4a32"/></linearGradient></defs>'+s,w)};
+// Ada: çimen tepesi, toprak bandı, katmanlı kaya alt yüzü, sarkan sarmaşıklar; isteğe göre ağaç, ev, değirmen, şelale
+let ADN=0;
+const ada=o=>{
+  const n=++ADN,id='ad'+n;
+  let s='<defs><linearGradient id="'+id+'r" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a7656"/><stop offset=".55" stop-color="#6e5038"/><stop offset="1" stop-color="#3e2c22"/></linearGradient>'+
+    '<linearGradient id="'+id+'g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fe070"/><stop offset="1" stop-color="#4fae44"/></linearGradient>'+
+    '<linearGradient id="'+id+'w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8f2ff"/><stop offset=".7" stop-color="#a8dcff" stop-opacity=".8"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient></defs>';
+  if(o.fall)s+='<g><rect x="196" y="60" width="12" height="'+o.fall+'" fill="url(#'+id+'w)"/><path d="M198 60 V'+(60+o.fall)+' M205 60 V'+(60+o.fall)+'" stroke="#fff" stroke-width="2.4" stroke-dasharray="10 14" class="xwf" opacity=".9"/></g>';
+  s+='<path d="M12 62 Q30 74 44 72 L56 122 L70 98 L86 172 L100 132 L118 252 L134 142 L150 192 L162 112 L178 152 L190 94 L204 110 L228 62Z" fill="url(#'+id+'r)"/>';
+  s+='<path d="M30 82 Q120 100 214 80 M48 108 Q120 124 196 104 M70 140 Q120 152 170 136" stroke="#c09a72" stroke-width="2.2" fill="none" opacity=".45"/>';
+  s+='<path d="M10 60 Q120 76 230 60 L228 70 Q120 86 12 70Z" fill="#7a5230"/>';
+  s+='<path d="M6 58 Q120 30 234 58 Q230 66 220 64 Q214 74 206 66 Q190 70 176 66 Q164 76 154 67 Q130 72 108 67 Q96 76 86 67 Q66 72 50 66 Q40 74 32 66 Q18 70 6 58Z" fill="url(#'+id+'g)"/>';
+  s+='<path d="M40 50 Q120 30 200 50" stroke="#b8f59a" stroke-width="3" fill="none" opacity=".6"/>';
+  s+=[[40,70,40],[86,70,56],[154,70,46],[206,66,34]].map(v=>'<path d="M'+v[0]+' '+v[1]+' q-6 '+v[2]/2+' 2 '+v[2]+'" stroke="#3f9a3a" stroke-width="2.4" fill="none"/><circle cx="'+(v[0]+2)+'" cy="'+(v[1]+v[2])+'" r="3" fill="#5cbc4a"/>').join('');
+  if(o.tree)o.tree.forEach(t=>{s+='<rect x="'+(t[0]-3)+'" y="'+(t[1]-24)+'" width="6" height="26" fill="#7a5230"/><circle cx="'+t[0]+'" cy="'+(t[1]-30)+'" r="16" fill="#3f9e48"/><circle cx="'+(t[0]-9)+'" cy="'+(t[1]-22)+'" r="11" fill="#52b85a"/><circle cx="'+(t[0]+10)+'" cy="'+(t[1]-23)+'" r="11" fill="#4aa850"/><circle cx="'+(t[0]-4)+'" cy="'+(t[1]-36)+'" r="7" fill="#7ad06a"/>'});
+  if(o.house)s+='<g transform="translate('+o.house+' 20)"><rect x="0" y="16" width="34" height="24" fill="#f6e2c0"/><path d="M-5 18 L17 0 L39 18Z" fill="#e0573a"/><rect x="13" y="26" width="9" height="14" fill="#7a5230"/><rect x="25" y="22" width="7" height="7" fill="#8fd0ff"/><rect x="26" y="2" width="5" height="10" fill="#9a5a3a"/></g>';
+  if(o.mill)s+='<g transform="translate('+o.mill+' 0)"><path d="M-9 50 L-5 6 L5 6 L9 50Z" fill="#f2e6d2"/><path d="M-6 6 L0 -4 L6 6Z" fill="#c8503a"/><rect x="-3" y="34" width="6" height="12" fill="#7a5230"/><g class="xml"><path d="M0 4 L-4 -30 L4 -30Z M0 4 L34 0 L34 8Z M0 4 L4 38 L-4 38Z M0 4 L-34 8 L-34 0Z" fill="#fff8ec" stroke="#c8b8a0" stroke-width="1"/><circle cy="4" r="3" fill="#8a6a50"/></g></g>';
+  if(o.flowers)for(let i=0;i<10;i++)s+='<circle cx="'+fx(rr(24,216))+'" cy="'+fx(rr(46,60))+'" r="2.2" fill="'+['#fff','#ffd34a','#ff8fb3'][i%3]+'"/>';
+  return sv('xad'+(o.cls?' '+o.cls:''),'0 -40 240 '+(300+(o.fall||0)),s,o.st)};
+const bulut=(c)=>{let s='';for(let x=-40;x<840;x+=rr(50,90))s+='<circle cx="'+fx(x)+'" cy="'+fx(rr(40,70))+'" r="'+fx(rr(40,70))+'" fill="'+c+'"/>';return s};
 const balloon=(c1,c2,st)=>sv('xb','0 0 60 90','<path d="M30 2 C52 2 58 22 54 36 C50 50 38 58 34 64 L26 64 C22 58 10 50 6 36 C2 22 8 2 30 2Z" fill="'+c1+'"/><path d="M30 2 C40 10 42 40 34 64 L26 64 C18 40 20 10 30 2Z" fill="'+c2+'"/><path d="M26 64 L24 76 M34 64 L36 76" stroke="#6a4a32" stroke-width="1.2"/><rect x="22" y="76" width="16" height="11" rx="2" fill="#a07a52"/>',st);
 const adHtml=()=>{
+  ADN=0;
   let h='<u class="su"></u><u class="sr"></u>';
-  h+=many(6,i=>'<u class="cl" style="top:'+fx(4+i*15+rr(0,6))+'%;--t:'+fx(rr(55,110))+'s;--d:-'+fx(rr(0,100))+'s;--s:'+fx(rr(.6,1.3))+'"></u>');
-  h+=island('left:-10%;top:12%;width:min(48vw,240px);--d:0s',1,1,0);
-  h+=island('right:-8%;top:34%;width:min(40vw,200px);--d:-2s',0,0,1);
-  h+=island('left:30%;bottom:10%;width:min(36vw,180px);--d:-4s',1,1,1);
-  h+=island('right:16%;top:2%;width:min(22vw,110px);--d:-1s;opacity:.7',1,0,0);
-  h+='<u class="bw" style="left:12%;--t:46s;--d:-8s">'+balloon('#ff7a5c','#ffd36b','width:44px;height:auto')+'</u>';
-  h+='<u class="bw" style="left:74%;--t:58s;--d:-30s">'+balloon('#7a8cff','#9fe7ff','width:34px;height:auto')+'</u>';
-  h+='<u class="bw" style="left:48%;--t:70s;--d:-52s">'+balloon('#ff8fc7','#fff','width:28px;height:auto')+'</u>';
-  for(let k=0;k<2;k++){const top=rr(10,40),d=rr(0,40);for(let j=0;j<4;j++)h+='<u class="bd" style="top:calc('+fx(top)+'% + '+(j%2)*10+'px);--d:-'+fx(d+j*.6)+'s">'+sv('xbd','0 0 20 10','<g class="xf"><path d="M0 2 Q5 -2 10 5 Q15 -2 20 2" fill="none" stroke="#2a4a6a" stroke-width="1.8"/></g>','width:18px;height:auto')+'</u>'}
+  h+=many(4,i=>'<u class="cl" style="top:'+fx(4+i*14+rr(0,5))+'%;--t:'+fx(rr(70,120))+'s;--d:-'+fx(rr(0,110))+'s;--s:'+fx(rr(.5,1))+'"></u>');
+  h+=ada({cls:'uz',st:'right:14%;top:2%;width:min(18vw,90px);--d:-1s',tree:[[120,50]]});
+  h+=ada({cls:'uz',st:'left:44%;top:24%;width:min(14vw,70px);--d:-3s'});
+  h+='<u class="zp">'+sv('xzp','0 0 120 50','<ellipse cx="56" cy="20" rx="50" ry="17" fill="#f2b84a"/><path d="M10 20 Q56 4 102 20" stroke="#d9952a" stroke-width="2" fill="none"/><path d="M10 20 Q56 36 102 20" stroke="#d9952a" stroke-width="2" fill="none"/><path d="M100 20 L118 8 L118 32Z" fill="#e0573a"/><rect x="40" y="36" width="30" height="9" rx="3" fill="#7a5230"/><rect x="44" y="38" width="5" height="4" fill="#ffe9a0"/><rect x="53" y="38" width="5" height="4" fill="#ffe9a0"/><rect x="62" y="38" width="5" height="4" fill="#ffe9a0"/>','width:min(30vw,120px);height:auto')+'</u>';
+  h+=ada({st:'left:-8%;top:5%;width:min(64vw,330px);--d:0s',mill:150,tree:[[60,52],[92,48]],fall:520,flowers:1});
+  h+=ada({st:'right:-10%;top:30%;width:min(48vw,250px);--d:-2.5s',house:70,tree:[[160,50]],flowers:1});
+  h+=ada({st:'left:18%;bottom:16%;width:min(54vw,270px);--d:-4s',tree:[[50,52],[190,50],[150,50]],fall:300,flowers:1});
+  h+='<u class="bw" style="left:70%;--t:60s;--d:-20s">'+balloon('#ff7a5c','#ffd36b','width:42px;height:auto')+'</u>';
+  h+='<u class="bw" style="left:8%;--t:75s;--d:-55s">'+balloon('#7a8cff','#9fe7ff','width:32px;height:auto')+'</u>';
+  for(let k=0;k<2;k++){const top=rr(14,44),d=rr(0,40);for(let j=0;j<4;j++)h+='<u class="bd" style="top:calc('+fx(top)+'% + '+(j%2)*10+'px);--d:-'+fx(d+j*.6)+'s">'+sv('xbd','0 0 20 10','<g class="xf"><path d="M0 2 Q5 -2 10 5 Q15 -2 20 2" fill="none" stroke="#3a5a7a" stroke-width="1.8"/></g>','width:18px;height:auto')+'</u>'}
+  h+='<u class="cs c1">'+sv('xcs" preserveAspectRatio="none','0 0 800 120',bulut('#ffffff'),'width:200%;height:100%')+'</u>';
+  h+='<u class="cs c2">'+sv('xcs" preserveAspectRatio="none','0 0 800 120',bulut('#eaf4ff'),'width:200%;height:100%')+'</u>';
   h+='<u class="vg"></u>';
   return h};
 const adCss=BASE+`
-§O{background:linear-gradient(#6fc0ff 0%,#a9dcff 40%,#e5f4ff 75%,#fff2e0 100%)}
-§O .su{right:6%;top:3%;width:min(30vw,140px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fffbe6 0 40%,rgba(255,236,170,.6) 55%,transparent 72%)}
-§O .sr{right:calc(6% - 60px);top:calc(3% - 60px);width:min(60vw,260px);aspect-ratio:1;border-radius:50%;background:repeating-conic-gradient(rgba(255,245,200,.35) 0 6deg,transparent 6deg 20deg);-webkit-mask:radial-gradient(circle,#000 20%,transparent 70%);mask:radial-gradient(circle,#000 20%,transparent 70%);animation:os3-spin 90s linear infinite}
-§O .cl{left:0;width:calc(150px * var(--s));height:calc(40px * var(--s));border-radius:40px;background:#fff;opacity:.9;box-shadow:calc(34px * var(--s)) calc(-16px * var(--s)) 0 calc(4px * var(--s)) #fff,calc(76px * var(--s)) calc(-4px * var(--s)) 0 0 #fff;animation:os3-pan var(--t) linear var(--d) infinite}
-§O .xi{height:auto;filter:drop-shadow(0 10px 12px rgba(40,90,140,.25));animation:os3-bob 6s ease-in-out var(--d) infinite}
-§O .xw{animation:os3-fall .8s linear infinite}
+§O{background:linear-gradient(#4fa6ee 0%,#8fcaf6 35%,#cfe8fb 62%,#ffe6cc 82%,#ffd6b0 100%)}
+§O .su{right:4%;top:8%;width:min(34vw,160px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fffdf0 0 34%,rgba(255,236,170,.65) 50%,transparent 72%)}
+§O .sr{right:calc(4% - 70px);top:calc(8% - 70px);width:min(70vw,300px);aspect-ratio:1;border-radius:50%;background:repeating-conic-gradient(rgba(255,245,200,.32) 0 6deg,transparent 6deg 20deg);-webkit-mask:radial-gradient(circle,#000 20%,transparent 70%);mask:radial-gradient(circle,#000 20%,transparent 70%);animation:os3-spin 90s linear infinite}
+§O .cl{left:0;width:calc(150px * var(--s));height:calc(40px * var(--s));border-radius:40px;background:#fff;opacity:.85;box-shadow:calc(34px * var(--s)) calc(-16px * var(--s)) 0 calc(4px * var(--s)) #fff,calc(76px * var(--s)) calc(-4px * var(--s)) 0 0 #fff;animation:os3-pan var(--t) linear var(--d) infinite}
+§O .xad{height:auto;filter:drop-shadow(0 14px 14px rgba(40,90,140,.22));animation:os3-bob 7s ease-in-out var(--d) infinite}
+§O .uz{opacity:.55;filter:saturate(.6) brightness(1.15)}
+§O .xwf{animation:os3-fall .7s linear infinite}
+§O .xml{transform-origin:0 4px;animation:os3-spin 9s linear infinite}
+§O .zp{top:27%;left:0;animation:os3-pan 80s linear -30s infinite}
+§O .xzp{position:relative;animation:os3-bob 5s ease-in-out infinite}
 §O .bw{bottom:-14%;animation:os3-up var(--t) ease-in-out var(--d) infinite}
 §O .xb{position:relative;display:block;filter:drop-shadow(0 4px 4px rgba(40,90,140,.25))}
 §O .bd{left:0;animation:os3-pan 30s linear var(--d) infinite}
 §O .xbd{position:relative}
 §O .xf{transform-origin:10px 4px;animation:os3-flap .5s ease-in-out infinite}
-§O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 65%,rgba(120,180,240,.3))}`;
+§O .cs{left:0;width:100%;overflow:hidden}
+§O .xcs{position:relative;animation:os3-wave 60s linear infinite}
+§O .c1{bottom:-2%;height:16%;opacity:.95}
+§O .c2{bottom:-6%;height:12%}
+§O .c2 .xcs{animation-duration:40s;animation-direction:reverse}
+§O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 65%,rgba(120,180,240,.25))}`;
+// Menü sahnesi de aynı adalarla
+if(typeof SCN!=='undefined'&&SCN.adalar){
+  SCN.adalar.html=()=>{ADN=0;return cloud(4).replace(/<u /g,'<u class="c" ')+ada({st:'left:-10%;top:16%;width:min(56vw,280px);--d:0s',mill:150,tree:[[60,52]],fall:420,flowers:1})+ada({st:'right:-8%;top:46%;width:min(44vw,230px);--d:-2s',house:70,tree:[[160,50]],flowers:1})+ada({cls:'uz',st:'right:20%;top:6%;width:min(16vw,80px);--d:-3s'})};
+  document.head.insertAdjacentHTML('beforeend','<style>#sahne[data-s="adalar"] svg{position:absolute;display:block;overflow:visible}#sahne[data-s="adalar"] .xad{height:auto;filter:drop-shadow(0 14px 14px rgba(40,90,140,.22));animation:os3-bob 7s ease-in-out var(--d) infinite}#sahne[data-s="adalar"] .uz{opacity:.55}#sahne[data-s="adalar"] .xwf{animation:os3-fall .7s linear infinite}#sahne[data-s="adalar"] .xml{transform-origin:0 4px;animation:os3-spin 9s linear infinite}</style>');
+  if(document.documentElement.dataset.theme==='adalar'&&typeof sahneKur==='function')sahneKur('adalar');
+}
 
 /* ───── LO-FI ODA ───── */
 const loHtml=()=>{
