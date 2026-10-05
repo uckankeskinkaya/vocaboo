@@ -48,6 +48,12 @@ const out=await s.sayfa.evaluate(async()=>{
   cfg={max:6,m:'s',n:0,dur:180,l:-1,mod:1};started=false;await ekran('oda_lobi_hayatta',async()=>{oLobby();await wait(100)});cfg={max:2,m:'c',n:15,dur:0,l:0,mod:0};await ekran('oda_lobi_1v1',async()=>{oLobby();await wait(100)});
   started=true;ost={fin:true};document.getElementById('game').hidden=true;
   await ekran('oda_sonuc',async()=>{RES_LAST={done:true,left:0,mode:'s',players:[{u:'ali',im:'p:fox',sc:900,w:9,xp:70,a:true},{u:'ben',im:'p:fox',sc:700,w:7,xp:50,a:true,me:true},{u:'cem',im:'p:cat',sc:100,w:1,xp:20,a:false}]};oResView(RES_LAST);await wait(150)});
+  // Online menü ve oda kurma (kartlar, düğmeler)
+  window.supabase={createClient:()=>sb};try{localStorage.setItem('ka_room',JSON.stringify({c:'AB12',t:Date.now()}))}catch(e){}
+  await ekran('online_menu',async()=>{oHome()});
+  await ekran('oda_kur_puan',async()=>{oSetup()});
+  await ekran('oda_kur_hayatta',async()=>{document.querySelector('[data-mode=s]').click();document.querySelector('[data-ppl="50"]').click()});
+  await ekran('oda_kur_arena',async()=>{document.querySelector('[data-mode=k]').click()});
   // oyun ekranı
   mode='streak';run={passes:2};word='SHOWER';guesses=[];cur=Array(6).fill('');over=false;hintUsed=false;tries=5;document.getElementById('game').hidden=false;draw();sweep();
   sonuc['oyun_pas']=[document.getElementById('passbtn').innerText,document.getElementById('passbtn').getAttribute('aria-label')];
