@@ -10,6 +10,10 @@ const tm=(a,b)=>'--t:'+fx(rr(a,b))+'s;--d:-'+fx(rr(0,b))+'s';
 document.head.insertAdjacentHTML('beforeend','<style id="oyun-sahne-2">'+`
 @keyframes os2-blink{50%{opacity:0}}
 @keyframes os2-breath{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.03)}}
+@keyframes os2-blink2{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes os2-torch{0%,100%{opacity:.85}12%{opacity:1}27%{opacity:.7}41%{opacity:.95}58%{opacity:.78}76%{opacity:1}88%{opacity:.82}}
+@keyframes os2-glint{0%,55%{transform:translateX(100px);opacity:0}60%{opacity:1}85%{transform:translateX(600px);opacity:1}90%,100%{transform:translateX(620px);opacity:0}}
+@keyframes os2-spark{from{transform:translate(0,0);opacity:1}to{transform:translate(var(--w,0px),-12vh);opacity:0}}
 @keyframes os2-eye{0%,90%,100%{transform:scaleX(1)}94%{transform:scaleX(4)}}
 @keyframes sc-blink{50%{opacity:0}}
 @keyframes os2-rise{from{transform:translate3d(0,0,0);opacity:0}10%{opacity:1}85%{opacity:.9}to{transform:translate3d(var(--w,0px),-110vh,0);opacity:0}}
@@ -46,47 +50,50 @@ const BASE='§O svg{position:absolute;display:block;overflow:visible}§O .vg{ins
 
 /* ───── EJDERHA ATEŞİ ───── */
 const ejHtml=()=>{
-  const O='stroke="#ff7a22" stroke-width="1.6" stroke-linejoin="round"';
-  const wing=`<g class="wg tb"><path d="M120 150 C90 110 40 70 -40 50 C-20 70 -24 84 -40 96 C-20 104 -22 124 -34 140 C-12 142 -10 160 -20 176 C30 170 70 176 128 190Z" fill="url(#dgw)" ${O}/><path d="M120 150 L-40 50 M118 160 L-34 140 M120 172 L-20 176" stroke="#ff9a3c" stroke-width="2" fill="none" opacity=".7"/></g>`;
-  const half=`
-   <path d="M150 74 C130 50 104 30 70 10 C92 44 108 62 126 92Z" fill="#240a0c" ${O}/>
-   <path d="M128 104 C104 112 88 128 80 150 C100 144 112 146 124 156Z" fill="#2a0c0e" ${O}/>
-   <path d="M120 150 C100 160 90 176 88 200 C108 190 120 190 132 196Z" fill="#2a0c0e" ${O}/>
-   <path d="M168 196 L178 228 L186 200 M150 188 L158 216 L168 192" fill="#fff0d8"/>
-   <path d="M138 128 Q160 102 190 122 Q168 138 138 128Z" fill="url(#dge)"/>
-   <path d="M130 118 L196 110 L190 100 L138 98Z" fill="#1a0507" ${O}/>
-   <ellipse class="pu" cx="166" cy="121" rx="2.6" ry="9" fill="#200000" transform="rotate(12 166 121)"/>`;
-  const dragon=sv('dr','-60 0 520 320',`
+  const O='stroke="#ff7a22" stroke-width="1.5" stroke-linejoin="round"';
+  const dragon=sv('dr','-80 0 480 260',`
   <defs>
-   <linearGradient id="dg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a0c10"/><stop offset="1" stop-color="#120406"/></linearGradient>
-   <linearGradient id="dgw" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a2012"/><stop offset="1" stop-color="#2e080b"/></linearGradient>
-   <radialGradient id="dge" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fffbc0"/><stop offset=".45" stop-color="#ffc030"/><stop offset="1" stop-color="#ff3a00" stop-opacity=".2"/></radialGradient>
-   <radialGradient id="dgm" cx=".5" cy="1" r=".8"><stop offset="0" stop-color="#ffd23a"/><stop offset=".5" stop-color="#ff5a14"/><stop offset="1" stop-color="#400" stop-opacity="0"/></radialGradient>
+   <linearGradient id="dg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1014"/><stop offset="1" stop-color="#1a0608"/></linearGradient>
+   <linearGradient id="dgw" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a2412"/><stop offset="1" stop-color="#3a0a0c"/></linearGradient>
+   <radialGradient id="dge" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffbc0"/><stop offset=".5" stop-color="#ffc030"/><stop offset="1" stop-color="#ff4a00" stop-opacity="0"/></radialGradient>
+   <linearGradient id="fg" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbe0"/><stop offset=".25" stop-color="#ffd23a"/><stop offset=".6" stop-color="#ff5a14"/><stop offset="1" stop-color="#c8180a" stop-opacity="0"/></linearGradient>
   </defs>
-  ${wing}<g transform="translate(400 0) scale(-1 1)">${wing}</g>
-  <path d="M200 30 C250 30 286 70 290 120 C294 164 276 206 250 230 L236 280 L200 300 L164 280 L150 230 C124 206 106 164 110 120 C114 70 150 30 200 30Z" fill="url(#dg1)" ${O}/>
-  <path d="M200 40 L214 74 L200 66 L186 74Z" fill="#240a0c" ${O}/>
-  <g class="gz">${half}</g><g class="gz" transform="translate(400 0) scale(-1 1)">${half}</g>
-  <path d="M170 224 Q200 252 230 224 L222 238 Q200 258 178 238Z" fill="url(#dgm)" opacity=".95"/>
-  <g class="nz"><circle cx="190" cy="206" r="3" fill="#ff9a3c"/><circle cx="210" cy="206" r="3" fill="#ff9a3c"/></g>
-  <path d="M200 84 V196" stroke="#c4501a" stroke-width="2.4" fill="none" stroke-dasharray="3 6" opacity=".7"/>`);
+  <g class="fi"><path class="f1" d="M36 100 C0 100 -40 130 -78 214 C-40 190 -20 206 -12 232 C0 196 22 170 46 128Z" fill="url(#fg)"/><path class="f2" d="M38 102 C10 108 -20 130 -46 176 C-20 166 -8 172 -2 190 C10 160 26 140 44 120Z" fill="#fff4b0" opacity=".9"/></g>
+  <g class="tl"><path d="M280 170 C320 190 350 180 372 150 C386 132 396 120 390 100 C384 128 360 150 330 156 C306 160 292 150 276 146Z" fill="url(#dg1)" ${O}/><path d="M384 108 L402 86 L398 124Z" fill="#ff8a2a" ${O}/></g>
+  <g class="wb"><path d="M230 112 C240 70 270 30 330 10 C322 34 328 46 316 58 C326 74 318 90 306 100 C308 114 298 122 282 128Z" fill="#5a1410" ${O}/></g>
+  <g class="wg"><path d="M214 118 C196 66 214 12 262 -22 C256 6 262 20 250 34 C262 52 252 70 242 82 C246 100 232 112 222 120Z" fill="url(#dgw)" ${O}/>
+   <path d="M216 116 L262 -20 M222 112 L252 34 M228 108 L246 82" stroke="#ffa040" stroke-width="2" fill="none" opacity=".75"/></g>
+  <path d="M170 150 C176 112 220 98 262 112 C300 124 306 160 282 182 C258 200 196 196 174 176 C168 170 168 160 170 150Z" fill="url(#dg1)" ${O}/>
+  <path d="M184 176 C214 192 258 192 280 174" stroke="#c4501a" stroke-width="3" fill="none" stroke-dasharray="3 4"/>
+  <path d="M206 186 L194 224 L214 216 L220 232 L228 192Z M256 188 L250 226 L268 214 L276 228 L276 188Z" fill="url(#dg1)" ${O}/>
+  <path d="M184 142 C158 130 134 104 114 84" stroke="#ff7a22" stroke-width="40" fill="none" stroke-linecap="round"/>
+  <path d="M184 142 C158 130 134 104 114 84" stroke="url(#dg1)" stroke-width="37" fill="none" stroke-linecap="round"/>
+  <path d="M168 140 C150 126 134 108 116 90" stroke="#c4501a" stroke-width="3" fill="none" stroke-dasharray="3 5"/>
+  <path d="M120 60 L82 62 L44 82 L36 98 L50 98 L40 104 L80 100 L118 98 C134 96 140 70 120 60Z" fill="url(#dg1)" ${O}/>
+  <path d="M42 100 L22 124 L60 112 L82 104Z" fill="#2a0a0c" ${O}/>
+  <path d="M40 98 L46 108 L52 98 M60 98 L66 106 L72 98 M30 108 L38 112 L38 104z" fill="#ffeed0"/>
+  <path d="M116 60 L96 26 L128 52 M126 70 L130 30 L142 66 M100 60 L72 40 L106 58" fill="#2a0a0c" ${O}/>
+  <circle class="eye" cx="94" cy="72" r="11" fill="url(#dge)"/><ellipse class="pp" cx="93" cy="72" rx="2" ry="5.4" fill="#220000"/><circle class="eye e2" cx="114" cy="64" r="8.5" fill="url(#dge)"/><ellipse class="pp" cx="113" cy="64" rx="1.6" ry="4.4" fill="#220000"/>
+  <path d="M132 90 l10 -16 l10 14 M150 106 l12 -14 l8 16 M168 120 l12 -12 l6 16 M188 130 l12 -10 l4 14" fill="#ff8a2a" ${O}/>`);
   let h='<u class="hz"></u><u class="mt"></u>'+sv('mn','0 0 400 120','<path d="M0 120 L0 70 L40 40 L70 62 L120 14 L170 58 L210 30 L260 64 L310 22 L360 56 L400 36 L400 120Z" fill="#1b0707"/><path d="M120 14 L108 30 L126 24 L134 34z M310 22 L300 38 L318 30z" fill="#3a1208"/>');
-  h+='<u class="gl2"></u>'+dragon;
+  h+=dragon;
   h+=many(14,()=>'<i class="em" style="--x:'+fx(rr(0,100))+'%;--z:'+fx(rr(2,5))+'px;--w:'+fx(rr(-30,40))+'px;'+tm(5,10)+'"></i>');
-  h+=many(6,i=>'<i class="sm" style="left:'+fx(46+rr(-3,3))+'%;top:33%;--w:'+fx(rr(-30,30))+'px;'+tm(3,5)+'"></i>');
   h+='<u class="lv"></u><u class="lg"></u><u class="vg"></u>';
   return h};
 const ejCss=BASE+`
 §O{background:radial-gradient(130% 62% at 62% 18%,rgba(255,110,30,.35),transparent 60%),linear-gradient(#0c0204,#2a0707 55%,#7c1d05 100%)}
 §O .hz{inset:0;background:radial-gradient(60% 40% at 50% 100%,rgba(255,120,20,.45),transparent)}
 §O .mn{left:-5%;right:-5%;bottom:10%;width:110%;height:34%;preserveAspectRatio:none}
-§O .gl2{left:10%;right:10%;top:2%;height:46%;background:radial-gradient(50% 50% at 50% 40%,rgba(255,90,20,.28),transparent 70%);animation:os2-flick 3s infinite}
-§O .dr{left:50%;top:0;width:min(116vw,104vh);height:auto;transform:translateX(-50%);filter:drop-shadow(0 0 16px rgba(255,90,20,.55));animation:os2-breath 5s ease-in-out infinite}
-§O .wg{transform-origin:128px 160px;animation:os2-flap 3.6s ease-in-out infinite}
-§O .pu{animation:os2-eye 5s infinite;transform-box:fill-box}
-§O .gz{animation:os2-flick 2.2s infinite}
-§O .nz circle{animation:os2-flick 1.1s infinite}
-§O .sm{width:14px;height:14px;border-radius:50%;background:rgba(200,160,140,.35);animation:os2-puff var(--t) ease-out var(--d) infinite}
+§O .dr{left:-8%;top:2%;width:min(116vw,104vh);height:auto;filter:drop-shadow(0 0 14px rgba(255,90,20,.6));animation:os2-bob 5s ease-in-out infinite}
+§O .wb{transform-origin:236px 112px;animation:os2-flap 3.2s ease-in-out -.4s infinite reverse}
+§O .wg{transform-origin:218px 118px;animation:os2-flap 3.2s ease-in-out infinite}
+§O .tl{transform-origin:280px 165px;animation:os2-sway 4s ease-in-out infinite}
+§O .eye{animation:os2-flick 1.8s infinite}
+§O .e2{animation-delay:-.6s}
+§O .pp{transform-box:fill-box;transform-origin:center;animation:os2-blink2 6s infinite}
+§O .fi{transform-origin:36px 100px;animation:os2-fire .5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff7a1a)}
+§O .f1,§O .f2{transform-origin:36px 100px}
+§O .f2{animation:os2-fire .35s ease-in-out infinite reverse}
 §O .em{top:100%;width:var(--z);height:var(--z);border-radius:50%;background:#ffb030;box-shadow:0 0 8px 2px #ff6a14;animation:os2-rise var(--t) linear var(--d) infinite}
 §O .lv{left:0;right:0;bottom:0;height:12%;background:repeating-linear-gradient(100deg,#ff7a14 0 30px,#ffb030 60px,#e83a08 100px),#ff5a10;background-size:200px 100%;animation:os2-lava 6s linear infinite;box-shadow:0 -10px 40px 8px rgba(255,90,10,.55)}
 §O .lg{left:0;right:0;bottom:0;height:30%;background:linear-gradient(transparent,rgba(255,110,20,.35));animation:os2-flick 2.4s infinite}
@@ -169,7 +176,7 @@ const snowman=(cl)=>sv('sm '+cl,'0 0 120 180',`
   <path d="M44 52 Q60 62 78 52 L80 64 Q60 74 42 64Z" fill="#e0453a"/><path d="M70 60 L78 86 L68 84Z" fill="#c03227"/>
   <circle cx="60" cy="86" r="3" fill="#223"/><circle cx="60" cy="102" r="3" fill="#223"/><circle cx="60" cy="130" r="3.4" fill="#223"/><circle cx="60" cy="148" r="3.4" fill="#223"/>
   <path d="M34 76 L8 60 M8 60 L2 52 M8 60 L0 62" stroke="#6b4426" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-  <g class="ar tb"><path d="M86 76 L112 60 M112 60 L118 52 M112 60 L120 62" stroke="#6b4426" stroke-width="3.5" stroke-linecap="round" fill="none"/></g>`);
+  <g class="ar"><path d="M86 76 L112 60 M112 60 L118 52 M112 60 L120 62" stroke="#6b4426" stroke-width="3.5" stroke-linecap="round" fill="none"/></g>`);
 const pine=(x,s,c)=>'<g transform="translate('+x+' 0) scale('+s+')"><path d="M0 0 L-26 50 L-12 50 L-34 92 L-16 92 L-40 140 L40 140 L16 92 L34 92 L12 50 L26 50Z" fill="'+c+'"/><path d="M0 0 L-12 24 L12 24Z M-16 56 L-6 70 L-26 70z M-10 100 L6 112 L-22 112z" fill="#fff" opacity=".9"/><rect x="-5" y="140" width="10" height="14" fill="#6b4426"/></g>';
 const kiHtml=()=>{
   let h='<u class="mn"></u><u class="au"></u>';
@@ -241,7 +248,7 @@ const gaHtml=()=>{
   let h='<u class="nb n1"></u><u class="nb n2"></u><u class="nb n3"></u><u class="nb n4"></u>';
   h+=many(80,()=>{const s=rr(1,3.2);return '<i class="st" style="left:'+fx(rr(0,100))+'%;top:'+fx(rr(0,100))+'%;width:'+fx(s)+'px;height:'+fx(s)+'px;'+tm(2,6)+'"></i>'});
   h+='<u class="gx"><u class="gc"></u></u>';
-  h+=sv('pl','0 0 200 200','<defs><radialGradient id="pg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffd9a0"/><stop offset=".55" stop-color="#d9743a"/><stop offset="1" stop-color="#4a1a2a"/></radialGradient></defs><ellipse cx="100" cy="104" rx="98" ry="22" fill="none" stroke="#e9c58a" stroke-width="9" opacity=".6" transform="rotate(-18 100 100)"/><circle cx="100" cy="100" r="52" fill="url(#pg)"/><path d="M52 90 Q100 80 150 96 M50 108 Q100 120 150 112" stroke="#b25a2a" stroke-width="5" fill="none" opacity=".6"/><path d="M6 118 Q100 150 194 84" fill="none" stroke="#f2d49a" stroke-width="7" fill="none" opacity=".75" transform="rotate(-18 100 100)" stroke-dasharray="190 60"/>');
+  h+=sv('gpl','0 0 200 200','<defs><radialGradient id="pg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffd9a0"/><stop offset=".55" stop-color="#d9743a"/><stop offset="1" stop-color="#4a1a2a"/></radialGradient></defs><ellipse cx="100" cy="104" rx="98" ry="22" fill="none" stroke="#e9c58a" stroke-width="9" opacity=".6" transform="rotate(-18 100 100)"/><circle cx="100" cy="100" r="52" fill="url(#pg)"/><path d="M52 90 Q100 80 150 96 M50 108 Q100 120 150 112" stroke="#b25a2a" stroke-width="5" fill="none" opacity=".6"/><path d="M6 118 Q100 150 194 84" fill="none" stroke="#f2d49a" stroke-width="7" fill="none" opacity=".75" transform="rotate(-18 100 100)" stroke-dasharray="190 60"/>');
   h+='<u class="mo"></u>'+sv('as','0 0 80 110','<g><circle cx="40" cy="28" r="16" fill="#eef"/><rect x="26" y="20" width="28" height="16" rx="8" fill="#223a7a"/><rect x="22" y="42" width="36" height="36" rx="10" fill="#e8ecff"/><rect x="2" y="48" width="22" height="9" rx="4" fill="#e8ecff"/><rect x="56" y="48" width="22" height="9" rx="4" fill="#e8ecff"/><rect x="26" y="76" width="11" height="26" rx="5" fill="#e8ecff"/><rect x="43" y="76" width="11" height="26" rx="5" fill="#e8ecff"/><rect x="30" y="52" width="20" height="10" rx="3" fill="#7a8cff"/></g>');
   h+='<u class="cm"></u><u class="cm c2"></u><u class="vg"></u>';
   return h};
@@ -255,7 +262,7 @@ const gaCss=BASE+`
 §O .st{border-radius:50%;background:#fff;box-shadow:0 0 5px 1px rgba(200,220,255,.8);animation:os2-tw var(--t) ease-in-out var(--d) infinite}
 §O .gx{right:-22%;top:8%;width:min(86vw,70vh);aspect-ratio:1.5;border-radius:50%;background:conic-gradient(from 0deg,transparent,rgba(190,170,255,.55),transparent 22%,rgba(120,200,255,.5) 40%,transparent 62%,rgba(255,150,220,.5) 80%,transparent);filter:blur(5px);transform:rotate(-24deg) scaleY(.55);-webkit-mask:radial-gradient(closest-side,#000 25%,transparent);mask:radial-gradient(closest-side,#000 25%,transparent);animation:os2-spin 160s linear infinite}
 §O .gc{left:38%;top:34%;width:24%;height:32%;border-radius:50%;background:radial-gradient(#fff6d8,rgba(255,220,150,.6) 40%,transparent 70%)}
-§O .pl{left:-8%;bottom:14%;width:min(52vw,230px);height:auto;animation:os2-bob 9s ease-in-out infinite}
+§O .gpl{left:-8%;bottom:14%;width:min(52vw,230px);height:auto;animation:os2-bob 9s ease-in-out infinite}
 §O .mo{right:8%;bottom:34%;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#9aa3c0 60%,#4a5070)}
 §O .as{left:62%;top:44%;width:min(18vw,70px);height:auto;animation:os2-wob 7s ease-in-out infinite;opacity:.95;filter:drop-shadow(0 0 8px rgba(160,180,255,.6))}
 §O .cm{right:0;top:10%;width:130px;height:3px;background:linear-gradient(90deg,#fff,rgba(160,200,255,0));border-radius:3px;box-shadow:0 0 12px 3px rgba(200,220,255,.8);animation:os2-comet 11s linear infinite}
@@ -264,41 +271,48 @@ const gaCss=BASE+`
 
 /* ───── CANAVAR AVCISI ───── */
 const wiHtml=()=>{
-  let h='<u class="wd"></u><u class="gr"></u>';
-  h+=sv('mp','0 0 240 200',`<path d="M10 14 Q120 4 232 12 L226 188 Q120 198 14 190Z" fill="#d8bf8a" stroke="#8a6a38" stroke-width="3"/><path d="M10 14 Q4 100 14 190" stroke="#b79a5e" stroke-width="8" fill="none"/>
-   <path d="M40 150 Q70 90 100 110 T150 70 T200 50" stroke="#7a4a1a" stroke-width="2" fill="none" stroke-dasharray="5 5"/><path d="M40 60 L56 40 L72 62 L86 44 L100 70Z M150 130 L170 100 L190 134Z" fill="none" stroke="#6b4a24" stroke-width="2"/><circle cx="200" cy="50" r="6" fill="none" stroke="#a02020" stroke-width="2.5"/><path d="M194 44 L206 56 M206 44 L194 56" stroke="#a02020" stroke-width="2.5"/>
-   <path d="M120 150 q10 -16 20 0 q-10 10 -20 0" fill="#8a2b2b" opacity=".6"/><g stroke="#6b4a24" stroke-width="1.5" opacity=".7"><path d="M30 28 H100 M30 36 H80 M140 160 H210 M140 168 H190"/></g>`);
-  h+=sv('sd','0 0 300 40','<rect x="30" y="14" width="190" height="12" rx="3" fill="url(#bl)"/><defs><linearGradient id="bl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f8ff"/><stop offset=".5" stop-color="#9eb0c4"/><stop offset="1" stop-color="#5a6a7c"/></linearGradient></defs><path d="M220 14 L296 20 L220 26Z" fill="#cfd9e6"/><path d="M40 18 H214" stroke="#fff" stroke-width="1.5" opacity=".8"/><rect x="8" y="12" width="26" height="16" rx="4" fill="#3a2a16"/><rect x="24" y="4" width="8" height="32" rx="3" fill="#b8902e"/><circle cx="6" cy="20" r="6" fill="#b8902e"/>');
-  const pot=(c,x,y,sz,d)=>sv('po','0 0 40 70','<defs><linearGradient id="pg'+c.slice(1)+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c+'"/><stop offset="1" stop-color="#000" stop-opacity=".5"/></linearGradient></defs><rect x="15" y="2" width="10" height="14" rx="2" fill="#7a5a30"/><path d="M14 16 H26 L38 46 Q40 66 20 68 Q0 66 2 46Z" fill="url(#pg'+c.slice(1)+')" stroke="#d8d8d8" stroke-opacity=".5" stroke-width="1.5"/><circle class="bu" cx="14" cy="50" r="2.4" fill="#fff" opacity=".7" style="--d:-'+d+'s"/><circle class="bu" cx="26" cy="54" r="1.8" fill="#fff" opacity=".7" style="--d:-'+(d+.8)+'s"/>','left:'+x+'%;top:'+y+'%;width:'+sz+'px;--c:'+c);
-  h+=pot('#3ee06a',6,17,34,.2)+pot('#e0453a',87,28,30,1)+pot('#4a9eff',90,52,28,.5)+pot('#b04aff',4,50,30,1.4);
-  h+=sv('md','0 0 80 80','<circle cx="40" cy="40" r="34" fill="#8a8a92" stroke="#d6d6de" stroke-width="3"/><circle cx="40" cy="40" r="24" fill="none" stroke="#33333a" stroke-width="2"/><path d="M40 16 L40 64 M16 40 H64 M24 24 L56 56 M56 24 L24 56" stroke="#33333a" stroke-width="2.5"/><circle cx="40" cy="40" r="7" fill="#d9b25a"/>','right:6%;bottom:30%;width:52px;transform:rotate(14deg);filter:drop-shadow(0 4px 4px #000a)');
-  h+=sv('bk','0 0 90 110','<path d="M6 12 L84 6 L88 98 L10 104Z" fill="#4a1c1c" stroke="#2a0e0e" stroke-width="3"/><path d="M14 18 L78 14 L80 90 L18 94Z" fill="none" stroke="#d9b25a" stroke-width="2"/><circle cx="46" cy="52" r="14" fill="none" stroke="#d9b25a" stroke-width="2.4"/><path d="M38 46 L46 58 L54 46 M40 62 H52" stroke="#d9b25a" stroke-width="2" fill="none"/>','left:4%;bottom:26%;width:62px;transform:rotate(-10deg);filter:drop-shadow(0 4px 4px #000a)');
-  h+=many(7,i=>'<i class="co" style="left:'+fx(rr(60,86))+'%;top:'+fx(rr(70,90))+'%;transform:rotate('+Math.floor(rr(0,90))+'deg)"></i>');
-  const candle=(l,t,s)=>'<u class="cd" style="left:'+l+'%;top:'+t+'%;--s:'+s+'"><u class="cg"></u><u class="cw"></u><u class="fm"></u><u class="sm"></u></u>';
-  h+=candle(10,4,1)+candle(86,6,.9)+candle(46,72,.8);
-  h+=many(18,()=>'<i class="mt" style="left:'+fx(rr(0,100))+'%;top:'+fx(rr(0,100))+'%;'+tm(5,9)+'"></i>');
+  // karanlık taş duvar
+  let br='';for(let i=0;i<26;i++)br+='<rect x="'+Math.floor(rr(0,10))*40+'" y="'+Math.floor(rr(0,20))*40+'" width="40" height="20" fill="#000" opacity="'+fx(rr(.08,.3))+'"/>';
+  let h=sv('wl','0 0 400 800','<defs><pattern id="brk" width="80" height="40" patternUnits="userSpaceOnUse"><rect width="80" height="40" fill="#2b2420"/><rect x="2" y="2" width="36" height="16" fill="#342b26"/><rect x="42" y="2" width="36" height="16" fill="#2f2722"/><rect x="22" y="22" width="36" height="16" fill="#352c26"/><rect x="-18" y="22" width="36" height="16" fill="#30282300"/><rect x="62" y="22" width="36" height="16" fill="#2e2621"/></pattern></defs><rect width="400" height="800" fill="url(#brk)"/>'+br,'');
+  h+='<u class="lt"></u>';
+  // kılıç: kabza solda, bıçak sağa
+  h+=sv('kl','0 0 600 60',`<defs>
+   <linearGradient id="kb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9eef5"/><stop offset=".45" stop-color="#9aa6b4"/><stop offset=".55" stop-color="#6b7684"/><stop offset="1" stop-color="#3a424c"/></linearGradient>
+   <linearGradient id="kw" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#ffcf7a" stop-opacity=".95"/><stop offset=".55" stop-color="#ff9a3c" stop-opacity=".35"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/></linearGradient>
+   <linearGradient id="kg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff8e0" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+   <clipPath id="kc"><path d="M130 18 L556 21 L598 30 L556 39 L130 42Z"/></clipPath></defs>
+   <path d="M130 18 L556 21 L598 30 L556 39 L130 42Z" fill="url(#kb)" stroke="#20252b" stroke-width="1.2"/>
+   <path d="M136 30 L520 30" stroke="#59636f" stroke-width="2.4"/>
+   <g clip-path="url(#kc)"><rect class="kwr" x="120" y="0" width="490" height="60" fill="url(#kw)"/><rect class="kgl" x="0" y="0" width="70" height="60" fill="url(#kg)"/></g>
+   <path d="M118 6 Q126 30 118 54 L132 54 Q138 30 132 6Z" fill="#9a7a3a" stroke="#3a2a10" stroke-width="1.5"/>
+   <rect x="34" y="24" width="86" height="12" rx="4" fill="#3a2414"/>
+   <path d="M40 24 L52 36 M54 24 L66 36 M68 24 L80 36 M82 24 L94 36 M96 24 L108 36" stroke="#5a3a20" stroke-width="3"/>
+   <circle cx="26" cy="30" r="11" fill="#b8902e" stroke="#3a2a10" stroke-width="1.5"/><circle cx="23" cy="27" r="3" fill="#ffe9a0" class="kpm"/>`);
+  // meşale
+  h+='<u class="tg"></u>'+sv('ts','0 0 60 160','<path d="M14 70 L46 70 L40 86 L20 86Z" fill="#4a3a2a" stroke="#1a120c" stroke-width="2"/><path d="M20 86 L40 86 L34 160 L26 160Z" fill="#5a3a1e"/><path d="M8 98 H52" stroke="#2a2a2e" stroke-width="5"/><path d="M14 70 Q30 64 46 70 L44 76 Q30 70 16 76Z" fill="#2a1a10"/>');
+  h+='<u class="fl"><u class="f3"></u><u class="f2"></u><u class="f1"></u></u>';
+  h+=many(12,()=>'<i class="km" style="left:'+fx(rr(47,53))+'%;--w:'+fx(rr(-50,50))+'px;'+tm(2,4)+'"></i>');
+  h+=many(16,()=>'<i class="mt" style="left:'+fx(rr(10,90))+'%;top:'+fx(rr(10,90))+'%;'+tm(5,9)+'"></i>');
   h+='<u class="vg"></u>';
   return h};
 const wiCss=BASE+`
-§O{background:#1a0f08}
-§O .wd{inset:-5%;background:
- repeating-linear-gradient(90deg,transparent 0 118px,rgba(0,0,0,.65) 118px 121px,transparent 121px 128px),
- repeating-linear-gradient(0deg,rgba(255,220,160,.04) 0 2px,rgba(0,0,0,.06) 2px 5px),
- linear-gradient(#4a2c16,#2a170a 60%,#3a2210)}
-§O .wd::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 40px,rgba(255,200,130,.07) 40px 90px,rgba(0,0,0,.12) 90px 128px)}
-§O .gr{inset:0;background:radial-gradient(40% 24% at 14% 10%,rgba(255,180,80,.45),transparent),radial-gradient(36% 22% at 88% 12%,rgba(255,170,70,.4),transparent),radial-gradient(40% 20% at 46% 78%,rgba(255,170,70,.28),transparent);animation:os2-flick 3s infinite;mix-blend-mode:screen}
-§O .mp{left:20%;top:12%;width:min(72vw,300px);height:auto;transform:rotate(-6deg);opacity:.5;filter:drop-shadow(0 6px 8px #000a)}
-§O .sd{left:-2%;bottom:14%;width:min(86vw,380px);height:auto;transform:rotate(-8deg);filter:drop-shadow(0 6px 6px #000b);opacity:.95}
-§O .po{height:auto;filter:drop-shadow(0 0 12px var(--c)) drop-shadow(0 4px 4px #000b);animation:os2-wob 5s ease-in-out infinite}
-§O .bu{animation:os2-rise 2.4s linear var(--d) infinite;transform-box:fill-box}
-§O .co{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a0,#c9922a 70%);box-shadow:0 2px 3px #000a}
-§O .cd{width:calc(26px * var(--s));height:calc(60px * var(--s))}
-§O .cw{left:30%;right:30%;bottom:0;height:60%;background:linear-gradient(90deg,#d8c9a0,#f4ead0,#b8a878);border-radius:3px}
-§O .fm{left:35%;bottom:58%;width:30%;height:34%;background:radial-gradient(ellipse at 50% 80%,#fff6c0,#ffb020 55%,#ff5a10 85%,transparent);border-radius:50% 50% 50% 50%/70% 70% 30% 30%;animation:os2-fire .4s ease-in-out infinite;filter:blur(.3px)}
-§O .cg{left:-90%;right:-90%;top:-60%;bottom:-60%;background:radial-gradient(circle,rgba(255,190,90,.45),transparent 62%);animation:os2-flick 1.6s infinite}
-§O .sm{left:46%;bottom:90%;width:8px;height:8px;border-radius:50%;background:rgba(220,220,220,.35);animation:os2-smoke 3s ease-out infinite;--w:10px}
-§O .mt{width:3px;height:3px;border-radius:50%;background:#ffd890;box-shadow:0 0 5px 1px #ffb040;animation:os2-mote var(--t) ease-in-out var(--d) infinite}
-§O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(0,0,0,.78))}`;
+§O{background:#0d0a08}
+§O .wl{inset:0;width:100%;height:100%;opacity:.9}
+§O .lt{inset:0;background:radial-gradient(70% 45% at 50% 12%,rgba(255,150,60,.38),rgba(255,120,40,.12) 45%,transparent 75%);mix-blend-mode:screen;animation:os2-torch 2.6s infinite}
+§O .kl{left:50%;top:56%;width:min(92vh,150vw);height:auto;transform:translate(-50%,-50%) rotate(-58deg);filter:drop-shadow(0 6px 8px rgba(0,0,0,.85))}
+§O .kwr{animation:os2-torch 2.6s infinite}
+§O .kgl{animation:os2-glint 5s ease-in-out infinite}
+§O .kpm{animation:os2-torch 2.6s infinite}
+§O .ts{left:50%;top:1.5%;width:54px;height:auto;transform:translateX(-50%)}
+§O .tg{left:50%;top:-6%;width:min(110vw,520px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,190,90,.55),rgba(255,120,40,.18) 35%,transparent 62%);animation:os2-torch 2.6s infinite}
+§O .fl{left:50%;top:calc(1.5% - 2px);width:40px;height:62px;transform:translateX(-50%)}
+§O .fl u{left:50%;bottom:0;border-radius:50% 50% 45% 45%/70% 70% 30% 30%;transform-origin:50% 100%;translate:-50% 0}
+§O .f3{width:40px;height:62px;background:radial-gradient(ellipse at 50% 85%,#ff8a20,#e0400a 60%,transparent 75%);animation:os2-fire .5s ease-in-out infinite}
+§O .f2{width:26px;height:44px;background:radial-gradient(ellipse at 50% 85%,#ffd040,#ff8a20 70%,transparent 80%);animation:os2-fire .38s ease-in-out infinite reverse}
+§O .f1{width:11px;height:20px;background:radial-gradient(ellipse at 50% 80%,#fffbe0,#ffe070 70%,transparent 85%);animation:os2-fire .3s ease-in-out infinite}
+§O .km{top:5%;width:3px;height:3px;border-radius:50%;background:#ffc060;box-shadow:0 0 6px 2px #ff7a14;animation:os2-spark var(--t) ease-out var(--d) infinite}
+§O .mt{width:3px;height:3px;border-radius:50%;background:#ffd890;box-shadow:0 0 5px 1px #ffb040;opacity:.5;animation:os2-mote var(--t) ease-in-out var(--d) infinite}
+§O .vg{background:radial-gradient(85% 70% at 50% 25%,transparent 30%,rgba(0,0,0,.6) 70%,rgba(0,0,0,.9))}`;
 
 /* ───── BLOCKCRAFT ───── */
 const steps=(w,hmin,hmax,col,seed,sp)=>{let d='M0 100 ',y=rr(hmin,hmax);for(let x=0;x<=w;x+=sp){if(Math.random()<.45)y=Math.max(hmin,Math.min(hmax,y+(Math.random()<.5?-sp:sp)));d+='V'+y+'h'+sp+' '}return '<path d="'+d+'V100Z" fill="'+col+'"/>'};
