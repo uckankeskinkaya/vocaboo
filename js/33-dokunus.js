@@ -33,7 +33,7 @@ try{
   if(navigator.vibrate&&window.matchMedia&&matchMedia('(pointer:coarse)').matches){
     document.addEventListener('pointerdown',e=>{
       const b=e.target.closest&&e.target.closest('button:not(:disabled),.cd,.ot,.k');
-      if(b&&!(window.matchMedia('(prefers-reduced-motion:reduce)').matches))navigator.vibrate(b.classList.contains('k')?4:7);
+      if(b&&!(window.matchMedia('(prefers-reduced-motion:reduce)').matches)&&(typeof VI!=='function'||VI()))navigator.vibrate(b.classList.contains('k')?4:7);
     },{passive:true});
   }
 }catch(e){}

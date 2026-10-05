@@ -76,6 +76,16 @@ const out=await s.sayfa.evaluate(async()=>{
   toast('Bonus kazandın: +1.000 🪙');sweep();sonuc['bonus_bildirim']=[document.querySelector('.toast:last-of-type').textContent];
   // Online menü ve oda kurma (kartlar, düğmeler)
   sb.rpc=_rpc0;
+  // Nasıl oynanır ve Tekrar et
+  const nk=(ad,sel)=>{sweep();const e=document.querySelector(sel);const l=[];if(e){const w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const t=n.nodeValue.trim();if(t)l.push(t)}}sonuc[ad]=l.length?l:['HATA öğe yok: '+sel]};
+  for(let i=0;i<4;i++){nasilOynanir();for(let k=0;k<i;k++)document.getElementById('hnx').click();await wait(60);nk('nasil_oynanir_'+(i+1),'#how')}
+  document.getElementById('how').hidden=true;
+  await ekran('ayarlar_yardim',()=>aSettings());
+  const kel=(w)=>({w,d:'a thing called '+w,ex:'We use the '+w+' often.',n:1,ok:0});
+  localStorage.setItem('ka_book',JSON.stringify(['alpha','bravo','delta','echo','foxtrot'].map(kel)));
+  aBook();await wait(60);nk('defter_tekrar_dugme','#wvl');tekrarBasla();await wait(60);nk('tekrar_soru','#wvl');
+  document.querySelector('.rqo button:not(.ok)').click();await wait(60);nk('tekrar_yanlis','#wvl');
+  document.getElementById('wv').hidden=true;
   // oyun ekranı
   mode='streak';run={passes:2};word='SHOWER';guesses=[];cur=Array(6).fill('');over=false;hintUsed=false;tries=5;document.getElementById('game').hidden=false;draw();sweep();
   sonuc['oyun_pas']=[document.getElementById('passbtn').innerText,document.getElementById('passbtn').getAttribute('aria-label')];
@@ -83,7 +93,7 @@ const out=await s.sayfa.evaluate(async()=>{
 const TR=/[çğıöşüÇĞİÖŞÜ]|\b(şifre|kullanıcı|rozet|puan|kelime|sıra|haftal|sınıf|giriş|talep|değiş|kaydet|geri|tamam|yönetici|hesab|oyuncu|soru|cevap|doğru|yanlış|süre|seviye|kazan|puanı|günlük|oda)\w*/i;
   if(process.env.DIL_DUMP){for(const [ad,l] of Object.entries(out))if(new RegExp(process.env.DIL_DUMP).test(ad))console.log('## '+ad+'\n  '+l.join(' | '))}
   const kalan=[];
-  for(const [ad,l] of Object.entries(out)){ if(l.some(t=>t.startsWith('HATA '))) kalan.push(ad+': '+l.find(t=>t.startsWith('HATA '))); for(const t of l.filter(t=>TR.test(t))) kalan.push(ad+': '+t.slice(0,90)); }
+  for(const [ad,l] of Object.entries(out)){ if(l.some(t=>t.startsWith('HATA '))) kalan.push(ad+': '+l.find(t=>t.startsWith('HATA '))); for(const t of l.filter(t=>TR.test(t)&&t!=='Türkçe')) kalan.push(ad+': '+t.slice(0,90)); }
   assert.deepStrictEqual(kalan,[],'Çevrilmemiş Türkçe metin:\n  '+kalan.join('\n  '));
   assert.deepStrictEqual(s.hatalar,[]);
   console.log('ok dil: '+Object.keys(out).length+' ekran İngilizce modda tamamen çevrilmiş');

@@ -21,11 +21,17 @@ const { sayfaAc } = require('./yardimci');
     await ekran('pazar_cerceveler', () => aShop('f'));
     await ekran('tema_sec', () => aTheme());
     await ekran('onizleme', async () => { aShop('t'); await wait(150); thPrev('witcher', 145000, false) }, '#tpv'); thPrevEnd();
+    const nl = ad => { const e = document.querySelector('#how'); const l = []; const w = document.createTreeWalker(e, NodeFilter.SHOW_TEXT); let n; while (n = w.nextNode()) { const t = n.nodeValue.trim(); if (t) l.push(t) } sonuc[ad] = l };
+    for (let i = 0; i < 4; i++) { nasilOynanir(); for (let k = 0; k < i; k++) document.getElementById('hnx').click(); await wait(50); nl('nasil_' + (i + 1)) }
+    document.getElementById('how').hidden = true;
+    await ekran('ayarlar', () => aSettings());
+    localStorage.setItem('ka_book', JSON.stringify(['alpha', 'bravo', 'delta', 'echo', 'foxtrot'].map(w => ({ w, d: 'a thing called ' + w, ex: 'We use the ' + w + ' often.', n: 1, ok: 0 }))));
+    await ekran('tekrar', () => { aBook(); tekrarBasla() }, '#wvl'); document.getElementById('wv').hidden = true;
     prof.last_bonus = null; document.getElementById('home').hidden = false; rHome(); sonuc.bonus_ilk = al('#gbonus');
     prof.last_bonus = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(new Date()); rHome(); sonuc.bonus_alindi = al('#gbonus');
     return sonuc;
   });
-  const EN = /\b(Preview|Buy|Close|Apply|Room|Join|Options|Level|Mixed|Survival|Points race|Group|Create room|Back|Owned|Balance|Choose|Random match|Have a|Game mode|players|questions|minutes|words|Moderator|Day \d|Themes|Frames|Live|fan-made)\b/;
+  const EN = /\b(Preview|Buy|Close|Apply|Room|Join|Options|Level|Mixed|Survival|Points race|Group|Create room|Back|Owned|Balance|Choose|Skip|Next|Start|Review|Wrong|Random match|Have a|Game mode|players|questions|minutes|words|Moderator|Day \d|Themes|Frames|Live|fan-made)\b/;
   const kalan = [];
   for (const [ad, l] of Object.entries(out)) { const h = l.find(t => t.startsWith('HATA ')); if (h) kalan.push(ad + ': ' + h); for (const t of l.filter(t => EN.test(t))) kalan.push(ad + ': ' + t.slice(0, 80)); }
   assert.deepStrictEqual(kalan, [], 'Türkçe modda İngilizce metin:\n  ' + kalan.join('\n  '));
