@@ -71,7 +71,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 // Pazar: çerçeve ve tema sekmeleri (fiyatlar ve sahiplik sunucuda)
 const PREMT=['seker','safak','siber','volkan','nebula','aurora'];
 const ownedHas=id=>!!prof&&(prof.admin||(prof.owned||[]).includes(id));
-const thTile=(k,x,cl,at)=>{const t=TM[k];return '<button class="tt'+cl+'" '+at+' style="--b:'+t[2]+';--f:'+t[4]+';--a:'+t[6]+';--p1:'+t[8]+';--p2:'+t[9]+';--p3:'+t[10]+'"><i></i><span>'+t[0]+(t[11]?' ✦':'')+'</span>'+(x?'<small>'+x+'</small>':'')+'</button>'};
+const thTile=(k,x,cl,at)=>{const t=TM[k];return '<button class="tt'+cl+'" '+at+' style="--b:'+t[2]+';--f:'+t[4]+';--a:'+t[6]+';--p1:'+t[8]+';--p2:'+t[9]+';--p3:'+t[10]+'"><i></i><span>'+t[0]+(t[12]?' 🎬':t[11]?' ✦':'')+'</span>'+(x?'<small>'+x+'</small>':'')+'</button>'};
 async function aShop(tab){
   tab=tab||'f';
   if(!sb||!prof){aAuth('Pazar için giriş yap');return}
@@ -98,7 +98,7 @@ async function aShop(tab){
 async function aTheme(){
   await shopOwned();
   const cur=document.documentElement.dataset.theme||'';
-  panel('<p>Tema seç</p><div class="tg">'+Object.keys(TM).map(k=>{const lk=PREMT.includes(k)&&!ownedHas('theme:'+k);return thTile(k,lk?'🔒':'',(k===cur?' cur':'')+(lk?' lk':''),'data-t="'+k+'"')}).join('')+'</div><p class="cap">✦ Renkleri yavaşça değişen temalar</p><p class="cap">🔒 Pazardan alınır</p>'+btn('ob','Geri'));
+  panel('<p>Tema seç</p><div class="tg">'+Object.keys(TM).map(k=>{const lk=PREMT.includes(k)&&!ownedHas('theme:'+k);return thTile(k,lk?'🔒':'',(k===cur?' cur':'')+(lk?' lk':''),'data-t="'+k+'"')}).join('')+'</div><p class="cap">✦ Renkleri yavaşça değişen temalar</p><p class="cap">🎬 Canlı sahneli temalar</p><p class="cap">🔒 Pazardan alınır</p>'+btn('ob','Geri'));
   document.querySelectorAll('.tt').forEach(b=>b.onclick=()=>{if(b.classList.contains('lk')){aShop('t');return}setTheme(b.dataset.t);aTheme()});
   $('ob').onclick=aSettings;
 };
