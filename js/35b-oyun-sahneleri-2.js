@@ -256,8 +256,9 @@ const gaCss=BASE+`
 /* ───── CANAVAR AVCISI ───── */
 const wiHtml=()=>{
   // karanlık taş duvar
-  let br='';for(let i=0;i<26;i++)br+='<rect x="'+Math.floor(rr(0,10))*40+'" y="'+Math.floor(rr(0,20))*40+'" width="40" height="20" fill="#000" opacity="'+fx(rr(.08,.3))+'"/>';
-  let h=sv('wl','0 0 400 800','<defs><pattern id="brk" width="80" height="40" patternUnits="userSpaceOnUse"><rect width="80" height="40" fill="#2b2420"/><rect x="2" y="2" width="36" height="16" fill="#342b26"/><rect x="42" y="2" width="36" height="16" fill="#2f2722"/><rect x="22" y="22" width="36" height="16" fill="#352c26"/><rect x="-18" y="22" width="36" height="16" fill="#30282300"/><rect x="62" y="22" width="36" height="16" fill="#2e2621"/></pattern></defs><rect width="400" height="800" fill="url(#brk)"/>'+br,'');
+  const WW=Math.ceil(Math.max(innerWidth,400)/40)*40,WH=Math.ceil(Math.max(innerHeight,800)/40)*40;
+  let br='';for(let i=0;i<WW*WH/12000;i++)br+='<rect x="'+Math.floor(rr(0,WW/40))*40+'" y="'+Math.floor(rr(0,WH/20))*20+'" width="40" height="20" fill="#000" opacity="'+fx(rr(.08,.3))+'"/>';
+  let h=sv('wl" preserveAspectRatio="xMidYMid slice','0 0 '+WW+' '+WH,'<defs><pattern id="brk" width="80" height="40" patternUnits="userSpaceOnUse"><rect width="80" height="40" fill="#2b2420"/><rect x="2" y="2" width="36" height="16" fill="#342b26"/><rect x="42" y="2" width="36" height="16" fill="#2f2722"/><rect x="22" y="22" width="36" height="16" fill="#352c26"/><rect x="-18" y="22" width="36" height="16" fill="#30282300"/><rect x="62" y="22" width="36" height="16" fill="#2e2621"/></pattern></defs><rect width="'+WW+'" height="'+WH+'" fill="url(#brk)"/>'+br,'');
   h+='<u class="lt"></u>';
   // kılıç: kabza solda, bıçak sağa
   h+=sv('kl','0 0 600 60',`<defs>

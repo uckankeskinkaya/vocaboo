@@ -30,12 +30,15 @@ cyber:{html:()=>{
 
 synthwave:{html:()=>{
   let h=ps(28,()=>'left:'+f1(R(0,100))+'%;top:'+f1(R(0,38))+'%;--z:'+f1(R(1,2.4))+'px;--t:'+f1(R(2,5))+'s;--d:-'+f1(R(0,5))+'s');
+  h+='<u class="sg"></u><u class="sun"></u>';
   for(let i=0;i<14;i++)h+='<u class="bd" style="left:'+f1(i*7.4-2)+'%;width:'+f1(R(5,8))+'%;height:'+f1(R(4,13))+'%"></u>';
   return h+'<u class="road"></u><u class="dash"></u>'},
  css:`§O{background:linear-gradient(#0c0120 0%,#2a0750 38%,#5a1060 44%,#0d0220 44%)}
 §O i{width:var(--z);height:var(--z);border-radius:50%;background:#fff;animation:sc-tw var(--t) ease-in-out var(--d) infinite}
+§O .sg{left:50%;bottom:50%;width:min(90vw,70vh);aspect-ratio:1.4;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(255,80,170,.45),transparent)}
+§O .sun{left:50%;bottom:56%;width:min(56vw,42vh);aspect-ratio:2;transform:translateX(-50%);border-radius:999px 999px 0 0;background:linear-gradient(#ffe45c,#ff8f3d 50%,#ff3d9a);-webkit-mask:linear-gradient(#000 45%,transparent 0) top/100% 100% no-repeat,repeating-linear-gradient(#000 0 9px,transparent 9px 14px);mask:linear-gradient(#000 45%,transparent 0) top/100% 100% no-repeat,repeating-linear-gradient(#000 0 9px,transparent 9px 14px)}
 §O .bd{bottom:56%;background:#12031f;box-shadow:inset 0 2px 0 #22d3ee,0 0 10px rgba(34,211,238,.4)}
-§O::before{content:'';position:absolute;left:-60%;right:-60%;bottom:0;height:56%;background-image:linear-gradient(90deg,rgba(34,211,238,.6) 1px,transparent 1px),linear-gradient(rgba(34,211,238,.6) 1px,transparent 1px);background-size:60px 60px;transform:perspective(220px) rotateX(62deg);transform-origin:50% 100%;animation:sc-grid 1.2s linear infinite;-webkit-mask:linear-gradient(transparent,#000);mask:linear-gradient(transparent,#000)}
+§O::before{content:'';position:absolute;left:-60%;right:-60%;bottom:0;height:56%;background-image:linear-gradient(90deg,rgba(255,79,216,.85) 2px,transparent 2px),linear-gradient(rgba(34,211,238,.85) 2px,transparent 2px);background-size:60px 60px;transform:perspective(320px) rotateX(55deg);transform-origin:50% 100%;animation:sc-grid 1.2s linear infinite;-webkit-mask:linear-gradient(transparent,#000);mask:linear-gradient(transparent,#000)}
 §O .road{left:50%;bottom:0;width:120%;height:56%;margin-left:-60%;background:linear-gradient(#1a0530,#08010f);clip-path:polygon(47% 0,53% 0,78% 100%,22% 100%);box-shadow:none}
 §O .road::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 21.6%,#ff4fd8 21.8%,transparent 22.6%,transparent 77.4%,#ff4fd8 78.2%,transparent 78.4%)}
 §O .dash{left:50%;bottom:0;width:6px;height:56%;margin-left:-3px;background:repeating-linear-gradient(#fcee0a 0 26px,transparent 26px 60px);transform:perspective(220px) rotateX(62deg);transform-origin:50% 100%;animation:os-dash .5s linear infinite}
