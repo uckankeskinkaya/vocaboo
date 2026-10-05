@@ -1,7 +1,6 @@
-// v15: Minecraft teması için blok dünyası. Dokular kodla üretilir (dışarıdan görsel yok), dünya canvas'ta çizilir.
-// Gece-gündüz döngüsü, kayan bulutlar, meşale ışıkları; tema değişince döngü durur.
+// v17: Minecraft teması: ana menü panoraması gibi 3B blok dünyası (WebGL). Dokular kodla üretilir (oyundan dosya yok).
+// Yazı tipi: Minecraft-Font ve Monocraft (ikisi de SIL OFL, fonts/ klasöründe lisanslarıyla). Tema değişince döngü durur.
 (function(){
-const B=32,CYC=180;
 const rng=s=>()=>{s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const cv=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
 const PAL={dirt:['#866043','#79553a','#96704f','#6c4c33','#8b6446','#7d5a3e'],stone:['#7f7f7f','#747474','#8a8a8a','#6b6b6b','#7a7a7a','#838383'],
@@ -21,80 +20,121 @@ function tex(kind,seed){
   if(kind==='stone'||kind==='coal')for(let k=0;k<6;k++){x.fillStyle='rgba(0,0,0,.14)';x.fillRect(Math.floor(r()*14),Math.floor(r()*15),2+Math.floor(r()*3),1)}
   if(kind==='coal')for(let k=0;k<4;k++){const a=1+Math.floor(r()*12),b=1+Math.floor(r()*12);x.fillStyle='#232323';x.fillRect(a,b,2,2);x.fillStyle='#3c3c3c';x.fillRect(a+1,b+1,2,1)}
   if(kind==='side')for(let i=0;i<16;i++){const d=3+Math.floor(r()*2)+(r()<.3?2:0);for(let j=0;j<d;j++)px(i,j,pick(PAL.grass))}
+  if(kind==='logtop')for(let j=0;j<16;j++)for(let i=0;i<16;i++){const d=Math.max(Math.abs(i-7.5),Math.abs(j-7.5));px(i,j,d>6.5?PAL.log[3]:['#b8945a','#a3824c','#c29f64'][Math.floor(d)%3])}
+  if(kind==='water'){x.clearRect(0,0,16,16);for(let j=0;j<16;j++)for(let i=0;i<16;i++)px(i,j,pick(['#3a6ee0','#3466d6','#4277e8','#2f5fcc']))}
   return c;
 }
-const T={};['top','side','dirt','stone','coal','leaf','log','plank','sand'].forEach((k,i)=>T[k]=tex(k,101+i*17));
+const T={};['top','side','dirt','stone','coal','leaf','log','plank','sand','logtop','water'].forEach((k,i)=>T[k]=tex(k,101+i*17));
 // Arayüz için dokular (düğme taşı, toprak, çimen kenarı)
 const big=(t,n)=>{const c=cv(16*n,16*n),x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(t,0,0,16*n,16*n);return 'url('+c.toDataURL()+')'};
 const RS=document.documentElement.style;
 RS.setProperty('--mc-stone',big(T.stone,2));RS.setProperty('--mc-dirt',big(T.dirt,2));RS.setProperty('--mc-side',big(T.side,2));RS.setProperty('--mc-plank',big(T.plank,2));
-function world(w,h){
-  const r=rng(4242),c=cv(w,h),x=c.getContext('2d');x.imageSmoothingEnabled=false;
-  const blk=(t,i,j,s)=>x.drawImage(T[t],i*s,j*s,s,s);
-  // Uzak tepeler (yarım boy bloklar + pus)
-  const fb=B/2,fc=Math.ceil(w/fb)+1;let fy=Math.floor(h*.6/fb);
-  for(let i=0;i<fc;i++){if(r()<.45)fy+=r()<.5?-1:1;fy=Math.max(Math.floor(h*.5/fb),Math.min(Math.floor(h*.7/fb),fy));
-    blk('side',i,fy,fb);for(let j=fy+1;j*fb<h;j++)blk(j<fy+3?'dirt':'stone',i,j,fb);
-    if(r()<.12){for(let k=1;k<=3;k++)blk('log',i,fy-k,fb);for(let a=-1;a<=1;a++)for(let b=4;b<=5;b++)blk('leaf',i+a,fy-b,fb)}}
-  x.fillStyle='rgba(160,195,245,.5)';x.fillRect(0,0,w,h);
-  // Yakın arazi
-  const cols=Math.ceil(w/B)+1,g=Math.floor(h*.8/B),hs=[],lights=[];let y=g;
-  for(let i=0;i<cols;i++){if(r()<.35)y+=r()<.5?-1:1;y=Math.max(g-2,Math.min(g+1,y));hs.push(y)}
-  for(let i=0;i<cols;i++){const t=hs[i];blk('side',i,t,B);for(let j=t+1;j*B<h;j++)blk(j<=t+3?'dirt':(r()<.07?'coal':'stone'),i,j,B)}
-  // Ağaçlar
-  const trees=[];for(let i=1;i<cols-1;i++)if(r()<.16&&!trees.some(k=>Math.abs(k-i)<4))trees.push(i);
-  trees.forEach(i=>{const t=hs[i],th=4+Math.floor(r()*2);
-    for(let a=-2;a<=2;a++)for(let b=th-2;b<=th-1;b++)if(!((a===-2||a===2)&&b===th-1&&r()<.6))blk('leaf',i+a,t-b,B);
-    for(let a=-1;a<=1;a++)for(let b=th;b<=th+1;b++)if(!(a!==0&&b===th+1&&r()<.5))blk('leaf',i+a,t-b,B);
-    for(let k=1;k<=th-1;k++)blk('log',i,t-k,B)});
-  // Çiçek, ot ve meşaleler
-  for(let i=0;i<cols;i++){if(trees.includes(i))continue;const t=hs[i],X=i*B,Y=t*B;const q=r();
-    if(q<.12){x.fillStyle='#2f7d1f';x.fillRect(X+14,Y-12,4,12);x.fillStyle=r()<.5?'#d62d2d':'#f2d43a';x.fillRect(X+10,Y-20,12,8);x.fillStyle='#3b2a12';x.fillRect(X+14,Y-18,4,4)}
-    else if(q<.3){x.fillStyle='#4f9a2c';for(let k=0;k<5;k++){const hh=6+Math.floor(r()*12);x.fillRect(X+4+k*5,Y-hh,3,hh)}}
-    else if(q<.38&&lights.length<3){x.fillStyle='#6b5233';x.fillRect(X+14,Y-20,4,20);x.fillStyle='#ffd34d';x.fillRect(X+13,Y-26,6,6);x.fillStyle='#fff3b0';x.fillRect(X+15,Y-24,2,2);lights.push([X+16,Y-22])}}
-  return {c,lights};
+// --- 3B dünya: arazi üretimi, mesh, WebGL çizimi ---
+const N=72,YM=40,WL=9;
+const ATL=['top','side','dirt','stone','sand','log','logtop','leaf','water'];
+const FT={1:[0,1,2],2:[2,2,2],3:[3,3,3],4:[4,4,4],5:[6,5,6],6:[7,7,7],7:[8,8,8]};// blok: [üst, yan, alt] doku
+const hsh=(i,j,s)=>{let n=Math.imul(i,374761393)+Math.imul(j,668265263)+Math.imul(s,1013904223);n=Math.imul(n^n>>>13,1274126177);return((n^n>>>16)>>>0)/4294967296};
+const nz=(x,z,sc,s)=>{const i=Math.floor(x/sc),j=Math.floor(z/sc),fx=x/sc-i,fz=z/sc-j,u=fx*fx*(3-2*fx),v=fz*fz*(3-2*fz),a=hsh(i,j,s),b=hsh(i+1,j,s),c=hsh(i,j+1,s),d=hsh(i+1,j+1,s);return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v};
+function gen(){
+  const W=new Uint8Array(N*N*YM),id=(x,y,z)=>(y*N+z)*N+x,r=rng(1709),H=[];
+  for(let z=0;z<N;z++)for(let x=0;x<N;x++){
+    let h=5+nz(x,z,18,1)*9+nz(x,z,7,2)*3+Math.max(0,nz(x,z,26,3)-.5)*34;h=Math.min(YM-10,Math.floor(h));H[z*N+x]=h;
+    const beach=h<=WL+1;
+    for(let y=0;y<=h;y++)W[id(x,y,z)]=y===h?(beach?4:(h>WL+15?3:1)):y>h-4?(beach?4:2):3;
+    for(let y=h+1;y<=WL;y++)W[id(x,y,z)]=7;
+  }
+  const c=N/2,tr=[];
+  for(let z=3;z<N-3;z++)for(let x=3;x<N-3;x++){const h=H[z*N+x];
+    if(W[id(x,h,z)]!==1||r()>.03||Math.hypot(x-c,z-c)<5||tr.some(t=>Math.abs(t[0]-x)<4&&Math.abs(t[1]-z)<4))continue;
+    tr.push([x,z]);const th=4+Math.floor(r()*2);
+    for(let dy=th-2;dy<=th+1;dy++){const rr=dy>=th?1:2;for(let dx=-rr;dx<=rr;dx++)for(let dz=-rr;dz<=rr;dz++){
+      if(Math.abs(dx)===rr&&Math.abs(dz)===rr&&(dy===th+1||r()<.5))continue;const k=id(x+dx,h+dy,z+dz);if(h+dy<YM&&!W[k])W[k]=6}}
+    for(let k=1;k<=th;k++)W[id(x,h+k,z)]=5;
+  }
+  return {W,H,id};
 }
-const hx=s=>typeof s==='string'?[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)):s;
-const mx=(a,b,t)=>{a=hx(a);b=hx(b);return a.map((v,i)=>Math.round(v+(b[i]-v)*t))};
-const mix=(a,b,t)=>'rgb('+mx(a,b,t).join(',')+')';
+const FC=[[0,1,0,1,[[0,1,0],[1,1,0],[1,1,1],[0,1,1]],0],[0,-1,0,.5,[[0,0,1],[1,0,1],[1,0,0],[0,0,0]],2],
+  [1,0,0,.8,[[1,0,0],[1,1,0],[1,1,1],[1,0,1]],1],[-1,0,0,.8,[[0,0,1],[0,1,1],[0,1,0],[0,0,0]],1],
+  [0,0,1,.65,[[1,0,1],[1,1,1],[0,1,1],[0,0,1]],1],[0,0,-1,.65,[[0,0,0],[0,1,0],[1,1,0],[1,0,0]],1]];
+const UVT=[[0,0],[1,0],[1,1],[0,1]],UVS=[[0,1],[0,0],[1,0],[1,1]];
+function mesh(G){
+  const {W,id}=G,op=[],wa=[],get=(x,y,z)=>x<0||z<0||x>=N||z>=N||y>=YM?0:y<0?3:W[id(x,y,z)];
+  const push=(arr,x,y,z,f,tile,sh)=>{const q=f[4].map((p,i)=>{const uv=(f[5]===1?UVS:UVT)[i];return [x+p[0],y+p[1]-(arr===wa?.12:0),z+p[2],(tile+.02+uv[0]*.96)/16,.02+uv[1]*.96,sh]});[0,1,2,0,2,3].forEach(i=>arr.push(...q[i]))};
+  for(let y=0;y<YM;y++)for(let z=0;z<N;z++)for(let x=0;x<N;x++){const b=W[id(x,y,z)];if(!b)continue;
+    for(const f of FC){const n=get(x+f[0],y+f[1],z+f[2]);
+      if(b===7){if(f[1]===1&&n===0)push(wa,x,y,z,f,FT[7][0],1);continue}
+      if(n===0||n===7||(n===6&&b!==6)||(b===6&&n===6&&f[1]!==0))push(op,x,y,z,f,FT[b][f[5]],f[3])}}
+  // Bulutlar: geniş alanda düz levhalar
+  const cl=[],SP=384,cs=8;
+  for(let i=0;i<SP/cs;i++)for(let j=0;j<SP/cs;j++)if(hsh(i,j,77)>.8||nz(i,j,5,78)>.7){const x0=i*cs,z0=j*cs-SP/2+N/2,y=YM+26;
+    [[x0,z0],[x0+cs,z0],[x0+cs,z0+cs],[x0,z0],[x0+cs,z0+cs],[x0,z0+cs]].forEach(p=>cl.push(p[0],y,p[1],0,0,1))}
+  return {op:new Float32Array(op),wa:new Float32Array(wa),cl:new Float32Array(cl),SP};
+}
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],crs=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],nrm=a=>{const l=Math.hypot(...a)||1;return a.map(v=>v/l)};
+const persp=(f,a,n,fa)=>{const t=1/Math.tan(f/2),k=1/(n-fa);return [t/a,0,0,0,0,t,0,0,0,0,(fa+n)*k,-1,0,0,2*fa*n*k,0]};
+const look=(e,c,u)=>{const z=nrm(sub(e,c)),x=nrm(crs(u,z)),y=crs(z,x);return [x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,e),-dot(y,e),-dot(z,e),1]};
+const mul=(a,b)=>{const o=new Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++){let s=0;for(let k=0;k<4;k++)s+=a[k*4+j]*b[i*4+k];o[i*4+j]=s}return o};
+const VS=`attribute vec3 p;attribute vec2 t;attribute float s;uniform mat4 M;uniform vec3 E;uniform float O,SP,MV,C;varying vec2 vt;varying float vs,vd;
+void main(){vec3 q=p;if(MV>1.5&&MV<2.5)q.x=mod(p.x+O,SP)-SP*.5+C;vt=t;vs=s;vd=distance(q.xz,E.xz);gl_Position=M*vec4(q,1.);}`;
+const FS=`precision mediump float;uniform sampler2D X;uniform vec3 FCOL,SC;uniform vec2 FR;uniform float A,MD;varying vec2 vt;varying float vs,vd;
+void main(){if(MD>2.5){gl_FragColor=vec4(SC,1.);return;}vec4 c=MD>1.5?vec4(1.):texture2D(X,vt);if(c.a<.5)discard;
+float f=clamp((vd-FR.x)/(FR.y-FR.x),0.,1.);gl_FragColor=MD>1.5?vec4(1.,1.,1.,A*(1.-f)):vec4(mix(c.rgb*vs,FCOL,f),A);}`;
+let GW=null;
 function start(host){
   const can=host.querySelector('canvas.mc');if(!can)return null;
-  const ctx=can.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1);
-  let W=0,H=0,wd=null,stars=[],clouds=[],raf=0,last=0,stop=false;
-  const t0=performance.now()-CYC*1000*.12;
-  function size(){
-    W=innerWidth;H=innerHeight;can.width=Math.round(W*dpr);can.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;
-    wd=world(W,H);const r=rng(99);stars=Array.from({length:70},()=>[r()*W,r()*H*.6,r()<.2?3:2]);
-    clouds=Array.from({length:5},(_,k)=>{const cw=6+Math.floor(r()*8),ch=2+Math.floor(r()*2),m=[];for(let a=0;a<cw;a++)for(let b=0;b<ch;b++)if(!((a===0||a===cw-1)&&r()<.5))m.push([a,b]);return {x:r()*W*1.6,y:H*(.04+k*.05)+r()*20,m,s:5+r()*6}});
-  }
+  const gl=can.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:false});if(!gl)return null;
+  const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return o};
+  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,VS));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS))return null;
+  gl.useProgram(pr);
+  const U={};['M','E','O','SP','MD','MV','C','X','FCOL','SC','FR','A'].forEach(k=>U[k]=gl.getUniformLocation(pr,k));
+  const L={p:gl.getAttribLocation(pr,'p'),t:gl.getAttribLocation(pr,'t'),s:gl.getAttribLocation(pr,'s')};
+  if(!GW){const g=gen();GW={g,m:mesh(g)}}
+  const {g,m}=GW;
+  const buf=d=>{const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,d,gl.STATIC_DRAW);return {b,n:d.length/6}};
+  const B={op:buf(m.op),wa:buf(m.wa),cl:buf(m.cl),sun:buf(new Float32Array(36))};
+  const tx=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tx);
+  const at=cv(256,16),ax=at.getContext('2d');ATL.forEach((k,i)=>ax.drawImage(T[k],i*16,0));
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,at);
+  [gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,k,gl.NEAREST));
+  [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,k,gl.CLAMP_TO_EDGE));
+  gl.uniform1i(U.X,0);gl.uniform3f(U.FCOL,.79,.88,1);gl.uniform1f(U.SP,m.SP);gl.uniform1f(U.C,N/2);gl.uniform3f(U.SC,1,.97,.78);
+  const mode=v=>{gl.uniform1f(U.MD,v);gl.uniform1f(U.MV,v)};
+  const bind=o=>{gl.bindBuffer(gl.ARRAY_BUFFER,o.b);gl.enableVertexAttribArray(L.p);gl.vertexAttribPointer(L.p,3,gl.FLOAT,false,24,0);
+    gl.enableVertexAttribArray(L.t);gl.vertexAttribPointer(L.t,2,gl.FLOAT,false,24,12);gl.enableVertexAttribArray(L.s);gl.vertexAttribPointer(L.s,1,gl.FLOAT,false,24,20)};
+  const c=N/2+.5,E=[c,Math.max(g.H[(N/2)*N+N/2],WL)+7.5,c];
+  // Güneş: kameraya bakan kare
+  const S=[c+120,E[1]+80,c+30],d=nrm(sub(E,S)),rt=nrm(crs(d,[0,1,0])),up=crs(rt,d),k=10,sq=[[-1,-1],[1,-1],[1,1],[-1,-1],[1,1],[-1,1]].map(q=>[S[0]+rt[0]*q[0]*k+up[0]*q[1]*k,S[1]+rt[1]*q[0]*k+up[1]*q[1]*k,S[2]+rt[2]*q[0]*k+up[2]*q[1]*k,0,0,1]).flat();
+  gl.bindBuffer(gl.ARRAY_BUFFER,B.sun.b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(sq),gl.STATIC_DRAW);
+  const dpr=Math.min(1.5,window.devicePixelRatio||1);let W=0,H=0,raf=0,last=0,stop=false;const t0=performance.now();
+  function size(){W=innerWidth;H=innerHeight;can.width=Math.round(W*dpr);can.height=Math.round(H*dpr);gl.viewport(0,0,can.width,can.height)}
   function draw(now){
-    const ph=((now-t0)/1000/CYC)%1,e=Math.sin(ph*2*Math.PI),day=Math.max(0,Math.min(1,e*2.6+.35)),tw=Math.max(0,1-Math.abs(e)*4);
-    const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,mix('#070b22','#5f95ea',day));g.addColorStop(.75,mix(mx('#151c45','#a9cdff',day),'#f39a5b',tw*.55));
-    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-    if(day<1){ctx.fillStyle='rgba(255,255,255,'+(1-day).toFixed(2)+')';stars.forEach(s=>ctx.fillRect(s[0]|0,s[1]|0,s[2],s[2]))}
-    const hz=H*.62,arc=(p)=>[W*(.06+.88*p),hz-Math.sin(p*Math.PI)*(hz-H*.07)];
-    if(ph<.5){const [sx,sy]=arc(ph/.5);ctx.fillStyle='rgba(255,236,140,.25)';ctx.fillRect(sx-40,sy-40,80,80);ctx.fillStyle='#ffe866';ctx.fillRect(sx-28,sy-28,56,56);ctx.fillStyle='#fffbd8';ctx.fillRect(sx-18,sy-18,36,36)}
-    else{const [mx,my]=arc((ph-.5)/.5);ctx.fillStyle='rgba(220,230,255,.15)';ctx.fillRect(mx-36,my-36,72,72);ctx.fillStyle='#e9ecf5';ctx.fillRect(mx-24,my-24,48,48);ctx.fillStyle='#b8bdcc';ctx.fillRect(mx-16,my-14,10,10);ctx.fillRect(mx+4,my+2,8,8);ctx.fillRect(mx-8,my+10,6,6)}
-    ctx.fillStyle='rgba(255,255,255,'+(.55+.35*day).toFixed(2)+')';
-    clouds.forEach(c=>{const cs=14,cx=((c.x+now/1000*c.s)%(W+cs*16))-cs*16;c.m.forEach(p=>ctx.fillRect(Math.round(cx+p[0]*cs),Math.round(c.y+p[1]*cs*.6),cs,Math.ceil(cs*.6)))});
-    ctx.drawImage(wd.c,0,0,W,H);
-    if(tw>0){ctx.fillStyle='rgba(255,130,60,'+(.12*tw).toFixed(3)+')';ctx.fillRect(0,0,W,H)}
-    if(day<1){ctx.fillStyle='rgba(6,10,38,'+(.6*(1-day)).toFixed(3)+')';ctx.fillRect(0,0,W,H);
-      ctx.globalCompositeOperation='lighter';wd.lights.forEach(l=>{const f=1-day,rg=ctx.createRadialGradient(l[0],l[1],2,l[0],l[1],90);rg.addColorStop(0,'rgba(255,190,90,'+(.55*f).toFixed(2)+')');rg.addColorStop(1,'rgba(255,190,90,0)');ctx.fillStyle=rg;ctx.fillRect(l[0]-90,l[1]-90,180,180)});ctx.globalCompositeOperation='source-over'}
+    const t=(now-t0)/1000,yaw=.6+t*2*Math.PI/160,pi=-.1+.04*Math.sin(t*.15);
+    const dir=[Math.cos(yaw)*Math.cos(pi),Math.sin(pi),Math.sin(yaw)*Math.cos(pi)];
+    const M=mul(persp(1.25,W/H,.1,500),look(E,[E[0]+dir[0],E[1]+dir[1],E[2]+dir[2]],[0,1,0]));
+    gl.uniformMatrix4fv(U.M,false,new Float32Array(M));gl.uniform3f(U.E,E[0],E[1],E[2]);
+    gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    gl.disable(gl.BLEND);gl.disable(gl.DEPTH_TEST);mode(3);bind(B.sun);gl.drawArrays(gl.TRIANGLES,0,B.sun.n);
+    gl.enable(gl.DEPTH_TEST);gl.depthMask(true);mode(0);gl.uniform1f(U.A,1);gl.uniform2f(U.FR,N*.26,N*.46);bind(B.op);gl.drawArrays(gl.TRIANGLES,0,B.op.n);
+    gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);
+    mode(2);gl.uniform1f(U.A,.85);gl.uniform1f(U.O,t*1.2);gl.uniform2f(U.FR,90,190);bind(B.cl);gl.drawArrays(gl.TRIANGLES,0,B.cl.n);
+    mode(1);gl.uniform1f(U.A,.78);gl.uniform2f(U.FR,N*.26,N*.46);bind(B.wa);gl.drawArrays(gl.TRIANGLES,0,B.wa.n);
+    gl.depthMask(true);
   }
   const still=()=>document.documentElement.dataset.perf==='low'||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
-  function loop(now){if(stop)return;if(now-last>66){last=now;draw(now)}raf=requestAnimationFrame(loop)}
-  let rt=0;const onR=()=>{clearTimeout(rt);rt=setTimeout(()=>{size();draw(performance.now())},150)};
-  size();draw(t0+CYC*1000*.12);
+  function loop(now){if(stop)return;if(now-last>33){last=now;draw(now)}raf=requestAnimationFrame(loop)}
+  let rtm=0;const onR=()=>{clearTimeout(rtm);rtm=setTimeout(()=>{size();draw(performance.now())},150)};
+  size();draw(t0);
   if(!still())raf=requestAnimationFrame(loop);
   addEventListener('resize',onR);
-  return ()=>{stop=true;cancelAnimationFrame(raf);removeEventListener('resize',onR)};
+  return ()=>{stop=true;cancelAnimationFrame(raf);removeEventListener('resize',onR);const e=gl.getExtension('WEBGL_lose_context');if(e)e.loseContext()};
 }
 if(SCN.minecraft){SCN.minecraft.after=start;
-  // Tema zaten seçiliyse dünyayı şimdi başlat
   if(document.documentElement.dataset.theme==='minecraft'&&SHN&&!SHN._stop)SHN._stop=start(SHN);}
 const T2=':root[data-theme="minecraft"]';
 document.head.insertAdjacentHTML('beforeend','<style>'+[
+"@font-face{font-family:'Vocacraft';src:url(fonts/minecraft.woff2) format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0000-00FF}",
+"@font-face{font-family:'Vocacraft';src:url(fonts/monocraft-tr.woff2) format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+011E-011F,U+0130-0131,U+015E-015F,U+2010-2027,U+2190-2192}",
 T2+' :is(.cd,.lvl,.seg button,.cfb button,#res button){background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.12)),var(--mc-stone) 0 0/32px 32px;image-rendering:pixelated}',
 T2+' :is(.cd,.lvl,.seg button,.cfb button,#res button):hover{background:linear-gradient(rgba(120,135,255,.35),rgba(120,135,255,.35)),var(--mc-stone) 0 0/32px 32px;box-shadow:inset 2px 2px 0 #d6dbff,inset -2px -3px 0 #4f5585}',
 T2+' :is(.seg button.on,#res button.m,.cfb button.m){background:linear-gradient(rgba(70,160,40,.55),rgba(70,160,40,.55)),var(--mc-stone) 0 0/32px 32px}',

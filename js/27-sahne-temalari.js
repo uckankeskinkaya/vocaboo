@@ -87,13 +87,14 @@ const SD=[
 §T #nav button.on{color:#e8c674;background:rgba(201,162,74,.1)}
 @keyframes sc-flap{to{transform:scaleY(.25)}}`],
 
-['minecraft','Minecraft',1,'#4f86d9','0,0,0',.55,'#ffffff','#d6d6d6','#5dd33a','#0b1f05',['#4f86d9','#6fb847','#8a5a31'],
- ['https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&display=swap',"'Pixelify Sans'"],150000,
+['minecraft','Minecraft',1,'#4f86d9','0,0,0',.55,'#ffffff','#e4e4e4','#5dd33a','#0b1f05',['#4f86d9','#6fb847','#8a5a31'],
+ [null,"'Vocacraft'"],150000,
  ()=>'<canvas class="mc"></canvas>',
-`§S{background:#5f95ea}
-§S canvas{position:absolute;inset:0;display:block;width:100%;height:100%;image-rendering:pixelated}
+`§S{background:linear-gradient(#4f86e0 0%,#86b2f2 30%,#c9e0ff 46%,#c9e0ff)}
+§S canvas{position:absolute;inset:0;display:block;width:100%;height:100%;image-rendering:pixelated;filter:blur(1.2px) brightness(.9)}
 §T{--line:rgba(255,255,255,.18)}
-§T #app{text-shadow:2px 2px 0 rgba(30,30,30,.5)}
+§T #app{text-shadow:2px 2px 0 #3f3f3f}
+§T #app :is(p,small,label,.dim){color:#e8e8e8}
 §T :is(.cd,.lvl,.seg button,.cfb button,#res button){border:2px solid #000!important;border-radius:0!important;color:#fff;background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#727272;box-shadow:inset 2px 2px 0 #a9a9a9,inset -2px -3px 0 #4b4b4b}
 §T :is(.cd,.lvl,.seg button,.cfb button,#res button):hover{background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#7f86b8;box-shadow:inset 2px 2px 0 #c3c9ff,inset -2px -3px 0 #4f5585}
 §T .cd small{color:#e6e6e6}
