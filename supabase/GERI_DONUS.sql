@@ -25,3 +25,10 @@ alter function public.frame_lv(text)  reset search_path;
 drop function if exists public.set_username(text);
 drop function if exists public.admin_user_delete(uuid);
 drop table if exists public.username_log;
+
+-- ---------------------------------------------------------------
+-- 20261005_ban_oturum_duzeyi.sql dosyasını geri almak için:
+-- Eski admin_user_act gövdesini yedekten alıp çalıştır:
+--   select tanim from yedek_20261005.fonksiyonlar where imza like 'admin_user_act%';
+-- Daha önce banlanmış kullanıcıların oturum engelini kaldırmak için:
+--   update auth.users set banned_until = null where id in (select id from public.profiles where banned);
