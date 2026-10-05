@@ -11,6 +11,7 @@ const out=await s.sayfa.evaluate(async()=>{
   prof={id:'a',username:'ali',avatar:null,frame:null,xp:300,best_score:90,best_streak:5,words_solved:60,words_failed:10,first_try:12,total_points:2000,daily_streak:2,best_daily_streak:3,daily_wins:4,admin:true,weekly_wins:1,weekly_podiums:2,streak_runs:3,hints_used:1};
   const topla=(ad)=>{sweep();const w=document.createTreeWalker(document.getElementById('online'),NodeFilter.SHOW_TEXT);const l=[];let n;while(n=w.nextNode()){const t=n.nodeValue.trim();if(t)l.push(t)}
     document.querySelectorAll('#online [placeholder],#online [aria-label]').forEach(e=>{['placeholder','aria-label'].forEach(a=>{if(e.getAttribute(a))l.push('['+a+'] '+e.getAttribute(a))})});sonuc[ad]=l};
+  const ek=(ad,sel)=>{sweep();const e=document.querySelector(sel);const l=[];if(e){const w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const t=n.nodeValue.trim();if(t)l.push(t)}}sonuc[ad]=l.length?l:['HATA öğe yok: '+sel]};
   const ekran=async(ad,f)=>{try{await f();await wait(120);topla(ad)}catch(e){sonuc[ad]=['HATA '+e.message]}};
   await ekran('giris',()=>aAuth());
   await ekran('unuttum',()=>aForgot());
@@ -54,11 +55,33 @@ const out=await s.sayfa.evaluate(async()=>{
   await ekran('oda_kur_puan',async()=>{oSetup()});
   await ekran('oda_kur_hayatta',async()=>{document.querySelector('[data-mode=s]').click();document.querySelector('[data-ppl="50"]').click()});
   await ekran('oda_kur_arena',async()=>{document.querySelector('[data-mode=k]').click()});
+  // Pazar, tema/çerçeve ekranları, önizleme çubuğu, günlük bonus
+  const _rpc0=sb.rpc;
+  const TEMALAR=['cyber','witcher','minecraft','galaksi','yagmur','kis','okyanus','synthwave','buyulu','petal','kod','ejder','aurora','nebula','volkan','siber','safak','seker'];
+  const CERC=['ates','simsek','galaksi','cyberc','orkide','zehir','neongece','kalp','matrix','lav','hayalet','altinyagmur'];
+  sb.rpc=async(n,a)=>n==='shop_list'?{data:{bal:7000,owned:['theme:kod'],items:TEMALAR.map(k=>({id:'theme:'+k,price:100000,owned:k==='kod'})).concat(CERC.map(k=>({id:'frame:'+k,price:90000,owned:false})))},error:null}:n==='shop_buy'?{data:'yetersiz',error:null}:_rpc0(n,a);
+  document.getElementById('online').hidden=false;
+  await ekran('pazar_temalar',()=>aShop('t'));
+  await ekran('pazar_cerceveler',()=>aShop('f'));
+  await ekran('tema_sec',()=>aTheme());
+  await ekran('cerceveler_menu',()=>aFrames());
+  await ekran('onizleme_cubugu',async()=>{aShop('t');await wait(150);thPrev('witcher',145000,false);await wait(50);ek('onizleme_cubugu_cubuk','#tpv');thPrevEnd()});
+  await ekran('onizleme_sahipli',async()=>{aShop('t');await wait(150);thPrev('kod',115000,true);await wait(50);ek('onizleme_sahipli_cubuk','#tpv');thPrevEnd()});
+  await ekran('onizleme_satin_al',async()=>{aShop('t');await wait(150);thPrev('cyber',150000,false);await wait(50);document.getElementById('tpvy').click();await wait(50);ek('onizleme_onay','#cf');document.getElementById('cfn').click();thPrevEnd()});
+  prof.last_bonus=null;prof.bonus_streak=0;document.getElementById('home').hidden=false;rHome();ek('bonus_kart_ilk','#gbonus');
+  const dn=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Istanbul'});prof.last_bonus=dn.format(new Date(Date.now()-864e5));prof.bonus_streak=3;rHome();ek('bonus_kart_seri','#gbonus');
+  prof.last_bonus=dn.format(new Date());rHome();ek('bonus_kart_alindi','#gbonus');
+  document.getElementById('home').hidden=true;
+  // bonus bildirimi (loadProf yeniden tanımlı olduğundan doğrudan metni üretiriz)
+  toast('Bonus kazandın: +1.000 🪙');sweep();sonuc['bonus_bildirim']=[document.querySelector('.toast:last-of-type').textContent];
+  // Online menü ve oda kurma (kartlar, düğmeler)
+  sb.rpc=_rpc0;
   // oyun ekranı
   mode='streak';run={passes:2};word='SHOWER';guesses=[];cur=Array(6).fill('');over=false;hintUsed=false;tries=5;document.getElementById('game').hidden=false;draw();sweep();
   sonuc['oyun_pas']=[document.getElementById('passbtn').innerText,document.getElementById('passbtn').getAttribute('aria-label')];
   return sonuc});
 const TR=/[çğıöşüÇĞİÖŞÜ]|\b(şifre|kullanıcı|rozet|puan|kelime|sıra|haftal|sınıf|giriş|talep|değiş|kaydet|geri|tamam|yönetici|hesab|oyuncu|soru|cevap|doğru|yanlış|süre|seviye|kazan|puanı|günlük|oda)\w*/i;
+  if(process.env.DIL_DUMP){for(const [ad,l] of Object.entries(out))if(new RegExp(process.env.DIL_DUMP).test(ad))console.log('## '+ad+'\n  '+l.join(' | '))}
   const kalan=[];
   for(const [ad,l] of Object.entries(out)){ if(l.some(t=>t.startsWith('HATA '))) kalan.push(ad+': '+l.find(t=>t.startsWith('HATA '))); for(const t of l.filter(t=>TR.test(t))) kalan.push(ad+': '+t.slice(0,90)); }
   assert.deepStrictEqual(kalan,[],'Çevrilmemiş Türkçe metin:\n  '+kalan.join('\n  '));

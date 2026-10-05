@@ -17,7 +17,7 @@ Object.assign(EN,{
   '1v1':'1v1','2 kişi':'2 players','Grup':'Group','Aynı anda 50 kişiye kadar':'Up to 50 players at once','Karışık':'Mixed',
   'Ben de oynarım':'I will play too','Moderatör olurum, takip ederim':"I'll be the moderator and watch",
   'Arena\'da sen moderatörsün, soruları sunucu sorar':'In Arena you are the moderator and the server asks the questions',
-  'Moderatör (sadece grup)':'Moderator (group only)','Odayı kur':'Create room','Moderatör':'Moderator','Son odaya geri dön':'Return to last room'
+  'Moderatör (sadece grup)':'Moderator (group only)','Odayı kur':'Create room','Moderatör':'Moderator','🔒 Pazardan alınır':'🔒 Buy in the Market','Son odaya geri dön':'Return to last room'
 });
 RX.push([/^Oyuncu: (.+)$/,'Player: $1'],[/^Oda: (.+)$/,'Room: $1']);
 document.head.insertAdjacentHTML('beforeend',`<style>
