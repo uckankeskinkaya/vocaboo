@@ -487,7 +487,7 @@ function oJoin(code,h){
 function oSync(){
   if(!ch)return;
   const L=plist().sort((a,b)=>a.t-b.t),H=L.find(x=>x.h);
-  if(H&&H.c)cfg=H.c;
+  if(H&&H.c){const cc=cfgClean(H.c);if(cc)cfg=cc}
   if(isHost&&auto&&!started&&!autoSent&&L.length>=2){autoSent=true;ch.send({type:'broadcast',event:'start',payload:{seed:Math.floor(Math.random()*1e9),c:cfg}})}
   if(!started){
     if(cfg&&!isHost&&L.findIndex(x=>x.k===myId)>=cfg.max+(cfg.mod?1:0)){oExit('Oda dolu.');return}
@@ -508,7 +508,7 @@ function oLobby(L){
 
 function oBegin(pl){clearInterval(mmT);mmT=null;sess=[];
   if(started||!pl||!pl.c)return;
-  started=true;cfg=pl.c;
+  started=true;cfg=cfgClean(pl.c)||cfg;
   ost={p:0,w:0,a:1,fin:false,end:0,n:cfg.n,m:cfg.m};
   seq=mkSeq(pl.seed,cfg.l);si=0;mode='online';
   $('live').hidden=false;
@@ -1099,7 +1099,7 @@ async function champCheck(){
 const PA={fox:['🦊','#f97316'],panda:['🐼','#94a3b8'],cat:['🐱','#f59e0b'],dog:['🐶','#a16207'],lion:['🦁','#eab308'],frog:['🐸','#22c55e'],owl:['🦉','#78716c'],penguin:['🐧','#0ea5e9'],koala:['🐨','#64748b'],tiger:['🐯','#ea580c'],bear:['🐻','#92400e'],rabbit:['🐰','#f472b6'],octopus:['🐙','#a855f7'],whale:['🐳','#3b82f6'],unicorn:['🦄','#ec4899'],dino:['🦖','#16a34a'],robot:['🤖','#6366f1'],rocket:['🚀','#ef4444'],ghost:['👻','#8b5cf6'],alien:['👽','#10b981'],star:['⭐','#d97706'],fire:['🔥','#dc2626'],book:['📚','#0d9488'],brain:['🧠','#f43f5e']};
 const PA_RE=/^p:[a-z]{2,12}$/;
 function av(a,s){
-  const k=PA_RE.test(a||'')?PA[a.slice(2)]:null;
+  const k=PA_RE.test(a||'')&&Object.prototype.hasOwnProperty.call(PA,a.slice(2))?PA[a.slice(2)]:null;
   if(!k&&/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(a||''))return '<img src="'+a+'" width="'+s+'" height="'+s+'" alt="" style="border-radius:50%;object-fit:cover">';
   return '<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:'+(k?k[1]:'var(--key)')+';display:inline-grid;place-items:center;font-size:'+Math.round(s*.55)+'px;font-weight:800;flex:none">'+(k?k[0]:'?')+'</div>';
 }
@@ -1326,7 +1326,7 @@ const ksn=(f,t,d)=>{if(SO())tone(f,t,d)},kOrd=id=>!id?-1:id==='f'?1e9:(+id.slice
 const kRoom=()=>{try{localStorage.setItem('ka_room',JSON.stringify({c:room,t:Date.now()}))}catch(e){}};
 const kQuit=()=>{try{localStorage.removeItem('ka_room')}catch(e){}oExit()};
 const kc=(q,j)=>q.t==='tf'?(j?0:1):j,kgl=(q,j)=>q.t==='tf'?['✔','✘'][j]:KS[j];
-let K={q:[],i:-1,ans:{},sc:{},rv:false,my:-1};
+let K={q:[],i:-1,ans:Object.create(null),sc:Object.create(null),rv:false,my:-1};
 // Soru tipleri: şıklı (4 alt tür), doğru/yanlış, yazarak cevap, harfleri sırala. Rastgele sorular 2x puan.
 function kGen(n,l){
   const out=[],ls=l<0?[0,1,2,3]:[l];
@@ -1353,14 +1353,30 @@ function kGen(n,l){
 const kSend=(ev,pl)=>ch.send({type:'broadcast',event:ev,payload:pl});
 const kTop=()=>Object.keys(K.sc).map(k=>({k,n:K.sc[k].n,p:K.sc[k].p})).sort((a,b)=>b.p-a.p);
 const kPub=(q,i)=>({i,n:cfg.n,t:q.t,q:q.q,o:q.o||[],x2:q.x2,len:q.len,sc:q.sc});
+// Güvenlik: Realtime üzerinden gelen veri başka bir oyuncunun kontrolünde. Sayılar sayıya, metinler kısa metne indirilir.
+function nz(v,a,b){v=Math.trunc(+v);if(!isFinite(v))v=0;return Math.min(b,Math.max(a,v))}
+function cfgClean(c){if(!c||typeof c!=='object')return null;return{max:nz(c.max,2,50),m:c.m==='s'||c.m==='k'?c.m:'c',n:nz(c.n,0,200),dur:nz(c.dur,0,3600),l:nz(c.l,-1,3),mod:c.mod?1:0,T:nz(c.T||20,5,120)}}
+function kClean(ev,p){
+  if(!p||typeof p!=='object')return null;
+  const S=(v,n)=>String(v==null?'':v).slice(0,n);
+  const mp=o=>{const r=Object.create(null);if(o&&typeof o==='object')Object.keys(o).slice(0,200).forEach(k=>{r[k]=nz(o[k],-1,1e7)});return r};
+  const tp=t=>Array.isArray(t)?t.slice(0,200).map(x=>({n:S(x&&x.n,16),p:nz(x&&x.p,-1e7,1e7)})):[];
+  const qn=()=>{const o={i:nz(p.i,0,200),n:nz(p.n,0,200),t:p.t==='tf'||p.t==='ty'?p.t:'q',q:S(p.q,600),o:Array.isArray(p.o)?p.o.slice(0,4).map(x=>S(x,300)):[],x2:p.x2?1:0,len:nz(p.len,0,40),rd:nz(p.rd,0,15000),el:nz(p.el,-1e6,1e6)};if(p.sc)o.sc=S(p.sc,40);return o};
+  const rn=r=>({i:nz(r.i,0,200),a:r.t==='ty'?S(r.a,40):nz(r.a,0,3),d:Array.isArray(r.d)?r.d.slice(0,4).map(v=>nz(v,0,1e5)):[0,0],pts:mp(r.pts),st:mp(r.st),top:tp(r.top),t:r.t==='tf'||r.t==='ty'?r.t:'q'});
+  if(ev==='kq')return qn();
+  if(ev==='kr')return rn(p);
+  if(ev==='kf')return{top:tp(p.top)};
+  if(ev==='ks'){const c=cfgClean(p.c);if(!c)return null;if(p.f)return{c,f:tp(p.f)};if(p.r&&typeof p.r==='object')return{c,i:nz(p.i,0,200),r:rn(p.r)};return{c,...qn()}}
+  return null;
+}
 function kBegin(pl){
-  started=true;cfg=pl.c;mode='online';document.body.classList.add('kmode');
-  K={q:[],i:-1,ans:{},sc:{},rv:false,my:-1,sh:null,pk:new Set(plist().map(x=>x.k))};
+  started=true;cfg=cfgClean(pl.c)||cfg;mode='online';document.body.classList.add('kmode');
+  K={q:[],i:-1,ans:Object.create(null),sc:Object.create(null),rv:false,my:-1,sh:null,pk:new Set(plist().map(x=>x.k))};
   if(isHost){plist().forEach(x=>{if(!(x.h&&x.mo))K.sc[x.n]={n:x.n,p:0,s:0}});K.q=kGen(cfg.n,cfg.l);kHostQ(0)}
   else panel('<h2 style="text-align:center;margin:40px 0">Hazır ol...</h2>');
 }
 function kHostQ(i){
-  clearTimeout(K.nx);K.i=i;K.ans={};K.rv=false;K.t0=Date.now()+RD;const q=K.q[i];
+  clearTimeout(K.nx);K.i=i;K.ans=Object.create(null);K.rv=false;K.t0=Date.now()+RD;const q=K.q[i];
   kSend('kq',{...kPub(q,i),rd:RD});
   kShowQ(kPub(q,i),i,true,-RD);
   clearTimeout(K.tm);K.tm=setTimeout(kReveal,RD+KT()*1000+800);
@@ -1385,7 +1401,7 @@ function kShowQ(q,i,host,el){
   if(ty){const f=()=>{const v=$('kin').value.toLowerCase().replace(/[^a-z]/g,'');if(v)send(v)};$('ksnd').onclick=f;$('kin').onkeydown=e=>{if(e.key==='Enter')f()}}
 }
 function kOnA(p){
-  if(!isHost||!started||K.rv||p.i!==K.i||K.ans[p.k]||!K.sc[p.k])return;
+  if(!isHost||!started||K.rv||p.i!==K.i||typeof p.k!=='string'||K.ans[p.k]||!K.sc[p.k])return;
   const q=K.q[K.i],ty=q.t==='ty';
   if(ty?!(typeof p.c==='string'&&/^[a-z]{1,20}$/.test(p.c)):!(Number.isInteger(p.c)&&p.c>=0&&p.c<q.o.length))return;
   const dt=Date.now()-K.t0;if(dt<-300||dt>KT()*1000+1500)return;
@@ -1396,7 +1412,7 @@ function kOnA(p){
 }
 function kReveal(){
   if(!isHost||K.rv||!started)return;K.rv=true;clearTimeout(K.tm);
-  const q=K.q[K.i],ty=q.t==='ty',d=ty?[0,0]:q.o.map(()=>0),pts={},st={};
+  const q=K.q[K.i],ty=q.t==='ty',d=ty?[0,0]:q.o.map(()=>0),pts=Object.create(null),st=Object.create(null);
   for(const k in K.sc){
     const a=K.ans[k],s=K.sc[k];
     if(!a){s.s=0;pts[k]=-1}
@@ -1434,6 +1450,7 @@ function kShowF(top){
 }
 function kOn(ev,p){
   if(!p)return;
+  if(ev!=='ka'){p=kClean(ev,p);if(!p)return}
   if(ev==='ks'){if(!isHost)kResume(p);return}
   if(!started||!cfg||cfg.m!=='k')return;
   if(ev==='ka')return kOnA(p);
@@ -1452,7 +1469,7 @@ function kState(){
 }
 function kResume(p){
   const id=p.f?'f':p.r?'r'+p.i:'q'+p.i;
-  if(!started){if(!p.c)return;started=true;cfg=p.c;mode='online';document.body.classList.add('kmode');K={q:[],i:-1,ans:{},sc:{},rv:false,my:-1,sh:null}}
+  if(!started){if(!p.c)return;started=true;cfg=p.c;mode='online';document.body.classList.add('kmode');K={q:[],i:-1,ans:Object.create(null),sc:Object.create(null),rv:false,my:-1,sh:null}}
   if(kOrd(id)<=kOrd(K.sh))return;
   K.i=p.i;
   if(p.f)kShowF(p.f);else if(p.r)kShowR(p.r,false);else kShowQ(p,p.i,false,p.el);
@@ -2035,7 +2052,7 @@ const FQ=[
 ['altinyagmur','Altın Yağmuru','solid',{shop:1},'●','fall','',4,['#fde047','#f59e0b','#fffbeb','#ca8a04']]];
 FQ.forEach(x=>{FRM[x[0]]=[x[1],x[8],x[2],x[3],0,x[4],x[5],x[6],x[7]];UNL.push({id:'frame:'+x[0],t:'frame',n:x[1],req:x[3]})});
 function frameHtml(h,k){
-  const f=FRM[k];if(!f)return h;
+  const f=Object.prototype.hasOwnProperty.call(FRM,k)?FRM[k]:null;if(!f)return h;
   const m=/(?:width="|width:)(\d+)/.exec(h),s=m?+m[1]:40,c=f[1],t=f[8],n=s>=44?[3,4,6,8][t-1]:Math.min(3,t+1),g=Array.from(f[5]);let p='';
   for(let i=0;i<n;i++){
     const a=Math.round(i*360/n+(i*47)%30),x=(((i*37)%100)/100*2-1)*s*.42,w=(((i*53)%100)/100-.5)*s*.3,d=2.2+(i%3)*.5;
