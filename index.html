@@ -583,16 +583,6 @@ if(window.supabase&&SB_URL.indexOf('PASTE')!==0){
     if(prof)oExit();else aAuth();
   }).catch(()=>aAuth());
 }else $('home').hidden=false;
-function av(a,s){
-  return /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(a||'')
-    ?'<img src="'+a+'" width="'+s+'" height="'+s+'" alt="" style="border-radius:50%;object-fit:cover">'
-    :'<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:var(--key);display:inline-grid;place-items:center;font-weight:800">?</div>';
-}
-function rHome(){
-  const t=$('profT'),s=$('profS');if(!t)return;
-  t.textContent=prof?prof.username:'Profil';
-  s.textContent=prof?'Rekor: '+prof.best_score:'Giriş yap veya kayıt ol';
-}
 async function loadProf(){
   const u=await sb.auth.getUser();
   if(!u.data||!u.data.user){prof=null;rHome();return}
@@ -623,15 +613,6 @@ async function aGo(reg){
   oExit();
 }
 
-function aProfile(){
-  if(!sb){noSb();return}
-  if(!prof){aAuth();return}
-  panel('<div style="text-align:center">'+av(prof.avatar,96)+'<h2 style="margin:8px 0 10px">'+esc(prof.username)+'</h2></div><div class="pl"><span>Rekor (Seri Modu)</span><b>'+prof.best_score+'</b></div><div class="pl"><span>En uzun seri</span><b>'+prof.best_streak+' kelime</b></div><input id="pf" type="file" accept="image/*" hidden>'+btn('nb','Kelime defterim')+btn('pp','Fotoğraf yükle')+btn('pv','Hazır avatar seç')+btn('lo','Çıkış yap')+btn('ob','Ana menü'));
-  $('ob').onclick=()=>oExit();
-  $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;
-  $('pf').onchange=aPhoto;
-  $('lo').onclick=async()=>{await sb.auth.signOut();prof=null;rHome();aAuth()};
-}
 function aPhoto(e){
   const f=e.target.files[0];if(!f)return;
   const im=new Image,u=URL.createObjectURL(f);
@@ -649,15 +630,6 @@ function aPhoto(e){
   im.src=u;
 }
 
-async function aBoard(){
-  if(!sb){noSb();return}
-  panel('<p>Yükleniyor...</p>');
-  const r=await sb.from('profiles').select('username,avatar,best_score,best_streak').gt('best_score',0).order('best_score',{ascending:false}).limit(20);
-  if(r.error){panel('<p>Skor tablosu yüklenemedi.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit();return}
-  const d=r.data||[];
-  panel('<p>Seri Modu rekorları</p>'+(d.length?d.map((x,i)=>'<div class="pl"><span style="display:flex;align-items:center;gap:8px">'+(i+1)+'. '+av(x.avatar,28)+esc(x.username)+(prof&&x.username===prof.username?' (sen)':'')+'</span><b>'+x.best_score+'</b></div>').join(''):'<p>Henüz kayıtlı skor yok.</p>')+btn('ob','Ana menü'));
-  $('ob').onclick=()=>oExit();
-}
 async function submitRun(){
   pend.runs++;flushStats();
   if(!sb||!prof||!run.score)return;
@@ -670,11 +642,6 @@ $('mLb').onclick=()=>aBoard();
 
 const TH=[['light','Aydınlık','#eef2f7','#16202e'],['dark','Karanlık','#0f1622','#e8eef7'],['sakura','Sakura','#fdf0f4','#4a2b36'],['deniz','Deniz','#0b2a3a','#e3f4fb'],['orman','Orman','#eaf3e6','#1f3a26'],['gunbatimi','Gün batımı','#231633','#ffe9d6']];
 function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('ka_theme',t)}catch(e){}}
-function aTheme(){
-  panel('<p>Tema seç</p>'+TH.map(x=>'<button class="lvl th" data-t="'+x[0]+'" style="background:'+x[2]+';color:'+x[3]+'"><b>'+x[1]+'</b><span>Seç</span></button>').join('')+btn('ob','Ana menü'));
-  document.querySelectorAll('.th').forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
-  $('ob').onclick=()=>oExit();
-}
 
 let pend={w:0,f:0,g:0,ft:0,h:0,pts:0,runs:0,n:0};
 function bump(win,p){
@@ -685,13 +652,6 @@ function bump(win,p){
   pend.n++;
   if(pend.n>=5)flushStats();
   return '';
-}
-async function flushStats(){
-  if(!sb||!prof||(!pend.n&&!pend.runs))return;
-  const q=pend;pend={w:0,f:0,g:0,ft:0,h:0,pts:0,runs:0,n:0};
-  const r=await sb.rpc('add_stats',{w:q.w,f:q.f,g:q.g,ft:q.ft,h:q.h,pts:q.pts,runs:q.runs});
-  if(r.error){for(const k in q)pend[k]+=q[k];return}
-  loadProf();
 }
 document.addEventListener('visibilitychange',()=>{if(document.hidden)flushStats()});
 
@@ -725,34 +685,7 @@ function dDone(d){
   $('ob').onclick=()=>oExit();
 }
 
-function aProfile(){
-  if(!sb){noSb();return}
-  if(!prof){aAuth();return}
-  const P=prof,n=P.words_solved||0,t=n+(P.words_failed||0);
-  const T=[[25,'Çaylak'],[100,'Meraklı'],[250,'Kelime Avcısı'],[500,'Usta'],[1e9,'Efsane']];
-  let k=0;while(n>=T[k][0])k++;
-  const lo=k?T[k-1][0]:0,hi=T[k][0],pct=hi>=1e9?100:Math.round((n-lo)/(hi-lo)*100);
-  const ds=P.last_daily&&P.last_daily>=dStr(dayNum()-1)?P.daily_streak:0;
-  const S=(a,b)=>'<div class="sc"><b>'+a+'</b><span>'+b+'</span></div>';
-  panel('<div style="text-align:center">'+av(P.avatar,96)+'<h2 style="margin:8px 0 2px">'+esc(P.username)+'</h2><p>'+T[k][1]+', '+n+' kelime</p><div style="height:8px;border-radius:4px;background:var(--key);margin:0 20px 14px"><div style="height:8px;border-radius:4px;background:var(--g);width:'+pct+'%"></div></div></div><div class="sg">'+S(P.best_score,'Seri rekoru')+S(P.best_streak,'En uzun seri')+S(t?Math.round(n/t*100)+'%':'-','Doğruluk')+S(n?(P.total_guesses/n).toFixed(1):'-','Ortalama tahmin')+S(P.first_try||0,'İlk denemede')+S(P.hints_used||0,'İpucu kullanımı')+S(P.total_points||0,'Toplam puan')+S(P.streak_runs||0,'Seri oyunu')+S((P.daily_wins||0)+'/'+(P.daily_played||0),'Günlük kazanılan')+S(ds+' (en iyi '+(P.best_daily_streak||0)+')','Günlük seri')+'</div>'+bdHTML(P)+'<input id="pf" type="file" accept="image/*" hidden><div style="height:12px"></div>'+btn('nb','Kelime defterim')+btn('pp','Fotoğraf yükle')+btn('pv','Hazır avatar seç')+btn('lo','Çıkış yap')+btn('ob','Ana menü'));
-  $('ob').onclick=()=>oExit();
-  $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;
-  $('pf').onchange=aPhoto;
-  $('lo').onclick=async()=>{await flushStats();await sb.auth.signOut();prof=null;rHome();aAuth()};
-}
 
-async function aBoard(col){
-  col=col||'best_score';
-  if(!sb){noSb();return}
-  panel('<p>Yükleniyor...</p>');
-  const r=await sb.from('profiles').select('username,avatar'+(FCOK?',frame':'')+',best_score,best_daily_streak').eq('cls',true).gt(col,0).order(col,{ascending:false}).limit(20);
-  if(r.error){panel('<p>Skor tablosu yüklenemedi.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit();return}
-  const d=r.data||[],a=col==='best_score';
-  panel('<div style="display:flex;gap:8px;margin-bottom:10px"><button class="lvl" id="t1" style="margin:0;justify-content:center'+(a?';border-color:var(--g)':'')+'">Seri rekoru</button><button class="lvl" id="t2" style="margin:0;justify-content:center'+(a?'':';border-color:var(--g)')+'">Günlük seri</button></div>'+(d.length?d.map((x,i)=>'<div class="pl"><span style="display:flex;align-items:center;gap:8px">'+(i+1)+'. '+av(x.avatar,28)+esc(x.username)+(prof&&x.username===prof.username?' (sen)':'')+'</span><b>'+x[col]+'</b></div>').join(''):'<p>Henüz kayıt yok.</p>')+btn('ob','Ana menü'));
-  $('t1').onclick=()=>aBoard('best_score');
-  $('t2').onclick=()=>aBoard('best_daily_streak');
-  $('ob').onclick=()=>oExit();
-}
 $('mDaily').onclick=startDaily;
 $('mSet').onclick=aSettings;
 
@@ -827,27 +760,6 @@ function checkBadges(){
   if(nw.length){toast('Yeni rozet: '+nw.join(', '));sfx('badge')}
 }
 
-async function aBoard(tab,col){
-  tab=tab||'all';col=col||'best_score';
-  if(!sb){noSb();return}
-  panel('<p>Yükleniyor...</p>');
-  const wk=dStr(dayNum()-((dayNum()+3)%7)-(tab==='last'?7:0));
-  let d=[],err=false;
-  if(tab==='fr'){const r=await sb.rpc('friend_list');err=!!r.error;if(!err)d=[{u:prof.username,a:prof.avatar,f:prof.frame,v:prof.best_score}].concat(r.data.friends.map(x=>({u:x.u,a:x.im,f:x.fr,v:x.bs}))).sort((a,b)=>b.v-a.v)}else if(tab==='week'||tab==='last'){
-    const r=await sb.from('weekly_scores').select('best_score,profiles!inner(username,avatar'+(FCOK?',frame':'')+')').eq('week',wk).eq('profiles.cls',true).gt('best_score',0).order('best_score',{ascending:false}).limit(20);
-    err=!!r.error;d=(r.data||[]).map(x=>({u:x.profiles&&x.profiles.username,a:x.profiles&&x.profiles.avatar,f:x.profiles&&x.profiles.frame,v:x.best_score}));
-  }else{
-    const r=await sb.from('profiles').select('username,avatar'+(FCOK?',frame':'')+',best_score,best_daily_streak').eq('cls',true).gt(col,0).order(col,{ascending:false}).limit(20);
-    err=!!r.error;d=(r.data||[]).map(x=>({u:x.username,a:x.avatar,f:x.frame,v:x[col]}));
-  }
-  if(err&&FCOK&&tab!=='fr'){FCOK=false;return aBoard(tab,col)}if(err){panel('<p>Skor tablosu yüklenemedi.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit();return}
-  const tb=(id,t,on)=>'<button class="lvl" id="'+id+'" style="margin:0;justify-content:center'+(on?';border-color:var(--g)':'')+'">'+t+'</button>';
-  panel('<div style="display:flex;gap:8px;margin-bottom:10px">'+tb('t1','Tüm zamanlar',tab==='all')+tb('t2','Haftalık',tab==='week')+'</div><div style="display:flex;gap:8px;margin-bottom:10px">'+tb('t3','Geçen hafta',tab==='last')+tb('t4','Arkadaşlar',tab==='fr')+'</div>'+(tab==='all'?'<div style="display:flex;gap:8px;margin-bottom:10px">'+tb('c1','Seri rekoru',col==='best_score')+tb('c2','Günlük seri',col!=='best_score')+'</div>':(tab==='fr'?'<p>Senin ve arkadaşlarının Seri rekoru.</p>':tab==='last'?'<p>Geçen haftanın sınıf sıralaması.</p>':'<p>Bu haftanın Seri Modu puanı. Pazartesi sıfırlanır.</p>'))+(d.length?d.map((x,i)=>'<div class="pl"><span style="display:flex;align-items:center;gap:8px">'+(tab==='last'&&i<3?['🥇','🥈','🥉'][i]+' ':(i+1)+'. ')+av(x.a,28)+esc(x.u||'?')+(prof&&x.u===prof.username?' (sen)':'')+'</span><b>'+x.v+'</b></div>').join(''):'<p>Henüz kayıt yok.</p>')+btn('ob','Ana menü'));
-  $('t1').onclick=()=>aBoard('all',col);
-  $('t2').onclick=()=>aBoard('week');$('t3').onclick=()=>aBoard('last');$('t4').onclick=()=>aBoard('fr');
-  if(tab==='all'){$('c1').onclick=()=>aBoard('all','best_score');$('c2').onclick=()=>aBoard('all','best_daily_streak')}
-  $('ob').onclick=()=>oExit();
-}
 
 const EX={travel:"We like to travel by train in the summer.",ticket:"I bought a ticket for the concert online.",narrow:"The street was so narrow that cars could not pass.",advice:"My teacher gave me good advice about learning English.",reduce:"We should reduce the amount of plastic we use.",polite:"It is polite to say thank you.",brave:"The brave boy jumped into the river to help the dog.",garden:"They grow tomatoes in their garden.",lazy:"He felt lazy and stayed in bed all morning.",empty:"The fridge was empty, so we ordered pizza.",beach:"Children were building sandcastles on the beach.",market:"My mother buys fresh fruit at the market.",winter:"It snows a lot here in winter.",pocket:"He put the keys in his pocket.",island:"They spent a week on a small island.",nervous:"I always feel nervous before an exam.",rescue:"Firefighters came to rescue the cat from the tree.",shelf:"The books are on the top shelf.",tiny:"A tiny spider was sitting on the wall.",whisper:"Please whisper because the baby is sleeping.",useful:"This app is very useful for learning words.",volunteer:"She works as a volunteer at the animal shelter.",weekend:"What are you doing this weekend?",address:"Please write your address on the form.",bottle:"He drank a whole bottle of water after the run.",careful:"Be careful when you cross the road.",comfort:"She listened to music for comfort.",cotton:"This shirt is made of soft cotton.",desert:"Very little rain falls in the desert.",disease:"Washing your hands helps stop the spread of disease.",double:"Please add a double portion of rice.",enough:"Do we have enough chairs for everyone?",event:"The school is planning a big event in May.",factory:"He works in a car factory.",fever:"She stayed home because she had a fever.",flight:"Our flight to London was two hours late.",friendly:"The people in this town are very friendly.",guest:"Our guest will stay with us for three days.",habit:"Reading before bed is a good habit.",hungry:"I am so hungry that I could eat a horse.",injury:"He missed the match because of a knee injury.",knowledge:"Her knowledge of history is impressive.",mistake:"It was a big mistake to leave early.",neighbour:"Our neighbour has a very friendly dog.",parcel:"A parcel arrived for you this morning.",pleasant:"We had a pleasant walk along the river.",recipe:"This recipe needs only three ingredients.",salary:"He gets his salary at the end of the month.",shout:"Please do not shout in the library.",strange:"The house was quiet and a little strange.",ancient:"We visited an ancient temple on the island.",support:"My family always supports me.",improve:"I want to improve my English this year.",request:"He made a request for a day off.",explore:"We plan to explore the old town tomorrow.",respond:"Please respond to my email today.",suggest:"I suggest we leave before it gets dark.",abroad:"She studied abroad for two years.",access:"Students have free access to the library.",adapt:"Animals adapt to changes in their environment.",admit:"He had to admit that he was wrong.",afford:"We cannot afford a new car this year.",announce:"The airline will announce the delay soon.",appeal:"The charity made an appeal for help.",attitude:"A positive attitude can change your day.",aware:"Are you aware of the new rules?",belief:"Her belief in hard work never changed.",branch:"A bird sat on the branch of the tree.",category:"This book belongs to the travel category.",character:"The main character in the film is very brave.",collapse:"The old bridge could collapse in the storm.",comment:"She left a nice comment under my photo.",complain:"Customers complain about the slow service.",consider:"Please consider my offer carefully.",convince:"I could not convince him to stay.",crisis:"The country is facing an economic crisis.",custom:"It is a custom to remove your shoes at home.",declare:"The judge will declare the winner today.",defend:"Soldiers defend their country.",depend:"It will depend on the weather.",destroy:"The fire destroyed the whole building.",disappear:"My keys seem to disappear every morning.",distant:"We could hear a distant sound of music.",doubt:"I have no doubt that you will pass.",embarrass:"Do not embarrass me in front of my friends.",encourage:"Teachers should encourage students to ask questions.",environment:"We must protect the environment.",exhausted:"After the long walk, we were exhausted.",familiar:"Her face looks familiar to me.",generous:"He is generous and often helps others.",guilty:"I felt guilty about forgetting her birthday.",imagine:"Imagine living on a small island.",include:"The price does include breakfast.",influence:"Parents have a strong influence on children.",install:"Can you install this app on my phone?",launch:"The company will launch a new product in May.",neglect:"Do not neglect your health.",occur:"Accidents often occur on wet roads.",permit:"The school does not permit phones in class.",procedure:"The procedure takes about ten minutes.",evidence:"The police found new evidence at the scene.",flexible:"My job has flexible working hours.",ambition:"Her ambition is to become a doctor.",generate:"Solar panels generate clean energy.",tendency:"He has a tendency to talk too fast.",estimate:"I estimate the trip will take three hours.",conclude:"The study concluded that sleep improves memory.",abandon:"They had to abandon the car in the snow.",accommodate:"The hotel can accommodate two hundred guests.",acknowledge:"He did not acknowledge his mistake.",adequate:"The room was small but adequate.",alternative:"Is there an alternative to this plan?",apparent:"It was apparent that she was upset.",arbitrary:"The rules seemed arbitrary and unfair.",assess:"Teachers assess students every term.",assure:"I assure you that everything is fine.",bias:"The article showed a clear bias against the team.",campaign:"They started a campaign to save the forest.",cautious:"Be cautious when you cross the river.",collaborate:"The two schools collaborate on many projects.",compensate:"The airline will compensate passengers for the delay.",comprehensive:"We offer a comprehensive guide to the city.",considerable:"It took a considerable amount of time.",constant:"The constant noise made it hard to sleep.",controversy:"The decision caused a lot of controversy.",credible:"The witness seemed honest and credible.",crucial:"Sleep is crucial for good health.",demonstrate:"The teacher will demonstrate how the machine works.",dilemma:"She faced a dilemma between work and family.",discourage:"Bad weather can discourage people from travelling.",distinct:"The two brothers have distinct personalities.",dominate:"One company dominates the market.",eliminate:"We must eliminate waste in the kitchen.",emphasis:"The school puts great emphasis on reading.",encounter:"We encounter many problems when we travel.",ensure:"Please ensure that the door is locked.",exceed:"The cost must not exceed one hundred euros.",exploit:"Some companies exploit cheap labour.",feasible:"Is it feasible to finish this by Friday?",formulate:"Scientists formulate a theory first.",gradual:"There has been a gradual change in the climate.",hypothesis:"The experiment tested her hypothesis.",illustrate:"Let me illustrate this with an example.",imply:"His silence seemed to imply that he agreed.",indicate:"The sign indicates the way to the station.",innovation:"The company is famous for its innovation.",integrate:"New students find it easy to integrate here.",isolate:"Doctors isolate patients who have the virus.",maintain:"It is hard to maintain a healthy diet.",negotiate:"The two sides will negotiate a new deal.",inevitable:"Change is inevitable in life.",resilient:"Children are often more resilient than adults.",ambiguous:"The instructions were ambiguous and confusing.",mitigate:"Trees help to mitigate the effects of heat.",plausible:"His story sounded plausible to everyone.",diligent:"She is a diligent student who never misses class.",deteriorate:"His health began to deteriorate last winter.",abstract:"Love is an abstract idea.",advocate:"Doctors advocate regular exercise.",albeit:"He finished the race, albeit very slowly.",analogy:"The teacher used an analogy to explain the idea.",arbitrate:"A neutral judge will arbitrate the dispute.",assertive:"You need to be more assertive in meetings.",autonomy:"Teachers need autonomy in their classrooms.",bureaucracy:"Getting a permit meant dealing with endless bureaucracy.",coincide:"Her holiday will coincide with my birthday.",compatible:"This charger is not compatible with my phone.",compromise:"After a long talk, they reached a compromise.",condemn:"Leaders around the world condemn the attack.",conscientious:"A conscientious worker checks every detail.",contemplate:"He sat quietly to contemplate his future.",controversial:"It was a controversial decision.",credibility:"The scandal damaged the politician's credibility.",deduce:"From the clues, we can deduce who did it.",detrimental:"Too much sugar is detrimental to your health.",disparity:"There is a big disparity between rich and poor areas.",disrupt:"Heavy snow can disrupt train services.",dubious:"I am dubious about his promises.",elusive:"Success remained elusive for the young team.",endorse:"The mayor will endorse the new plan.",equilibrium:"The body tries to keep its equilibrium.",explicit:"She gave explicit instructions for the task.",fallacy:"It is a fallacy that money brings happiness.",formidable:"They faced a formidable opponent in the final.",hinder:"Bad weather may hinder the rescue work.",implicit:"There was an implicit threat in his words.",inadvertent:"The error was inadvertent, not deliberate.",indigenous:"The museum shows indigenous art and culture.",ingenious:"It was an ingenious solution to a hard problem.",integrity:"A judge must act with integrity.",intuition:"My intuition told me something was wrong.",lucrative:"Selling software can be a lucrative business.",marginal:"There was only a marginal improvement in sales.",notorious:"The city is notorious for its heavy traffic.",obsolete:"Floppy disks are now obsolete.",perceive:"Many people perceive him as shy.",precedent:"The ruling set a precedent for future cases.",rational:"Let us make a rational decision, not an emotional one.",reconcile:"It is hard to reconcile these two views.",subtle:"There is a subtle difference between the two words."};
 function hintFor(w){
@@ -858,15 +770,7 @@ function hintFor(w){
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 
 const TT=[[0,'Çaylak'],[25,'Meraklı'],[100,'Kelime Avcısı'],[250,'Usta'],[500,'Efsane']];
-function titleOf(P){const n=(P&&P.words_solved)||0;let t=TT[0][1];TT.forEach(x=>{if(n>=x[0])t=x[1]});return t}
 let myThumb='';
-function mkThumb(){
-  myThumb='';
-  if(!prof||!/^data:image\/jpeg;base64,/.test(prof.avatar||''))return;
-  const im=new Image();
-  im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=64;c.getContext('2d').drawImage(im,0,0,64,64);myThumb=c.toDataURL('image/jpeg',.6);if(ch)ch.track(mine())};
-  im.src=prof.avatar;
-}
 function vsHTML(L){
   const op=L.find(x=>x.k!==myId);
   const side=(img,n,t,l)=>'<div class="vs-s"><div class="vs-l">'+l+'</div>'+img+'<b>'+esc(n)+'</b><span>'+esc(t)+'</span></div>';
@@ -879,33 +783,6 @@ function oVs(n){
   if(n>0)setTimeout(()=>oVs(n-1),900);else setTimeout(()=>{if(ch&&started)oGo()},600);
 }
 
-function aProfile(){
-  if(!sb){noSb();return}
-  if(!prof){aAuth();return}
-  const P=prof,n=P.words_solved||0,t=n+(P.words_failed||0),nb=BD.filter(b=>b[2](P)).length;
-  const ds=P.last_daily&&P.last_daily>=dStr(dayNum()-1)?P.daily_streak:0;
-  const S=(a,b)=>'<div class="sc"><b>'+a+'</b><span>'+b+'</span></div>';
-  panel('<div style="text-align:center">'+av(P.avatar,96)+'<h2 style="margin:8px 0 2px">'+esc(P.username)+'</h2><p>'+titleOf(P)+', '+n+' kelime</p><div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px"><button class="sbtn" id="bb">Rozetler ('+nb+'/'+BD.length+')</button><button class="sbtn" id="tb2">Unvan ilerlemesi</button></div></div><div class="sg">'+S(P.best_score,'Seri rekoru')+S(P.best_streak,'En uzun seri')+S(t?Math.round(n/t*100)+'%':'-','Doğruluk')+S(n?(P.total_guesses/n).toFixed(1):'-','Ortalama tahmin')+S(P.first_try||0,'İlk denemede')+S(P.hints_used||0,'İpucu kullanımı')+S(P.total_points||0,'Toplam puan')+S(P.streak_runs||0,'Seri oyunu')+S((P.daily_wins||0)+'/'+(P.daily_played||0),'Günlük kazanılan')+S(ds+' (en iyi '+(P.best_daily_streak||0)+')','Günlük seri')+'</div><input id="pf" type="file" accept="image/*" hidden><div style="height:12px"></div>'+btn('nb','Kelime defterim')+btn('pp','Fotoğraf yükle')+btn('pv','Hazır avatar seç')+btn('lo','Çıkış yap')+btn('ob','Ana menü'));
-  $('bb').onclick=aBadges;$('nb').onclick=aBook;
-  $('tb2').onclick=aTitles;
-  $('ob').onclick=()=>oExit();
-  $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;
-  $('pf').onchange=aPhoto;
-  $('lo').onclick=async()=>{await flushStats();await sb.auth.signOut();prof=null;rHome();aAuth()};
-}
-function aBadges(){
-  const u=BD.filter(b=>b[2](prof));
-  panel('<p>Kazandığın rozetler ('+u.length+')</p>'+(u.length?'<div class="bg">'+u.map(b=>'<div class="bd"><i>'+b[1]+'</i>'+b[0]+'</div>').join('')+'</div><div style="height:12px"></div>':'<p>Henüz rozet yok. Oynadıkça burada görünecek.</p>')+btn('ob','Profil'));
-  $('ob').onclick=aProfile;
-}
-function aTitles(){
-  const n=prof.words_solved||0;
-  panel('<p>Unvanlar çözdüğün kelime sayısına göre açılır. Şu an: '+n+' kelime.</p>'+TT.map((x,i)=>{
-    const nx=TT[i+1],done=n>=x[0],cur=done&&(!nx||n<nx[0]),pct=cur&&nx?Math.round((n-x[0])/(nx[0]-x[0])*100):0;
-    return '<div class="pl" style="flex-direction:column;align-items:stretch;gap:6px'+(cur?';border-color:var(--g)':'')+'"><div style="display:flex;justify-content:space-between"><b>'+x[1]+(cur?' (şu an)':'')+'</b><span>'+(done?'Açık':x[0]+' kelime')+'</span></div>'+(cur&&nx?'<div style="height:8px;border-radius:4px;background:var(--key)"><div style="height:8px;border-radius:4px;background:var(--g);width:'+pct+'%"></div></div><span style="font-size:12px;color:var(--dim)">Sonraki unvan: '+nx[1]+', '+(nx[0]-n)+' kelime kaldı</span>':'')+'</div>';
-  }).join('')+btn('ob','Profil'));
-  $('ob').onclick=aProfile;
-}
 
 
 
@@ -932,12 +809,6 @@ function rHome(){
 }
 
 const TH2=[['light','Aydınlık','#f5f6f8','#14171f','#293c77'],['dark','Karanlık','#0c0f14','#eef1f6','#8ea2ff'],['amoled','Amoled','#000000','#f2f2f2','#ffffff'],['sakura','Sakura','#fff4f7','#4a2b36','#e0658a'],['lavanta','Lavanta','#f6f3ff','#2a2146','#7c5cf0'],['nane','Nane','#eefaf5','#123b32','#12b886'],['orman','Orman','#f1f7ee','#1d3523','#3f9b62'],['deniz','Deniz','#071e2b','#e6f6fb','#3ec6c0'],['gunbatimi','Gün batımı','#1b1128','#fff0e3','#ff9b6b'],['kahve','Kahve','#1c1511','#f4e8dc','#d9a066']];
-function aTheme(){
-  const cur=document.documentElement.dataset.theme||'';
-  panel('<p>Tema seç</p>'+TH2.map(x=>'<button class="th2'+(x[0]===cur?' cur':'')+'" data-t="'+x[0]+'" style="background:'+x[2]+';color:'+x[3]+'"><span>'+x[1]+'</span><span><i style="background:'+x[4]+'"></i><i style="background:'+x[3]+'"></i></span></button>').join('')+btn('ob','Geri'));
-  document.querySelectorAll('.th2').forEach(b=>b.onclick=()=>{setTheme(b.dataset.t);aTheme()});
-  $('ob').onclick=aSettings;
-}
 
 const BI={
 'İlk kelime':['Herhangi bir kelimeyi doğru bil.',p=>p.words_solved,1],
@@ -1062,11 +933,6 @@ async function srvGuess(gs){
 }
 </script>
 <script>
-async function fbadge(){
-  const b=$('fb');if(!b||!sb||!prof)return;
-  const r=await sb.rpc('friend_count'),n=r.error?0:(r.data||0);
-  b.textContent=n;b.hidden=!(n>0);
-}
 const FE={'kod yok':'Bu kodla kimse bulunamadı.','kendi kodun':'Bu senin kendi kodun.','zaten':'Zaten istek var veya arkadaşsınız.','limit':'Çok fazla deneme, bir saat sonra tekrar dene.','cok istek':'Bekleyen çok isteğin var.'};
 async function aFriends(tab){
   if(!sb||!prof){aAuth('Arkadaşlar için giriş yap');return}
@@ -1707,12 +1573,6 @@ function mstat(){
 }
 const _rh=rHome;rHome=function(){_rh();mstat();dailyStats()};
 const _st=setTheme;setTheme=function(t){_st(t);const m=document.querySelector('meta[name=theme-color]');if(m&&TM[t])m.content=TM[t][2]};
-aTheme=function(){
-  const cur=document.documentElement.dataset.theme||'';
-  panel('<p>Tema seç</p><div class="tg">'+Object.keys(TM).map(k=>{const t=TM[k];return '<button class="tt'+(k===cur?' cur':'')+'" data-t="'+k+'" style="--b:'+t[2]+';--f:'+t[4]+';--a:'+t[6]+';--p1:'+t[8]+';--p2:'+t[9]+';--p3:'+t[10]+'"><i></i><span>'+t[0]+(t[11]?' ✦':'')+'</span></button>'}).join('')+'</div><p class="cap">✦ Renkleri yavaşça değişen temalar</p>'+btn('ob','Geri'));
-  document.querySelectorAll('.tt').forEach(b=>b.onclick=()=>{setTheme(b.dataset.t);aTheme()});
-  $('ob').onclick=aSettings;
-};
 mstat();
 </script>
 <script>
@@ -1788,7 +1648,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 const rw=(id,i,t)=>'<button class="rw" id="'+id+'"><span>'+i+'</span>'+t+'</button>';
 const _st2=setTheme;setTheme=function(t){_st2(t);document.documentElement.dataset.anim=TM[t]&&TM[t][11]?'1':''};
 try{const t=localStorage.getItem('ka_theme');document.documentElement.dataset.anim=TM[t]&&TM[t][11]?'1':''}catch(e){}
-aProfile=function(){
+function aProfile(){
   if(!sb){noSb();return}if(!prof){aAuth();return}
   const P=prof,n=P.words_solved||0,t=n+(P.words_failed||0),nb=BD.filter(b=>b[2](P)).length,ds=P.last_daily&&P.last_daily>=dStr(dayNum()-1)?P.daily_streak:0;
   const xp=P.xp||0,L=lvlOf(xp),a=lvXp(L),b=lvXp(L+1),pct=L>=100?100:Math.round((xp-a)/(b-a)*100),nx=TT.find(x=>x[0]>L);
@@ -1801,7 +1661,7 @@ aProfile=function(){
   $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;$('pf').onchange=aPhoto;
   $('lo').onclick=async()=>{await flushStats();await sb.auth.signOut();prof=null;rHome();aAuth()};
 };
-aBoard=async function(tab,col){
+async function aBoard(tab,col){
   tab=tab||'all';col=col||'best_score';
   if(!sb){noSb();return}
   panel('<p>Yükleniyor...</p>');
@@ -1824,10 +1684,10 @@ aBoard=async function(tab,col){
 // v7: XP ve seviye sistemi, seviyeyle açılan unvanlar, kozmetik kataloğu (hazırlık)
 const lvXp=L=>10*L*(L-1),lvlOf=x=>Math.min(100,Math.floor((1+Math.sqrt(1+x/2.5))/2));
 TT.length=0;TT.push([1,'Çaylak'],[5,'Meraklı'],[10,'Kelime Avcısı'],[20,'Usta'],[35,'Efsane'],[50,'Kelime Efendisi']);
-titleOf=function(P){const L=lvlOf((P&&P.xp)||0);let t=TT[0][1];TT.forEach(x=>{if(L>=x[0])t=x[1]});return t};
+function titleOf(P){const L=lvlOf((P&&P.xp)||0);let t=TT[0][1];TT.forEach(x=>{if(L>=x[0])t=x[1]});return t};
 Object.assign(EN,{'Kelime Efendisi':'Word Master','(şu an)':'(current)'});
 RX.unshift([/^Seviye (\d+) ile (.+)$/,(m,a,b)=>'Level '+a+' unlocks '+(EN[b]||b)],[/^Unvanlar seviyeyle açılır\. Şu an: Seviye (\d+)\.$/,'Titles unlock with levels. Now: Level $1.'],[/^Seviye atladın: (\d+)$/,'Level up: $1'],[/^Yeni unvan: (.+)$/,(m,a)=>'New title: '+(EN[a]||a)]);
-aTitles=function(){
+function aTitles(){
   const xp=prof.xp||0,L=lvlOf(xp);
   panel('<p>Unvanlar seviyeyle açılır. Şu an: Seviye '+L+'.</p>'+TT.map((x,i)=>{
     const nx=TT[i+1],done=L>=x[0],cur=done&&(!nx||L<nx[0]);
@@ -1903,18 +1763,6 @@ Object.keys(FRM).forEach(k=>UNL.push({id:'frame:'+k,t:'frame',n:FRM[k][0],req:FR
 UNL.push({id:'theme:aurora',t:'theme',n:'Kutup ışığı',req:{lv:10}},{id:'theme:nebula',t:'theme',n:'Nebula',req:{title:'Efsane'}});
 const frameWrap=(h,k)=>typeof frameHtml==='function'?frameHtml(h,k):h;
 const myFrame=()=>(prof&&prof.frame&&FRM[prof.frame])?prof.frame:'';
-aFrames=function(){
-  const cur=myFrame();
-  panel('<p>Avatar çerçevesi</p><div class="fg">'+[''].concat(Object.keys(FRM)).map(k=>{
-    const f=FRM[k],ok=!k||unlocked(UNL.find(x=>x.id==='frame:'+k),prof),r=f&&f[3],rq=ok?'':(r.lv?'Seviye '+r.lv:r.title?'Unvan: '+r.title:'Yakında');
-    return '<button class="ft'+(k===cur?' cur':'')+(ok?'':' lk')+'" data-f="'+k+'">'+frameWrap(av(prof.avatar,56),k)+'<b>'+(k?f[0]:'Çerçevesiz')+'</b>'+(rq?'<small>'+rq+'</small>':'')+'</button>';
-  }).join('')+'</div>'+btn('ob','Profil'));
-  document.querySelectorAll('.ft').forEach(b=>b.onclick=()=>{
-    if(b.classList.contains('lk')){toast('Henüz açılmadı');return}
-    try{localStorage.setItem('ka_fr_'+prof.id,b.dataset.f)}catch(e){}toast('Çerçeve uygulandı');aFrames();
-  });
-  $('ob').onclick=aProfile;
-};
 </script>
 <script>
 // v9: temalarla uyumlu hareketli çerçeveler (herkese görünür), sunucudan çerçeve seçimi, yönetici seviye ayarı
@@ -1933,20 +1781,6 @@ aurora:['Kutup ışığı',['#5eead4','#22c55e','#8b5cf6','#38bdf8'],80,2]};
 Object.keys(NF).forEach(k=>{const [n,c,l,s]=NF[k];FRM[k]=[n,'conic-gradient('+c.concat(c[0]).join(',')+')',1,{lv:l},s,c[0]];UNL.push({id:'frame:'+k,t:'frame',n,req:{lv:l}})});
 ['bronz:#f59e0b','gumus:#cbd5e1','altin:#fbbf24','zumrut:#34d399','alev:#f97316','elmas:#67e8f9','neon:#f0abfc','gokkusagi:#ffffff'].forEach(x=>{const[k,c]=x.split(':');if(FRM[k]){FRM[k][4]=FRM[k][4]||(FRM[k][2]?2.5:3);FRM[k][5]=c}});
 document.head.insertAdjacentHTML('beforeend','<style>.fr{box-shadow:0 0 10px -2px var(--gl,transparent)}.fr.sp::before{animation:spin var(--sp,3s) linear infinite}:root[data-perf=low] .fr::before{animation:none}.fr .tile{}</style>');
-aFrames=function(){
-  const cur=myFrame(),lvOf=k=>{const r=FRM[k][3];return r.lv||(r.title?(TT.find(y=>y[1]===r.title)||[999])[0]:999)};
-  panel('<p>Avatar çerçevesi</p><div class="fg">'+[''].concat(Object.keys(FRM).sort((a,b)=>lvOf(a)-lvOf(b))).map(k=>{
-    const f=FRM[k],ok=!k||prof.admin||unlocked(UNL.find(x=>x.id==='frame:'+k),prof),r=f&&f[3],rq=ok?'':(r.lv?'Seviye '+r.lv:r.title?'Unvan: '+r.title:'Yakında');
-    return '<button class="ft'+(k===cur?' cur':'')+(ok?'':' lk')+'" data-f="'+k+'">'+frameWrap(av(prof.avatar,56),k)+'<b>'+(k?f[0]:'Çerçevesiz')+'</b>'+(rq?'<small>'+rq+'</small>':'')+'</button>';
-  }).join('')+'</div>'+btn('ob','Profil'));
-  document.querySelectorAll('.ft').forEach(b=>b.onclick=async()=>{
-    if(b.classList.contains('lk')){toast('Henüz açılmadı');return}
-    const r=await sb.rpc('set_frame',{_k:b.dataset.f});
-    if(r.error||r.data!=='ok'){toast('Uygulanamadı');return}
-    await loadProf();toast('Çerçeve uygulandı');aFrames();
-  });
-  $('ob').onclick=aProfile;
-};
 function aAdLevel(id,nm,q){
   panel('<p><b>Seviye ayarla</b>: '+esc(nm)+'</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">'+[1,5,10,20,35,50,65,80,100].map(v=>'<button class="sbtn" data-p="'+v+'">'+v+'</button>').join('')+'</div><input id="al" type="number" min="1" max="100" placeholder="1-100" style="'+SEL+'"><p id="ale" style="color:var(--r)"></p>'+btn('als','Uygula')+btn('ob','Geri'));
   const back=()=>id===prof.id?aAdmin():aAdUsers(q||'');
@@ -2104,15 +1938,6 @@ const FD2=[
 ['hayalet','Hayalet','glow',{shop:1},'○','rise','',['#e2e8f0','#93c5fd','#f8fafc','#bfdbfe']],
 ['altinyagmur','Altın Yağmuru','sun',{shop:1},'●','fall','',['#fde047','#f59e0b','#fffbeb','#ca8a04']]];
 FD2.forEach(x=>{FRM[x[0]]=[x[1],x[7],x[2],x[3],0,x[4],x[5],x[6]];UNL.push({id:'frame:'+x[0],t:'frame',n:x[1],req:x[3]})});
-function frameHtml(h,k){
-  const f=FRM[k];if(!f)return h;
-  const m=/(?:width="|width:)(\d+)/.exec(h),s=m?+m[1]:40,c=f[1],n=s>=44?5:3,g=Array.from(f[5]);let p='';
-  for(let i=0;i<n;i++){
-    const a=Math.round(i*360/n+(i*47)%30),x=(((i*37)%100)/100*2-1)*s*.42,w=(((i*53)%100)/100-.5)*s*.3,t=2.2+(i%3)*.5;
-    p+='<b class="pt" style="--a:'+a+'deg;--x:'+x.toFixed(1)+'px;--w:'+w.toFixed(1)+'px;--t:'+t.toFixed(1)+'s;--d:'+(-(i*t/n)).toFixed(2)+'s;--pc:'+c[(i+1)%c.length]+'">'+g[i%g.length]+'</b>';
-  }
-  return '<span class="fz z-'+f[2]+'" data-m="'+f[6]+'" style="--s:'+s+'px;--c1:'+c[0]+';--c2:'+c[1]+';--c3:'+c[2]+';--c4:'+(c[3]||c[0])+';--cg:conic-gradient(from 0deg,'+c.concat(c[0]).join(',')+')">'+h+p+(f[7]?'<i class="fe'+(f[7]==='👑'?' fc':'')+'">'+f[7]+'</i>':'')+'</span>';
-}
 document.head.insertAdjacentHTML('beforeend',`<style>
 .fz{position:relative;display:inline-grid;place-items:center;border-radius:50%;isolation:isolate;padding:calc(var(--s)*.11);margin:calc(var(--s)*.06);vertical-align:middle;box-shadow:0 0 calc(var(--s)*.3) calc(var(--s)*-.05) var(--c1)}
 .fz::before{content:'';position:absolute;inset:0;border-radius:50%;z-index:-1}
@@ -2152,23 +1977,7 @@ function setBal(){if(prof&&$('game').hidden)$('score').textContent='🪙 '+bal()
 const _rh3=rHome;rHome=function(){_rh3();setBal()};
 const _oe4=oExit;oExit=function(m){_oe4(m);setBal()};
 async function shopOwned(){try{const r=await sb.rpc('shop_list');if(r.data){OWN=r.data.owned||[];prof.owned=OWN;return r.data}}catch(e){}return null}
-aShop=async function(){
-  if(!sb||!prof){aAuth('Pazar için giriş yap');return}
-  panel('<p>Yükleniyor...</p>');
-  const d=await shopOwned();
-  if(!d){panel('<p>Pazar yüklenemedi.</p>');return}
-  panel('<div class="bal">🪙 '+d.bal.toLocaleString()+'<small>Bakiye</small></div><div class="fg">'+d.items.filter(it=>FRM[it.id.slice(6)]).map(it=>{const k=it.id.slice(6);return '<button class="ft'+(it.owned?' cur':'')+'" data-i="'+it.id+'" data-p="'+it.price+'">'+frameHtml(av(prof.avatar,56),k)+'<b>'+FRM[k][0]+'</b><small>'+(it.owned?'Sahipsin':'🪙 '+it.price.toLocaleString())+'</small></button>'}).join('')+'</div>');
-  document.querySelectorAll('.ft[data-i]').forEach(b=>b.onclick=()=>{
-    const id=b.dataset.i,k=id.slice(6);
-    if(b.classList.contains('cur')){toast('Çerçeveler menüsünden uygula');return}
-    cfAsk(FRM[k][0]+' çerçevesi: 🪙 '+(+b.dataset.p).toLocaleString(),'Satın al','Vazgeç',async()=>{
-      const r=await sb.rpc('shop_buy',{_id:id}),c=r.data;
-      toast(c==='ok'?'Satın alındı':c==='yetersiz'?'Yetersiz puan':'Yapılamadı');
-      await loadProf();aShop();
-    });
-  });
-};
-aFrames=async function(){
+async function aFrames(){
   await shopOwned();
   const cur=myFrame(),lvOf=k=>{const r=FRM[k][3];return r.lv||(r.title?(TT.find(y=>y[1]===r.title)||[999])[0]:999)};
   panel('<p>Avatar çerçevesi</p><div class="fg">'+[''].concat(Object.keys(FRM).sort((a,b)=>lvOf(a)-lvOf(b))).map(k=>{
@@ -2261,7 +2070,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 const PREMT=['seker','safak','siber','volkan','nebula','aurora'];
 const ownedHas=id=>!!prof&&(prof.admin||(prof.owned||[]).includes(id));
 const thTile=(k,x,cl,at)=>{const t=TM[k];return '<button class="tt'+cl+'" '+at+' style="--b:'+t[2]+';--f:'+t[4]+';--a:'+t[6]+';--p1:'+t[8]+';--p2:'+t[9]+';--p3:'+t[10]+'"><i></i><span>'+t[0]+(t[11]?' ✦':'')+'</span>'+(x?'<small>'+x+'</small>':'')+'</button>'};
-aShop=async function(tab){
+async function aShop(tab){
   tab=tab||'f';
   if(!sb||!prof){aAuth('Pazar için giriş yap');return}
   panel('<p>Yükleniyor...</p>');
@@ -2284,7 +2093,7 @@ aShop=async function(tab){
     });
   });
 };
-aTheme=async function(){
+async function aTheme(){
   await shopOwned();
   const cur=document.documentElement.dataset.theme||'';
   panel('<p>Tema seç</p><div class="tg">'+Object.keys(TM).map(k=>{const lk=PREMT.includes(k)&&!ownedHas('theme:'+k);return thTile(k,lk?'🔒':'',(k===cur?' cur':'')+(lk?' lk':''),'data-t="'+k+'"')}).join('')+'</div><p class="cap">✦ Renkleri yavaşça değişen temalar</p><p class="cap">🔒 Pazardan alınır</p>'+btn('ob','Geri'));
@@ -2307,7 +2116,7 @@ async function pStart(l){
   SR=r.data;next();
 }
 async function pNext(){return pStart(lv)}
-flushStats=async function(){};
+async function flushStats(){};
 </script>
 </body>
 </html>
