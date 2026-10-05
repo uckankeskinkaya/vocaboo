@@ -310,7 +310,7 @@ function aSettings(){
   $('s3').onclick=aTheme;if($('adm'))$('adm').onclick=aAdmin;
   $('s6').onclick=()=>{try{localStorage.setItem('ka_cb',CB()?'0':'1')}catch(e){}applyCB();aSettings()};
   $('s5').onclick=()=>{try{localStorage.setItem('ka_mus',MO()?'0':'1')}catch(e){}MO()?musicStart():musicStop();aSettings()};
-  $('vr').oninput=e=>{const v=+e.target.value;try{localStorage.setItem('ka_vol',v)}catch(x){}$('vv').textContent=v+'%';if(mg)mg.gain.setTargetAtTime(v/100*.9,ac.currentTime,.05);if(v===0)musicStop();else if(MO()&&!mT)musicStart()};
+  $('vr').oninput=e=>{const v=+e.target.value;try{localStorage.setItem('ka_vol',v)}catch(x){}$('vv').textContent=v+'%';musicVol();if(v===0)musicStop();else if(MO()&&(!mA||mA.paused))musicStart()};
   $('s4').onclick=()=>{
     if(dip){dip.prompt();dip=null}
     else $('si').textContent='Tarayıcı menüsünden "Ana ekrana ekle" ya da "Uygulamayı yükle" seçeneğini kullan. iPad ve iPhone Safari: Paylaş simgesi, sonra Ana Ekrana Ekle.';

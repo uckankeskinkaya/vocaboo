@@ -34,25 +34,22 @@ function vsLive(L){
   const sd=(x,r,img)=>'<div class="mv'+(r?' r':'')+'">'+frameWrap(av(img,40),x&&(ovGet(x.n)||{}).fr)+'<div><b>'+esc(x?x.n:'Rakip yok')+'</b><span>'+(x?(cfg.m==='s'?x.w+' kelime':x.p+' puan')+(x.a?'':' (elendi)'):'')+'</span></div></div>';
   return '<div class="mvs">'+sd(me,0,prof&&prof.avatar)+'<span class="vs-x" style="font-size:16px">VS</span>'+sd(op,1,op&&op.im)+'</div>';
 }
-// Müzik: dosya yok, kod üretiyor. Am-F-C-G akoru, yumuşak pad ve seyrek arpej.
-const CH=[[220,261.63,329.63],[174.61,220,261.63],[261.63,329.63,392],[196,246.94,293.66]];
-function mn(f,t,d,v,ty,at){const o=ac.createOscillator(),g=ac.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+at);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(mg);o.start(t);o.stop(t+d+.1)}
-function mTick(){
-  while(mN<ac.currentTime+1.5){
-    const b=mB%16,c=CH[b>>2];
-    if(b%4===0)c.forEach(f=>mn(f,mN,3.8,.05,'sine',.9));
-    if(Math.random()<.7){const o=Math.random()<.65?2:4;mn(c[Math.random()*3|0]*o,mN,1.8,o===2?.08:.05,'triangle',.03)}
-    mN+=.8;mB++;
-  }
+// Müzik: audio/warm-piano.mp3 (kullanıcının eklediği parça). Sonda yumuşakça kısılır, başta yumuşakça açılır, döngüye girer.
+const MF=3;let mA=null,mOn=false;
+function mFade(){
+  if(!mA)return;
+  const t=mA.currentTime,d=mA.duration||0,f=d>2*MF?Math.min(1,t/MF,(d-t)/MF):1;
+  mA.volume=Math.max(0,Math.min(1,MV()/100*Math.max(0,f)));
 }
+function musicVol(){mFade()}
 function musicStart(){
   if(!MO()||MV()<=0){musicStop();return}
-  ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();
-  if(!mg){mg=ac.createGain();mg.gain.value=0;mg.connect(ac.destination)}
-  mg.gain.setTargetAtTime(MV()/100*.9,ac.currentTime,.3);
-  if(!mT){mN=ac.currentTime+.1;mB=0;mT=setInterval(mTick,500)}
+  if(!mA){mA=new Audio('audio/warm-piano.mp3');mA.loop=true;mA.preload='auto';mA.volume=0;mA.addEventListener('timeupdate',mFade)}
+  mOn=true;mFade();
+  const p=mA.play();if(p&&p.catch)p.catch(()=>{mOn=false});
+  mT=mOn?1:null;
 }
-function musicStop(){if(mg&&ac)mg.gain.setTargetAtTime(0,ac.currentTime,.2);if(mT){clearInterval(mT);mT=null}}
-const mGo=()=>{if(!mT&&MO()&&MV()>0)musicStart()};
+function musicStop(){if(mA)mA.pause();mOn=false;mT=null}
+const mGo=()=>{if((!mA||mA.paused)&&MO()&&MV()>0)musicStart()};
 addEventListener('pointerdown',mGo);addEventListener('keydown',mGo);
-document.addEventListener('visibilitychange',()=>{if(ac)document.hidden?ac.suspend():ac.resume()});
+document.addEventListener('visibilitychange',()=>{if(ac)document.hidden?ac.suspend():ac.resume();if(mA){if(document.hidden)mA.pause();else if(mOn&&MO()&&MV()>0)mA.play().catch(()=>{})}});
