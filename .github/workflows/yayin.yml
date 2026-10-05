@@ -1,0 +1,44 @@
+# main -> https://uckankeskinkaya.github.io/vocaboo/
+# önizleme branch'i -> https://uckankeskinkaya.github.io/vocaboo/onizleme/
+# İkisi birleştirilip gh-pages branch'ine yazılır; Pages o branch'ten yayın yapar.
+name: Site ve önizleme yayını
+on:
+  push:
+    branches: [main, claude/vocabooyu-inceleme-g8t2sy]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: pages-yayin
+  cancel-in-progress: false
+jobs:
+  yayin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: site
+      - uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: claude/vocabooyu-inceleme-g8t2sy
+          path: onizleme
+      - name: Birleştir ve gh-pages'e yaz
+        env:
+          TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          rm -rf site/.git site/.github
+          if [ -f onizleme/index.html ]; then
+            rm -rf onizleme/.git onizleme/.github
+            mkdir -p site/onizleme
+            cp -r onizleme/. site/onizleme/
+            sed -i 's#</body>#<div style="position:fixed;left:8px;bottom:8px;z-index:99999;background:\#e5484d;color:\#fff;font:700 11px sans-serif;padding:4px 8px;border-radius:6px;pointer-events:none">ÖNİZLEME</div></body>#' site/onizleme/index.html
+          fi
+          touch site/.nojekyll
+          cd site
+          git init -q -b gh-pages
+          git add -A
+          git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit -qm "Yayın ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${TOKEN}@github.com/${REPO}.git" gh-pages
