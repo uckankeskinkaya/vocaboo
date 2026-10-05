@@ -42,3 +42,8 @@ drop function if exists public.pw_must_change();
 drop function if exists public.pw_changed();
 drop table if exists public.pw_requests;
 drop table if exists public.pw_temp;
+
+-- ---------------------------------------------------------------
+-- 20261005_realtime_ozel_kanal.sql dosyasını geri almak için:
+drop policy if exists "ka kanallarini giris yapanlar okur" on realtime.messages;
+drop policy if exists "ka kanallarina giris yapanlar yazar" on realtime.messages;

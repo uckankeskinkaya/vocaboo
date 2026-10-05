@@ -20,7 +20,7 @@ async function sayfaAc({ kok = KOK, viewport = { width: 400, height: 900 }, renk
   const baglam = await tarayici.newContext({ viewport, colorScheme: renk, deviceScaleFactor: 2 });
   const sayfa = await baglam.newPage();
   const hatalar = [];
-  sayfa.on('pageerror', e => hatalar.push(e.message));
+  sayfa.on('pageerror', e => hatalar.push(process.env.HATA_YIGIN ? e.stack.split('\n').slice(0, 4).join(' <- ') : e.message));
   await sayfa.route('https://test.local/**', r => {
     let yol = decodeURIComponent(new URL(r.request().url()).pathname);
     if (yol === '/stub.js') return r.fulfill({ contentType: 'text/javascript', body: STUB });

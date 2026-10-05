@@ -6,6 +6,7 @@ RX.push([/^Bitirmeyen oyuncu: (\d+)$/,'Players still playing: $1']);
 const mFail=r=>{if(r&&r.error&&/Could not find|does not exist|schema cache/i.test(r.error.message)){MSV=false;return true}return false};
 const _oj=oJoin;oJoin=function(code,h){
   if(MSV&&h&&cfg&&cfg.m!=='k')sb.rpc('m_host',{_room:code,_c:cfg}).then(r=>{if(mFail(r))return;if(r.error||r.data!=='ok')toast('Oda sunucuda kurulamadı')});
+  if(h&&cfg&&cfg.m==='k')KHOST=Promise.resolve(sb.rpc('a_host',{_room:code,_c:cfg})).then(r=>{if(r.error||r.data!=='ok')toast(r.data==='limit'?'Çok fazla oda kurdun, biraz bekle.':'Arena sunucuda kurulamadı')}).catch(()=>{});
   _oj(code,h);
 };
 async function mJoin(){

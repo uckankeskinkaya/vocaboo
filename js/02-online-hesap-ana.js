@@ -51,13 +51,22 @@ function oSetup(){
 function oJoin(code,h){
   autoSent=false;isHost=h;started=false;room=code;mkThumb();
   ost={p:0,w:0,a:1,fin:false,end:0,n:0,m:'c'};
-  ch=sb.channel('ka-'+code,{config:{broadcast:{self:true},presence:{key:myId}}});
+  oKanal(code,true);
+}
+// Oda kanalı: önce özel (yalnızca giriş yapmış kullanıcılar, realtime.messages politikalarıyla).
+// Politika kurulu değilse ve açık kanallara izin varsa bir kez açık kanala geri düşer.
+function oKanal(code,ozel){
+  const k=ch=sb.channel('ka-'+code,{config:{private:ozel,broadcast:{self:true},presence:{key:myId}}});
   ch.on('presence',{event:'sync'},oSync);
   ch.on('broadcast',{event:'start'},e=>oBegin(e.payload));
-  ch.on('broadcast',{event:'end'},()=>oEnd());['kq','ka','kr','kf','ks'].forEach(ev=>ch.on('broadcast',{event:ev},e=>kOn(ev,e.payload)));
+  ch.on('broadcast',{event:'end'},()=>oEnd());['kq','kr','kf'].forEach(ev=>ch.on('broadcast',{event:ev},e=>kOn(ev,e.payload)));
   ch.subscribe(s=>{
+    if(k!==ch)return;
     if(s==='SUBSCRIBED'){ch.track(mine());oLobby()}
-    else if(s==='CHANNEL_ERROR'||s==='TIMED_OUT')oExit('Bağlantı kurulamadı. Supabase adresini ve anahtarını kontrol et.');
+    else if(s==='CHANNEL_ERROR'||s==='TIMED_OUT'){
+      if(ozel){try{sb.removeChannel(k)}catch(e){}oKanal(code,false);return}
+      oExit('Bağlantı kurulamadı. Supabase adresini ve anahtarını kontrol et.');
+    }
   });
 }
 
