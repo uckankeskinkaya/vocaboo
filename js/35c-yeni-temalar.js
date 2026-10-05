@@ -114,11 +114,27 @@ const loHtml=()=>{
   let h='<u class="wl"></u>';
   h+='<u class="wd"><u class="sky"></u>'+sv('xcy','0 0 300 200',city,'left:0;bottom:0;width:100%;height:auto')+many(26,()=>'<i class="rn" style="left:'+fx(rr(0,100))+'%;'+tm(.7,1.4)+'"></i>')+'<u class="fr"></u></u>';
   h+=many(9,i=>'<u class="lt" style="left:'+fx(10+i*10)+'%;top:calc(4% + '+fx(Math.sin(i/8*Math.PI)*14)+'px);--c:'+['#ff9ec7','#ffcf7a','#9fd0ff','#b9ff9f'][i%4]+';--d:-'+fx(i*.4)+'s"></u>');
-  h+=sv('xct','0 0 120 70','<path d="M20 70 Q16 40 34 30 L36 14 L46 26 L58 26 L68 14 L70 30 Q84 40 84 70Z" fill="#120b22"/><g class="xtl"><path d="M80 66 Q110 66 112 40" stroke="#120b22" stroke-width="7" fill="none" stroke-linecap="round"/></g><path d="M44 40 Q48 43 52 40 M60 40 Q64 43 68 40" stroke="#ffcf7a" stroke-width="1.6" fill="none"/>');
-  h+=sv('xpl','0 0 120 180','<g class="xlf"><path d="M60 110 Q20 80 10 40 Q40 60 60 110Z" fill="#3fa36a"/><path d="M60 110 Q100 70 112 30 Q80 60 60 110Z" fill="#4fbf7a"/><path d="M60 110 Q50 50 66 6 Q74 60 60 110Z" fill="#5fd38a"/><path d="M60 110 Q30 100 4 90 Q36 84 60 110Z" fill="#3a9460"/></g><path d="M34 110 H86 L80 176 H40Z" fill="#d07a5a"/><path d="M30 106 H90 V118 H30Z" fill="#e08a68"/>');
-  h+='<u class="lc"></u>'+sv('xlm','0 0 80 160','<path d="M10 40 L40 4 L70 40Z" fill="#ff9ec7"/><path d="M38 40 L38 150 M20 154 H60" stroke="#3a2a4a" stroke-width="5" stroke-linecap="round"/><ellipse cx="40" cy="40" rx="30" ry="5" fill="#ffe9b0"/>');
-  h+=sv('xmg','0 0 60 60','<path d="M10 20 H44 V50 Q44 58 36 58 H18 Q10 58 10 50Z" fill="#f2d6e8"/><path d="M44 28 Q56 30 54 40 Q52 48 44 46" stroke="#f2d6e8" stroke-width="4" fill="none"/><ellipse cx="27" cy="21" rx="16" ry="3" fill="#6a3a2a"/>');
-  h+=many(4,()=>'<i class="sm" style="left:'+fx(rr(80,84))+'%;--w:'+fx(rr(-14,14))+'px;'+tm(3,5)+'"></i>');
+  // lo-fi masa: üstünde lamba, kitaplar, açık defter, dizüstü, kupa ve saksı
+  h+='<u class="dk"></u><u class="lc"></u>'+sv('xds" preserveAspectRatio="xMidYMax meet','0 0 400 124',`
+   <rect x="0" y="110" width="400" height="14" fill="#5a3a62"/><rect x="0" y="110" width="400" height="3" fill="#7a5288"/>
+   <ellipse cx="44" cy="110" rx="18" ry="4" fill="#3a2a4a"/><path d="M44 108 L40 64 L62 40" stroke="#3a2a4a" stroke-width="4" fill="none" stroke-linecap="round"/>
+   <path d="M50 26 L80 40 L66 56 Z" fill="#ff9ec7"/><ellipse class="xlb" cx="72" cy="50" rx="6" ry="4" fill="#fff2c0"/>
+   <rect x="84" y="96" width="74" height="14" rx="2" fill="#ff9ec7"/><rect x="90" y="82" width="62" height="14" rx="2" fill="#9fd0ff"/><rect x="86" y="68" width="68" height="14" rx="2" fill="#ffcf7a"/><rect x="94" y="56" width="54" height="12" rx="2" fill="#b9ff9f"/>
+   <path d="M92 96 V110 M150 96 V110 M98 82 V96 M144 82 V96 M94 68 V82 M146 68 V82" stroke="rgba(0,0,0,.18)" stroke-width="2"/>
+   <g class="xtl"><path d="M144 52 Q160 50 158 34" stroke="#1a1028" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+   <path d="M98 56 Q98 34 122 32 Q146 34 146 56Z" fill="#1a1028"/><circle cx="106" cy="42" r="11" fill="#1a1028"/><path d="M97 36 L98 24 L106 32Z M108 31 L114 22 L116 34Z" fill="#1a1028"/>
+   <path d="M100 42 Q103 44 106 42 M108 42 Q111 44 114 42" stroke="#ffcf7a" stroke-width="1.3" fill="none"/>
+   <text class="xz" x="118" y="24" font-size="9" fill="#e9d6ff" font-family="sans-serif">z</text><text class="xz z2" x="126" y="16" font-size="7" fill="#e9d6ff" font-family="sans-serif">z</text>
+   <path d="M166 108 Q186 98 204 104 L204 110 Q186 104 166 112Z" fill="#f6efe2"/><path d="M242 108 Q222 98 204 104 L204 110 Q222 104 242 112Z" fill="#ece2d0"/>
+   <path d="M174 104 H196 M176 100 H194 M212 104 H234 M214 100 H232" stroke="#b8a8c8" stroke-width="1"/><path d="M226 92 L238 104" stroke="#ff9ec7" stroke-width="2.5" stroke-linecap="round"/>
+   <path d="M254 108 L264 60 L330 60 L320 108Z" fill="#2a1d3a"/><path d="M258 104 L267 64 L326 64 L317 104Z" fill="url(#lsg)" class="xls"/>
+   <rect x="246" y="106" width="88" height="6" rx="2" fill="#3a2a4a"/>
+   <defs><linearGradient id="lsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb3d6"/><stop offset="1" stop-color="#8a7aff"/></linearGradient></defs>
+   <path d="M276 76 H306 M276 84 H298 M276 92 H310" stroke="#fff" stroke-width="2" opacity=".55"/>
+   <path d="M342 84 H364 V104 Q364 110 358 110 H348 Q342 110 342 104Z" fill="#f2d6e8"/><path d="M364 88 Q372 90 371 96 Q370 102 364 101" stroke="#f2d6e8" stroke-width="3" fill="none"/>
+   <g class="xlf2"><path d="M386 92 Q372 70 376 50 Q388 70 386 92Z M388 92 Q400 72 398 56 Q392 76 388 92Z M386 92 Q380 78 368 72 Q378 86 386 92Z" fill="#4fbf7a"/></g>
+   <path d="M376 92 H398 L395 110 H379Z" fill="#d07a5a"/>`);
+  h+=many(4,()=>'<i class="sm" style="left:'+fx(rr(87,89))+'%;--w:'+fx(rr(-14,14))+'px;'+tm(3,5)+'"></i>');
   h+=many(7,()=>'<i class="nt" style="left:'+fx(rr(10,90))+'%;--w:'+fx(rr(-40,40))+'px;'+tm(5,9)+'">'+['♪','♫','♩'][Math.floor(rr(0,3))]+'</i>');
   h+='<u class="vg"></u>';
   return h};
@@ -132,55 +148,65 @@ const loCss=BASE+`
 §O .rn{top:0;width:1px;height:30px;background:linear-gradient(transparent,rgba(230,220,255,.6));animation:os3-rain var(--t) linear var(--d) infinite;transform:translateY(-20%)}
 §O .fr{inset:0;border:8px solid #4a2f5e;border-radius:6px;background:linear-gradient(90deg,transparent calc(50% - 4px),#4a2f5e calc(50% - 4px) calc(50% + 4px),transparent calc(50% + 4px)),linear-gradient(transparent calc(50% - 4px),#4a2f5e calc(50% - 4px) calc(50% + 4px),transparent calc(50% + 4px))}
 §O .lt{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 10px 3px var(--c);animation:os3-glow 2s ease-in-out var(--d) infinite}
-§O .xct{left:9%;top:calc(5% + 48% - 52px);width:90px;height:auto}
-§O .xtl{transform-origin:80px 66px;animation:os3-tail 2.4s ease-in-out infinite}
-§O .xpl{right:-2%;bottom:6%;width:min(32vw,140px);height:auto}
-§O .xlf{transform-origin:60px 110px;animation:os3-leaf 6s ease-in-out infinite}
-§O .xlm{left:2%;bottom:14%;width:min(18vw,76px);height:auto}
-§O .lc{left:-6%;bottom:0;width:min(60vw,260px);height:44%;background:radial-gradient(50% 60% at 50% 20%,rgba(255,220,150,.35),transparent 75%);animation:os3-glow 4s ease-in-out infinite}
-§O .xmg{left:76%;bottom:4%;width:46px;height:auto}
-§O .sm{bottom:calc(4% + 40px);width:12px;height:12px;border-radius:50%;background:rgba(255,240,250,.35);animation:os3-rise var(--t) ease-out var(--d) infinite}
+§O .xz{animation:os3-glow 2s ease-in-out infinite}§O .z2{animation-delay:-1s}
+§O .xtl{transform-origin:144px 52px;animation:os3-tail 2.4s ease-in-out infinite}
+§O .dk{left:0;right:0;bottom:0;height:40%;background:repeating-linear-gradient(90deg,transparent 0 calc(50% - 1px),rgba(0,0,0,.25) calc(50% - 1px) calc(50% + 1px),transparent calc(50% + 1px)),linear-gradient(#4a2f52,#2e1d36)}
+§O .xds{left:0;bottom:calc(40% - 1px);width:100%;height:auto}
+§O .lc{left:-10%;bottom:30%;width:min(70vw,360px);aspect-ratio:1;background:radial-gradient(closest-side,rgba(255,220,150,.38),transparent);animation:os3-glow 4s ease-in-out infinite}
+§O .xlb{animation:os3-glow 4s ease-in-out infinite}
+§O .xls{animation:os3-glow 3s ease-in-out infinite}
+§O .xlf2{transform-origin:387px 92px;animation:os3-leaf 6s ease-in-out infinite}
+§O .sm{bottom:calc(40% + 7vw);width:12px;height:12px;border-radius:50%;background:rgba(255,240,250,.35);animation:os3-rise var(--t) ease-out var(--d) infinite}
 §O .nt{top:70%;font:700 20px sans-serif;color:#ffc6e0;text-shadow:0 0 8px #ff9ec7;animation:os3-note var(--t) ease-out var(--d) infinite;opacity:0}
 §O .vg{background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(10,0,20,.6))}`;
 
 /* ───── PATİ BAHÇESİ ───── */
-const dog=()=>sv('xdg','0 0 160 170',`
-  <g class="xdt"><path d="M44 128 Q12 122 16 90 Q22 84 26 92 Q30 112 50 118Z" fill="#d9945a"/></g>
-  <ellipse cx="68" cy="126" rx="42" ry="36" fill="#e8a868"/>
-  <ellipse cx="52" cy="152" rx="24" ry="14" fill="#d9945a"/><ellipse cx="40" cy="162" rx="12" ry="6" fill="#fff3e0"/>
-  <ellipse cx="96" cy="120" rx="18" ry="28" fill="#fff3e0"/>
-  <rect x="82" y="128" width="13" height="36" rx="6" fill="#e8a868"/><rect x="99" y="128" width="13" height="36" rx="6" fill="#e8a868"/>
-  <ellipse cx="88" cy="164" rx="9" ry="5" fill="#fff3e0"/><ellipse cx="106" cy="164" rx="9" ry="5" fill="#fff3e0"/>
-  <path d="M80 92 Q104 102 128 90 L128 98 Q104 110 80 100Z" fill="#e5484d"/><circle cx="106" cy="104" r="5" fill="#ffd34a" stroke="#c99a1a" stroke-width="1.5"/>
-  <circle cx="104" cy="62" r="34" fill="#e8a868"/>
-  <ellipse cx="128" cy="76" rx="22" ry="16" fill="#fff3e0"/>
-  <ellipse cx="143" cy="70" rx="7" ry="5" fill="#2a1a12"/><ellipse cx="141" cy="68" rx="2.2" ry="1.4" fill="#fff" opacity=".7"/>
-  <path d="M128 82 Q134 90 142 82" stroke="#2a1a12" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-  <g class="xtg"><path d="M131 86 Q131 102 138 102 Q145 102 142 86Z" fill="#ff7a8a"/></g>
-  <g class="xek"><ellipse cx="114" cy="56" rx="4.5" ry="5.5" fill="#2a1a12"/><circle cx="115.5" cy="54" r="1.6" fill="#fff"/></g>
-  <ellipse cx="98" cy="70" rx="8" ry="5" fill="#ff9a9a" opacity=".45"/>
-  <g class="xer"><path d="M86 36 Q60 30 62 74 Q74 82 88 60Z" fill="#a8603a"/></g>`);
-const cat=()=>sv('xkt','0 0 120 110',`
-  <g class="xkq"><path d="M72 70 Q96 76 92 104 Q86 108 84 100 Q86 82 66 78Z" fill="#e8964a"/></g>
-  <ellipse cx="60" cy="68" rx="24" ry="18" fill="#f2a65a"/>
-  <path d="M48 56 L52 80 M58 52 L60 82 M68 54 L68 80" stroke="#d9823a" stroke-width="3"/>
-  <circle cx="34" cy="48" r="18" fill="#f2a65a"/>
-  <path d="M20 38 L18 18 L32 32Z M40 32 L50 16 L50 38Z" fill="#f2a65a"/><path d="M22 34 L21 24 L28 32Z M43 32 L48 23 L48 35Z" fill="#ffb3b3"/>
-  <g class="xek"><path d="M26 48 Q29 45 32 48" stroke="#2a1a12" stroke-width="2.2" fill="none"/><path d="M38 48 Q41 45 44 48" stroke="#2a1a12" stroke-width="2.2" fill="none"/></g>
-  <path d="M33 54 L35 54 L34 56Z" fill="#ff7a8a"/>
-  <path d="M30 56 L14 54 M30 58 L14 60 M38 56 L54 54 M38 58 L54 60" stroke="#fff" stroke-width="1" opacity=".8"/>
-  <ellipse cx="46" cy="84" rx="8" ry="4" fill="#f2a65a"/><ellipse cx="66" cy="84" rx="8" ry="4" fill="#f2a65a"/>`);
+// Köpek (önden, oturan), kedi (çitin üstünde) ve kulübe tek bir bahçe çiziminin içinde: ekran boyutu değişse de yerleri kaymaz
+const DOG=`<g class="xdt"><path d="M88 112 Q112 104 110 78 Q104 74 100 82 Q100 98 84 104Z" fill="#c8813f"/></g>
+  <ellipse cx="34" cy="122" rx="15" ry="11" fill="#d48d4a"/><ellipse cx="86" cy="122" rx="15" ry="11" fill="#d48d4a"/>
+  <ellipse cx="60" cy="104" rx="30" ry="31" fill="#e3a15f"/><ellipse cx="60" cy="112" rx="17" ry="22" fill="#fff4e4"/>
+  <rect x="45" y="104" width="12" height="30" rx="6" fill="#e3a15f"/><rect x="63" y="104" width="12" height="30" rx="6" fill="#e3a15f"/>
+  <ellipse cx="51" cy="135" rx="9" ry="4.5" fill="#fff4e4"/><ellipse cx="69" cy="135" rx="9" ry="4.5" fill="#fff4e4"/>
+  <path d="M36 76 Q60 88 84 76 L84 84 Q60 96 36 84Z" fill="#3d7bd9"/><circle cx="60" cy="90" r="5" fill="#ffd34a" stroke="#c99a1a" stroke-width="1.4"/>
+  <ellipse cx="60" cy="50" rx="31" ry="28" fill="#e3a15f"/>
+  <path d="M55 22 Q60 20 65 22 L66 50 Q60 54 54 50Z" fill="#fff4e4"/><ellipse cx="60" cy="62" rx="17" ry="13" fill="#fff4e4"/>
+  <g class="xel"><path d="M33 30 Q12 32 16 70 Q27 75 36 54Z" fill="#8a4f2a"/></g>
+  <g class="xer2"><path d="M87 30 Q108 32 104 70 Q93 75 84 54Z" fill="#8a4f2a"/></g>
+  <g class="xek"><ellipse cx="47" cy="46" rx="4.6" ry="5.6" fill="#2a1a12"/><ellipse cx="73" cy="46" rx="4.6" ry="5.6" fill="#2a1a12"/><circle cx="48.6" cy="44" r="1.7" fill="#fff"/><circle cx="74.6" cy="44" r="1.7" fill="#fff"/></g>
+  <ellipse cx="60" cy="57" rx="6.5" ry="4.6" fill="#2a1a12"/><ellipse cx="58.5" cy="55.5" rx="2" ry="1.2" fill="#fff" opacity=".7"/>
+  <path d="M51 63 Q55.5 68 60 63 Q64.5 68 69 63" stroke="#2a1a12" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <g class="xtg"><path d="M55.5 66 Q55 79 60 79 Q65 79 64.5 66Z" fill="#ff7a8a"/><path d="M60 67 V75" stroke="#e05a6a" stroke-width="1.2"/></g>
+  <ellipse cx="40" cy="58" rx="6" ry="3.6" fill="#ff9a9a" opacity=".45"/><ellipse cx="80" cy="58" rx="6" ry="3.6" fill="#ff9a9a" opacity=".45"/>`;
+const CAT=`<g class="xkq"><path d="M70 82 Q78 96 72 116 Q70 124 76 128" stroke="#e8964a" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+  <ellipse cx="60" cy="68" rx="22" ry="18" fill="#f2a65a"/>
+  <path d="M50 56 L53 80 M60 52 L61 82 M69 55 L69 80" stroke="#d9823a" stroke-width="3"/>
+  <circle cx="40" cy="44" r="17" fill="#f2a65a"/>
+  <path d="M27 34 L25 16 L38 29Z M45 29 L54 14 L55 35Z" fill="#f2a65a"/><path d="M29 31 L28 22 L34 29Z M47 29 L52 21 L52 32Z" fill="#ffb3b3"/>
+  <g class="xek"><path d="M32 44 Q35 41 38 44" stroke="#2a1a12" stroke-width="2.2" fill="none"/><path d="M43 44 Q46 41 49 44" stroke="#2a1a12" stroke-width="2.2" fill="none"/></g>
+  <path d="M39.5 50 L41.5 50 L40.5 52Z" fill="#ff7a8a"/>
+  <path d="M36 52 L20 50 M36 54 L20 57 M45 52 L60 50 M45 54 L60 57" stroke="#fff" stroke-width="1" opacity=".85"/>
+  <ellipse cx="48" cy="86" rx="8" ry="4" fill="#f2a65a"/><ellipse cx="66" cy="86" rx="8" ry="4" fill="#f2a65a"/>`;
+const HOUSE=`<path d="M14 50 L60 8 L106 50Z" fill="#e0573a"/><path d="M8 54 L60 4 L112 54 L106 58 L60 16 L14 58Z" fill="#b8402a"/><rect x="20" y="52" width="80" height="58" fill="#c98a4a"/><path d="M20 66 H100 M20 80 H100 M20 94 H100" stroke="#a87038" stroke-width="2"/><path d="M42 110 V82 Q60 62 78 82 V110Z" fill="#3a2414"/><g transform="translate(48 58)"><rect x="4" y="2" width="16" height="6" rx="3" fill="#fff"/><circle cx="4" cy="2" r="3" fill="#fff"/><circle cx="4" cy="8" r="3" fill="#fff"/><circle cx="20" cy="2" r="3" fill="#fff"/><circle cx="20" cy="8" r="3" fill="#fff"/></g><ellipse cx="60" cy="112" rx="56" ry="5" fill="#3a7a2a" opacity=".25"/>`;
+const yard=()=>{
+  let fl='';for(let i=0;i<22;i++){const x=rr(4,396),y=rr(372,436),c=['#ff8fb3','#ffd34a','#ffffff','#b48cff'][Math.floor(rr(0,4))];fl+='<circle cx="'+fx(x)+'" cy="'+fx(y)+'" r="4.5" fill="'+c+'"/><circle cx="'+fx(x)+'" cy="'+fx(y)+'" r="1.8" fill="#ffd34a"/>'}
+  const crown=[[300,70,50],[350,50,52],[390,90,46],[320,120,42],[270,110,36],[370,140,40]].map(c=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+c[2]+'" fill="#5cb84a"/><circle cx="'+(c[0]-9)+'" cy="'+(c[1]-9)+'" r="'+fx(c[2]*.6)+'" fill="#6fca58"/>').join('');
+  return sv('xyd" preserveAspectRatio="xMidYMax meet','0 0 400 440',`
+   <path d="M0 270 Q100 220 200 262 Q300 230 400 258 V440 H0Z" fill="#a6d98a"/>
+   <path d="M352 380 C350 300 362 220 344 150" stroke="#7a5230" stroke-width="20" fill="none" stroke-linecap="round"/>
+   <path d="M350 240 C320 220 300 200 286 170" stroke="#7a5230" stroke-width="10" fill="none" stroke-linecap="round"/>
+   ${crown}<circle cx="316" cy="84" r="5" fill="#ff6a6a"/><circle cx="368" cy="62" r="5" fill="#ff6a6a"/><circle cx="384" cy="118" r="5" fill="#ff6a6a"/>
+   <defs><pattern id="fp" width="24" height="56" patternUnits="userSpaceOnUse" x="0" y="300"><path d="M4 56 V12 L10 3 L16 12 V56Z" fill="#fffaf0" stroke="#d8cbb0" stroke-width="1.2"/></pattern></defs>
+   <rect x="0" y="318" width="400" height="7" fill="#f2e8d4"/><rect x="0" y="340" width="400" height="7" fill="#f2e8d4"/><rect x="0" y="300" width="400" height="56" fill="url(#fp)"/>
+   <g transform="translate(96 216)">${CAT}</g>
+   <path d="M0 352 Q200 340 400 352 V440 H0Z" fill="#8fd16a"/><path d="M0 362 Q200 352 400 362 V440 H0Z" fill="#7cc457"/>
+   ${fl}
+   <g transform="translate(262 280) scale(1.05)">${HOUSE}</g>
+   <g transform="translate(34 280) scale(1.12)">${DOG}</g>
+   <g transform="translate(200 414)"><g class="xyr"><g class="xys"><circle r="13" fill="#ff8fb3"/><path d="M-10 -5 Q0 3 10 -5 M-12 3 Q0 12 12 3 M-5 -12 Q3 0 -3 12 M6 -12 Q-2 0 4 12" stroke="#e05a8a" stroke-width="1.6" fill="none"/></g></g></g>`)};
 const bfly=(c,st)=>'<u class="bf" style="'+st+'">'+sv('xbf','0 0 30 24','<g class="xbw"><path d="M15 12 Q2 -2 2 8 Q2 16 15 12 Q4 22 8 24 Q14 24 15 12Z M15 12 Q28 -2 28 8 Q28 16 15 12 Q26 22 22 24 Q16 24 15 12Z" fill="'+c+'"/></g><rect x="14" y="6" width="2" height="14" rx="1" fill="#3a2a1a"/>','width:38px;height:auto')+'</u>';
 const paHtml=()=>{
   let h='<u class="su"></u>'+many(4,i=>'<u class="cl" style="top:'+fx(3+i*9)+'%;--t:'+fx(rr(60,110))+'s;--d:-'+fx(rr(0,100))+'s;--s:'+fx(rr(.6,1.1))+'"></u>');
-  h+='<u class="hl a"></u><u class="hl b"></u>';
-  h+=sv('xtr','0 0 200 400','<path d="M150 400 C150 300 160 220 140 160 C130 130 110 110 70 96" stroke="#7a5230" stroke-width="22" fill="none" stroke-linecap="round"/><path d="M146 230 C170 200 190 196 200 190" stroke="#7a5230" stroke-width="12" fill="none" stroke-linecap="round"/>'+[[80,60,46],[130,40,52],[180,70,44],[110,100,40],[60,110,34],[175,140,36]].map(c=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+c[2]+'" fill="#5cb84a"/><circle cx="'+(c[0]-8)+'" cy="'+(c[1]-8)+'" r="'+(c[2]*.6)+'" fill="#6fca58"/>').join('')+'<circle cx="96" cy="72" r="5" fill="#ff6a6a"/><circle cx="150" cy="50" r="5" fill="#ff6a6a"/><circle cx="170" cy="96" r="5" fill="#ff6a6a"/>');
-  h+=cat();
-  h+=sv('xfn','0 0 400 60','<defs><pattern id="fp" width="24" height="60" patternUnits="userSpaceOnUse"><path d="M4 60 V12 L10 4 L16 12 V60Z" fill="#fffaf0" stroke="#d8cbb0" stroke-width="1.2"/></pattern></defs><rect y="20" width="400" height="7" fill="#f2e8d4"/><rect y="42" width="400" height="7" fill="#f2e8d4"/><rect width="400" height="60" fill="url(#fp)"/>','');
-  h+=sv('xdh','0 0 120 110','<path d="M14 50 L60 8 L106 50Z" fill="#e0573a"/><path d="M8 54 L60 4 L112 54 L106 58 L60 16 L14 58Z" fill="#b8402a"/><rect x="20" y="52" width="80" height="58" fill="#c98a4a"/><path d="M20 66 H100 M20 80 H100 M20 94 H100" stroke="#a87038" stroke-width="2"/><path d="M42 110 V82 Q60 62 78 82 V110Z" fill="#3a2414"/><g transform="translate(48 58)"><rect x="4" y="2" width="16" height="6" rx="3" fill="#fff"/><circle cx="4" cy="2" r="3" fill="#fff"/><circle cx="4" cy="8" r="3" fill="#fff"/><circle cx="20" cy="2" r="3" fill="#fff"/><circle cx="20" cy="8" r="3" fill="#fff"/></g>');
-  h+='<u class="gs"></u>'+many(12,()=>'<u class="fw" style="left:'+fx(rr(0,98))+'%;bottom:'+fx(rr(1,12))+'%;--c:'+['#ff8fb3','#ffd34a','#ffffff','#b48cff'][Math.floor(rr(0,4))]+'"></u>');
-  h+=dog();
-  h+='<u class="yb">'+sv('xyb','0 0 40 40','<circle cx="20" cy="20" r="18" fill="#ff8fb3"/><path d="M6 12 Q20 22 34 12 M4 22 Q20 34 36 22 M12 4 Q22 20 14 36 M28 4 Q18 20 26 36" stroke="#e05a8a" stroke-width="2" fill="none"/>','width:34px;height:auto')+'</u>';
+  h+='<u class="hz"></u>'+yard();
   h+=bfly('#ffb84a','left:20%;top:34%;--t:14s;--d:0s')+bfly('#8fd0ff','left:60%;top:20%;--t:18s;--d:-6s')+bfly('#ff8fd0','left:40%;top:48%;--t:16s;--d:-11s');
   h+='<u class="vg"></u>';
   return h};
@@ -188,29 +214,22 @@ const paCss=BASE+`
 §O{background:linear-gradient(#8fd0ff 0%,#c8e9ff 40%,#e9f7e0 70%,#b9e39a 100%)}
 §O .su{left:6%;top:3%;width:min(24vw,100px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff6c8 0 40%,rgba(255,226,120,.55) 55%,transparent 72%)}
 §O .cl{left:0;width:calc(150px * var(--s));height:calc(40px * var(--s));border-radius:40px;background:#fff;opacity:.92;box-shadow:calc(34px * var(--s)) calc(-16px * var(--s)) 0 calc(4px * var(--s)) #fff,calc(76px * var(--s)) calc(-4px * var(--s)) 0 0 #fff;animation:os3-pan var(--t) linear var(--d) infinite}
-§O .hl{left:-10%;right:-10%;border-radius:50% 50% 0 0}
-§O .hl.a{bottom:14%;height:30%;background:#a6d98a}
-§O .hl.b{bottom:-6%;height:30%;background:#8fd16a}
-§O .xtr{right:-14%;top:-4%;width:min(56vw,250px);height:auto}
-§O .xkt{right:4%;top:calc(-4% + min(56vw,250px) * .44);width:min(22vw,96px);height:auto}
-§O .xkq{transform-origin:70px 74px;animation:os3-tail 2.6s ease-in-out infinite}
+§O .hz{left:0;right:0;bottom:0;height:30%;background:#8fd16a}
+§O .xyd{left:0;bottom:0;width:100%;height:auto;max-height:100%}
+§O .xkq{transform-origin:70px 82px;animation:os3-tail 2.6s ease-in-out infinite}
 §O .xek{transform-box:fill-box;transform-origin:center;animation:os4-blink 5s infinite}
-§O .xfn{left:0;bottom:12%;width:100%;height:9%;}
-§O .xdh{right:2%;bottom:8%;width:min(30vw,130px);height:auto;filter:drop-shadow(0 4px 4px rgba(60,90,40,.3))}
-§O .gs{left:0;right:0;bottom:0;height:13%;background:linear-gradient(#7cc457,#5aa83c);box-shadow:0 -6px 0 #8fd16a}
-§O .fw{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,#ffd34a 0 30%,var(--c) 32%);box-shadow:0 0 0 2px var(--c)}
-§O .xdg{left:1%;bottom:2%;width:min(42vw,190px);height:auto;filter:drop-shadow(0 4px 4px rgba(60,90,40,.3))}
-§O .xdt{transform-origin:46px 124px;animation:os4-wag .35s ease-in-out infinite}
-§O .xer{transform-origin:86px 40px;animation:os3-leaf 3s ease-in-out infinite}
-§O .xtg{transform-origin:136px 86px;animation:os4-pant .5s ease-in-out infinite}
-§O .yb{left:46%;bottom:5%;animation:os4-roll 7s ease-in-out infinite}
-§O .xyb{position:relative;animation:os4-spin2 7s ease-in-out infinite}
+§O .xdt{transform-origin:88px 108px;animation:os4-wag .35s ease-in-out infinite}
+§O .xel{transform-origin:33px 32px;animation:os3-leaf 3s ease-in-out infinite}
+§O .xer2{transform-origin:87px 32px;animation:os3-leaf 3s ease-in-out -1.5s infinite}
+§O .xtg{transform-origin:60px 66px;animation:os4-pant .5s ease-in-out infinite}
+§O .xyr{animation:os4-roll2 7s ease-in-out infinite}
+§O .xys{animation:os4-spin2 7s ease-in-out infinite}
 §O .bf{animation:os4-fly var(--t) ease-in-out var(--d) infinite}
 §O .xbf{position:relative}
-§O .xbw{transform-origin:15px 12px;animation:os4-wing .3s ease-in-out infinite}
+§O .xbw{transform-origin:15px 12px;animation:os4-wing .45s ease-in-out infinite}
 §O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 65%,rgba(120,180,90,.25))}
 :root[data-theme="pati"][data-oyun] .k:not(.g):not(.o):not(.r):not(.w){background:rgba(255,255,255,.5)}`;
-document.head.insertAdjacentHTML('beforeend','<style>@keyframes os4-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}@keyframes os4-wag{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}@keyframes os4-pant{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.18)}}@keyframes os4-roll{0%,100%{transform:translateX(-12vw)}50%{transform:translateX(18vw)}}@keyframes os4-spin2{0%,100%{transform:rotate(-200deg)}50%{transform:rotate(300deg)}}@keyframes os4-fly{0%,100%{transform:translate(0,0)}25%{transform:translate(30vw,-6vh)}50%{transform:translate(10vw,8vh)}75%{transform:translate(-14vw,-4vh)}}@keyframes os4-wing{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.4)}}</style>');
+document.head.insertAdjacentHTML('beforeend','<style>@keyframes os4-blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}@keyframes os4-wag{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(16deg)}}@keyframes os4-pant{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.18)}}@keyframes os4-roll2{0%,100%{transform:translateX(-40px)}50%{transform:translateX(30px)}}@keyframes os4-roll{0%,100%{transform:translateX(-12vw)}50%{transform:translateX(18vw)}}@keyframes os4-spin2{0%,100%{transform:rotate(-200deg)}50%{transform:rotate(300deg)}}@keyframes os4-fly{0%,100%{transform:translate(0,0)}25%{transform:translate(30vw,-6vh)}50%{transform:translate(10vw,8vh)}75%{transform:translate(-14vw,-4vh)}}@keyframes os4-wing{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.6)}}</style>');
 
 OSEKLE('pati',{html:paHtml,css:paCss});
 OSEKLE('saat',{html:saHtml,css:saCss});
