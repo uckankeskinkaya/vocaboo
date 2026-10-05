@@ -37,6 +37,7 @@ const RX=[[/^Merhaba, /,'Hello, '],[/^(\d+) puan$/,'$1 pts'],[/^\+(\d+) puan$/,'
 [/^Rozetler \((.+)\)$/,'Badges ($1)'],[/^Bu oyundaki kelimeler \((\d+)\)$/,'Words in this game ($1)'],[/^Kelime defterim \((\d+)\)$/,'My word book ($1)'],
 [/^Arkadaşların \((\d+)\)$/,'Your friends ($1)'],[/^Sınıftakiler \((\d+)\)$/,'Classmates ($1)'],[/^Başlat \((\d+) oyuncu\)$/,'Start ($1 players)'],[/^(\d+) kelime$/,'$1 words'],[/^rekor (\d+)$/,'best $1'],
 [/^Gerçekten çıkmak istiyor musun\? /,'Do you really want to quit? '],[/^Doğru (\d+)/,'Correct $1'],[/^Kelime (\d+)\/(\d+)$/,'Word $1/$2'],[/^Ses: (Açık|Kapalı)$/,m=>'Sound: '+(/Açık/.test(m)?'On':'Off')]];
+RX.push([/^Son görülme: (az önce|1 aydan uzun süre önce|\d+ (?:dk|sa|gün) önce)$/,(m,v)=>'Last seen: '+v.replace('az önce','just now').replace('1 aydan uzun süre önce','over a month ago').replace(/(\d+) dk önce/,'$1 min ago').replace(/(\d+) sa önce/,'$1 h ago').replace(/(\d+) gün önce/,'$1 d ago')]);
 ['Titreşim:Vibration','Müzik:Music','Renk körü modu:Colorblind mode'].forEach(p=>{const [a,b]=p.split(':');RX.push([new RegExp('^'+a+': (Açık|Kapalı)$'),(m,v)=>b+': '+(v==='Açık'?'On':'Off')])});
 function l1(x){if(EN[x])return EN[x];for(const [r,t] of RX){if(r.test(x))return x.replace(r,t)}
   if(/, | · /.test(x)){const p=x.split(/(, | · )/).map((s,i)=>i%2?s:(EN[s]||l1b(s)));return p.join('')}return x}
