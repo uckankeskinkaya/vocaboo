@@ -80,10 +80,10 @@ async function aShop(tab){
   if(!d){panel('<p>Pazar yüklenemedi.</p>');return}
   const sg=(id,t,on)=>'<button id="'+id+'"'+(on?' class="on"':'')+'>'+t+'</button>';
   const items=d.items.filter(it=>tab==='f'?(it.id.startsWith('frame:')&&FRM[it.id.slice(6)]):(it.id.startsWith('theme:')&&TM[it.id.slice(6)]));
-  const pr=it=>it.owned?'Sahipsin':'🪙 '+it.price.toLocaleString();
+  const pr=it=>it.owned?'Sahipsin':'🪙 '+it.price.toLocaleString()+(d.bal>=it.price?' ✓':'');
   const body=tab==='f'?'<div class="fg">'+items.map(it=>{const k=it.id.slice(6);return '<button class="ft'+(it.owned?' cur':'')+'" data-i="'+it.id+'" data-p="'+it.price+'">'+frameHtml(av(prof.avatar,56),k)+'<b>'+FRM[k][0]+'</b><small>'+pr(it)+'</small></button>'}).join('')+'</div>'
     :'<p class="cap">Önizlemek için bir temaya dokun</p><div class="tg">'+items.map(it=>thTile(it.id.slice(6),pr(it),it.owned?' cur':'','data-i="'+it.id+'" data-p="'+it.price+'"')).join('')+'</div><p class="cap">Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.</p>';
-  panel('<div class="bal">🪙 '+d.bal.toLocaleString()+'<small>Bakiye</small></div><div class="seg sm">'+sg('sf','Çerçeveler',tab==='f')+sg('st','Temalar',tab==='t')+'</div>'+body);
+  panel('<div class="bal">🪙 '+d.bal.toLocaleString()+'<small>Bakiye</small></div><div class="seg sm">'+sg('sf','Çerçeveler',tab==='f')+sg('st','Temalar',tab==='t')+'</div>'+body+'<p class="cap">✓ Alabilirsin</p>');
   $('sf').onclick=()=>aShop('f');$('st').onclick=()=>aShop('t');
   document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.i,nm=id.startsWith('frame:')?FRM[id.slice(6)][0]:TM[id.slice(6)][0];

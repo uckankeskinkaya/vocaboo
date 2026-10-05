@@ -76,6 +76,10 @@ const out=await s.sayfa.evaluate(async()=>{
   toast('Bonus kazandın: +1.000 🪙');sweep();sonuc['bonus_bildirim']=[document.querySelector('.toast:last-of-type').textContent];
   // Online menü ve oda kurma (kartlar, düğmeler)
   sb.rpc=_rpc0;
+  // Oda daveti (lobide) ve Pazar alabilirsin işareti
+  room='ABCD';isHost=true;started=false;cfg={max:6,m:'c',n:10,dur:0,l:-1,mod:0};ch={presenceState:()=>({}),track(){},send(){}};
+  await ekran('lobi_davet',async()=>{oLobby([]);await wait(80)});
+  toast('Davet bağlantısı kopyalandı');toast('Odaya katılıyorsun: AB12');toast('Odaya katılmak için giriş yap');sweep();sonuc['davet_bildirimleri']=[...document.querySelectorAll('.toast')].map(t=>t.textContent);
   // Nasıl oynanır ve Tekrar et
   const nk=(ad,sel)=>{sweep();const e=document.querySelector(sel);const l=[];if(e){const w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const t=n.nodeValue.trim();if(t)l.push(t)}}sonuc[ad]=l.length?l:['HATA öğe yok: '+sel]};
   for(let i=0;i<4;i++){nasilOynanir();for(let k=0;k<i;k++)document.getElementById('hnx').click();await wait(60);nk('nasil_oynanir_'+(i+1),'#how')}

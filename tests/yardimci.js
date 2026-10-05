@@ -15,7 +15,7 @@ const SUPABASE_CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2
 // Her çağrıya {data:null,error:{message:'stub'}} dönen sahte Supabase istemcisi.
 const STUB = `(function(){const mk=()=>new Proxy(function(){},{get:(t,p)=>p==='then'?(res=>res({data:null,error:{message:'stub'}})):p==='data'?null:p==='error'?{message:'stub'}:mk(),apply:()=>mk()});window.supabase={createClient:()=>mk()}})();`;
 
-async function sayfaAc({ kok = KOK, viewport = { width: 400, height: 900 }, renk = 'light', bekle = 800 } = {}) {
+async function sayfaAc({ kok = KOK, viewport = { width: 400, height: 900 }, renk = 'light', bekle = 800, yol = '/' } = {}) {
   const tarayici = await chromium.launch();
   const baglam = await tarayici.newContext({ viewport, colorScheme: renk, deviceScaleFactor: 2 });
   const sayfa = await baglam.newPage();
@@ -32,7 +32,7 @@ async function sayfaAc({ kok = KOK, viewport = { width: 400, height: 900 }, renk
     r.fulfill({ contentType: TUR[path.extname(dosya)] || 'application/octet-stream', body: govde });
   });
   await sayfa.route(/^(?!https:\/\/test\.local).*/, r => r.abort());
-  await sayfa.goto('https://test.local/');
+  await sayfa.goto('https://test.local'+yol);
   await sayfa.waitForTimeout(bekle);
   return { sayfa, tarayici, baglam, hatalar, kapat: () => tarayici.close() };
 }

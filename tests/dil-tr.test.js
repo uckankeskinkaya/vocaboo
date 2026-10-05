@@ -17,6 +17,8 @@ const { sayfaAc } = require('./yardimci');
     await ekran('oda_kur', () => oSetup());
     await ekran('oda_kur_hayatta', () => { document.querySelector('[data-mode=s]').click(); document.querySelector('[data-ppl="50"]').click() });
     await ekran('oda_kur_arena', () => document.querySelector('[data-mode=k]').click());
+    room = 'ABCD'; isHost = true; started = false; cfg = { max: 6, m: 'c', n: 10, dur: 0, l: -1, mod: 0 }; ch = { presenceState: () => ({}), track() {}, send() {} };
+    await ekran('lobi_davet', async () => { oLobby([]) });
     await ekran('pazar_temalar', () => aShop('t'));
     await ekran('pazar_cerceveler', () => aShop('f'));
     await ekran('tema_sec', () => aTheme());
@@ -31,7 +33,7 @@ const { sayfaAc } = require('./yardimci');
     prof.last_bonus = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(new Date()); rHome(); sonuc.bonus_alindi = al('#gbonus');
     return sonuc;
   });
-  const EN = /\b(Preview|Buy|Close|Apply|Room|Join|Options|Level|Mixed|Survival|Points race|Group|Create room|Back|Owned|Balance|Choose|Skip|Next|Start|Review|Wrong|Random match|Have a|Game mode|players|questions|minutes|words|Moderator|Day \d|Themes|Frames|Live|fan-made)\b/;
+  const EN = /\b(Preview|Buy|Close|Apply|Room|Join|Options|Level|Mixed|Survival|Points race|Group|Create room|Back|Owned|Balance|Choose|Invite|Joining|afford|Skip|Next|Start|Review|Wrong|Random match|Have a|Game mode|players|questions|minutes|words|Moderator|Day \d|Themes|Frames|Live|fan-made)\b/;
   const kalan = [];
   for (const [ad, l] of Object.entries(out)) { const h = l.find(t => t.startsWith('HATA ')); if (h) kalan.push(ad + ': ' + h); for (const t of l.filter(t => EN.test(t))) kalan.push(ad + ': ' + t.slice(0, 80)); }
   assert.deepStrictEqual(kalan, [], 'Türkçe modda İngilizce metin:\n  ' + kalan.join('\n  '));
