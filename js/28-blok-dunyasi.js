@@ -1,5 +1,5 @@
-// v17: Minecraft teması: ana menü panoraması gibi 3B blok dünyası (WebGL). Dokular kodla üretilir (oyundan dosya yok).
-// Yazı tipi: Minecraft-Font ve Monocraft (ikisi de SIL OFL, fonts/ klasöründe lisanslarıyla). Tema değişince döngü durur.
+// v17: Blok Dünyası teması: dönen 3B blok dünyası (WebGL). Dokular kodla üretilir, dışarıdan görsel yok.
+// Yazı tipi: piksel yazı tipleri (ikisi de SIL OFL, fonts/ klasöründe lisanslarıyla). Tema değişince döngü durur.
 (function(){
 const rng=s=>()=>{s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const cv=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
@@ -133,7 +133,7 @@ if(SCN.minecraft){SCN.minecraft.after=start;
   if(document.documentElement.dataset.theme==='minecraft'&&SHN&&!SHN._stop)SHN._stop=start(SHN);}
 const T2=':root[data-theme="minecraft"]';
 document.head.insertAdjacentHTML('beforeend','<style>'+[
-"@font-face{font-family:'Vocacraft';src:url(fonts/minecraft.woff2) format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0000-00FF}",
+"@font-face{font-family:'Vocacraft';src:url(fonts/blok.woff2) format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0000-00FF}",
 "@font-face{font-family:'Vocacraft';src:url(fonts/monocraft-tr.woff2) format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+011E-011F,U+0130-0131,U+015E-015F,U+2010-2027,U+2190-2192}",
 T2+' :is(.cd,.lvl,.seg button,.cfb button,#res button){background:linear-gradient(rgba(255,255,255,.06),rgba(0,0,0,.12)),var(--mc-stone) 0 0/32px 32px;image-rendering:pixelated}',
 T2+' :is(.cd,.lvl,.seg button,.cfb button,#res button):hover{background:linear-gradient(rgba(120,135,255,.35),rgba(120,135,255,.35)),var(--mc-stone) 0 0/32px 32px;box-shadow:inset 2px 2px 0 #d6dbff,inset -2px -3px 0 #4f5585}',

@@ -82,7 +82,7 @@ async function aShop(tab){
   const items=d.items.filter(it=>tab==='f'?(it.id.startsWith('frame:')&&FRM[it.id.slice(6)]):(it.id.startsWith('theme:')&&TM[it.id.slice(6)]));
   const pr=it=>it.owned?'Sahipsin':'🪙 '+it.price.toLocaleString();
   const body=tab==='f'?'<div class="fg">'+items.map(it=>{const k=it.id.slice(6);return '<button class="ft'+(it.owned?' cur':'')+'" data-i="'+it.id+'" data-p="'+it.price+'">'+frameHtml(av(prof.avatar,56),k)+'<b>'+FRM[k][0]+'</b><small>'+pr(it)+'</small></button>'}).join('')+'</div>'
-    :'<div class="tg">'+items.map(it=>thTile(it.id.slice(6),pr(it),it.owned?' cur':'','data-i="'+it.id+'" data-p="'+it.price+'"')).join('')+'</div>';
+    :'<div class="tg">'+items.map(it=>thTile(it.id.slice(6),pr(it),it.owned?' cur':'','data-i="'+it.id+'" data-p="'+it.price+'"')).join('')+'</div><p class="cap">Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.</p>';
   panel('<div class="bal">🪙 '+d.bal.toLocaleString()+'<small>Bakiye</small></div><div class="seg sm">'+sg('sf','Çerçeveler',tab==='f')+sg('st','Temalar',tab==='t')+'</div>'+body);
   $('sf').onclick=()=>aShop('f');$('st').onclick=()=>aShop('t');
   document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
@@ -98,7 +98,7 @@ async function aShop(tab){
 async function aTheme(){
   await shopOwned();
   const cur=document.documentElement.dataset.theme||'';
-  panel('<p>Tema seç</p><div class="tg">'+Object.keys(TM).map(k=>{const lk=PREMT.includes(k)&&!ownedHas('theme:'+k);return thTile(k,lk?'🔒':'',(k===cur?' cur':'')+(lk?' lk':''),'data-t="'+k+'"')}).join('')+'</div><p class="cap">✦ Renkleri yavaşça değişen temalar</p><p class="cap">🎬 Canlı sahneli temalar</p><p class="cap">🔒 Pazardan alınır</p>'+btn('ob','Geri'));
+  panel('<p>Tema seç</p><div class="tg">'+Object.keys(TM).map(k=>{const lk=PREMT.includes(k)&&!ownedHas('theme:'+k);return thTile(k,lk?'🔒':'',(k===cur?' cur':'')+(lk?' lk':''),'data-t="'+k+'"')}).join('')+'</div><p class="cap">✦ Renkleri yavaşça değişen temalar</p><p class="cap">🎬 Canlı sahneli temalar</p><p class="cap">Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.</p><p class="cap">🔒 Pazardan alınır</p>'+btn('ob','Geri'));
   document.querySelectorAll('.tt').forEach(b=>b.onclick=()=>{if(b.classList.contains('lk')){aShop('t');return}setTheme(b.dataset.t);aTheme()});
   $('ob').onclick=aSettings;
 };

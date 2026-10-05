@@ -7,7 +7,7 @@ const cv=(w,h)=>{const c=document.createElement('canvas');c.width=Math.max(1,Mat
 const NEON=['#00f0ff','#ff2a6d','#fcee0a','#ff003c','#b45cff','#3dffb0'];
 const SIGNS=['ラーメン','電脳','夜市','ホテル','薬','酒','BAR','24H','ネオン','義体','クラブ','寿司'];
 function scene(W,H,dpr){
-  const r=rng(2077),R=(a,b)=>a+r()*(b-a),pick=a=>a[Math.floor(r()*a.length)];
+  const r=rng(1987),R=(a,b)=>a+r()*(b-a),pick=a=>a[Math.floor(r()*a.length)];
   const VX=W*.5,VY=H*.4,SX=Math.max(W,H*.55)*.62,SY=H*.5;
   const P=(X,Y,z)=>[VX+X*SX/z,VY+Y*SY/z];
   const base=cv(W*dpr,H*dpr),x=base.getContext('2d');x.scale(dpr,dpr);
