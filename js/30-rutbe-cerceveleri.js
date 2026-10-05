@@ -1,62 +1,40 @@
-// v18: Rütbe tarzı çerçeveler (Cyber, Kurt, Piksel): avatarı saran katmanlı SVG arma.
+// v18: Rütbe tarzı çerçeveler (Cyber, Piksel): avatarı saran katmanlı SVG arma.
 // Büyük avatarlarda kanat/arma/şerit gibi süsler de çizilir; küçük avatarlarda (listeler) yalnız halka.
 (function(){
 let RKN=0;
-const wolf=(x0,y0,w,h)=>[[12,4],[34,34],[50,28],[66,34],[88,4],[86,48],[72,64],[60,94],[50,100],[40,94],[28,64],[14,48]].map(p=>(x0+p[0]*w/100).toFixed(1)+','+(y0+p[1]*h/100).toFixed(1)).join(' ');
-function cyber(id){
-  const g='url(#g'+id+')',y='url(#y'+id+')',oct='73,35 127,35 165,73 165,127 127,165 73,165 35,127 35,73';
-  const wing='<polygon points="54,90 8,66 24,94 2,104 26,114 12,136 54,116" fill="'+g+'" stroke="'+y+'" stroke-width="2" stroke-linejoin="bevel"/><polyline points="50,98 18,82" stroke="#00f0ff" stroke-width="1.5" fill="none"/><polyline points="50,108 22,122" stroke="#00f0ff" stroke-width="1.5" fill="none"/><rect x="38" y="100" width="7" height="3" fill="#ff003c"/>';
+// Cyber: üç şekil seçeneği (CYV), hepsinde aynı renkli glitch
+const CYV={
+  halka:{o:'M100 36 A64 64 0 1 1 99.9 36 Z',
+    b:(g,y)=>'<circle cx="100" cy="100" r="64" fill="'+g+'" stroke="'+y+'" stroke-width="3"/><circle cx="100" cy="100" r="71" fill="none" stroke="'+y+'" stroke-width="4" stroke-dasharray="96 14" stroke-dashoffset="-7"/>'
+      +'<circle cx="100" cy="100" r="76" fill="none" stroke="#00f0ff" stroke-width="1" stroke-dasharray="2 6" opacity=".7"/>',
+    x:y=>'<polygon points="90,30 110,30 106,20 94,20" fill="'+y+'"/><circle class="led" cx="100" cy="25" r="2.4" fill="#ff003c"/><polygon points="90,170 110,170 106,180 94,180" fill="'+y+'"/>'
+      +'<polygon points="30,90 30,110 20,106 20,94" fill="#00f0ff"/><polygon points="170,90 170,110 180,106 180,94" fill="#00f0ff"/>'},
+  kalkan:{o:'M62 30 L138 30 L166 58 L166 124 L132 166 L100 182 L68 166 L34 124 L34 58 Z',
+    b:(g,y)=>'<path d="M62 30 L138 30 L166 58 L166 124 L132 166 L100 182 L68 166 L34 124 L34 58 Z" fill="'+g+'" stroke="'+y+'" stroke-width="3.5" stroke-linejoin="bevel"/>'
+      +'<path d="M66 38 L134 38 L158 62 L158 121 L128 158 L100 172 L72 158 L42 121 L42 62 Z" fill="none" stroke="#00f0ff" stroke-width="1" opacity=".55"/>',
+    x:y=>'<polygon points="84,30 116,30 109,18 91,18" fill="'+y+'"/><circle class="led" cx="100" cy="24" r="2.4" fill="#ff003c"/>'
+      +'<polygon points="166,70 180,80 166,92" fill="#ff003c"/><polygon points="34,70 20,80 34,92" fill="#ff003c"/>'},
+  kare:{o:'M54 30 L146 30 L170 54 L170 146 L146 170 L54 170 L30 146 L30 54 Z',
+    b:(g,y)=>'<path d="M54 30 L146 30 L170 54 L170 146 L146 170 L54 170 L30 146 L30 54 Z" fill="'+g+'" stroke="'+y+'" stroke-width="3.5" stroke-linejoin="bevel"/>'
+      +'<path d="M30 70 L30 54 L54 30 L80 30" fill="none" stroke="#ff003c" stroke-width="5"/><rect x="164" y="84" width="6" height="32" fill="#00f0ff" opacity=".8"/>',
+    x:y=>'<path d="M14 40 L14 14 L40 14 M160 14 L186 14 L186 40 M186 160 L186 186 L160 186 M40 186 L14 186 L14 160" fill="none" stroke="'+y+'" stroke-width="3"/>'
+      +'<rect x="66" y="174" width="68" height="12" fill="'+y+'"/>'+[0,1,2,3,4,5,6].map(i=>'<rect x="'+(70+i*9)+'" y="177" width="5" height="6" fill="#101217"/>').join('')}
+};
+let CYS='kare';
+function cyber(id,v){
+  const S=CYV[v||CYS],g='url(#g'+id+')',y='url(#y'+id+')';
   const back='<defs><linearGradient id="y'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff59a"/><stop offset=".5" stop-color="#fcee0a"/><stop offset="1" stop-color="#a89a00"/></linearGradient>'
     +'<linearGradient id="g'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f4b"/><stop offset="1" stop-color="#101217"/></linearGradient></defs>'
-    +'<g class="x"><g class="wg">'+wing+'</g><g class="wg" transform="matrix(-1 0 0 1 200 0)">'+wing+'</g></g>'
-    +'<polygon points="'+oct+'" fill="'+g+'" stroke="'+y+'" stroke-width="3.5" stroke-linejoin="bevel"/>'
-    +'<polygon points="'+oct+'" fill="none" stroke="#00f0ff" stroke-width="1" opacity=".55" transform="translate(100 100) scale(.92) translate(-100 -100)"/>'
-    +'<rect x="31" y="96" width="5" height="8" fill="#ff003c"/><rect x="164" y="96" width="5" height="8" fill="#ff003c"/>'
-    +'<circle class="sp" cx="100" cy="100" r="60" fill="none" stroke="'+y+'" stroke-width="1.4" stroke-dasharray="2 5"/>'
+    +S.b(g,y)
+    +'<circle class="sp" cx="100" cy="100" r="59.5" fill="none" stroke="'+y+'" stroke-width="1.4" stroke-dasharray="2 5"/>'
     +'<circle class="sp r" cx="100" cy="100" r="54.5" fill="none" stroke="#00f0ff" stroke-width="3" stroke-dasharray="20 6 5 6"/>';
   // Renkli glitch: kayan renkli kopyalar ve yanıp sönen renk blokları
   const C=['#ff003c','#00f0ff','#fcee0a','#ff2bd6','#3dff8a'];let sd=11;const rn=()=>(sd=(sd*16807)%2147483647)/2147483647;
   let gl='';C.forEach((c,i)=>{const dx=((i%2?1:-1)*(3+i*1.5)).toFixed(1),dy=((i%3)-1).toFixed(1);
-    gl+='<g class="gl" style="--dx:'+dx+'px;--dy:'+dy+'px;--dl:-'+(i*.37).toFixed(2)+'s"><polygon points="'+oct+'" fill="none" stroke="'+c+'" stroke-width="3"/><circle cx="100" cy="100" r="54.5" fill="none" stroke="'+c+'" stroke-width="2.5"/></g>'});
+    gl+='<g class="gl" style="--dx:'+dx+'px;--dy:'+dy+'px;--dl:-'+(i*.37).toFixed(2)+'s"><path d="'+S.o+'" fill="none" stroke="'+c+'" stroke-width="3"/><circle cx="100" cy="100" r="54.5" fill="none" stroke="'+c+'" stroke-width="2.5"/></g>'});
   for(let i=0;i<12;i++){const x=20+rn()*150,yy=24+rn()*150,w=8+rn()*34,h=2+rn()*6;
     gl+='<rect class="gbk" style="--dl:-'+(rn()*2.4).toFixed(2)+'s;--dx:'+((rn()-.5)*16).toFixed(1)+'px" x="'+x.toFixed(1)+'" y="'+yy.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'" fill="'+C[i%C.length]+'"/>'}
-  const front='<g class="x"><polygon points="76,38 100,9 124,38 113,38 100,23 87,38" fill="'+y+'" stroke="#101217" stroke-width="1"/><circle class="led" cx="100" cy="33" r="3" fill="#ff003c"/>'
-    +'<polygon points="70,158 130,158 121,179 79,179" fill="'+g+'" stroke="'+y+'" stroke-width="2"/>'
-    +[0,1,2,3,4,5].map(i=>'<rect class="eq" style="animation-delay:-'+(i*.17).toFixed(2)+'s" x="'+(83+i*6)+'" y="163" width="4" height="11" fill="'+C[i%C.length]+'"/>').join('')+'</g>'+gl;
-  return [back,front];
-}
-// Canavar avcısı: çelik gümüş, kara demir ve kan kırmızısı; hırlayan kurt başlı madalyon (özgün çizim)
-function wolfHead(x0,y0,sz,id){
-  const P=a=>a.map(p=>(x0+p[0]*sz/100).toFixed(1)+','+(y0+p[1]*sz/100).toFixed(1)).join(' ');
-  return '<polygon points="'+P([[16,2],[36,30],[50,24],[64,30],[84,2],[86,40],[80,52],[92,60],[74,70],[64,92],[50,98],[36,92],[26,70],[8,60],[20,52],[14,40]])+'" fill="url(#s'+id+')" stroke="#0e0f12" stroke-width="1.6" stroke-linejoin="round"/>'
-    +'<polygon points="'+P([[22,12],[34,32],[28,36]])+'" fill="#2a2d33"/><polygon points="'+P([[78,12],[66,32],[72,36]])+'" fill="#2a2d33"/>'
-    +'<polyline points="'+P([[26,40],[46,46]])+'" stroke="#0e0f12" stroke-width="2" fill="none"/><polyline points="'+P([[74,40],[54,46]])+'" stroke="#0e0f12" stroke-width="2" fill="none"/>'
-    +'<polygon class="eye" points="'+P([[30,46],[44,51],[42,55],[31,51]])+'" fill="#ff2a1a"/><polygon class="eye" points="'+P([[70,46],[56,51],[58,55],[69,51]])+'" fill="#ff2a1a"/>'
-    +'<polygon points="'+P([[45,61],[55,61],[50,67]])+'" fill="#0e0f12"/>'
-    +'<polygon points="'+P([[34,70],[50,75],[66,70],[60,88],[50,93],[40,88]])+'" fill="#3a0606" stroke="#0e0f12" stroke-width="1"/>'
-    +'<polygon points="'+P([[38,71],[43,72],[40,82]])+'" fill="#f4f1e8"/><polygon points="'+P([[62,71],[57,72],[60,82]])+'" fill="#f4f1e8"/>'
-    +'<polygon points="'+P([[44,89],[47,84],[48,90]])+'" fill="#f4f1e8"/><polygon points="'+P([[56,89],[53,84],[52,90]])+'" fill="#f4f1e8"/>'
-    +'<polyline points="'+P([[20,58],[30,62]])+'" stroke="#5a6068" stroke-width="1.2"/><polyline points="'+P([[80,58],[70,62]])+'" stroke="#5a6068" stroke-width="1.2"/>';
-}
-function kurt(id){
-  const s='url(#s'+id+')',r='#8e1414';
-  const sword=a=>'<g transform="rotate('+a+' 100 100)"><polygon points="100,2 106,18 106,132 94,132 94,18" fill="'+s+'" stroke="#16181c" stroke-width="1"/><line x1="100" y1="20" x2="100" y2="128" stroke="#6a717b" stroke-width="1.5"/>'
-    +'<rect x="80" y="132" width="40" height="7" rx="2" fill="#2a2d33" stroke="'+s+'" stroke-width="1.2"/><rect x="96.5" y="139" width="7" height="24" fill="#1a0c0c" stroke="'+r+'" stroke-width="1"/><circle cx="100" cy="168" r="6" fill="'+s+'" stroke="#16181c" stroke-width=".8"/></g>';
-  let studs='';for(let k=0;k<8;k++){const a=(22.5+45*k)*Math.PI/180;studs+='<circle cx="'+(100+62*Math.cos(a)).toFixed(1)+'" cy="'+(100+62*Math.sin(a)).toFixed(1)+'" r="3" fill="'+s+'" stroke="#0e0f12" stroke-width=".8"/>'}
-  const back='<defs><linearGradient id="s'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5f7f9"/><stop offset=".3" stop-color="#b9c0c8"/><stop offset=".55" stop-color="#5b626c"/><stop offset=".75" stop-color="#dfe4e9"/><stop offset="1" stop-color="#7c848e"/></linearGradient>'
-    +'<linearGradient id="i'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3e45"/><stop offset="1" stop-color="#121417"/></linearGradient>'
-    +'<linearGradient id="h'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".7"/><stop offset=".58" stop-color="#fff" stop-opacity="0"/>'
-    +'<animateTransform attributeName="gradientTransform" type="translate" values="-1 -1;1 1" dur="4s" repeatCount="indefinite"/></linearGradient></defs>'
-    +'<g class="x">'+sword(42)+sword(-42)+'</g>'
-    +'<circle cx="100" cy="100" r="69" fill="#0e0f12"/><circle cx="100" cy="100" r="62" fill="none" stroke="url(#i'+id+')" stroke-width="13"/>'
-    +'<circle cx="100" cy="100" r="68" fill="none" stroke="'+s+'" stroke-width="2.2"/><circle cx="100" cy="100" r="56" fill="none" stroke="'+s+'" stroke-width="2.2"/>'
-    +'<circle cx="100" cy="100" r="62" fill="none" stroke="#9aa1aa" stroke-width="1.6" stroke-dasharray=".1 7" stroke-linecap="round" opacity=".8"/>'
-    +'<circle cx="100" cy="100" r="53" fill="none" stroke="'+r+'" stroke-width="3"/>'+studs
-    +'<circle cx="100" cy="100" r="68" fill="none" stroke="url(#h'+id+')" stroke-width="3"/><circle cx="100" cy="100" r="56" fill="none" stroke="url(#h'+id+')" stroke-width="3"/>';
-  const front='<g class="x"><path d="M56 152 L144 152 L138 164 L144 176 L56 176 L62 164 Z" fill="'+r+'" stroke="'+s+'" stroke-width="1.6"/><path d="M66 157 L134 157 M66 171 L134 171" stroke="#c23a2e" stroke-width="1"/>'
-    +'<circle cx="100" cy="27" r="23" fill="url(#i'+id+')" stroke="'+s+'" stroke-width="2.5"/><circle cx="100" cy="27" r="19" fill="none" stroke="'+r+'" stroke-width="1.2"/>'
-    +wolfHead(80,6,40,id)+'</g>';
-  return [back,front];
+  return [back,'<g class="x">'+S.x(y)+'</g>'+gl];
 }
 // Piksel: sade halka (üstü çimen, altı toprak) ve üstünde küçük çiçekler
 let PXR=null;
@@ -77,7 +55,8 @@ function piksel(){
   const front='<g class="x"><g class="fl">'+pat(poppy,15,4,col)+'</g><g class="fl" style="animation-delay:-.8s">'+pat(dand,31,4,col)+'</g>'+pat(tuft,22,7,col)+'</g>';
   return [back,front];
 }
-const B={cyberc:cyber,kurt:kurt,piksel:piksel};
+const B={cyberc:cyber,piksel:piksel};
+window.rkCyberDene=(h,v)=>{const m=/(?:width="|width:)(\d+)/.exec(h),s=m?+m[1]:40,id='rk'+(++RKN),sv=cyber(id,v);return '<span class="rk rk-cyberc" style="--s:'+s+'px">'+h+'<svg class="rk-b" viewBox="0 0 200 200">'+sv[0]+'</svg><svg class="rk-f" viewBox="0 0 200 200">'+sv[1]+'</svg></span>'};
 const _fh3=frameHtml;frameHtml=function(h,k){
   if(!Object.prototype.hasOwnProperty.call(B,k))return _fh3(h,k);
   const m=/(?:width="|width:)(\d+)/.exec(h),s=m?+m[1]:40,id='rk'+(++RKN),sv=B[k](id);
@@ -100,9 +79,6 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .rk .gbk{opacity:0;animation:rk-gbk 2.6s steps(1) infinite;animation-delay:var(--dl)}
 .rk-cyberc>:first-child{box-shadow:0 0 0 calc(var(--s)*.025) #05040a,0 0 0 calc(var(--s)*.045) #00f0ff;animation:rk-av 2.6s steps(1) infinite}
 .rk-cyberc .rk-b{filter:drop-shadow(0 0 calc(var(--s)*.06) rgba(0,240,255,.55));animation:rk-hue 2.6s steps(1) infinite}
-.rk-kurt>:first-child{box-shadow:0 0 0 calc(var(--s)*.02) #0e0f12}
-.rk-kurt .rk-b{filter:drop-shadow(0 calc(var(--s)*.03) calc(var(--s)*.06) rgba(0,0,0,.55))}
-.rk .eye{animation:rk-eye 2.6s ease-in-out infinite}
 .rk-piksel>:first-child{box-shadow:0 0 0 calc(var(--s)*.03) #1f1f1f}
 .rk-piksel .rk-b{filter:drop-shadow(0 0 calc(var(--s)*.06) rgba(127,224,74,.45))}
 .rk .fl{transform-box:fill-box;transform-origin:50% 100%;animation:rk-sway 2.4s ease-in-out infinite alternate}
@@ -113,7 +89,6 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 @keyframes rk-gbk{0%,70%,100%{opacity:0;transform:none}71%{opacity:.95;transform:translateX(var(--dx))}74%{opacity:0}78%{opacity:.8;transform:translateX(calc(var(--dx)*-1))}80%{opacity:0}}
 @keyframes rk-hue{0%,72%,100%{filter:drop-shadow(0 0 calc(var(--s)*.06) rgba(0,240,255,.55))}73%{filter:hue-rotate(120deg) drop-shadow(3px 0 #ff003c)}76%{filter:hue-rotate(240deg) drop-shadow(-3px 0 #00f0ff)}79%{filter:hue-rotate(60deg) drop-shadow(2px 0 #fcee0a)}82%{filter:drop-shadow(0 0 calc(var(--s)*.06) rgba(0,240,255,.55))}}
 @keyframes rk-av{0%,72%,100%{transform:none;filter:none;clip-path:none}73%{transform:translateX(2px);filter:drop-shadow(-2px 0 #ff003c) drop-shadow(2px 0 #00f0ff)}76%{transform:translateX(-3px) skewX(10deg);clip-path:inset(0 0 45% 0 round 50%);filter:drop-shadow(3px 0 #ff2bd6) drop-shadow(-3px 0 #3dff8a)}79%{transform:translateX(1px);filter:hue-rotate(180deg) drop-shadow(2px 0 #fcee0a)}82%{transform:none;filter:none;clip-path:none}}
-@keyframes rk-eye{0%,100%{opacity:.55}50%{opacity:1}}
 @keyframes rk-sway{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
 :root[data-perf=low] .rk *{animation:none!important}
 @media (prefers-reduced-motion:reduce){.rk,.rk *{animation:none!important}}

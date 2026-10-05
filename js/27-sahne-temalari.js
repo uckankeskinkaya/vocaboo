@@ -248,7 +248,6 @@ try{sahneKur(localStorage.getItem('ka_theme'))}catch(e){}
  ['simsek','Şimşek','twin','✦','out','⚡',4,['#facc15','#fde047','#3b82f6','#ffffff']],
  ['galaksi','Galaksi','solid','✧','out','🪐',4,['#6366f1','#a855f7','#ec4899','#22d3ee']],
  ['cyberc','Cyber','cyber','01','fall','',4,['#00f0ff','#fcee0a','#ff003c','#ffffff']],
- ['piksel','Piksel','blok','■','rise','',3,['#7fe04a','#d8ff5a','#4fc43a','#b7ff3c']],
- ['kurt','Kurt','kurt','•','rise','',4,['#ffb347','#e8edf2','#d9a441','#cfd6de']]]
+ ['piksel','Piksel','blok','■','rise','',3,['#7fe04a','#d8ff5a','#4fc43a','#b7ff3c']]]
 .forEach(x=>{FRM[x[0]]=[x[1],x[7],x[2],{shop:1},0,x[3],x[4],x[5],x[6]];UNL.push({id:'frame:'+x[0],t:'frame',n:x[1],req:{shop:1}})});
 Object.assign(EN,{'Alev':'Flame','Şimşek':'Lightning','Piksel':'Pixel','Kurt':'Wolf'});
