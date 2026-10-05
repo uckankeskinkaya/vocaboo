@@ -33,8 +33,12 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .os h3{margin:16px 0 8px;font-size:13px;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.06em}.os h3:first-child{margin-top:4px}
 .otm{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.otm .ot{align-items:center;text-align:center;padding:12px 6px;min-height:104px}
 .otm .ot small{font-size:11px}
-.och{display:flex;flex-wrap:wrap;gap:8px}.och button{padding:10px 14px;border-radius:999px;border:2px solid var(--line);background:var(--panel);font-weight:700;font-size:14px}
+.och{display:grid;grid-template-columns:repeat(var(--c,2),1fr);gap:10px}
+.och button{display:flex;align-items:center;justify-content:center;text-align:center;min-height:56px;padding:10px 8px;border-radius:16px;border:2px solid var(--line);background:var(--panel);font-weight:700;font-size:16px;line-height:1.2;transition:transform .12s,border-color .15s}
+.och button:active{transform:scale(.97)}
 .och button.on{border-color:var(--ac);background:var(--ac);color:var(--acf)}
+.och.lv button:first-child{grid-column:1/-1}
+.och.lv button{min-height:50px}
 .opp{display:grid;grid-template-columns:1fr 1fr;gap:8px}.opp .ot{flex-direction:row;align-items:center;gap:10px;padding:12px}.opp .ot i{font-size:22px;margin:0}
 .onote{padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--ac) 10%,transparent);font-size:13px;color:var(--dim)}
 .osum{margin:16px 0 10px;padding:10px 12px;border-radius:12px;border:1px dashed var(--line);font-size:13px;text-align:center;color:var(--dim)}
@@ -73,18 +77,18 @@ $('mOnline').onclick=oHome;
 
 // Oda kurma: durum bu nesnede tutulur, her seçimde ekran yeniden çizilir
 const S={k:'c',cnt:15,dur:180,q:15,t:20,ppl:2,lv:-1,mod:0};
-const chips=(id,list,val)=>'<div class="och" data-g="'+id+'">'+list.map(x=>'<button data-v="'+x[0]+'"'+(x[0]===val?' class="on"':'')+'>'+x[1]+'</button>').join('')+'</div>';
+const chips=(id,list,val,c,extra)=>'<div class="och'+(extra?' '+extra:'')+'" data-g="'+id+'" style="--c:'+(c||list.length)+'">'+list.map(x=>'<button data-v="'+x[0]+'"'+(x[0]===val?' class="on"':'')+'>'+x[1]+'</button>').join('')+'</div>';
 function oSetupYeni(){
   const ar=S.k==='k';
   let h='<div class="os"><h3>Oyun modu</h3><div class="otm">'+MODES.map(m=>'<button class="ot'+(m[0]===S.k?' on':'')+'" data-mode="'+m[0]+'"><i>'+m[1]+'</i><b>'+m[2]+'</b><small>'+m[3]+'</small></button>').join('')+'</div>';
   h+='<h3>Seçenekler</h3>';
   if(S.k==='c')h+=chips('cnt',[[15,'15 kelime'],[20,'20 kelime']],S.cnt);
   else if(S.k==='s')h+=chips('dur',[[180,'3 dakika'],[300,'5 dakika']],S.dur);
-  else h+='<h3 style="margin-top:0">Soru sayısı</h3>'+chips('q',[[10,'10 soru'],[15,'15 soru'],[20,'20 soru']],S.q)+'<h3>Soru süresi</h3>'+chips('t',[10,15,20,30,45,60].map(v=>[v,v+' sn']),S.t);
+  else h+='<h3 style="margin-top:0">Soru sayısı</h3>'+chips('q',[[10,'10 soru'],[15,'15 soru'],[20,'20 soru']],S.q)+'<h3>Soru süresi</h3>'+chips('t',[10,15,20,30,45,60].map(v=>[v,v+' sn']),S.t,3);
   if(!ar){
     h+='<h3>Kaç kişi?</h3><div class="opp"><button class="ot'+(S.ppl===2?' on':'')+'" data-ppl="2"><i>👥</i><div><b>1v1</b><small>2 kişi</small></div></button><button class="ot'+(S.ppl===50?' on':'')+'" data-ppl="50"><i>🎉</i><div><b>Grup</b><small>Aynı anda 50 kişiye kadar</small></div></button></div>';
   }
-  h+='<h3>Seviye</h3>'+chips('lv',[[-1,'Karışık']].concat(LBL.map((l,i)=>[i,l])),S.lv);
+  h+='<h3>Seviye</h3>'+chips('lv',[[-1,'Karışık']].concat(LBL.map((l,i)=>[i,l])),S.lv,4,'lv');
   if(ar)h+='<h3>Moderatör</h3><div class="onote">Arena\'da sen moderatörsün, soruları sunucu sorar</div>';
   else if(S.ppl>2)h+='<h3>Moderatör (sadece grup)</h3>'+chips('mod',[[0,'Ben de oynarım'],[1,'Moderatör olurum, takip ederim']],S.mod);
   const mn=MODES.find(m=>m[0]===S.k)[2],ex=S.k==='c'?S.cnt+' kelime':S.k==='s'?(S.dur/60)+' dakika':S.q+' soru, '+S.t+' sn',kisi=ar?'Grup':S.ppl===2?'1v1':'Grup';
