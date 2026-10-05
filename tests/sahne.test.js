@@ -5,7 +5,7 @@ const { sayfaAc } = require('./yardimci');
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(() => {
     const r = { temalar: [], cerceve: ['ates', 'simsek', 'galaksi', 'cyberc', 'orkide', 'zehir'].every(k => FRM[k] && /class="(fq|rk) /.test(frameHtml('<img width="40">', k))) };
-    for (const k of ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder']) {
+    for (const k of ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'korsan', 'lofi']) {
       setTheme(k);
       r.temalar.push([k, document.documentElement.dataset.theme === k, document.documentElement.dataset.scene === '1', k === 'minecraft' ? (document.querySelector('#sahne canvas.mc') && document.querySelector('#sahne canvas.mc').width > 0 ? 9 : 0) : document.getElementById('sahne').children.length, PREMT.includes(k)]);
     }
@@ -22,7 +22,7 @@ const { sayfaAc } = require('./yardimci');
     setTheme('dark'); r.temiz = [document.documentElement.dataset.scene === undefined, document.getElementById('sahne').children.length];
     return r;
   });
-  assert.strictEqual(o.temalar.length, 12);
+  assert.strictEqual(o.temalar.length, 16);
   for (const t of o.temalar) { assert.ok(t[1] && t[2] && t[3] > 5 && t[4], 'sahne eksik: ' + t[0]); }
   assert.ok(o.cerceve);
   assert.ok(o.htmlSaydam, 'html arka planı sahneyi (z-index:-1) örtüyor');
@@ -31,6 +31,6 @@ const { sayfaAc } = require('./yardimci');
   assert.deepStrictEqual(o.onizleGezinti, ['dark', false]);
   assert.ok(o.rutbe, 'rütbe çerçeveleri çizilmedi'); assert.ok(o.doku, 'Minecraft dokuları üretilmedi'); assert.deepStrictEqual(o.temiz, [true, 0]);
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok sahne: 12 canlı tema çiziliyor, temizleniyor; 6 yeni çerçeve tanımlı, blok dünyası dokuları üretiliyor, Pazar tema önizlemesi ve rütbe çerçeveleri çalışıyor');
+  console.log('ok sahne: 16 canlı tema çiziliyor, temizleniyor; 6 yeni çerçeve tanımlı, blok dünyası dokuları üretiliyor, Pazar tema önizlemesi ve rütbe çerçeveleri çalışıyor');
   await s.kapat();
 })().catch(e => { console.error('HATA sahne:', e.message); process.exit(1); });

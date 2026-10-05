@@ -5,7 +5,7 @@ const { sayfaAc } = require('./yardimci');
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms)), r = { tema: {} }, root = document.documentElement, game = document.getElementById('game');
-    const T = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder'];
+    const T = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'korsan', 'lofi'];
     for (const k of T) {
       game.hidden = true; setTheme(k); await wait(30);
       const menuDongu = !!SHN._stop;
@@ -34,6 +34,6 @@ const { sayfaAc } = require('./yardimci');
   assert.ok(o.tema.cyber.menuDongu && o.tema.minecraft.menuDongu, 'canvas temaları menüde döngüde olmalı');
   assert.ok(o.sahnesiz); assert.strictEqual(o.temaDegisim, 'ejder');
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok oyun sahnesi: 12 temada oyuna özel arka plan, menü sahnesi ve canvas döngüsü oyunda durup geri dönüyor');
+  console.log('ok oyun sahnesi: 16 temada oyuna özel arka plan, menü sahnesi ve canvas döngüsü oyunda durup geri dönüyor');
   await s.kapat();
 })().catch(e => { console.error('HATA oyun sahnesi:', e.message); process.exit(1); });

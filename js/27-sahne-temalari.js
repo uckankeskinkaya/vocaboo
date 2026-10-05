@@ -194,7 +194,47 @@ const SD=[
 §S::before{content:'';position:absolute;inset:0;background:radial-gradient(70% 40% at 50% 110%,rgba(255,120,30,.55),transparent 70%);animation:sc-fl 3s ease-in-out infinite}
 §S .fl{bottom:-6%;width:var(--z);height:30%;background:radial-gradient(50% 60% at 50% 70%,rgba(255,170,40,.85),rgba(255,70,10,.5) 50%,transparent 75%);filter:blur(8px);transform-origin:50% 100%;animation:sc-flame 1.6s ease-in-out var(--d) infinite alternate}
 §S i{top:100%;width:var(--z);height:var(--z);border-radius:50%;background:#ffb347;box-shadow:0 0 8px 2px rgba(255,140,40,.85);animation:sc-rise var(--t) ease-out var(--d) infinite}
-@keyframes sc-flame{from{transform:scaleY(.8) translateX(-8px)}to{transform:scaleY(1.35) translateX(8px)}}`]
+@keyframes sc-flame{from{transform:scaleY(.8) translateX(-8px)}to{transform:scaleY(1.35) translateX(8px)}}`],
+
+['saat','Saat İşleri',1,'#140d06','40,28,16',.72,'#f6e7c8','#c4a77a','#e0a33a','#1a1004',['rgba(224,163,58,.45)','rgba(150,90,30,.45)','rgba(240,200,120,.3)'],
+ ['https://fonts.googleapis.com/css2?family=Special+Elite&display=swap',"'Special Elite'"],120000,
+ ()=>[[-8,8,130,30,'#b8862e',0],[78,2,110,24,'#8a6224',1],[-6,70,150,40,'#8a6224',1],[74,66,170,46,'#b8862e',0],[30,88,90,22,'#6e4c1c',0]].map(g=>'<u class="gr" style="left:'+g[0]+'%;top:'+g[1]+'%;width:'+g[2]+'px;height:'+g[2]+'px;--c:'+g[4]+';--t:'+g[3]+'s'+(g[5]?';animation-direction:reverse':'')+'"></u>').join('')+ps(16,()=>'left:'+f1(R(0,100))+'%;--z:'+f1(R(14,34))+'px;--t:'+f1(R(6,12))+'s;--d:-'+f1(R(0,12))+'s;--w:'+f1(R(-40,40))+'px'),
+`§S{background:radial-gradient(90% 60% at 50% 30%,#2e1e0e,#140d06 70%)}
+§S::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 35% at 50% 20%,rgba(255,190,90,.18),transparent 70%)}
+§S .gr{border-radius:50%;opacity:.55;background:radial-gradient(circle,#140d06 0 14%,var(--c) 15% 22%,transparent 23% 38%,var(--c) 39% 60%,transparent 61%),repeating-conic-gradient(var(--c) 0 10deg,transparent 10deg 24deg);-webkit-mask:radial-gradient(circle,#000 0 69%,transparent 70%);mask:radial-gradient(circle,#000 0 69%,transparent 70%);box-shadow:0 0 30px rgba(224,163,58,.2);animation:sc-spin var(--t) linear infinite}
+§S i{top:100%;width:var(--z);height:var(--z);border-radius:50%;background:radial-gradient(circle,rgba(230,215,195,.45),transparent 70%);animation:sc-rise var(--t) ease-out var(--d) infinite}
+§T :is(.cd,.pl,.sc,.bi,.lvl,#def,.cfb,.mstat,.feat,.tt){border:1px solid rgba(224,163,58,.35);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),0 0 14px -6px rgba(224,163,58,.6)}`],
+
+['adalar','Gök Adaları',0,'#d8eeff','255,255,255',.74,'#123049','#4f7493','#f0772f','#ffffff',['rgba(125,200,255,.55)','rgba(255,200,150,.5)','rgba(180,230,190,.5)'],
+ null,110000,
+ ()=>cloud(5).replace(/<u /g,'<u class="c" ')+[[6,30,90],[70,18,70],[60,60,110],[2,72,64]].map((p,i)=>'<u class="is" style="left:'+p[0]+'%;top:'+p[1]+'%;width:'+p[2]+'px;--d:-'+i*1.3+'s"></u>').join(''),
+`§S{background:linear-gradient(#8fd0ff,#cdeaff 55%,#fff1df)}
+§S::before{content:'';position:absolute;right:8%;top:6%;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#fffbe8 0 35%,rgba(255,236,170,.5) 50%,transparent 70%)}
+§S .c{left:0;width:180px;height:50px;border-radius:50px;background:#fff;opacity:.85;box-shadow:40px -18px 0 6px #fff,90px -4px 0 0 #fff;animation:sc-pan var(--t) linear var(--d) infinite}
+§S .is{height:80px;animation:sc-bob 6s ease-in-out var(--d) infinite}
+§S .is::before{content:'';position:absolute;left:0;right:0;top:0;height:18px;border-radius:50%;background:linear-gradient(#7ed36a,#4ea24a)}
+§S .is::after{content:'';position:absolute;left:8%;right:8%;top:9px;height:70px;background:linear-gradient(#a07a52,#6e5236);clip-path:polygon(0 0,100% 0,62% 100%,40% 70%)}
+@keyframes sc-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}`],
+
+['korsan','Korsan Koyu',1,'#071726','12,34,54',.7,'#f3ead6','#9fb3c3','#e9b44c','#1b1204',['rgba(233,180,76,.4)','rgba(40,120,170,.45)','rgba(20,60,100,.5)'],
+ ['https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',null],120000,
+ ()=>'<u class="mo"></u>'+ps(30,()=>'left:'+f1(R(0,100))+'%;top:'+f1(R(0,45))+'%;--t:'+f1(R(2,5))+'s;--d:-'+f1(R(0,5))+'s')+'<u class="w w1"></u><u class="w w2"></u><u class="w w3"></u>',
+`§S{background:linear-gradient(#030b16,#0b2238 55%,#0e3350)}
+§S .mo{right:14%;top:8%;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#fffbe6,#f3e3b0 60%,#d8c48a);box-shadow:0 0 50px 14px rgba(255,240,190,.3)}
+§S i{width:2px;height:2px;border-radius:50%;background:#fff;animation:sc-tw var(--t) ease-in-out var(--d) infinite}
+§S .w{left:-20%;right:-20%;border-radius:50% 50% 0 0/30px 30px 0 0;animation:sc-drift 6s ease-in-out infinite alternate}
+§S .w1{bottom:0;height:34%;background:linear-gradient(#0f3d5e,#082236);opacity:.95}
+§S .w2{bottom:0;height:24%;background:linear-gradient(#124a70,#0a2a42);animation-duration:5s;animation-direction:alternate-reverse}
+§S .w3{bottom:0;height:13%;background:linear-gradient(#17587f,#0b2f4a);animation-duration:4s}
+§T :is(h1,.greet h2){font-family:'Pirata One',serif;letter-spacing:.5px}`],
+
+['lofi','Lo-fi Oda',1,'#1d1430','44,30,66',.7,'#fbefff','#c3a8d8','#ff9ec7','#2a0f1f',['rgba(255,158,199,.4)','rgba(140,110,255,.4)','rgba(255,190,120,.3)'],
+ null,110000,
+ ()=>ps(14,()=>'left:'+f1(R(0,100))+'%;top:'+f1(R(5,90))+'%;--z:'+f1(R(20,70))+'px;--c:'+['rgba(255,170,90,.35)','rgba(255,120,190,.3)','rgba(140,170,255,.3)'][Math.floor(R(0,3))]+';--t:'+f1(R(4,9))+'s;--d:-'+f1(R(0,9))+'s')+ps(30,()=>'left:'+f1(R(0,100))+'%;--t:'+f1(R(1,2))+'s;--d:-'+f1(R(0,2))+'s','u').replace(/<u /g,'<u class="r" '),
+`§S{background:linear-gradient(#2a1a48,#1d1430 60%,#3a1d3a)}
+§S::before{content:'';position:absolute;left:0;right:0;bottom:0;height:40%;background:radial-gradient(60% 70% at 20% 100%,rgba(255,170,90,.25),transparent 70%)}
+§S i{width:var(--z);height:var(--z);border-radius:50%;background:radial-gradient(circle,var(--c),transparent 70%);animation:sc-fl var(--t) ease-in-out var(--d) infinite}
+§S .r{top:-10%;width:1px;height:40px;background:linear-gradient(transparent,rgba(220,210,255,.45));animation:sc-fall var(--t) linear var(--d) infinite}`]
 ];
 // Parçacıklar --x ile konumlanır; sahne üretiminde "left" değerini --x'e eşle
 const fixX=h=>h.replace(/style="([^"]*?)left:([\d.]+%)/g,'style="$1--x:$2;left:$2');
@@ -211,7 +251,7 @@ SD.forEach(d=>{
     +(ui?T+' :is(body,button,input){'+ui+'}\n':'')
     +d[14].replace(/§S/g,S).replace(/§T/g,T)+'\n';
 });
-Object.assign(EN,{'Yağmurlu Gece':'Rainy Night','Kış Masalı':'Winter Tale','Derin Deniz':'Deep Sea','Büyülü Orman':'Enchanted Forest','Sakura Yağmuru':'Sakura Rain','Kod Yağmuru':'Code Rain','Ejderha Ateşi':"Dragon's Fire",'Galaksi':'Galaxy','Canavar Avcısı':'Monster Slayer','Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.':'Themes are fan-made and not affiliated with any game or company.','🎬 Canlı sahneli temalar':'🎬 Live-scene themes'});
+Object.assign(EN,{'Saat İşleri':'Clockwork','Gök Adaları':'Sky Islands','Korsan Koyu':'Pirate Cove','Lo-fi Oda':'Lo-fi Room','Yağmurlu Gece':'Rainy Night','Kış Masalı':'Winter Tale','Derin Deniz':'Deep Sea','Büyülü Orman':'Enchanted Forest','Sakura Yağmuru':'Sakura Rain','Kod Yağmuru':'Code Rain','Ejderha Ateşi':"Dragon's Fire",'Galaksi':'Galaxy','Canavar Avcısı':'Monster Slayer','Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.':'Themes are fan-made and not affiliated with any game or company.','🎬 Canlı sahneli temalar':'🎬 Live-scene themes'});
 document.head.insertAdjacentHTML('beforeend',`<style id="sahne-oyun">
 /* Oyun ekranı: sahnenin üstünde tuşlar ve kareler her zaman okunur kalsın */
 :root[data-scene] .k{background:rgba(255,255,255,.22);color:var(--fg);border:1px solid rgba(255,255,255,.34);box-shadow:0 2px 0 rgba(0,0,0,.4);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}

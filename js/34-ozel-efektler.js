@@ -16,7 +16,11 @@ const FX={
   buyulu:{t:'dot',m:'up',n:9,c:['#d9ff7a','#86efac','#5eead4'],s:[3,6],glow:1},
   petal:{t:'petal',m:'fall',n:8,c:['#ffb7cf','#ff8fb3','#ffd1e0'],s:[9,15]},
   kod:{t:'txt',m:'fall',n:10,c:['#22ff66','#7dffa0','#d8ffe3'],s:[14,20],g:['0','1','ア','カ','サ','ン','ネ','夢']},
-  ejder:{t:'dot',m:'up',n:10,c:['#ffb347','#ff7a1a','#fbbf24','#fff3b0'],s:[3,6],glow:1}
+  ejder:{t:'dot',m:'up',n:10,c:['#ffb347','#ff7a1a','#fbbf24','#fff3b0'],s:[3,6],glow:1},
+  saat:{t:'txt',m:'out',n:8,c:['#e0a33a','#f0c070','#b8862e'],s:[14,22],g:['⚙']},
+  adalar:{t:'dot',m:'up',n:9,c:['#ffffff','#e6f4ff','#bfe3ff'],s:[8,16]},
+  korsan:{t:'dot',m:'out',n:10,c:['#bfe8ff','#7cc7f5','#ffffff'],s:[3,7],ring:'#e9b44c'},
+  lofi:{t:'txt',m:'up',n:6,c:['#ff9ec7','#ffcf7a','#c9b6ff'],s:[14,20],g:['♪','♫','♩']}
 };
 const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
 let canli=0;
@@ -62,6 +66,7 @@ window.temaEfekt=patlat;
 
 // ---------- Harf blokları ----------
 const E=(k)=>':root[data-theme="'+k+'"][data-scene] .tile:not(.g):not(.o):not(.r)',S=(k,c)=>':root[data-theme="'+k+'"] .tile.'+c;
+const RV=['6px 6px','calc(100% - 6px) 6px','6px calc(100% - 6px)','calc(100% - 6px) calc(100% - 6px)'].map(p=>'radial-gradient(circle at '+p+',#f0c070 0 2px,#5a3a10 2.5px,transparent 3px)').join(',')+',';
 const BL={
   cyber:{f:"'Rajdhani',sans-serif",
     e:'background:linear-gradient(135deg,rgba(0,240,255,.12),rgba(5,4,10,.6));border:1.5px solid rgba(0,240,255,.6);border-radius:0 12px 0 12px;box-shadow:inset 0 0 10px rgba(0,240,255,.12)',
@@ -134,7 +139,31 @@ const BL={
     fl:'border-color:#fb923c;box-shadow:0 0 14px rgba(251,146,60,.6),inset 0 0 12px rgba(251,80,0,.3)',
     g:'background:linear-gradient(#5ee08a,#14803d);color:#02200c;border:2px solid #b7f7ca;border-radius:8px;box-shadow:0 0 14px rgba(74,222,128,.55),inset 0 1px 0 rgba(255,255,255,.35)',
     o:'background:linear-gradient(#ffd24a,#ea580c);color:#2a0d00;border:2px solid #ffe7a0;border-radius:8px;box-shadow:0 0 16px rgba(251,146,60,.7),inset 0 1px 0 rgba(255,255,255,.4)',
-    r:'background:linear-gradient(#7f1d1d,#260808);color:#fca5a5;border:2px solid #b91c1c;border-radius:8px;box-shadow:inset 0 0 10px rgba(0,0,0,.6)'}
+    r:'background:linear-gradient(#7f1d1d,#260808);color:#fca5a5;border:2px solid #b91c1c;border-radius:8px;box-shadow:inset 0 0 10px rgba(0,0,0,.6)'},
+  saat:{f:"'Special Elite',monospace",
+    e:'background:'+RV+'linear-gradient(#2e1e0e,#1a1006);border:2px solid #8a6224;border-radius:6px;box-shadow:inset 0 0 8px rgba(0,0,0,.6)',
+    fl:'border-color:#e0a33a;box-shadow:0 0 12px rgba(224,163,58,.5),inset 0 0 8px rgba(0,0,0,.6)',
+    g:'background:'+RV+'linear-gradient(#7cc46a,#2f6e2a);color:#f6ffe8;border:2px solid #d4a040;border-radius:6px;box-shadow:0 3px 0 #3a2410',
+    o:'background:'+RV+'linear-gradient(#f0c070,#b8862e);color:#2a1806;border:2px solid #f6e0a0;border-radius:6px;box-shadow:0 3px 0 #3a2410',
+    r:'background:'+RV+'linear-gradient(#a8443a,#5a1a14);color:#ffe0d0;border:2px solid #8a6224;border-radius:6px;box-shadow:0 3px 0 #3a2410'},
+  adalar:{
+    e:'background:linear-gradient(#ffffff,#e8f4ff);border:2px solid #fff;border-radius:18px;box-shadow:0 4px 0 #bcdcf5,0 6px 12px rgba(60,120,180,.2)',
+    fl:'border-color:#f0772f;box-shadow:0 4px 0 #bcdcf5,0 0 0 3px rgba(240,119,47,.25)',
+    g:'background:linear-gradient(#8fe08a,#3fae4a);color:#fff;border:2px solid #d8ffd0;border-radius:18px;box-shadow:0 4px 0 #2a7a32',
+    o:'background:linear-gradient(#ffd77a,#f5a623);color:#fff;border:2px solid #fff0c8;border-radius:18px;box-shadow:0 4px 0 #c47a14',
+    r:'background:linear-gradient(#ff9a8a,#e5534b);color:#fff;border:2px solid #ffd6d0;border-radius:18px;box-shadow:0 4px 0 #a8322c'},
+  korsan:{
+    e:'background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 2px,transparent 2px 13px),linear-gradient(rgba(90,58,34,.62),rgba(58,36,20,.62));border:2px solid #9a7444;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)',
+    fl:'border-color:#e9b44c;box-shadow:0 0 12px rgba(233,180,76,.5),inset 0 0 0 2px rgba(0,0,0,.35)',
+    g:'background:repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 2px,transparent 2px 13px),linear-gradient(#4fae74,#21643e);color:#f3ead6;border:2px solid #b7e8c8;border-radius:4px',
+    o:'background:radial-gradient(circle at 35% 30%,#fff0b0,#e9b44c 55%,#a8761c);color:#3a2404;border:2px solid #fff0b0;border-radius:4px;box-shadow:0 0 12px rgba(233,180,76,.55)',
+    r:'background:repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 2px,transparent 2px 13px),linear-gradient(#9a3030,#521616);color:#ffd8d0;border:2px solid #c86060;border-radius:4px'},
+  lofi:{
+    e:'background:rgba(60,40,90,.55);border:2px solid rgba(255,158,199,.4);border-radius:14px;box-shadow:inset 0 0 10px rgba(255,158,199,.15)',
+    fl:'border-color:#ff9ec7;box-shadow:0 0 12px rgba(255,158,199,.5)',
+    g:'background:linear-gradient(135deg,#9ff0c8,#4cc79a);color:#0b3324;border:2px solid #d8fff0;border-radius:14px;box-shadow:0 0 14px rgba(110,230,180,.45)',
+    o:'background:linear-gradient(135deg,#ffe0a0,#ffb04a);color:#4a2a00;border:2px solid #fff0d0;border-radius:14px;box-shadow:0 0 14px rgba(255,190,90,.45)',
+    r:'background:linear-gradient(135deg,#ffb0d0,#e8508a);color:#fff;border:2px solid #ffd8e8;border-radius:14px;box-shadow:0 0 14px rgba(232,80,138,.45)'}
 };
 let css='';
 for(const k in BL){const b=BL[k];
