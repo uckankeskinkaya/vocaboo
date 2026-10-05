@@ -32,3 +32,13 @@ drop table if exists public.username_log;
 --   select tanim from yedek_20261005.fonksiyonlar where imza like 'admin_user_act%';
 -- Daha önce banlanmış kullanıcıların oturum engelini kaldırmak için:
 --   update auth.users set banned_until = null where id in (select id from public.profiles where banned);
+
+-- ---------------------------------------------------------------
+-- 20261005_sifre_sifirlama.sql dosyasını geri almak için:
+drop function if exists public.pw_request(text);
+drop function if exists public.admin_pw_requests();
+drop function if exists public.admin_pw_reset(uuid);
+drop function if exists public.pw_must_change();
+drop function if exists public.pw_changed();
+drop table if exists public.pw_requests;
+drop table if exists public.pw_temp;

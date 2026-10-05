@@ -46,9 +46,9 @@ function aProfile(){
   panel('<div class="pf-h">'+frameWrap(av(P.avatar,84),P.frame)+'<h2>'+esc(P.username)+'</h2><span class="chip">'+titleOf(P)+'</span><div class="pbar"><i style="width:'+pct+'%"></i></div><small>Seviye '+L+' · '+(L>=100?'MAX':(xp-a)+'/'+(b-a)+' XP')+'</small><small>'+(nx?'Seviye '+nx[0]+' ile '+nx[1]:'En üst unvan')+'</small></div>'
    +'<div class="sg3">'+S(t?Math.round(n/t*100)+'%':'-','Doğruluk')+S(n,'Çözülen kelime')+S(P.total_points||0,'Toplam puan')+S(P.best_score,'Seri rekoru')+S(P.best_streak,'En uzun seri')+S(ds,'Günlük seri')+'</div>'
    +'<div class="bdr">'+BD.slice().sort((a,b)=>b[2](P)-a[2](P)).slice(0,8).map(b=>'<i class="'+(b[2](P)?'':'off')+'">'+b[1]+'</i>').join('')+'<small>'+nb+'/'+BD.length+'</small></div>'
-   +'<input id="pf" type="file" accept="image/*" hidden><div class="lst">'+rw('nb','📖','Kelime defterim')+rw('bb','🏅','Rozetler')+rw('tb2','📈','Unvan ilerlemesi')+rw('pp','📷','Fotoğraf yükle')+rw('pv','🎭','Hazır avatar seç')+rw('fr','🖼️','Avatar çerçevesi')+rw('un','✏️','Kullanıcı adını değiştir')+rw('lo','↩','Çıkış yap')+'</div>');
+   +'<input id="pf" type="file" accept="image/*" hidden><div class="lst">'+rw('nb','📖','Kelime defterim')+rw('bb','🏅','Rozetler')+rw('tb2','📈','Unvan ilerlemesi')+rw('pp','📷','Fotoğraf yükle')+rw('pv','🎭','Hazır avatar seç')+rw('fr','🖼️','Avatar çerçevesi')+rw('un','✏️','Kullanıcı adını değiştir')+rw('pwc','🔑','Şifreni değiştir')+rw('lo','↩','Çıkış yap')+'</div>');
   $('bb').onclick=aBadges;$('nb').onclick=aBook;$('tb2').onclick=aTitles;$('fr').onclick=aFrames;
-  $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;$('pf').onchange=aPhoto;$('un').onclick=aUsername;
+  $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;$('pf').onchange=aPhoto;$('un').onclick=aUsername;$('pwc').onclick=()=>aNewPw(true);
   $('lo').onclick=async()=>{await flushStats();await sb.auth.signOut();prof=null;rHome();aAuth()};
 };
 async function aBoard(tab,col){

@@ -10,8 +10,8 @@ async function annCheck(){
 }
 function aAdmin(){
   if(!prof||!prof.admin){toast('Yetkin yok.');return}
-  panel('<p><b>Yönetici paneli</b></p>'+btn('ad1','Kullanıcılar')+btn('ad2','Kelimeler')+btn('ad3','Sınıf kodu ve duyuru')+btn('ad4','Şüpheli raporu')+btn('adl','Seviye ayarla (kendin)')+btn('ad5','Tüm skorları sıfırla')+btn('ob','Geri'));
-  $('ad1').onclick=()=>aAdUsers('');$('ad2').onclick=()=>aAdWords(null,'');$('ad3').onclick=aAdSettings;$('ad4').onclick=aAdSus;$('adl').onclick=()=>aAdLevel(prof.id,prof.username);
+  panel('<p><b>Yönetici paneli</b></p>'+btn('ad1','Kullanıcılar')+btn('ad6','Şifre talepleri')+btn('ad2','Kelimeler')+btn('ad3','Sınıf kodu ve duyuru')+btn('ad4','Şüpheli raporu')+btn('adl','Seviye ayarla (kendin)')+btn('ad5','Tüm skorları sıfırla')+btn('ob','Geri'));
+  $('ad1').onclick=()=>aAdUsers('');$('ad6').onclick=()=>aAdPw();if(typeof pwBadge==='function')pwBadge();$('ad2').onclick=()=>aAdWords(null,'');$('ad3').onclick=aAdSettings;$('ad4').onclick=aAdSus;$('adl').onclick=()=>aAdLevel(prof.id,prof.username);
   $('ad5').onclick=()=>cfAsk('Tüm kullanıcıların skorları (haftalık ve tüm zamanlar) sıfırlanacak. Emin misin?','Sıfırla','Vazgeç',async()=>{const r=await sb.rpc('admin_reset_all');toast(r.error?'Yapılamadı':'Skorlar sıfırlandı')});
   $('ob').onclick=aSettings;
 }
@@ -26,10 +26,11 @@ async function aAdUsers(q){
 }
 function aAdUser(id,q){
   const x=AU[id];if(!x)return;
-  panel('<p><b>'+esc(x.u)+'</b>: '+(x.c?'sınıf':'dışarıdan')+(x.b?', engelli':'')+', rekor '+x.bs+', Sv.'+lvlOf(x.xp||0)+', '+(x.xp||0)+' XP</p>'+btn('u1','Skorunu sıfırla')+btn('u2','Avatarını sil')+btn('u3',x.c?'Sınıftan çıkar':'Sınıfa al')+btn('u4',x.b?'Engeli kaldır':'Engelle')+btn('u5','Seviye ayarla')+(x.a?'':'<button class="lvl" id="u6" style="justify-content:center;color:var(--r);border-color:var(--r)">Kullanıcıyı sil</button>')+btn('ob','Geri'));
+  panel('<p><b>'+esc(x.u)+'</b>: '+(x.c?'sınıf':'dışarıdan')+(x.b?', engelli':'')+', rekor '+x.bs+', Sv.'+lvlOf(x.xp||0)+', '+(x.xp||0)+' XP</p>'+btn('u1','Skorunu sıfırla')+btn('u2','Avatarını sil')+btn('u3',x.c?'Sınıftan çıkar':'Sınıfa al')+btn('u4',x.b?'Engeli kaldır':'Engelle')+btn('u5','Seviye ayarla')+(x.a?'':btn('u7','Şifre sıfırla'))+(x.a?'':'<button class="lvl" id="u6" style="justify-content:center;color:var(--r);border-color:var(--r)">Kullanıcıyı sil</button>')+btn('ob','Geri'));
   const act=(b,a,t)=>$(b).onclick=()=>cfAsk(t+' ('+x.u+')?','Evet','Vazgeç',async()=>{const r=await sb.rpc('admin_user_act',{_id:id,_act:a});toast(r.error||r.data!=='ok'?'Yapılamadı':'Tamam');aAdUsers(q||'')});
   act('u1','reset','Skor sıfırlansın');act('u2','avatar','Avatar silinsin');act('u3',x.c?'cls_off':'cls_on',x.c?'Sınıftan çıkarılsın':'Sınıfa alınsın');act('u4',x.b?'unban':'ban',x.b?'Engel kalksın':'Engellensin');
   $('ob').onclick=()=>aAdUsers(q||'');$('u5').onclick=()=>aAdLevel(id,x.u,q);
+  if($('u7'))$('u7').onclick=()=>aAdPwGo(id,x.u,()=>aAdUser(id,q));
   if($('u6'))$('u6').onclick=()=>cfAsk(x.u+' kalıcı olarak silinsin mi? Hesabı, skorları, arkadaşlıkları ve satın alımları geri alınamaz şekilde silinir.','Devam','Vazgeç',()=>cfAsk('Son uyarı: '+x.u+' hesabı tamamen silinecek. Emin misin?','Evet, sil','Vazgeç',async()=>{
     const r=await sb.rpc('admin_user_delete',{_id:id});
     const m={ok:'Kullanıcı silindi',kendin:'Kendi hesabını silemezsin',yonetici:'Yönetici hesabı silinemez',yok:'Kullanıcı bulunamadı'};

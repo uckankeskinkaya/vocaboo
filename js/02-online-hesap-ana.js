@@ -157,6 +157,7 @@ if(window.supabase&&SB_URL.indexOf('PASTE')!==0){
   $('online').hidden=false;on('<p>Yükleniyor...</p>');
   sb.auth.getSession().then(async r=>{
     if(r.data&&r.data.session)await loadProf();
+    if(prof&&typeof pwMust==='function'&&await pwMust()){aNewPw();return}
     if(prof)oExit();else aAuth();
   }).catch(()=>aAuth());
 }else $('home').hidden=false;
@@ -171,10 +172,11 @@ function noSb(){panel('<p>Bu özellik için Supabase ayarı gerekli.</p>'+btn('o
 
 function aAuth(msg){
   if(!sb){noSb();return}
-  panel(heroHTML()+(msg?'<p><b>'+esc(msg)+'</b></p>':'')+'<p>Kullanıcı adı (3-16 karakter: a-z, 0-9, _)</p><input id="au" maxlength="16" autocapitalize="none" autocomplete="username" style="'+SEL+'"><p>Şifre (en az 8 karakter)</p><input id="ap" type="password" autocomplete="current-password" style="'+SEL+'"><p>Sınıf kodu (sınıftansan gir, dışarıdansan boş bırak)</p><input id="ac" maxlength="40" autocapitalize="none" autocomplete="off" style="'+SEL+'"><p id="ae" style="color:var(--r)"></p>'+btn('al','Giriş yap')+btn('as','Kayıt ol')+'<p>Mail ya da telefon istenmez. Şifreni unutursan kurtarma yolu yoktur.</p>'+(prof?btn('ob','Ana menü'):''));
+  panel(heroHTML()+(msg?'<p><b>'+esc(msg)+'</b></p>':'')+'<p>Kullanıcı adı (3-16 karakter: a-z, 0-9, _)</p><input id="au" maxlength="16" autocapitalize="none" autocomplete="username" style="'+SEL+'"><p>Şifre (en az 8 karakter)</p><input id="ap" type="password" autocomplete="current-password" style="'+SEL+'"><p>Sınıf kodu (sınıftansan gir, dışarıdansan boş bırak)</p><input id="ac" maxlength="40" autocapitalize="none" autocomplete="off" style="'+SEL+'"><p id="ae" style="color:var(--r)"></p>'+btn('al','Giriş yap')+btn('as','Kayıt ol')+btn('af','Şifremi unuttum')+'<p>Mail ya da telefon istenmez. Şifreni unutursan "Şifremi unuttum" ile yöneticiye talep gönderebilirsin.</p>'+(prof?btn('ob','Ana menü'):''));
   if(prof)$('ob').onclick=()=>oExit();
   $('al').onclick=()=>aGo(false);
   $('as').onclick=()=>aGo(true);
+  $('af').onclick=()=>aForgot();
 }
 async function aGo(reg){
   const u=$('au').value.trim().toLowerCase(),p=$('ap').value,err=t=>{$('ae').textContent=t};
@@ -187,6 +189,7 @@ async function aGo(reg){
   if(!r.data.session)return err('Hesap açıldı ama oturum başlamadı. Supabase ayarlarında Confirm email kapalı olmalı.');
   await loadProf();
   if(!prof)return err('Profil oluşturulamadı. SQL kurulumunu kontrol et.');
+  if(typeof pwMust==='function'&&await pwMust()){aNewPw();return}
   oExit();
 }
 
