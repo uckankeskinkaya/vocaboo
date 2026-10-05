@@ -4,7 +4,7 @@ const { sayfaAc } = require('./yardimci');
 (async () => {
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(() => {
-    const r = { temalar: [], cerceve: ['ates', 'simsek', 'galaksi', 'cyberc'].every(k => FRM[k] && /class="(fq|rk) /.test(frameHtml('<img width="40">', k))) };
+    const r = { temalar: [], cerceve: ['ates', 'simsek', 'galaksi', 'cyberc', 'orkide', 'zehir'].every(k => FRM[k] && /class="(fq|rk) /.test(frameHtml('<img width="40">', k))) };
     for (const k of ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder']) {
       setTheme(k);
       r.temalar.push([k, document.documentElement.dataset.theme === k, document.documentElement.dataset.scene === '1', k === 'minecraft' ? (document.querySelector('#sahne canvas.mc') && document.querySelector('#sahne canvas.mc').width > 0 ? 9 : 0) : document.getElementById('sahne').children.length, PREMT.includes(k)]);
@@ -29,6 +29,6 @@ const { sayfaAc } = require('./yardimci');
   assert.deepStrictEqual(o.onizleGezinti, ['dark', false]);
   assert.ok(o.rutbe, 'rütbe çerçeveleri çizilmedi'); assert.ok(o.doku, 'Minecraft dokuları üretilmedi'); assert.deepStrictEqual(o.temiz, [true, 0]);
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok sahne: 12 canlı tema çiziliyor, temizleniyor; 4 yeni çerçeve tanımlı, blok dünyası dokuları üretiliyor, Pazar tema önizlemesi ve rütbe çerçeveleri çalışıyor');
+  console.log('ok sahne: 12 canlı tema çiziliyor, temizleniyor; 6 yeni çerçeve tanımlı, blok dünyası dokuları üretiliyor, Pazar tema önizlemesi ve rütbe çerçeveleri çalışıyor');
   await s.kapat();
 })().catch(e => { console.error('HATA sahne:', e.message); process.exit(1); });
