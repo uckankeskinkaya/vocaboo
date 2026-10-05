@@ -1,5 +1,5 @@
 -- Haftalık şampiyon: haftanın ilk 3'üne puan (pazar parası) ve rozet verir. Her hafta bir kez.
--- 1. 500, 2. 300, 3. 150 puan. Yalnızca skoru 0'dan büyük ve banlı olmayanlar.
+-- 1. 20.000, 2. 15.000, 3. 10.000 puan (mağazada çerçeve 60.000-150.000, yani 3-8 şampiyonluk). Yalnızca skoru 0'dan büyük ve banlı olmayanlar.
 
 alter table public.profiles
   add column if not exists weekly_wins int not null default 0,
@@ -28,7 +28,7 @@ declare w date := coalesce(_week, (date_trunc('week', now() at time zone 'Europe
 begin
   if exists (select 1 from weekly_champs where week = w) then return 'zaten'; end if;
   insert into weekly_champs(week, rank, user_id, score, pts)
-  select w, t.rk, t.user_id, t.best_score, (array[500, 300, 150])[t.rk]
+  select w, t.rk, t.user_id, t.best_score, (array[20000, 15000, 10000])[t.rk]
   from (select s.user_id, s.best_score, row_number() over (order by s.best_score desc, p.username)::int as rk
         from weekly_scores s join profiles p on p.id = s.user_id
         where s.week = w and s.best_score > 0 and not p.banned) t
