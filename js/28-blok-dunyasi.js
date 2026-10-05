@@ -28,11 +28,6 @@ const T={};['top','side','dirt','stone','coal','leaf','log','plank','sand','logt
 // Arayüz için dokular (düğme taşı, toprak, çimen kenarı)
 const big=(t,n)=>{const c=cv(16*n,16*n),x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(t,0,0,16*n,16*n);return 'url('+c.toDataURL()+')'};
 const RS=document.documentElement.style;
-// Piksel çerçeve halkası: üstü çimen, altı toprak, arada elmas cevheri
-(function(){const r=rng(31),c=cv(24,24),x=c.getContext('2d'),pk=a=>a[Math.floor(r()*a.length)];
-  for(let j=0;j<24;j++)for(let i=0;i<24;i++){const d=Math.hypot(i+.5-12,j+.5-12);if(d>=12||d<8.9)continue;
-    x.fillStyle=d>=11.2||d<9.6?'#1f1f1f':j<10?pk(PAL.grass):r()<.07?pk(['#5fe3e0','#9ff5f2']):pk(PAL.dirt);x.fillRect(i,j,1,1)}
-  RS.setProperty('--pxr','url('+c.toDataURL()+')')})();
 RS.setProperty('--mc-stone',big(T.stone,2));RS.setProperty('--mc-dirt',big(T.dirt,2));RS.setProperty('--mc-side',big(T.side,2));RS.setProperty('--mc-plank',big(T.plank,2));
 // --- 3B dünya: arazi üretimi, mesh, WebGL çizimi ---
 const N=72,YM=40,WL=9;

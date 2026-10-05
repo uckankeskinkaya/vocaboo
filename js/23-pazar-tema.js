@@ -82,12 +82,13 @@ async function aShop(tab){
   const items=d.items.filter(it=>tab==='f'?(it.id.startsWith('frame:')&&FRM[it.id.slice(6)]):(it.id.startsWith('theme:')&&TM[it.id.slice(6)]));
   const pr=it=>it.owned?'Sahipsin':'🪙 '+it.price.toLocaleString();
   const body=tab==='f'?'<div class="fg">'+items.map(it=>{const k=it.id.slice(6);return '<button class="ft'+(it.owned?' cur':'')+'" data-i="'+it.id+'" data-p="'+it.price+'">'+frameHtml(av(prof.avatar,56),k)+'<b>'+FRM[k][0]+'</b><small>'+pr(it)+'</small></button>'}).join('')+'</div>'
-    :'<div class="tg">'+items.map(it=>thTile(it.id.slice(6),pr(it),it.owned?' cur':'','data-i="'+it.id+'" data-p="'+it.price+'"')).join('')+'</div><p class="cap">Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.</p>';
+    :'<p class="cap">Önizlemek için bir temaya dokun</p><div class="tg">'+items.map(it=>thTile(it.id.slice(6),pr(it),it.owned?' cur':'','data-i="'+it.id+'" data-p="'+it.price+'"')).join('')+'</div><p class="cap">Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.</p>';
   panel('<div class="bal">🪙 '+d.bal.toLocaleString()+'<small>Bakiye</small></div><div class="seg sm">'+sg('sf','Çerçeveler',tab==='f')+sg('st','Temalar',tab==='t')+'</div>'+body);
   $('sf').onclick=()=>aShop('f');$('st').onclick=()=>aShop('t');
   document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.i,nm=id.startsWith('frame:')?FRM[id.slice(6)][0]:TM[id.slice(6)][0];
-    if(b.classList.contains('cur')){toast(tab==='f'?'Çerçeveler menüsünden uygula':'Ayarlar → Tema seç');return}
+    if(tab==='t'){thPrev(id.slice(6),+b.dataset.p,b.classList.contains('cur'));return}
+    if(b.classList.contains('cur')){toast('Çerçeveler menüsünden uygula');return}
     cfAsk(nm+': 🪙 '+(+b.dataset.p).toLocaleString(),'Satın al','Vazgeç',async()=>{
       const r=await sb.rpc('shop_buy',{_id:id}),c=r.data;
       toast(c==='ok'?'Satın alındı':c==='yetersiz'?'Yetersiz puan':'Yapılamadı');
@@ -95,6 +96,38 @@ async function aShop(tab){
     });
   });
 };
+// Pazar'da tema önizlemesi: tema geçici uygulanır (kaydedilmez), alttaki çubuktan satın alınır ya da kapatılır
+let PV=null;
+Object.assign(EN,{'Önizleme':'Preview','Uygula':'Apply','Tema uygulandı':'Theme applied','Önizlemek için bir temaya dokun':'Tap a theme to preview it'});
+RX.push([/^Önizleme · 🪙 ([\d.,]+)$/,'Preview · 🪙 $1']);
+function thApply(t){const r=document.documentElement;if(t)r.dataset.theme=t;else delete r.dataset.theme;r.dataset.anim=TM[t]&&TM[t][11]?'1':'';
+  if(typeof sahneKur==='function')sahneKur(t);const m=document.querySelector('meta[name=theme-color]');if(m&&TM[t||'light'])m.content=TM[t||'light'][2]}
+function thPrevEnd(keep){const b=$('tpv');if(b)b.remove();if(!PV)return;const t=PV.t;PV=null;
+  if(keep)setTheme(keep);else if(t)setTheme(t);else{try{localStorage.removeItem('ka_theme')}catch(e){}thApply(null)}}
+function thPrev(k,price,owned){
+  if(!TM[k])return;
+  if(!PV){let t=null;try{t=localStorage.getItem('ka_theme')}catch(e){}PV={t}}
+  thApply(k);
+  let bar=$('tpv');if(!bar){bar=document.createElement('div');bar.id='tpv';document.body.appendChild(bar)}
+  bar.innerHTML='<div><small>Önizleme'+(owned?'':' · 🪙 '+price.toLocaleString())+'</small><b>'+esc(TM[k][0])+'</b></div><button id="tpvx">Kapat</button><button id="tpvy" class="m">'+(owned?'Uygula':'Satın al')+'</button>';
+  $('tpvx').onclick=()=>thPrevEnd();
+  $('tpvy').onclick=()=>{
+    if(owned){thPrevEnd(k);toast('Tema uygulandı');return}
+    cfAsk(TM[k][0]+': 🪙 '+price.toLocaleString(),'Satın al','Vazgeç',async()=>{
+      const r=await sb.rpc('shop_buy',{_id:'theme:'+k}),c=r.data;
+      toast(c==='ok'?'Satın alındı':c==='yetersiz'?'Yetersiz puan':'Yapılamadı');
+      if(c==='ok')thPrevEnd(k);
+      await loadProf();aShop('t');
+    });
+  };
+}
+const _pnl=panel;panel=function(h){if(PV)thPrevEnd();return _pnl(h)};
+document.head.insertAdjacentHTML('beforeend',`<style>
+#tpv{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:60;max-width:536px;margin:0 auto;display:flex;gap:8px;align-items:center;padding:10px 12px;border-radius:16px;background:var(--panel);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+#tpv div{flex:1;min-width:0}#tpv small{display:block;color:var(--dim);font-size:11px}#tpv b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tpv button{height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--fg);font-weight:700;white-space:nowrap}
+#tpv button.m{background:var(--ac);color:var(--acf);border-color:var(--ac)}
+</style>`);
 async function aTheme(){
   await shopOwned();
   const cur=document.documentElement.dataset.theme||'';
@@ -108,7 +141,7 @@ async function ownedInit(){
   const t=document.documentElement.dataset.theme;
   if(PREMT.includes(t)&&!ownedHas('theme:'+t))setTheme('light');
 }
-const _rh4=rHome;rHome=function(){_rh4();ownedInit()};
+const _rh4=rHome;rHome=function(){if(PV)thPrevEnd();_rh4();ownedInit()};
 // Alıştırma sunucuda: XP ve istatistik sunucudan, istemci artık hiçbir şey bildirmiyor
 const pFail=r=>{if(r&&r.error&&/Could not find|does not exist|schema cache/i.test(r.error.message)){PSV=false;return true}return false};
 async function pStart(l){
