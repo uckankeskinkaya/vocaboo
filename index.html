@@ -223,6 +223,19 @@ header{position:sticky;top:0;z-index:5;padding:4px 0}
   #nav button{flex:none;max-width:none;width:100%}
   #nav #fb{right:12px}
 }
+/* Skor tablosu: tüm kullanıcılar, sıralı liste */
+.lb{display:flex;flex-direction:column;gap:8px}
+.lbr{display:grid;grid-template-columns:34px 64px minmax(0,1fr) auto;align-items:center;gap:6px;padding:8px 12px 8px 8px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.lbr.t1{border-color:#d4a017}.lbr.t2{border-color:#9aa3b2}.lbr.t3{border-color:#c7773a}
+.lbr.me{box-shadow:inset 0 0 0 2px var(--ac)}
+.lbn{text-align:center;font-weight:800;font-size:15px;color:var(--dim);font-variant-numeric:tabular-nums}
+.lbr.t1 .lbn,.lbr.t2 .lbn,.lbr.t3 .lbn{font-size:22px}
+.lba{display:grid;place-items:center;min-height:54px}
+.lbu{min-width:0}.lbu b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lbu small{color:var(--dim);font-size:12px}
+.lbv{font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
+.lbme{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:0 0 10px;padding:8px 12px;border-radius:12px;background:var(--key);color:var(--dim)}
+.lbme b{font-size:24px;color:var(--fg)}
 </style>
 </head>
 <body>
@@ -1683,16 +1696,26 @@ async function aBoard(tab,col){
   if(!sb){noSb();return}
   panel('<p>Yükleniyor...</p>');
   const wk=dStr(dayNum()-((dayNum()+3)%7)-(tab==='last'?7:0));let d=[],err=false;
-  if(tab==='fr'){const r=await sb.rpc('friend_list');err=!!r.error;if(!err)d=[{u:prof.username,a:prof.avatar,f:prof.frame,v:prof.best_score}].concat(r.data.friends.map(x=>({u:x.u,a:x.im,f:x.fr,v:x.bs}))).sort((a,b)=>b.v-a.v)}
-  else if(tab==='week'||tab==='last'){const r=await sb.from('weekly_scores').select('best_score,profiles!inner(username,avatar'+(FCOK?',frame':'')+')').eq('week',wk).eq('profiles.cls',true).gt('best_score',0).order('best_score',{ascending:false}).limit(20);err=!!r.error;d=(r.data||[]).map(x=>({u:x.profiles&&x.profiles.username,a:x.profiles&&x.profiles.avatar,f:x.profiles&&x.profiles.frame,v:x.best_score}))}
-  else{const r=await sb.from('profiles').select('username,avatar'+(FCOK?',frame':'')+',best_score,best_daily_streak').eq('cls',true).gt(col,0).order(col,{ascending:false}).limit(20);err=!!r.error;d=(r.data||[]).map(x=>({u:x.username,a:x.avatar,f:x.frame,v:x[col]}))}
-  if(err&&FCOK&&tab!=='fr'){FCOK=false;return aBoard(tab,col)}if(err){panel('<p>Skor tablosu yüklenemedi.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit();return}
+  if(tab==='fr'){const r=await sb.rpc('friend_list');err=!!r.error;if(!err)d=[{u:prof.username,a:prof.avatar,f:prof.frame,xp:prof.xp,v:prof.best_score}].concat(r.data.friends.map(x=>({u:x.u,a:x.im,f:x.fr,xp:x.xp,v:x.bs})))}
+  else if(tab==='week'||tab==='last'){
+    const [p,w]=await Promise.all([sb.from('profiles').select('id,username,avatar,frame,xp').eq('banned',false).limit(500),sb.from('weekly_scores').select('user_id,best_score').eq('week',wk).limit(500)]);
+    err=!!(p.error||w.error);const m={};(w.data||[]).forEach(x=>{m[x.user_id]=x.best_score});
+    d=(p.data||[]).map(x=>({u:x.username,a:x.avatar,f:x.frame,xp:x.xp,v:m[x.id]}));
+  }else{
+    const r=await sb.from('profiles').select('username,avatar,frame,xp,best_score,best_daily_streak').eq('banned',false).limit(500);err=!!r.error;
+    d=(r.data||[]).map(x=>({u:x.username,a:x.avatar,f:x.frame,xp:x.xp,v:x[col]}));
+  }
+  if(err){panel('<p>Skor tablosu yüklenemedi.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit();return}
+  d.forEach(x=>{x.v=+x.v||0});
+  d.sort((a,b)=>b.v-a.v||String(a.u).localeCompare(String(b.u)));
+  d.forEach((x,i)=>{x.r=i&&x.v===d[i-1].v?d[i-1].r:i+1});
+  const me=prof&&d.find(x=>x.u===prof.username),medal=['🥇','🥈','🥉'];
   const sg=(id,t,on)=>'<button id="'+id+'"'+(on?' class="on"':'')+'>'+t+'</button>';
-  const pc=(x,i,c)=>'<div class="pc '+c+'">'+(x?frameWrap(av(x.a,34),x.f)+'<b>'+esc(x.u||'?')+'</b><span>'+x.v+'</span><i>'+(i+1)+'</i>':'')+'</div>';
-  const row=(x,i)=>'<div class="pl'+(prof&&x.u===prof.username?' me':'')+'"><span style="display:flex;align-items:center;gap:10px"><em class="rk">'+(i+1)+'</em>'+frameWrap(av(x.a,30),x.f)+esc(x.u||'?')+(prof&&x.u===prof.username?' (sen)':'')+'</span><b>'+x.v+'</b></div>';
+  const row=x=>'<div class="lbr'+(x.r<=3?' t'+x.r:'')+(x===me?' me':'')+'"><span class="lbn">'+(x.r<=3?medal[x.r-1]:x.r)+'</span><span class="lba">'+frameWrap(av(x.a,x.r<=3?48:44),x.f)+'</span><span class="lbu"><b>'+esc(x.u||'?')+(x===me?' (sen)':'')+'</b><small>Seviye '+lvlOf(x.xp||0)+'</small></span><span class="lbv">'+x.v+'</span></div>';
   panel('<div class="seg sm">'+sg('t1','Tüm zamanlar',tab==='all')+sg('t2','Haftalık',tab==='week')+sg('t3','Geçen hafta',tab==='last')+sg('t4','Arkadaşlar',tab==='fr')+'</div>'
-   +(tab==='all'?'<div class="seg sm">'+sg('c1','Seri rekoru',col==='best_score')+sg('c2','Günlük seri',col!=='best_score')+'</div>':'<p class="cap">'+(tab==='fr'?'Senin ve arkadaşlarının Seri rekoru.':tab==='last'?'Geçen haftanın sınıf sıralaması.':'Bu haftanın Seri Modu puanı. Pazartesi sıfırlanır.')+'</p>')
-   +(d.length?'<div class="pod">'+pc(d[1],1,'p2')+pc(d[0],0,'p1')+pc(d[2],2,'p3')+'</div>'+d.slice(3).map((x,i)=>row(x,i+3)).join(''):'<p>Henüz kayıt yok.</p>'));
+    +(tab==='all'?'<div class="seg sm">'+sg('c1','Seri rekoru',col==='best_score')+sg('c2','Günlük seri',col!=='best_score')+'</div>':'<p class="cap">'+(tab==='fr'?'Senin ve arkadaşlarının Seri rekoru.':tab==='last'?'Geçen haftanın sıralaması.':'Bu haftanın Seri Modu puanı. Pazartesi sıfırlanır.')+'</p>')
+    +(me?'<div class="lbme"><span>Sıran</span><b>'+me.r+'</b><span>/ '+d.length+'</span></div>':'')
+    +(d.length?'<div class="lb">'+d.map(row).join('')+'</div>':'<p>Henüz kayıt yok.</p>'));
   $('t1').onclick=()=>aBoard('all',col);$('t2').onclick=()=>aBoard('week');$('t3').onclick=()=>aBoard('last');$('t4').onclick=()=>aBoard('fr');
   if(tab==='all'){$('c1').onclick=()=>aBoard('all','best_score');$('c2').onclick=()=>aBoard('all','best_daily_streak')}
 };
