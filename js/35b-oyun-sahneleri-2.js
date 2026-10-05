@@ -9,6 +9,8 @@ const anim='--t:%ts;--d:-%ds';
 const tm=(a,b)=>'--t:'+fx(rr(a,b))+'s;--d:-'+fx(rr(0,b))+'s';
 document.head.insertAdjacentHTML('beforeend','<style id="oyun-sahne-2">'+`
 @keyframes os2-blink{50%{opacity:0}}
+@keyframes os2-breath{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.03)}}
+@keyframes os2-eye{0%,90%,100%{transform:scaleX(1)}94%{transform:scaleX(4)}}
 @keyframes sc-blink{50%{opacity:0}}
 @keyframes os2-rise{from{transform:translate3d(0,0,0);opacity:0}10%{opacity:1}85%{opacity:.9}to{transform:translate3d(var(--w,0px),-110vh,0);opacity:0}}
 @keyframes os2-fall{from{transform:translate3d(0,-8vh,0)}to{transform:translate3d(var(--w,0px),112vh,0)}}
@@ -44,48 +46,47 @@ const BASE='§O svg{position:absolute;display:block;overflow:visible}§O .vg{ins
 
 /* ───── EJDERHA ATEŞİ ───── */
 const ejHtml=()=>{
-  const O='stroke="#ff7a22" stroke-width="1.5" stroke-linejoin="round"';
-  const dragon=sv('dr','-80 0 480 260',`
+  const O='stroke="#ff7a22" stroke-width="1.6" stroke-linejoin="round"';
+  const wing=`<g class="wg tb"><path d="M120 150 C90 110 40 70 -40 50 C-20 70 -24 84 -40 96 C-20 104 -22 124 -34 140 C-12 142 -10 160 -20 176 C30 170 70 176 128 190Z" fill="url(#dgw)" ${O}/><path d="M120 150 L-40 50 M118 160 L-34 140 M120 172 L-20 176" stroke="#ff9a3c" stroke-width="2" fill="none" opacity=".7"/></g>`;
+  const half=`
+   <path d="M150 74 C130 50 104 30 70 10 C92 44 108 62 126 92Z" fill="#240a0c" ${O}/>
+   <path d="M128 104 C104 112 88 128 80 150 C100 144 112 146 124 156Z" fill="#2a0c0e" ${O}/>
+   <path d="M120 150 C100 160 90 176 88 200 C108 190 120 190 132 196Z" fill="#2a0c0e" ${O}/>
+   <path d="M168 196 L178 228 L186 200 M150 188 L158 216 L168 192" fill="#fff0d8"/>
+   <path d="M138 128 Q160 102 190 122 Q168 138 138 128Z" fill="url(#dge)"/>
+   <path d="M130 118 L196 110 L190 100 L138 98Z" fill="#1a0507" ${O}/>
+   <ellipse class="pu" cx="166" cy="121" rx="2.6" ry="9" fill="#200000" transform="rotate(12 166 121)"/>`;
+  const dragon=sv('dr','-60 0 520 320',`
   <defs>
-   <linearGradient id="dg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1014"/><stop offset="1" stop-color="#1a0608"/></linearGradient>
-   <linearGradient id="dgw" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a2412"/><stop offset="1" stop-color="#3a0a0c"/></linearGradient>
-   <radialGradient id="dge" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffbc0"/><stop offset=".5" stop-color="#ffc030"/><stop offset="1" stop-color="#ff4a00" stop-opacity="0"/></radialGradient>
-   <linearGradient id="fg" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbe0"/><stop offset=".25" stop-color="#ffd23a"/><stop offset=".6" stop-color="#ff5a14"/><stop offset="1" stop-color="#c8180a" stop-opacity="0"/></linearGradient>
+   <linearGradient id="dg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a0c10"/><stop offset="1" stop-color="#120406"/></linearGradient>
+   <linearGradient id="dgw" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a2012"/><stop offset="1" stop-color="#2e080b"/></linearGradient>
+   <radialGradient id="dge" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fffbc0"/><stop offset=".45" stop-color="#ffc030"/><stop offset="1" stop-color="#ff3a00" stop-opacity=".2"/></radialGradient>
+   <radialGradient id="dgm" cx=".5" cy="1" r=".8"><stop offset="0" stop-color="#ffd23a"/><stop offset=".5" stop-color="#ff5a14"/><stop offset="1" stop-color="#400" stop-opacity="0"/></radialGradient>
   </defs>
-  <g class="fi tb"><path class="f1" d="M36 100 C0 100 -40 130 -78 214 C-40 190 -20 206 -12 232 C0 196 22 170 46 128Z" fill="url(#fg)"/><path class="f2" d="M38 102 C10 108 -20 130 -46 176 C-20 166 -8 172 -2 190 C10 160 26 140 44 120Z" fill="#fff4b0" opacity=".9"/></g>
-  <g class="tl tb"><path d="M280 170 C320 190 350 180 372 150 C386 132 396 120 390 100 C384 128 360 150 330 156 C306 160 292 150 276 146Z" fill="url(#dg1)" ${O}/><path d="M384 108 L402 86 L398 124Z" fill="#ff8a2a" ${O}/></g>
-  <g class="wb tb"><path d="M230 112 C240 70 270 30 330 10 C322 34 328 46 316 58 C326 74 318 90 306 100 C308 114 298 122 282 128Z" fill="#5a1410" ${O}/></g>
-  <g class="wg tb"><path d="M214 118 C196 66 214 12 262 -22 C256 6 262 20 250 34 C262 52 252 70 242 82 C246 100 232 112 222 120Z" fill="url(#dgw)" ${O}/>
-   <path d="M216 116 L262 -20 M222 112 L252 34 M228 108 L246 82" stroke="#ffa040" stroke-width="2" fill="none" opacity=".75"/></g>
-  <path d="M170 150 C176 112 220 98 262 112 C300 124 306 160 282 182 C258 200 196 196 174 176 C168 170 168 160 170 150Z" fill="url(#dg1)" ${O}/>
-  <path d="M184 176 C214 192 258 192 280 174" stroke="#c4501a" stroke-width="3" fill="none" stroke-dasharray="3 4"/>
-  <path d="M206 186 L194 224 L214 216 L220 232 L228 192Z M256 188 L250 226 L268 214 L276 228 L276 188Z" fill="url(#dg1)" ${O}/>
-  <path d="M184 142 C158 130 134 104 114 84" stroke="#ff7a22" stroke-width="40" fill="none" stroke-linecap="round"/>
-  <path d="M184 142 C158 130 134 104 114 84" stroke="url(#dg1)" stroke-width="37" fill="none" stroke-linecap="round"/>
-  <path d="M168 140 C150 126 134 108 116 90" stroke="#c4501a" stroke-width="3" fill="none" stroke-dasharray="3 5"/>
-  <path d="M120 60 L82 62 L44 82 L36 98 L50 98 L40 104 L80 100 L118 98 C134 96 140 70 120 60Z" fill="url(#dg1)" ${O}/>
-  <path d="M42 100 L22 124 L60 112 L82 104Z" fill="#2a0a0c" ${O}/>
-  <path d="M40 98 L46 108 L52 98 M60 98 L66 106 L72 98 M30 108 L38 112 L38 104z" fill="#ffeed0"/>
-  <path d="M116 60 L96 26 L128 52 M126 70 L130 30 L142 66 M100 60 L72 40 L106 58" fill="#2a0a0c" ${O}/>
-  <circle class="eye" cx="94" cy="72" r="11" fill="url(#dge)"/><ellipse cx="93" cy="72" rx="2" ry="5.4" fill="#220000"/>
-  <path d="M132 90 l10 -16 l10 14 M150 106 l12 -14 l8 16 M168 120 l12 -12 l6 16 M188 130 l12 -10 l4 14" fill="#ff8a2a" ${O}/>`);
+  ${wing}<g transform="translate(400 0) scale(-1 1)">${wing}</g>
+  <path d="M200 30 C250 30 286 70 290 120 C294 164 276 206 250 230 L236 280 L200 300 L164 280 L150 230 C124 206 106 164 110 120 C114 70 150 30 200 30Z" fill="url(#dg1)" ${O}/>
+  <path d="M200 40 L214 74 L200 66 L186 74Z" fill="#240a0c" ${O}/>
+  <g class="gz">${half}</g><g class="gz" transform="translate(400 0) scale(-1 1)">${half}</g>
+  <path d="M170 224 Q200 252 230 224 L222 238 Q200 258 178 238Z" fill="url(#dgm)" opacity=".95"/>
+  <g class="nz"><circle cx="190" cy="206" r="3" fill="#ff9a3c"/><circle cx="210" cy="206" r="3" fill="#ff9a3c"/></g>
+  <path d="M200 84 V196" stroke="#c4501a" stroke-width="2.4" fill="none" stroke-dasharray="3 6" opacity=".7"/>`);
   let h='<u class="hz"></u><u class="mt"></u>'+sv('mn','0 0 400 120','<path d="M0 120 L0 70 L40 40 L70 62 L120 14 L170 58 L210 30 L260 64 L310 22 L360 56 L400 36 L400 120Z" fill="#1b0707"/><path d="M120 14 L108 30 L126 24 L134 34z M310 22 L300 38 L318 30z" fill="#3a1208"/>');
-  h+=dragon;
+  h+='<u class="gl2"></u>'+dragon;
   h+=many(14,()=>'<i class="em" style="--x:'+fx(rr(0,100))+'%;--z:'+fx(rr(2,5))+'px;--w:'+fx(rr(-30,40))+'px;'+tm(5,10)+'"></i>');
+  h+=many(6,i=>'<i class="sm" style="left:'+fx(46+rr(-3,3))+'%;top:33%;--w:'+fx(rr(-30,30))+'px;'+tm(3,5)+'"></i>');
   h+='<u class="lv"></u><u class="lg"></u><u class="vg"></u>';
   return h};
 const ejCss=BASE+`
 §O{background:radial-gradient(130% 62% at 62% 18%,rgba(255,110,30,.35),transparent 60%),linear-gradient(#0c0204,#2a0707 55%,#7c1d05 100%)}
 §O .hz{inset:0;background:radial-gradient(60% 40% at 50% 100%,rgba(255,120,20,.45),transparent)}
 §O .mn{left:-5%;right:-5%;bottom:10%;width:110%;height:34%;preserveAspectRatio:none}
-§O .dr{left:-8%;top:2%;width:min(116vw,104vh);height:auto;filter:drop-shadow(0 0 14px rgba(255,90,20,.6));animation:os2-bob 5s ease-in-out infinite}
-§O .wb{transform-origin:236px 112px;animation:os2-flap 3.2s ease-in-out -.4s infinite reverse}
-§O .wg{transform-origin:218px 118px;animation:os2-flap 3.2s ease-in-out infinite}
-§O .tl{transform-origin:280px 165px;animation:os2-sway 4s ease-in-out infinite}
-§O .eye{animation:os2-flick 1.8s infinite}
-§O .fi{transform-origin:36px 100px;animation:os2-fire .5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff7a1a)}
-§O .f1,§O .f2{transform-origin:36px 100px}
-§O .f2{animation:os2-fire .35s ease-in-out infinite reverse}
+§O .gl2{left:10%;right:10%;top:2%;height:46%;background:radial-gradient(50% 50% at 50% 40%,rgba(255,90,20,.28),transparent 70%);animation:os2-flick 3s infinite}
+§O .dr{left:50%;top:0;width:min(116vw,104vh);height:auto;transform:translateX(-50%);filter:drop-shadow(0 0 16px rgba(255,90,20,.55));animation:os2-breath 5s ease-in-out infinite}
+§O .wg{transform-origin:128px 160px;animation:os2-flap 3.6s ease-in-out infinite}
+§O .pu{animation:os2-eye 5s infinite;transform-box:fill-box}
+§O .gz{animation:os2-flick 2.2s infinite}
+§O .nz circle{animation:os2-flick 1.1s infinite}
+§O .sm{width:14px;height:14px;border-radius:50%;background:rgba(200,160,140,.35);animation:os2-puff var(--t) ease-out var(--d) infinite}
 §O .em{top:100%;width:var(--z);height:var(--z);border-radius:50%;background:#ffb030;box-shadow:0 0 8px 2px #ff6a14;animation:os2-rise var(--t) linear var(--d) infinite}
 §O .lv{left:0;right:0;bottom:0;height:12%;background:repeating-linear-gradient(100deg,#ff7a14 0 30px,#ffb030 60px,#e83a08 100px),#ff5a10;background-size:200px 100%;animation:os2-lava 6s linear infinite;box-shadow:0 -10px 40px 8px rgba(255,90,10,.55)}
 §O .lg{left:0;right:0;bottom:0;height:30%;background:linear-gradient(transparent,rgba(255,110,20,.35));animation:os2-flick 2.4s infinite}
