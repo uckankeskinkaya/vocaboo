@@ -142,11 +142,11 @@ const SD=[
 
 ['okyanus','Derin Deniz',1,'#021b2e','6,40,62',.66,'#e4f8ff','#85b6c9','#22d3ee','#032632',['rgba(34,211,238,.4)','rgba(14,116,144,.5)','rgba(125,211,252,.3)'],
  null,100000,
- ()=>ps(22,()=>'left:'+f1(R(0,100))+'%;--z:'+f1(R(5,16))+'px;--t:'+f1(R(8,18))+'s;--d:-'+f1(R(0,18))+'s;--w:'+f1(R(-30,30))+'px')+ps(3,i=>'top:'+(25+i*22)+'%;--t:'+(34+i*14)+'s;--d:-'+(i*13)+'s','u').replace(/<u /g,'<u class="fi" ').replace(/><\/u>/g,'>🐠</u>'),
+ ()=>ps(22,()=>'left:'+f1(R(0,100))+'%;--z:'+f1(R(5,16))+'px;--t:'+f1(R(8,18))+'s;--d:-'+f1(R(0,18))+'s;--w:'+f1(R(-30,30))+'px')+ps(3,i=>'top:'+(25+i*22)+'%;--t:'+(34+i*14)+'s;--d:-'+(i*13)+'s','u').replace(/<u /g,'<u class="fi" '),
 `§S{background:linear-gradient(#0b5f84 0%,#053a5a 38%,#021b2e 100%)}
 §S::before{content:'';position:absolute;left:-10%;right:-10%;top:-10%;height:80%;background:repeating-linear-gradient(105deg,rgba(180,240,255,.13) 0 40px,transparent 40px 130px);-webkit-mask:linear-gradient(#000,transparent);mask:linear-gradient(#000,transparent);animation:sc-ray 9s ease-in-out infinite alternate}
 §S i{top:100%;left:var(--x);width:var(--z);height:var(--z);border-radius:50%;border:1px solid rgba(255,255,255,.55);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.5),transparent 60%);animation:sc-rise var(--t) ease-in infinite var(--d)}
-§S .fi{left:0;font-size:24px;opacity:.4;animation:sc-pan var(--t) linear var(--d) infinite}
+§S .fi{left:0;width:46px;height:24px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 32'%3E%3Cpath d='M14 16L0 3Q6 16 0 29Z' fill='%23ff7a1a'/%3E%3Cpath d='M12 16Q26-1 46 8Q58 14 58 16Q58 18 46 24Q26 33 12 16Z' fill='%23ffb347'/%3E%3Cpath d='M24 6Q30-2 36 6' fill='%23ff7a1a'/%3E%3Ccircle cx='48' cy='13' r='3' fill='%23fff'/%3E%3Ccircle cx='49' cy='13' r='1.5' fill='%23001'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.55;animation:sc-pan var(--t) linear var(--d) infinite}
 §S::after{content:'';position:absolute;left:0;right:0;bottom:0;height:14%;background:linear-gradient(transparent,#01121d)}
 @keyframes sc-ray{from{opacity:.35;transform:skewX(-6deg)}to{opacity:1;transform:skewX(6deg)}}`],
 
