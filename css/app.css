@@ -221,3 +221,17 @@ header{position:sticky;top:0;z-index:5;padding:4px 0}
 .lbme{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:0 0 10px;padding:8px 12px;border-radius:12px;background:var(--key);color:var(--dim)}
 .lbme b{font-size:24px;color:var(--fg)}
 .pwcode{font:800 34px/1.2 ui-monospace,Menlo,Consolas,monospace;letter-spacing:6px;text-align:center;padding:16px 8px;margin:10px 0;border-radius:14px;background:var(--key);user-select:all;word-break:break-all}
+/* Maç odası oyuncu satırı: avatar + çerçeve + isim + unvan + puan */
+.pr{display:grid;grid-template-columns:auto 56px minmax(0,1fr) auto;align-items:center;gap:6px;padding:8px 12px 8px 10px;border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-bottom:8px}
+.pr.nr{grid-template-columns:56px minmax(0,1fr) auto}
+.pr.me{box-shadow:inset 0 0 0 2px var(--ac)}
+.pr-n{min-width:22px;text-align:center;font-weight:800;color:var(--dim);font-variant-numeric:tabular-nums}
+.pr-a{display:grid;place-items:center;min-height:52px}
+.pr-u{min-width:0}.pr-u b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr-tag{margin-left:6px;font-style:normal;font-size:11px;font-weight:700;color:var(--ac)}
+.pr-t{display:inline-block;margin-top:3px;font-style:normal;font-size:11px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--key);color:var(--dim)}
+.pr-s{text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+.pr-s small{display:block;color:var(--dim);font-weight:600;font-size:11px}
+#live .lv{display:inline-flex;align-items:center;gap:6px;padding:2px 8px 2px 4px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:12px;color:var(--fg)}
+#live .lv em{font-style:normal;font-weight:800;color:var(--dim);min-width:12px;text-align:center}
+#live .lv b{max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

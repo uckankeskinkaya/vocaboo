@@ -31,7 +31,7 @@ addEventListener('pointerup',e=>{
 addEventListener('pointercancel',()=>{if(dg){if(dg.g){dg.g.remove();draw()}dg=null}});
 function vsLive(L){
   const me=L.find(x=>x.k===myId),op=L.find(x=>x.k!==myId);
-  const sd=(x,r,img)=>'<div class="mv'+(r?' r':'')+'">'+frameWrap(av(img,40),x&&x.fr)+'<div><b>'+esc(x?x.n:'Rakip yok')+'</b><span>'+(x?(cfg.m==='s'?x.w+' kelime':x.p+' puan')+(x.a?'':' (elendi)'):'')+'</span></div></div>';
+  const sd=(x,r,img)=>'<div class="mv'+(r?' r':'')+'">'+frameWrap(av(img,40),x&&(ovGet(x.n)||{}).fr)+'<div><b>'+esc(x?x.n:'Rakip yok')+'</b><span>'+(x?(cfg.m==='s'?x.w+' kelime':x.p+' puan')+(x.a?'':' (elendi)'):'')+'</span></div></div>';
   return '<div class="mvs">'+sd(me,0,prof&&prof.avatar)+'<span class="vs-x" style="font-size:16px">VS</span>'+sd(op,1,op&&op.im)+'</div>';
 }
 // Müzik: dosya yok, kod üretiyor. Am-F-C-G akoru, yumuşak pad ve seyrek arpej.

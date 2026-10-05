@@ -17,7 +17,7 @@ Object.assign(EN,{
 'En az 100 kelime çöz ve en fazla 5 ipucu kullan.':'Solve at least 100 words and use at most 5 hints.',
 'Bir haftayı Seri Modu puanında birinci bitir.':'Finish a week in first place on the Streak Mode score.',
 // Rozet ekranı ve bildirimler
-'Sıran':'Your rank','Kazanıldı':'Earned','Şu an:':'Current:','Geçen haftanın sıralaması.':"Last week's ranking.",'Tüm tablo':'Full table','Devam':'Continue','Evet, sil':'Yes, delete',
+'Sıran':'Your rank','Kazanıldı':'Earned','Puan yarışı':'Points race','Grup (moderatörlü)':'Group (moderated)','Hayatta kalma':'Survival','Şu an:':'Current:','Geçen haftanın sıralaması.':"Last week's ranking.",'Tüm tablo':'Full table','Devam':'Continue','Evet, sil':'Yes, delete',
 // Giriş, şifre sıfırlama
 'Mail ya da telefon istenmez. Şifreni unutursan "Şifremi unuttum" ile yöneticiye talep gönderebilirsin.':'No email or phone needed. If you forget your password, use "Forgot password" to send a request to the admin.',
 'Kullanıcı adını yaz. Talebin yöneticiye gider. Yönetici sana 8 karakterli geçici bir kod verince, giriş ekranında kodu şifre yerine yaz. Sonra yeni şifreni belirlersin.':'Enter your username. Your request goes to the admin. When the admin gives you an 8-character temporary code, type it as your password on the login screen. Then you set a new password.',
@@ -47,6 +47,7 @@ Object.assign(EN,{
 });
 const ord=n=>{n=+n;return n+(n%100>=11&&n%100<=13?'th':({1:'st',2:'nd',3:'rd'})[n%10]||'th')};
 RX.push(
+[/^(\d+) dakika$/,'$1 minutes'],
 // Rozet açıklamaları (sayılı)
 [/^Toplam (\d+) kelimeyi doğru çöz\.$/,'Solve $1 words correctly in total.'],
 [/^(\d+) kelimeyi ilk tahminde bil\.$/,'Guess $1 words on the first try.'],

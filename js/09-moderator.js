@@ -25,6 +25,6 @@ function oModRender(L){
   if(modEnd&&rem<=0)modDone=true;
   if(all.length&&done>=all.length)modDone=true;
   $('mh').innerHTML='<b>Moderatör</b> · Oda '+esc(room)+'<br>'+all.length+' oyuncu, '+done+' bitirdi'+(modDone?' · <b>Oyun bitti</b>':modEnd?' · '+Math.floor(rem/60)+':'+String(rem%60).padStart(2,'0'):'');
-  $('mtop').innerHTML=L.slice(0,10).map((x,i)=>'<div class="pl"><span style="display:flex;align-items:center;gap:8px;min-width:0">'+(i+1)+'. '+frameWrap(av(x.im,28),x.fr)+esc(x.n)+(x.a?'':' (elendi)')+'</span><b>'+(cfg.m==='s'?x.w+' kelime, ':'')+x.p+' puan</b></div>').join('')||'<p>Henüz oyuncu yok.</p>';
+  $('mtop').innerHTML=L.slice(0,10).map((x,i)=>oPlayerRow({n:x.n,im:x.im,rank:i+1,tag:x.a?'':'(elendi)',sc:x.p+' puan',sub:cfg.m==='s'?x.w+' kelime':''})).join('')||'<p>Henüz oyuncu yok.</p>';
   document.querySelectorAll('[data-qc]').forEach(e=>{const i=+e.dataset.qc;e.textContent=e.dataset.l+' · '+all.filter(x=>x.q>i).length+'/'+all.length+' tamamladı'});
 }

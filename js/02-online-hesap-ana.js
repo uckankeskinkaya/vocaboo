@@ -84,7 +84,7 @@ function oSync(){
 function oLobby(L){
   L=L||plist();
   const c=cfg,info=c?(c.max===2?'1v1':'Grup'+(c.mod?' (moderatörlü)':''))+', '+(c.m==='c'?'Puan yarışı, '+c.n+' kelime':'Hayatta kalma, '+(c.dur/60)+' dakika')+', '+(c.l<0?'Karışık':LBL[c.l]):'Oda bilgisi bekleniyor';
-  on('<p>Oda kodu</p><h1 style="letter-spacing:6px;margin:0 0 6px">'+esc(room)+'</h1><p>'+info+'</p>'+(c&&c.max===2?vsHTML(L):L.map(x=>'<div class="pl"><span style="display:flex;align-items:center;gap:8px">'+frameWrap(av(x.im,28),x.fr)+esc(x.n)+(x.h?(x.mo?' (moderatör)':' (kurucu)'):'')+' <small style="color:var(--dim)">'+esc(x.ti||'')+'</small></span></div>').join(''))+(isHost?btn('go','Başlat ('+L.filter(x=>!(x.h&&x.mo)).length+' oyuncu)'):'<p>Kurucunun başlatması bekleniyor.</p>')+btn('ob','Çık'));
+  on('<p>Oda kodu</p><h1 style="letter-spacing:6px;margin:0 0 6px">'+esc(room)+'</h1><p>'+info+'</p>'+(c&&c.max===2?vsHTML(L):L.map(x=>oPlayerRow({n:x.n,im:x.im,tag:x.h?(x.mo?'(moderatör)':'(kurucu)'):'',me:x.k===myId})).join(''))+(isHost?btn('go','Başlat ('+L.filter(x=>!(x.h&&x.mo)).length+' oyuncu)'):'<p>Kurucunun başlatması bekleniyor.</p>')+btn('ob','Çık'));
   $('ob').onclick=()=>oExit();
   if(isHost)$('go').onclick=()=>{
     if(plist().filter(x=>!(x.h&&x.mo)).length<(cfg.mod?1:2)){alert(cfg.mod?'En az 1 oyuncu gerekli.':'En az 2 kişi gerekli.');return}
@@ -137,14 +137,14 @@ function oNext(){
 
 function oLive(L){if(modView){oModRender(rank(L||plist()));return}
   L=rank(L||plist());
-  $('live').innerHTML=cfg.max===2?vsLive(L):L.slice(0,4).map((x,i)=>'<span>'+(i+1)+'. '+esc(x.n)+' '+(cfg.m==='s'?x.w+' kelime':x.p+'p')+(x.a?'':' (elendi)')+'</span>').join('');
+  $('live').innerHTML=cfg.max===2?vsLive(L):L.slice(0,4).map((x,i)=>'<span class="lv"><em>'+(i+1)+'</em>'+frameWrap(av(x.im,30),(ovGet(x.n)||{}).fr)+'<b>'+esc(x.n)+'</b>'+(cfg.m==='s'?x.w+' kelime':x.p+'p')+(x.a?'':' (elendi)')+'</span>').join('');
   if(!$('online').hidden&&ost.fin)oResults();
 }
 function oResults(){
   clearInterval(tmr);
   $('game').hidden=true;$('online').hidden=false;
   const L=rank(plist()),left=L.filter(x=>!x.d).length;
-  on('<p>'+(left?'Bitirmeyen oyuncu: '+left:'Sonuçlar')+'</p>'+L.map((x,i)=>'<div class="pl"><span style="display:flex;align-items:center;gap:8px">'+(i+1)+'. '+frameWrap(av(x.im,28),x.fr)+esc(x.n)+(x.k===myId?' (sen)':'')+(x.a?'':' (elendi)')+'</span><b>'+(cfg.m==='s'?x.w+' kelime, '+x.p+' puan':x.p+' puan')+'</b></div>').join('')+btn('ob','Ana menü'));
+  on('<p>'+(left?'Bitirmeyen oyuncu: '+left:'Sonuçlar')+'</p>'+L.map((x,i)=>oPlayerRow({n:x.n,im:x.im,rank:i+1,me:x.k===myId,tag:x.a?'':'(elendi)',sc:x.p+' puan',sub:cfg.m==='s'?x.w+' kelime':''})).join('')+btn('ob','Ana menü'));
   $('ob').onclick=()=>oExit();
 }
 
@@ -366,7 +366,7 @@ let myThumb='';
 function vsHTML(L){
   const op=L.find(x=>x.k!==myId);
   const side=(img,n,t,l)=>'<div class="vs-s"><div class="vs-l">'+l+'</div>'+img+'<b>'+esc(n)+'</b><span>'+esc(t)+'</span></div>';
-  return '<div class="vs">'+side(frameWrap(av(prof&&prof.avatar,72),prof&&prof.frame),myName,titleOf(prof),'Sen')+'<div class="vs-x">VS</div>'+(op?side(frameWrap(av(op.im,72),op.fr),op.n,op.ti||'','Rakip'):side('<div class="vs-w">?</div>','Rakip bekleniyor','','Rakip'))+'</div>';
+  return '<div class="vs">'+side(frameWrap(av(prof&&prof.avatar,72),prof&&prof.frame),myName,titleOf(prof),'Sen')+'<div class="vs-x">VS</div>'+(op?side(frameWrap(av(op.im,72),(ovGet(op.n)||{}).fr),op.n,ovTitle(op.n),'Rakip'):side('<div class="vs-w">?</div>','Rakip bekleniyor','','Rakip'))+'</div>';
 }
 function oVs(n){
   if(!ch||!started)return;

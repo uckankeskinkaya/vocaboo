@@ -27,6 +27,12 @@ const _on=oNext;oNext=async function(){
   SR=w.data;si=w.data.idx;next();
 };
 const _or=oResults;
+// Sunucu sonuç ekranı. Çerçeve/unvan ovGet ile gerçek profilden gelir; geç gelirse ovRefresh bunu yeniden çağırır.
+function oResView(d){
+  const me=d.players.find(x=>x.me);
+  on((d.done&&me?'<div class="kres ok"><h2>+'+(me.xp||0)+' XP</h2></div>':'')+'<p>'+(d.done?'Sonuçlar':d.left?'Bitirmeyen oyuncu: '+d.left:'XP hesaplanıyor...')+'</p>'+d.players.map((x,i)=>oPlayerRow({n:x.u,im:x.im,rank:i+1,me:x.me,tag:x.a?'':'(elendi)',sc:x.sc+' puan',sub:[d.mode==='s'?x.w+' kelime':'',d.done?'+'+(x.xp||0)+' XP':''].filter(Boolean).join(' · ')})).join('')+btn('ob','Ana menü'));
+  $('ob').onclick=()=>oExit();
+}
 oResults=function(){
   if(!MSV)return _or();
   clearInterval(tmr);$('game').hidden=true;$('online').hidden=false;
@@ -36,9 +42,8 @@ oResults=function(){
     const r=await sb.rpc('m_results',{_room:room});
     if(!$('game').hidden||$('online').hidden)return;
     if(r.error||!r.data){on('<p>Sonuçlar yüklenemedi.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit();clearInterval(RP);RP=null;return}
-    const d=r.data,me=d.players.find(x=>x.me);
-    on((d.done&&me?'<div class="kres ok"><h2>+'+(me.xp||0)+' XP</h2></div>':'')+'<p>'+(d.done?'Sonuçlar':d.left?'Bitirmeyen oyuncu: '+d.left:'XP hesaplanıyor...')+'</p>'+d.players.map((x,i)=>'<div class="pl'+(x.me?' me':'')+'"><span style="display:flex;align-items:center;gap:8px">'+(i+1)+'. '+frameWrap(av(x.im,28),x.fr)+esc(x.u)+(x.me?' (sen)':'')+(x.a?'':' (elendi)')+'</span><b>'+(d.mode==='s'?x.w+' kelime, ':'')+x.sc+' puan'+(d.done?' · +'+(x.xp||0)+' XP':'')+'</b></div>').join('')+btn('ob','Ana menü'));
-    $('ob').onclick=()=>oExit();
+    RES_LAST=r.data;oResView(r.data);
+    const d=r.data;
     if(d.done){clearInterval(RP);RP=null;loadProf()}
   };
   RP=setInterval(go,3000);
