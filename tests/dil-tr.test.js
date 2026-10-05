@@ -6,7 +6,7 @@ const { sayfaAc } = require('./yardimci');
   const out = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms)), sonuc = {};
     try { localStorage.setItem('ka_lang', 'tr') } catch (e) {}
-    const T = ['cyber', 'witcher', 'minecraft', 'galaksi', 'kod', 'aurora'], C = ['ates', 'cyberc', 'orkide', 'zehir'];
+    const T = ['cyber', 'witcher', 'galaksi', 'kod', 'aurora'], C = ['ates', 'cyberc', 'orkide', 'zehir'];
     sb = { rpc: async n => n === 'shop_list' ? { data: { bal: 7000, owned: ['theme:kod'], items: T.map(k => ({ id: 'theme:' + k, price: 100000, owned: k === 'kod' })).concat(C.map(k => ({ id: 'frame:' + k, price: 90000, owned: false }))) }, error: null } : { data: null, error: null } };
     window.supabase = { createClient: () => sb }; loadProf = async () => {};
     prof = { id: 'a', username: 'ali', avatar: null, frame: null, xp: 300, best_score: 90, total_points: 2000, points_spent: 0, admin: false, bonus_streak: 3 };

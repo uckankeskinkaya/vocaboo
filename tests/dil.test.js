@@ -57,7 +57,7 @@ const out=await s.sayfa.evaluate(async()=>{
   await ekran('oda_kur_arena',async()=>{document.querySelector('[data-mode=k]').click()});
   // Pazar, tema/çerçeve ekranları, önizleme çubuğu, günlük bonus
   const _rpc0=sb.rpc;
-  const TEMALAR=['cyber','witcher','minecraft','galaksi','yagmur','kis','okyanus','synthwave','buyulu','petal','kod','ejder','aurora','nebula','volkan','siber','safak','seker'];
+  const TEMALAR=['cyber','witcher','galaksi','yagmur','kis','okyanus','synthwave','buyulu','petal','kod','ejder','aurora','nebula','volkan','siber','safak','seker'];
   const CERC=['ates','simsek','galaksi','cyberc','orkide','zehir','neongece','kalp','matrix','lav','hayalet','altinyagmur'];
   sb.rpc=async(n,a)=>n==='shop_list'?{data:{bal:7000,owned:['theme:kod'],items:TEMALAR.map(k=>({id:'theme:'+k,price:100000,owned:k==='kod'})).concat(CERC.map(k=>({id:'frame:'+k,price:90000,owned:false})))},error:null}:n==='shop_buy'?{data:'yetersiz',error:null}:_rpc0(n,a);
   document.getElementById('online').hidden=false;

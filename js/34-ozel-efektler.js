@@ -7,7 +7,6 @@
 const FX={
   cyber:{t:'rect',m:'glitch',n:7,c:['#00f0ff','#ff2a6d','#fcee0a','#3dff8a'],s:[10,30]},
   witcher:{t:'dot',m:'out',n:10,c:['#ffcf5a','#ffb347','#fff0c8'],s:[2,4],ring:'#d9b25a'},
-  minecraft:{t:'sq',m:'fall',n:11,c:['#866043','#79553a','#5f9f35','#7f7f7f'],s:[7,12]},
   galaksi:{t:'txt',m:'out',n:9,c:['#ffffff','#c4b5fd','#67e8f9','#f0abfc'],s:[13,22],g:['✦','✧','★','·']},
   yagmur:{t:'ring',m:'ripple',n:3,c:['#a8cdff','#60a5fa'],s:[24,64]},
   kis:{t:'txt',m:'fall',n:9,c:['#ffffff','#e6f4ff','#9fd0f5'],s:[14,22],g:['❄','❅','❆']},
@@ -80,12 +79,6 @@ const BL={
     g:'background:linear-gradient(#2f7a42,#123a1d);color:#f6e7bd;border:2px solid #d9b25a;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2)',
     o:'background:linear-gradient(#c28a2a,#6e4a10);color:#fff3d1;border:2px solid #e8c674;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.25)',
     r:'background:linear-gradient(#7a1c1c,#240808);color:#e9b8b8;border:2px solid #a8322f;border-radius:4px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.5)'},
-  minecraft:{f:"'Vocacraft',monospace",
-    e:'background:linear-gradient(rgba(0,0,0,.52),rgba(0,0,0,.52)),var(--mc-stone) 0 0/32px 32px;border:2px solid #000;border-radius:0;box-shadow:inset 2px 2px 0 rgba(255,255,255,.16),inset -2px -2px 0 rgba(0,0,0,.4);image-rendering:pixelated',
-    fl:'border-color:#fff;color:#fff;text-shadow:2px 2px 0 #3f3f3f',
-    g:'background:linear-gradient(rgba(70,175,50,.82),rgba(40,125,30,.82)),var(--mc-stone) 0 0/32px 32px;color:#fff;border:2px solid #000;border-radius:0;box-shadow:inset 2px 2px 0 rgba(255,255,255,.35),inset -2px -2px 0 rgba(0,0,0,.4);text-shadow:2px 2px 0 #1d4a14;image-rendering:pixelated',
-    o:'background:linear-gradient(rgba(250,195,40,.85),rgba(210,140,20,.85)),var(--mc-stone) 0 0/32px 32px;color:#fff;border:2px solid #000;border-radius:0;box-shadow:inset 2px 2px 0 rgba(255,255,255,.4),inset -2px -2px 0 rgba(0,0,0,.4);text-shadow:2px 2px 0 #7a4b00;image-rendering:pixelated',
-    r:'background:linear-gradient(rgba(190,45,45,.82),rgba(120,20,20,.82)),var(--mc-stone) 0 0/32px 32px;color:#ffd6d6;border:2px solid #000;border-radius:0;box-shadow:inset 2px 2px 0 rgba(255,255,255,.22),inset -2px -2px 0 rgba(0,0,0,.45);text-shadow:2px 2px 0 #4a0d0d;image-rendering:pixelated'},
   galaksi:{
     e:'background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.16),rgba(25,12,60,.55));border:1.5px solid rgba(190,160,255,.5);border-radius:50%',
     fl:'border-color:#fff;box-shadow:0 0 14px rgba(196,181,253,.6)',

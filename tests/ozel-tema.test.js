@@ -5,7 +5,7 @@ const { sayfaAc } = require('./yardimci');
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms)), r = { efekt: {}, blok: {} };
-    const TEMALAR = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'lofi', 'pati'];
+    const TEMALAR = ['cyber', 'witcher', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'lofi', 'pati'];
     document.getElementById('home').hidden = false;
     const dugme = document.createElement('button'); dugme.id = 'dz'; dugme.textContent = 'x'; dugme.style.cssText = 'position:fixed;left:50px;top:300px;width:80px;height:40px;z-index:5'; document.body.appendChild(dugme);
     const bas = () => dugme.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, clientX: 90, clientY: 320 }));
@@ -25,6 +25,6 @@ const { sayfaAc } = require('./yardimci');
   for (const [k, v] of Object.entries(o.blok)) { assert.ok(v.ozel, k + ': harf bloğu özel değil'); assert.ok(v.farkli, k + ': doğru/yeri yanlış/yok aynı görünüyor'); assert.ok(v.bos, k + ': boş kutu stilsiz'); }
   assert.strictEqual(o.sahnesiz, 0, 'sahnesiz temada efekt çıkmamalı'); assert.strictEqual(o.dusukPerf, 0, 'düşük performansta efekt çıkmamalı');
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok özel tema: 16 temada dokunuş efekti ve harf bloğu, sahnesiz/düşük performansta efekt yok');
+  console.log('ok özel tema: 15 temada dokunuş efekti ve harf bloğu, sahnesiz/düşük performansta efekt yok');
   await s.kapat();
 })().catch(e => { console.error('HATA özel tema:', e.message); process.exit(1); });

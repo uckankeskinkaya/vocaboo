@@ -299,36 +299,6 @@ const wiCss=BASE+`
 §O .mt{width:3px;height:3px;border-radius:50%;background:#ffd890;box-shadow:0 0 5px 1px #ffb040;opacity:.5;animation:os2-mote var(--t) ease-in-out var(--d) infinite}
 §O .vg{background:radial-gradient(85% 70% at 50% 25%,transparent 30%,rgba(0,0,0,.6) 70%,rgba(0,0,0,.9))}`;
 
-/* ───── BLOCKCRAFT ───── */
-const steps=(w,hmin,hmax,col,seed,sp)=>{let d='M0 100 ',y=rr(hmin,hmax);for(let x=0;x<=w;x+=sp){if(Math.random()<.45)y=Math.max(hmin,Math.min(hmax,y+(Math.random()<.5?-sp:sp)));d+='V'+y+'h'+sp+' '}return '<path d="'+d+'V100Z" fill="'+col+'"/>'};
-const tree=(x,y,s)=>'<g transform="translate('+x+' '+y+') scale('+s+')" shape-rendering="crispEdges"><rect x="-2" y="-20" width="4" height="20" fill="#6b4a26"/><rect x="-10" y="-34" width="20" height="14" fill="#3f9a3a"/><rect x="-6" y="-42" width="12" height="8" fill="#52b248"/><rect x="-10" y="-30" width="4" height="4" fill="#2f7a2c"/><rect x="4" y="-26" width="4" height="4" fill="#2f7a2c"/></g>';
-const mcHtml=()=>{
-  let h='<u class="sk"></u><u class="sn"></u>';
-  h+=many(10,i=>'<u class="cl" style="top:'+fx(4+i*7+rr(0,4))+'%;--t:'+fx(rr(60,120))+'s;--d:-'+fx(rr(0,110))+'s;--s:'+fx(rr(.7,1.4))+'"></u>');
-  h+=sv('h1','0 0 400 100','<g shape-rendering="crispEdges">'+steps(400,40,70,'#4d7fa8',1,10)+'</g>');
-  h+=sv('h2','0 0 400 100','<g shape-rendering="crispEdges">'+steps(400,50,76,'#3d8a45',2,10)+'</g>'+tree(60,64,1.1)+tree(180,70,.9)+tree(320,60,1.2));
-  h+=sv('h3','0 0 400 100','<g shape-rendering="crispEdges">'+steps(400,64,84,'#2f7a38',3,10)+'</g>'+tree(130,78,1.3)+tree(260,76,1.1));
-  h+='<u class="gd"></u>';
-  const torch=(x)=>'<u class="tc" style="left:'+x+'%"><u class="tf"></u></u>';
-  h+=torch(8)+torch(92);
-  h+=many(12,()=>'<i class="ff" style="left:'+fx(rr(0,100))+'%;top:'+fx(rr(40,92))+'%;'+tm(4,8)+'"></i>');
-  h+=many(10,()=>'<i class="lf" style="--x:'+fx(rr(0,100))+'%;--w:'+fx(rr(-80,80))+'px;'+tm(10,18)+'"></i>');
-  h+='<u class="vg"></u>';
-  return h};
-const mcCss=BASE+`
-§O{background:linear-gradient(#5aa9ef 0%,#7cc4f6 50%,#bfe6ff 100%)}
-§O .sk{right:10%;top:5%;width:min(18vw,70px);aspect-ratio:1;background:#fff5b0;box-shadow:0 0 0 6px #ffe86a,0 0 0 12px rgba(255,232,106,.4),0 0 60px 20px rgba(255,240,150,.5)}
-§O .sn{display:none}
-§O .cl{left:0;width:calc(120px * var(--s));height:calc(26px * var(--s));background:#fff;box-shadow:calc(24px * var(--s)) calc(-14px * var(--s)) 0 #fff,calc(50px * var(--s)) calc(-14px * var(--s)) 0 #fff,calc(72px * var(--s)) 0 0 #fff;opacity:.92;animation:os2-cloud var(--t) linear var(--d) infinite}
-§O .h1,§O .h2,§O .h3{left:0;right:0;width:100%;height:auto}
-§O .h1{bottom:34%}§O .h2{bottom:20%}§O .h3{bottom:8%}
-§O .gd{left:0;right:0;bottom:0;height:12%;background:linear-gradient(#5fbf4a 0 22%,#7a5230 22% 100%);background-image:linear-gradient(#5fbf4a 0 22%,transparent 22%),repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 4px,transparent 4px 20px),repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 4px,transparent 4px 20px);background-color:#7a5230;image-rendering:pixelated}
-§O .tc{bottom:12%;width:8px;height:30px;background:#6b4a26}
-§O .tf{left:-4px;top:-14px;width:16px;height:14px;background:#ffb020;box-shadow:inset 4px 4px 0 #fff2a0,0 0 24px 10px rgba(255,170,40,.65);animation:os2-flick .6s steps(2) infinite}
-§O .ff{width:4px;height:4px;background:#e8ff6a;box-shadow:0 0 8px 2px #c8ff40;animation:os2-mote var(--t) steps(6) var(--d) infinite}
-§O .lf{top:-4vh;width:8px;height:8px;background:#4cad40;box-shadow:inset -2px -2px 0 #2f7a2c;animation:os2-fall var(--t) linear var(--d) infinite}
-§O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 62%,rgba(0,40,90,.35))}`;
-
 OSEKLE('ejder',{html:ejHtml,css:ejCss});
 OSEKLE('okyanus',{html:okHtml,css:okCss});
 OSEKLE('petal',{html:peHtml,css:peCss});
@@ -336,5 +306,4 @@ OSEKLE('kis',{html:kiHtml,css:kiCss});
 OSEKLE('yagmur',{html:yaHtml,css:yaCss});
 OSEKLE('galaksi',{html:gaHtml,css:gaCss});
 OSEKLE('witcher',{html:wiHtml,css:wiCss});
-OSEKLE('minecraft',{html:mcHtml,css:mcCss});
 })();

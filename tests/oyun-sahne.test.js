@@ -5,7 +5,7 @@ const { sayfaAc } = require('./yardimci');
   const s = await sayfaAc();
   const o = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms)), r = { tema: {} }, root = document.documentElement, game = document.getElementById('game');
-    const T = ['cyber', 'witcher', 'minecraft', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'lofi', 'pati'];
+    const T = ['cyber', 'witcher', 'galaksi', 'yagmur', 'kis', 'okyanus', 'synthwave', 'buyulu', 'petal', 'kod', 'ejder', 'saat', 'adalar', 'lofi', 'pati'];
     for (const k of T) {
       game.hidden = true; setTheme(k); await wait(30);
       const menuDongu = !!SHN._stop;
@@ -31,9 +31,9 @@ const { sayfaAc } = require('./yardimci');
     assert.deepStrictEqual(v.dis, [true, 'none'], k + ': oyundan çıkınca menü sahnesine dönülmedi');
     if (v.menuDongu) assert.ok(v.donguGeri, k + ': menü canvas döngüsü geri başlamadı');
   }
-  assert.ok(o.tema.cyber.menuDongu && o.tema.minecraft.menuDongu, 'canvas temaları menüde döngüde olmalı');
+  assert.ok(o.tema.cyber.menuDongu, 'canvas teması menüde döngüde olmalı');
   assert.ok(o.sahnesiz); assert.strictEqual(o.temaDegisim, 'ejder');
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok oyun sahnesi: 16 temada oyuna özel arka plan, menü sahnesi ve canvas döngüsü oyunda durup geri dönüyor');
+  console.log('ok oyun sahnesi: 15 temada oyuna özel arka plan, menü sahnesi ve canvas döngüsü oyunda durup geri dönüyor');
   await s.kapat();
 })().catch(e => { console.error('HATA oyun sahnesi:', e.message); process.exit(1); });

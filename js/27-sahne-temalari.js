@@ -87,29 +87,6 @@ const SD=[
 §T #nav button.on{color:#e8c674;background:rgba(201,162,74,.1)}
 @keyframes sc-flap{to{transform:scaleY(.25)}}`],
 
-['minecraft','Blockcraft',1,'#4f86d9','0,0,0',.55,'#ffffff','#e4e4e4','#5dd33a','#0b1f05',['#4f86d9','#6fb847','#8a5a31'],
- [null,"'Vocacraft'"],150000,
- ()=>'<canvas class="mc"></canvas>',
-`§S{background:linear-gradient(#4f86e0 0%,#86b2f2 30%,#c9e0ff 46%,#c9e0ff)}
-§S canvas{position:absolute;inset:0;display:block;width:100%;height:100%;image-rendering:pixelated;filter:blur(1.2px) brightness(.9)}
-§T{--line:rgba(255,255,255,.18)}
-§T #app{text-shadow:2px 2px 0 #3f3f3f}
-§T #app :is(p,small,label,.dim){color:#e8e8e8}
-§T :is(.cd,.lvl,.seg button,.cfb button,#res button,.k){border:2px solid #000!important;border-radius:0!important;color:#fff;background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#727272;box-shadow:inset 2px 2px 0 #a9a9a9,inset -2px -3px 0 #4b4b4b}
-§T :is(.cd,.lvl,.seg button,.cfb button,#res button):hover{background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#7f86b8;box-shadow:inset 2px 2px 0 #c3c9ff,inset -2px -3px 0 #4f5585}
-§T .cd small{color:#e6e6e6}
-§T :is(.pl,.sc,.bi,#def,.mstat){border:2px solid #111;border-radius:0!important;background:rgba(0,0,0,.6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08)}
-§T :is(#online,#menu) input{border-radius:0!important;background:#000!important;border:2px solid #a0a0a0!important;color:#fff}
-§T :is(.seg button.on,#res button.m,.cfb button.m){background:repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 0 0/6px 6px,repeating-conic-gradient(rgba(255,255,255,.04) 0 25%,transparent 0 50%) 3px 2px/14px 10px,repeating-conic-gradient(rgba(0,0,0,.05) 0 25%,transparent 0 50%) 5px 7px/22px 18px,#3f8a24;box-shadow:inset 2px 2px 0 #7fd35a,inset -2px -3px 0 #285a16}
-§T .feat{border:2px solid #000!important;border-radius:0!important;color:#fff!important;background:linear-gradient(#6fb847 0 12px,#4f8a2b 12px 15px,transparent 15px),repeating-conic-gradient(rgba(0,0,0,.1) 0 25%,transparent 0 50%) 0 0/8px 8px,repeating-conic-gradient(rgba(255,255,255,.06) 0 25%,transparent 0 50%) 4px 0/24px 16px,repeating-conic-gradient(rgba(0,0,0,.08) 0 25%,transparent 0 50%) 0 4px/40px 24px,#866043!important;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25)!important}
-§T .feat .go{border-radius:0;border:2px solid #000;background:#727272;color:#fff;box-shadow:inset 2px 2px 0 #a9a9a9,inset -2px -3px 0 #4b4b4b}
-§T :is(h1,h2){text-shadow:2px 2px 0 rgba(40,40,40,.7)}
-§T #nav{background:rgba(0,0,0,.72);border-top:2px solid #000;box-shadow:inset 0 2px 0 rgba(255,255,255,.12)}
-§T #nav button{border-radius:0}
-§T #nav button.on{color:#ffff55;background:rgba(255,255,255,.08)}
-§T :is(.k,.tile,.grid){border-radius:0!important}
-`],
-
 ['galaksi','Galaksi',1,'#04020f','18,12,40',.66,'#f2eeff','#a79fd0','#a78bfa','#150a33',['rgba(168,85,247,.45)','rgba(34,211,238,.35)','rgba(236,72,153,.35)'],
  null,120000,
  ()=>ps(70,()=>'left:'+f1(R(0,100))+'%;top:'+f1(R(0,100))+'%;--z:'+f1(R(1,3))+'px;--t:'+f1(R(2,6))+'s;--d:-'+f1(R(0,6))+'s')+ps(3,i=>'left:'+f1(R(0,60))+'%;top:'+f1(R(0,40))+'%;--d:'+(i*4)+'s','u').replace(/<u /g,'<u class="sh" ')+'<u class="p"></u>',
