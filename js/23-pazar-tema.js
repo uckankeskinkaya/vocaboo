@@ -1,8 +1,8 @@
 
 // v13: çerçeveler v3 (temalarla uyumlu, seviye arttıkça daha görkemli), Pazar'da temalar, Alıştırma sunucuda
-let PSV=true,OWNINIT=false;
+let PSV=true,OWNINIT=false,PSVGERI=false;
 Object.assign(EN,{'Çerçeveler':'Frames','Temalar':'Themes','Çerçeveler menüsünden uygula':'Apply it in the Frames menu','Ayarlar → Tema seç':'Settings → Choose theme','Kutup ışığı':'Aurora','Gün Batımı':'Sunset'});
-RX.push([/\(-3 XP\)/,'(-3 XP)']);
+RX.push([/\(-3 XP\)/,'(-3 XP)'],[/^Bağlantı sorunu, yerel alıştırma açıldı \((.*)\)$/,'Connection problem, local practice opened ($1)']);
 Object.keys(FRM).forEach(k=>delete FRM[k]);
 for(let i=UNL.length-1;i>=0;i--)if(UNL[i].t==='frame')UNL.splice(i,1);
 // anahtar, ad, halka, koşul, parçacık, hareket, süs, kademe(1-4), renkler (ana, ikinci, koyu, açık)
@@ -145,10 +145,22 @@ const _rh4=rHome;rHome=function(){if(PV)thPrevEnd();_rh4();ownedInit()};
 // Alıştırma sunucuda: XP ve istatistik sunucudan, istemci artık hiçbir şey bildirmiyor
 const pFail=r=>{if(r&&r.error&&/Could not find|does not exist|schema cache/i.test(r.error.message)){PSV=false;return true}return false};
 async function pStart(l){
-  const r=await sb.rpc('p_next',{_l:l});
+  const dene=async()=>{try{return await sb.rpc('p_next',{_l:l})}catch(e){return {error:{message:String(e&&e.message||e)}}}};
+  let r=await dene();
   if(pFail(r)){next();return}
-  if(r.error||!r.data){toast('Bağlantı hatası');return}
+  if(r.error||!r.data){
+    // Geçici ağ sorunu olabilir: bir kez daha dene, olmazsa yerel alıştırmaya geç (oyun kilitlenmesin)
+    await new Promise(x=>setTimeout(x,700));r=await dene();
+    if(pFail(r)){next();return}
+    if(r.error||!r.data){
+      const m=String((r.error&&r.error.message)||'boş cevap').slice(0,70);
+      try{console.warn('p_next hatası:',r.error||r)}catch(e){}
+      PSV=false;PSVGERI=true;toast('Bağlantı sorunu, yerel alıştırma açıldı ('+m+')');next();return;
+    }
+  }
   SR=r.data;next();
 }
 async function pNext(){return pStart(lv)}
+// Yerel alıştırmaya düşüldüyse, oyundan çıkınca sunucu modu yeniden açılır
+(()=>{const g=$('game');if(g)new MutationObserver(()=>{if(g.hidden&&PSVGERI){PSVGERI=false;PSV=true}}).observe(g,{attributes:true,attributeFilter:['hidden']})})();
 async function flushStats(){};
