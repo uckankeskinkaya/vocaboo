@@ -56,7 +56,7 @@ function aAdPwGo(id,u,geri){
     if(r.error)return toast(pwKurulu(r)?'Şifre sıfırlama sunucuda henüz kurulmadı':'Yapılamadı');
     const d=r.data||{};
     if(!d.ok)return toast({kendin:'Kendi şifreni burada sıfırlayamazsın',yonetici:'Yönetici hesabı sıfırlanamaz',yok:'Kullanıcı bulunamadı'}[d.err]||'Yapılamadı');
-    panel('<p><b>'+esc(d.u)+'</b> için geçici şifre</p><div class="pwcode" id="pwcode">'+esc(d.code)+'</div><p class="cap">Bu kodu şimdi kullanıcıya ilet, bir daha gösterilmez. Kullanıcı giriş ekranında kodu şifre yerine yazacak, sonra kendi şifresini belirleyecek.</p>'+btn('pwk','Kopyala')+btn('ob','Tamam'));
+    panel('<p>Geçici şifre: <b>'+esc(d.u)+'</b></p><div class="pwcode" id="pwcode">'+esc(d.code)+'</div><p class="cap">Bu kodu şimdi kullanıcıya ilet, bir daha gösterilmez. Kullanıcı giriş ekranında kodu şifre yerine yazacak, sonra kendi şifresini belirleyecek.</p>'+btn('pwk','Kopyala')+btn('ob','Tamam'));
     $('pwk').onclick=async()=>{try{await navigator.clipboard.writeText(d.code);toast('Kopyalandı')}catch(e){toast('Kopyalanamadı, kodu elle yaz')}};
     $('ob').onclick=geri;
   });

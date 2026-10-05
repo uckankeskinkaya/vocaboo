@@ -42,7 +42,7 @@ async function champCheck(){
   if(!ben&&!yeni)return;
   const rk=['🥇','🥈','🥉'];
   const satirlar=d.podium.slice(0,3).map(x=>(rk[(+x.r||1)-1]||'')+' '+String(x.u||'?')+', '+(+x.s||0)+' puan').join('\n');
-  const odul=ben?'\n\nSen '+(+d.me.r||0)+'. oldun! +'+(+d.me.pts||0)+' puan ve rozet kazandın.':'';
+  const odul=ben?'\n\nSen '+(+d.me.r||0)+'. oldun! +'+(+d.me.pts||0).toLocaleString('tr-TR')+' puan ve rozet kazandın.':'';
   cfAsk('Geçen haftanın şampiyonları\n'+satirlar+odul,'Tamam','Tüm tablo',null,()=>aBoard('last'));
   if(ben){sb.rpc('champ_seen').then(()=>{loadProf()},()=>{})}
 }

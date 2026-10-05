@@ -417,13 +417,16 @@ const BI={
 'Günlük 30 gün':['Günün kelimesini 30 gün üst üste bil.',p=>p.best_daily_streak,30],
 '10 günlük zafer':['Günün kelimesini toplam 10 kere bil.',p=>p.daily_wins,10],
 'Keskin nişancı':['En az 50 kelime oyna ve doğruluğunu yüzde 80 üstünde tut.',null,0],
-'Fotoğraflı profil':['Profiline bir fotoğraf veya avatar ekle.',null,0]
+'Fotoğraflı profil':['Profiline bir fotoğraf veya avatar ekle.',null,0],
+'Haftanın şampiyonu':['Bir haftayı Seri Modu puanında birinci bitir.',p=>p.weekly_wins,1],
+'3 hafta şampiyon':['3 haftayı Seri Modu puanında birinci bitir.',p=>p.weekly_wins,3],
+'Podyum 5 kez':['Haftalık sıralamada 5 kez ilk 3\'e gir.',p=>p.weekly_podiums,5]
 };
 function aBadges(){
   const P=prof,list=BD.slice().sort((a,b)=>b[2](P)-a[2](P)),u=BD.filter(b=>b[2](P)).length;
   panel('<p>'+u+'/'+BD.length+' rozet açık. Kilitli rozetlerin altında nasıl kazanacağın yazıyor.</p>'+list.map(b=>{
     const on=b[2](P),i=BI[b[0]]||['',null,0],cur=i[1]?Math.min(i[1](P)||0,i[2]):0;
-    return '<div class="bi '+(on?'on':'off')+'"><span class="bi-i">'+b[1]+'</span><div class="bi-t"><b>'+b[0]+'</b><small>'+i[0]+'</small>'+(!on&&i[1]?'<div class="bi-b"><i style="width:'+Math.round(cur/i[2]*100)+'%"></i></div><small>'+cur+' / '+i[2]+'</small>':'')+'</div><span class="bi-s">'+(on?'Açık':'Kilitli')+'</span></div>';
+    return '<div class="bi '+(on?'on':'off')+'"><span class="bi-i">'+b[1]+'</span><div class="bi-t"><b>'+b[0]+'</b><small>'+i[0]+'</small>'+(!on&&i[1]?'<div class="bi-b"><i style="width:'+Math.round(cur/i[2]*100)+'%"></i></div><small>'+cur+' / '+i[2]+'</small>':'')+'</div><span class="bi-s">'+(on?'Kazanıldı':'Kilitli')+'</span></div>';
   }).join('')+btn('ob','Profil'));
   $('ob').onclick=aProfile;
 }
