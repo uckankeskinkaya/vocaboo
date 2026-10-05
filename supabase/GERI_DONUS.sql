@@ -18,3 +18,10 @@ alter function public.frame_lv(text)  reset search_path;
 -- Fonksiyon gövdelerini yedekten yeniden oluşturmak gerekirse:
 --   select tanim from yedek_20261005.fonksiyonlar where imza like 'ad_%';
 -- çıkan metni SQL Editor'de çalıştır.
+
+-- ---------------------------------------------------------------
+-- 20261005_kullanici_adi_ve_silme.sql dosyasını geri almak için:
+-- (Önceden değiştirilmiş kullanıcı adları olduğu gibi kalır; giriş de yeni adla çalışmaya devam eder.)
+drop function if exists public.set_username(text);
+drop function if exists public.admin_user_delete(uuid);
+drop table if exists public.username_log;

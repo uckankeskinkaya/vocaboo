@@ -1194,10 +1194,16 @@ async function aAdUsers(q){
 }
 function aAdUser(id,q){
   const x=AU[id];if(!x)return;
-  panel('<p><b>'+esc(x.u)+'</b>: '+(x.c?'sınıf':'dışarıdan')+(x.b?', engelli':'')+', rekor '+x.bs+', Sv.'+lvlOf(x.xp||0)+', '+(x.xp||0)+' XP</p>'+btn('u1','Skorunu sıfırla')+btn('u2','Avatarını sil')+btn('u3',x.c?'Sınıftan çıkar':'Sınıfa al')+btn('u4',x.b?'Engeli kaldır':'Engelle')+btn('u5','Seviye ayarla')+btn('ob','Geri'));
+  panel('<p><b>'+esc(x.u)+'</b>: '+(x.c?'sınıf':'dışarıdan')+(x.b?', engelli':'')+', rekor '+x.bs+', Sv.'+lvlOf(x.xp||0)+', '+(x.xp||0)+' XP</p>'+btn('u1','Skorunu sıfırla')+btn('u2','Avatarını sil')+btn('u3',x.c?'Sınıftan çıkar':'Sınıfa al')+btn('u4',x.b?'Engeli kaldır':'Engelle')+btn('u5','Seviye ayarla')+(x.a?'':'<button class="lvl" id="u6" style="justify-content:center;color:var(--r);border-color:var(--r)">Kullanıcıyı sil</button>')+btn('ob','Geri'));
   const act=(b,a,t)=>$(b).onclick=()=>cfAsk(t+' ('+x.u+')?','Evet','Vazgeç',async()=>{const r=await sb.rpc('admin_user_act',{_id:id,_act:a});toast(r.error||r.data!=='ok'?'Yapılamadı':'Tamam');aAdUsers(q||'')});
   act('u1','reset','Skor sıfırlansın');act('u2','avatar','Avatar silinsin');act('u3',x.c?'cls_off':'cls_on',x.c?'Sınıftan çıkarılsın':'Sınıfa alınsın');act('u4',x.b?'unban':'ban',x.b?'Engel kalksın':'Engellensin');
   $('ob').onclick=()=>aAdUsers(q||'');$('u5').onclick=()=>aAdLevel(id,x.u,q);
+  if($('u6'))$('u6').onclick=()=>cfAsk(x.u+' kalıcı olarak silinsin mi? Hesabı, skorları, arkadaşlıkları ve satın alımları geri alınamaz şekilde silinir.','Devam','Vazgeç',()=>cfAsk('Son uyarı: '+x.u+' hesabı tamamen silinecek. Emin misin?','Evet, sil','Vazgeç',async()=>{
+    const r=await sb.rpc('admin_user_delete',{_id:id});
+    const m={ok:'Kullanıcı silindi',kendin:'Kendi hesabını silemezsin',yonetici:'Yönetici hesabı silinemez',yok:'Kullanıcı bulunamadı'};
+    toast(r.error?(/function|PGRST202|schema cache/i.test(r.error.message||'')?'Silme özelliği sunucuda henüz kurulmadı':'Yapılamadı'):(m[r.data]||'Yapılamadı'));
+    aAdUsers(q||'');
+  }));
 }
 async function aAdWords(l,q,p){
   p=p||0;
@@ -1686,9 +1692,9 @@ function aProfile(){
   panel('<div class="pf-h">'+frameWrap(av(P.avatar,84),P.frame)+'<h2>'+esc(P.username)+'</h2><span class="chip">'+titleOf(P)+'</span><div class="pbar"><i style="width:'+pct+'%"></i></div><small>Seviye '+L+' · '+(L>=100?'MAX':(xp-a)+'/'+(b-a)+' XP')+'</small><small>'+(nx?'Seviye '+nx[0]+' ile '+nx[1]:'En üst unvan')+'</small></div>'
    +'<div class="sg3">'+S(t?Math.round(n/t*100)+'%':'-','Doğruluk')+S(n,'Çözülen kelime')+S(P.total_points||0,'Toplam puan')+S(P.best_score,'Seri rekoru')+S(P.best_streak,'En uzun seri')+S(ds,'Günlük seri')+'</div>'
    +'<div class="bdr">'+BD.slice().sort((a,b)=>b[2](P)-a[2](P)).slice(0,8).map(b=>'<i class="'+(b[2](P)?'':'off')+'">'+b[1]+'</i>').join('')+'<small>'+nb+'/'+BD.length+'</small></div>'
-   +'<input id="pf" type="file" accept="image/*" hidden><div class="lst">'+rw('nb','📖','Kelime defterim')+rw('bb','🏅','Rozetler')+rw('tb2','📈','Unvan ilerlemesi')+rw('pp','📷','Fotoğraf yükle')+rw('pv','🎭','Hazır avatar seç')+rw('fr','🖼️','Avatar çerçevesi')+rw('lo','↩','Çıkış yap')+'</div>');
+   +'<input id="pf" type="file" accept="image/*" hidden><div class="lst">'+rw('nb','📖','Kelime defterim')+rw('bb','🏅','Rozetler')+rw('tb2','📈','Unvan ilerlemesi')+rw('pp','📷','Fotoğraf yükle')+rw('pv','🎭','Hazır avatar seç')+rw('fr','🖼️','Avatar çerçevesi')+rw('un','✏️','Kullanıcı adını değiştir')+rw('lo','↩','Çıkış yap')+'</div>');
   $('bb').onclick=aBadges;$('nb').onclick=aBook;$('tb2').onclick=aTitles;$('fr').onclick=aFrames;
-  $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;$('pf').onchange=aPhoto;
+  $('pp').onclick=()=>$('pf').click();$('pv').onclick=aAvatar;$('pf').onchange=aPhoto;$('un').onclick=aUsername;
   $('lo').onclick=async()=>{await flushStats();await sb.auth.signOut();prof=null;rHome();aAuth()};
 };
 async function aBoard(tab,col){
@@ -1821,6 +1827,26 @@ aurora:['Kutup ışığı',['#5eead4','#22c55e','#8b5cf6','#38bdf8'],80,2]};
 Object.keys(NF).forEach(k=>{const [n,c,l,s]=NF[k];FRM[k]=[n,'conic-gradient('+c.concat(c[0]).join(',')+')',1,{lv:l},s,c[0]];UNL.push({id:'frame:'+k,t:'frame',n,req:{lv:l}})});
 ['bronz:#f59e0b','gumus:#cbd5e1','altin:#fbbf24','zumrut:#34d399','alev:#f97316','elmas:#67e8f9','neon:#f0abfc','gokkusagi:#ffffff'].forEach(x=>{const[k,c]=x.split(':');if(FRM[k]){FRM[k][4]=FRM[k][4]||(FRM[k][2]?2.5:3);FRM[k][5]=c}});
 document.head.insertAdjacentHTML('beforeend','<style>.fr{box-shadow:0 0 10px -2px var(--gl,transparent)}.fr.sp::before{animation:spin var(--sp,3s) linear infinite}:root[data-perf=low] .fr::before{animation:none}.fr .tile{}</style>');
+// Kullanıcı adı: giriş kimliği de aynı ad olduğu için değişiklik sunucuda (set_username) giriş kaydını da günceller.
+function aUsername(){
+  if(!sb||!prof)return;
+  panel('<p>Kullanıcı adını değiştir</p><p class="cap">Şu an: <b>'+esc(prof.username)+'</b></p><input id="nu" maxlength="16" autocapitalize="none" autocomplete="off" spellcheck="false" value="'+esc(prof.username)+'" style="'+SEL+'"><p class="cap">3-16 karakter: a-z, 0-9 ve _. Giriş yaparken de yeni adını kullanacaksın. Günde bir kez değiştirebilirsin.</p><p id="ne" style="color:var(--r)"></p>'+btn('nk','Kaydet')+btn('ob','Geri'));
+  $('ob').onclick=aProfile;
+  const err=t=>{$('ne').textContent=t};
+  $('nk').onclick=async()=>{
+    const n=$('nu').value.trim().toLowerCase();
+    if(!/^[a-z0-9_]{3,16}$/.test(n))return err('Kullanıcı adı 3-16 karakter olmalı: a-z, 0-9 ve _.');
+    if(n===prof.username)return err('Bu zaten senin kullanıcı adın.');
+    err('Bekle...');$('nk').disabled=true;
+    const r=await sb.rpc('set_username',{_u:n});
+    $('nk').disabled=false;
+    const m={gecersiz:'Bu kullanıcı adı kullanılamaz.',var:'Bu kullanıcı adı alınmış.',bekle:'Kullanıcı adını günde bir kez değiştirebilirsin.',ayni:'Bu zaten senin kullanıcı adın.',yok:'Profil bulunamadı.'};
+    if(r.error)return err(/function|PGRST202|schema cache/i.test(r.error.message||'')?'Bu özellik sunucuda henüz kurulmadı. Yöneticiye haber ver.':'Değiştirilemedi. Biraz sonra tekrar dene.');
+    if(r.data!=='ok')return err(m[r.data]||'Değiştirilemedi.');
+    prof.username=n;toast('Kullanıcı adın değişti. Girişte yeni adını kullan.');aProfile();
+  };
+}
+Object.assign(EN,{'Kullanıcı adını değiştir':'Change username','Kaydet':'Save','Kullanıcıyı sil':'Delete user','Kullanıcı adın değişti. Girişte yeni adını kullan.':'Username changed. Use your new name to log in.','Bu kullanıcı adı alınmış.':'That username is taken.','Kullanıcı silindi':'User deleted'});
 function aAdLevel(id,nm,q){
   panel('<p><b>Seviye ayarla</b>: '+esc(nm)+'</p><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">'+[1,5,10,20,35,50,65,80,100].map(v=>'<button class="sbtn" data-p="'+v+'">'+v+'</button>').join('')+'</div><input id="al" type="number" min="1" max="100" placeholder="1-100" style="'+SEL+'"><p id="ale" style="color:var(--r)"></p>'+btn('als','Uygula')+btn('ob','Geri'));
   const back=()=>id===prof.id?aAdmin():aAdUsers(q||'');
