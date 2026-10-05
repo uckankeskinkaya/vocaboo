@@ -14,6 +14,8 @@ document.head.insertAdjacentHTML('beforeend','<style id="oyun-sahne-2">'+`
 @keyframes os2-torch{0%,100%{opacity:.85}12%{opacity:1}27%{opacity:.7}41%{opacity:.95}58%{opacity:.78}76%{opacity:1}88%{opacity:.82}}
 @keyframes os2-glint{0%,55%{transform:translateX(100px);opacity:0}60%{opacity:1}85%{transform:translateX(600px);opacity:1}90%,100%{transform:translateX(620px);opacity:0}}
 @keyframes os2-spark{from{transform:translate(0,0);opacity:1}to{transform:translate(var(--w,0px),-12vh);opacity:0}}
+@keyframes os2-blink3{0%,44%,50%,100%{transform:scaleY(1)}47%{transform:scaleY(.06)}}
+@keyframes os2-look{0%,30%{transform:translateX(0)}40%,60%{transform:translateX(-22px)}70%,100%{transform:translateX(16px)}}
 @keyframes os2-eye{0%,90%,100%{transform:scaleX(1)}94%{transform:scaleX(4)}}
 @keyframes sc-blink{50%{opacity:0}}
 @keyframes os2-rise{from{transform:translate3d(0,0,0);opacity:0}10%{opacity:1}85%{opacity:.9}to{transform:translate3d(var(--w,0px),-110vh,0);opacity:0}}
@@ -50,54 +52,42 @@ const BASE='§O svg{position:absolute;display:block;overflow:visible}§O .vg{ins
 
 /* ───── EJDERHA ATEŞİ ───── */
 const ejHtml=()=>{
-  const O='stroke="#ff7a22" stroke-width="1.5" stroke-linejoin="round"';
-  const dragon=sv('dr','-80 0 480 260',`
-  <defs>
-   <linearGradient id="dg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1014"/><stop offset="1" stop-color="#1a0608"/></linearGradient>
-   <linearGradient id="dgw" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a2412"/><stop offset="1" stop-color="#3a0a0c"/></linearGradient>
-   <radialGradient id="dge" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffbc0"/><stop offset=".5" stop-color="#ffc030"/><stop offset="1" stop-color="#ff4a00" stop-opacity="0"/></radialGradient>
-   <linearGradient id="fg" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbe0"/><stop offset=".25" stop-color="#ffd23a"/><stop offset=".6" stop-color="#ff5a14"/><stop offset="1" stop-color="#c8180a" stop-opacity="0"/></linearGradient>
-  </defs>
-  <g class="fi"><path class="f1" d="M36 100 C0 100 -40 130 -78 214 C-40 190 -20 206 -12 232 C0 196 22 170 46 128Z" fill="url(#fg)"/><path class="f2" d="M38 102 C10 108 -20 130 -46 176 C-20 166 -8 172 -2 190 C10 160 26 140 44 120Z" fill="#fff4b0" opacity=".9"/></g>
-  <g class="tl"><path d="M280 170 C320 190 350 180 372 150 C386 132 396 120 390 100 C384 128 360 150 330 156 C306 160 292 150 276 146Z" fill="url(#dg1)" ${O}/><path d="M384 108 L402 86 L398 124Z" fill="#ff8a2a" ${O}/></g>
-  <g class="wb"><path d="M230 112 C240 70 270 30 330 10 C322 34 328 46 316 58 C326 74 318 90 306 100 C308 114 298 122 282 128Z" fill="#5a1410" ${O}/></g>
-  <g class="wg"><path d="M214 118 C196 66 214 12 262 -22 C256 6 262 20 250 34 C262 52 252 70 242 82 C246 100 232 112 222 120Z" fill="url(#dgw)" ${O}/>
-   <path d="M216 116 L262 -20 M222 112 L252 34 M228 108 L246 82" stroke="#ffa040" stroke-width="2" fill="none" opacity=".75"/></g>
-  <path d="M170 150 C176 112 220 98 262 112 C300 124 306 160 282 182 C258 200 196 196 174 176 C168 170 168 160 170 150Z" fill="url(#dg1)" ${O}/>
-  <path d="M184 176 C214 192 258 192 280 174" stroke="#c4501a" stroke-width="3" fill="none" stroke-dasharray="3 4"/>
-  <path d="M206 186 L194 224 L214 216 L220 232 L228 192Z M256 188 L250 226 L268 214 L276 228 L276 188Z" fill="url(#dg1)" ${O}/>
-  <path d="M184 142 C158 130 134 104 114 84" stroke="#ff7a22" stroke-width="40" fill="none" stroke-linecap="round"/>
-  <path d="M184 142 C158 130 134 104 114 84" stroke="url(#dg1)" stroke-width="37" fill="none" stroke-linecap="round"/>
-  <path d="M168 140 C150 126 134 108 116 90" stroke="#c4501a" stroke-width="3" fill="none" stroke-dasharray="3 5"/>
-  <path d="M120 60 L82 62 L44 82 L36 98 L50 98 L40 104 L80 100 L118 98 C134 96 140 70 120 60Z" fill="url(#dg1)" ${O}/>
-  <path d="M42 100 L22 124 L60 112 L82 104Z" fill="#2a0a0c" ${O}/>
-  <path d="M40 98 L46 108 L52 98 M60 98 L66 106 L72 98 M30 108 L38 112 L38 104z" fill="#ffeed0"/>
-  <path d="M116 60 L96 26 L128 52 M126 70 L130 30 L142 66 M100 60 L72 40 L106 58" fill="#2a0a0c" ${O}/>
-  <circle class="eye" cx="94" cy="72" r="11" fill="url(#dge)"/><ellipse class="pp" cx="93" cy="72" rx="2" ry="5.4" fill="#220000"/><circle class="eye e2" cx="114" cy="64" r="8.5" fill="url(#dge)"/><ellipse class="pp" cx="113" cy="64" rx="1.6" ry="4.4" fill="#220000"/>
-  <path d="M132 90 l10 -16 l10 14 M150 106 l12 -14 l8 16 M168 120 l12 -12 l6 16 M188 130 l12 -10 l4 14" fill="#ff8a2a" ${O}/>`);
-  let h='<u class="hz"></u><u class="mt"></u>'+sv('mn','0 0 400 120','<path d="M0 120 L0 70 L40 40 L70 62 L120 14 L170 58 L210 30 L260 64 L310 22 L360 56 L400 36 L400 120Z" fill="#1b0707"/><path d="M120 14 L108 30 L126 24 L134 34z M310 22 L300 38 L318 30z" fill="#3a1208"/>');
-  h+=dragon;
-  h+=many(14,()=>'<i class="em" style="--x:'+fx(rr(0,100))+'%;--z:'+fx(rr(2,5))+'px;--w:'+fx(rr(-30,40))+'px;'+tm(5,10)+'"></i>');
-  h+='<u class="lv"></u><u class="lg"></u><u class="vg"></u>';
+  const O='stroke="#ff7a22" stroke-opacity=".35" stroke-width="1.4"';
+  const eye=`<g class="ey"><defs></defs>
+    <path d="M44 70 Q118 34 184 100 Q108 120 44 70Z" fill="url(#ejg)" stroke="#3a0a02" stroke-width="3"/>
+    <g clip-path="url(#ejc)"><g class="pp"><ellipse cx="116" cy="82" rx="7" ry="30" fill="#120200"/><ellipse cx="116" cy="82" rx="16" ry="34" fill="#ff5a00" opacity=".25"/></g></g>
+    <ellipse cx="96" cy="70" rx="7" ry="4" fill="#fff8d0" opacity=".85"/>
+   </g>
+   <path d="M30 60 Q110 6 196 86 Q120 30 30 60Z" fill="#1c0604" ${O}/>`;
+  let h='<u class="hg"></u>'+sv('ej','0 0 400 170',`<defs>
+    <radialGradient id="ejg" cx=".55" cy=".55" r=".6"><stop offset="0" stop-color="#fff4a8"/><stop offset=".35" stop-color="#ffc21a"/><stop offset=".75" stop-color="#f06a0a"/><stop offset="1" stop-color="#7a1a02"/></radialGradient>
+    <clipPath id="ejc"><path d="M44 70 Q118 34 184 100 Q108 120 44 70Z"/></clipPath></defs>
+   <path d="M0 40 Q200 -30 400 40 L400 170 Q300 120 260 150 Q200 175 140 150 Q100 120 0 170Z" fill="#100302" opacity=".55"/>
+   <path d="M150 120 Q200 100 250 120" fill="none" ${O}/>
+   <path d="M120 40 Q140 20 160 34 M240 34 Q260 20 280 40 M60 120 Q80 112 100 122 M300 122 Q320 112 340 120" fill="none" ${O}/>
+   <g class="ew">${eye}</g><g class="ew" transform="translate(400 0) scale(-1 1)">${eye}</g>
+   <g class="nz"><ellipse cx="182" cy="150" rx="6" ry="3" fill="#ff7a1a"/><ellipse cx="218" cy="150" rx="6" ry="3" fill="#ff7a1a"/></g>`);
+  h+=many(8,i=>'<i class="sm" style="left:'+fx(i%2?55:45)+'%;--w:'+fx(rr(-40,40))+'px;'+tm(3,5)+'"></i>');
+  for(let i=0;i<80;i++){const x=rr(-2,100),y=rr(0,1);h+='<u class="cn" style="left:'+fx(x)+'%;bottom:'+fx(Math.max(0,(20-Math.abs(x-50)/4.5)*y))+'%;transform:rotate('+fx(rr(-30,30))+'deg)"></u>'}
+  h+=many(7,()=>'<u class="gm" style="left:'+fx(rr(8,92))+'%;bottom:'+fx(rr(1,9))+'%;--c:'+['#ff3b5c','#3bd1ff','#4dff88','#c77dff'][Math.floor(rr(0,4))]+'"></u>');
+  h+=many(12,()=>'<u class="gl" style="left:'+fx(rr(5,95))+'%;bottom:'+fx(rr(1,18))+'%;'+tm(1.5,3.5)+'"></u>');
+  h+=many(10,()=>'<i class="em" style="--x:'+fx(rr(0,100))+'%;--z:'+fx(rr(2,4))+'px;--w:'+fx(rr(-40,40))+'px;'+tm(6,11)+'"></i>');
+  h+='<u class="vg"></u>';
   return h};
 const ejCss=BASE+`
-§O{background:radial-gradient(130% 62% at 62% 18%,rgba(255,110,30,.35),transparent 60%),linear-gradient(#0c0204,#2a0707 55%,#7c1d05 100%)}
-§O .hz{inset:0;background:radial-gradient(60% 40% at 50% 100%,rgba(255,120,20,.45),transparent)}
-§O .mn{left:-5%;right:-5%;bottom:10%;width:110%;height:34%;preserveAspectRatio:none}
-§O .dr{left:-8%;top:2%;width:min(116vw,104vh);height:auto;filter:drop-shadow(0 0 14px rgba(255,90,20,.6));animation:os2-bob 5s ease-in-out infinite}
-§O .wb{transform-origin:236px 112px;animation:os2-flap 3.2s ease-in-out -.4s infinite reverse}
-§O .wg{transform-origin:218px 118px;animation:os2-flap 3.2s ease-in-out infinite}
-§O .tl{transform-origin:280px 165px;animation:os2-sway 4s ease-in-out infinite}
-§O .eye{animation:os2-flick 1.8s infinite}
-§O .e2{animation-delay:-.6s}
-§O .pp{transform-box:fill-box;transform-origin:center;animation:os2-blink2 6s infinite}
-§O .fi{transform-origin:36px 100px;animation:os2-fire .5s ease-in-out infinite;filter:drop-shadow(0 0 10px #ff7a1a)}
-§O .f1,§O .f2{transform-origin:36px 100px}
-§O .f2{animation:os2-fire .35s ease-in-out infinite reverse}
-§O .em{top:100%;width:var(--z);height:var(--z);border-radius:50%;background:#ffb030;box-shadow:0 0 8px 2px #ff6a14;animation:os2-rise var(--t) linear var(--d) infinite}
-§O .lv{left:0;right:0;bottom:0;height:12%;background:repeating-linear-gradient(100deg,#ff7a14 0 30px,#ffb030 60px,#e83a08 100px),#ff5a10;background-size:200px 100%;animation:os2-lava 6s linear infinite;box-shadow:0 -10px 40px 8px rgba(255,90,10,.55)}
-§O .lg{left:0;right:0;bottom:0;height:30%;background:linear-gradient(transparent,rgba(255,110,20,.35));animation:os2-flick 2.4s infinite}
-§O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 50%,rgba(0,0,0,.55))}`;
+§O{background:radial-gradient(120% 70% at 50% 100%,#3a1206,#140503 55%,#050101)}
+§O .hg{left:0;right:0;top:0;height:40%;background:radial-gradient(60% 60% at 50% 40%,rgba(255,110,20,.22),transparent 70%);animation:os2-flick 3s infinite}
+§O .ej{left:50%;top:3%;width:min(104vw,520px);height:auto;transform:translateX(-50%);filter:drop-shadow(0 0 18px rgba(255,120,20,.55))}
+§O .ew{animation:os2-flick 2.4s infinite}
+§O .ey{transform-box:fill-box;transform-origin:center;animation:os2-blink3 7s ease-in-out infinite}
+§O .pp{animation:os2-look 7s ease-in-out infinite}
+§O .nz{animation:os2-flick 1.2s infinite}
+§O .sm{top:20%;width:14px;height:14px;border-radius:50%;background:rgba(190,150,130,.3);animation:os2-puff var(--t) ease-out var(--d) infinite}
+§O .cn{width:16px;height:7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff4b0,#fbbf24 50%,#a16207);box-shadow:0 1px 1px rgba(0,0,0,.5)}
+§O .gm{width:10px;height:10px;background:var(--c);transform:rotate(45deg);box-shadow:0 0 10px var(--c),inset -2px -2px 0 rgba(0,0,0,.3)}
+§O .gl{width:10px;height:10px;background:radial-gradient(circle,#fff,rgba(255,240,170,0) 65%);box-shadow:0 0 8px 2px rgba(253,224,71,.7);opacity:0;animation:os2-sp var(--t) ease-in-out var(--d) infinite}
+§O .em{top:100%;width:var(--z);height:var(--z);border-radius:50%;background:#ffb347;box-shadow:0 0 8px 2px rgba(255,140,40,.85);animation:os2-rise var(--t) ease-out var(--d) infinite}
+§O .vg{background:radial-gradient(ellipse at 50% 55%,transparent 45%,rgba(0,0,0,.65))}`;
 
 /* ───── DERİN DENİZ ───── */
 const fish=(c1,c2,w,flip,t,d,top)=>'<u class="sw" style="top:'+top+'%;--t:'+t+'s;--d:-'+d+'s;animation-name:'+(flip?'os2-swl':'os2-swr')+'">'+
@@ -248,7 +238,7 @@ const gaHtml=()=>{
   let h='<u class="nb n1"></u><u class="nb n2"></u><u class="nb n3"></u><u class="nb n4"></u>';
   h+=many(80,()=>{const s=rr(1,3.2);return '<i class="st" style="left:'+fx(rr(0,100))+'%;top:'+fx(rr(0,100))+'%;width:'+fx(s)+'px;height:'+fx(s)+'px;'+tm(2,6)+'"></i>'});
   h+='<u class="gx"><u class="gc"></u></u>';
-  h+=sv('gpl','0 0 200 200','<defs><radialGradient id="pg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffd9a0"/><stop offset=".55" stop-color="#d9743a"/><stop offset="1" stop-color="#4a1a2a"/></radialGradient></defs><ellipse cx="100" cy="104" rx="98" ry="22" fill="none" stroke="#e9c58a" stroke-width="9" opacity=".6" transform="rotate(-18 100 100)"/><circle cx="100" cy="100" r="52" fill="url(#pg)"/><path d="M52 90 Q100 80 150 96 M50 108 Q100 120 150 112" stroke="#b25a2a" stroke-width="5" fill="none" opacity=".6"/><path d="M6 118 Q100 150 194 84" fill="none" stroke="#f2d49a" stroke-width="7" fill="none" opacity=".75" transform="rotate(-18 100 100)" stroke-dasharray="190 60"/>');
+  h+=sv('gpl','0 0 200 200','<defs><radialGradient id="pg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffd9a0"/><stop offset=".55" stop-color="#d9743a"/><stop offset="1" stop-color="#4a1a2a"/></radialGradient></defs><g transform="rotate(-18 100 100)"><path d="M2 100 A98 24 0 0 1 198 100" fill="none" stroke="#e9c58a" stroke-width="10" opacity=".55"/><path d="M14 100 A86 19 0 0 1 186 100" fill="none" stroke="#b8925a" stroke-width="3" opacity=".5"/></g><circle cx="100" cy="100" r="52" fill="url(#pg)"/><path d="M54 88 Q100 78 148 94 M50 108 Q100 120 150 112" stroke="#b25a2a" stroke-width="5" fill="none" opacity=".55"/><g transform="rotate(-18 100 100)"><path d="M2 100 A98 24 0 0 0 198 100" fill="none" stroke="#f2d49a" stroke-width="10" opacity=".9"/><path d="M14 100 A86 19 0 0 0 186 100" fill="none" stroke="#c8a064" stroke-width="3" opacity=".7"/></g>');
   h+='<u class="mo"></u>'+sv('as','0 0 80 110','<g><circle cx="40" cy="28" r="16" fill="#eef"/><rect x="26" y="20" width="28" height="16" rx="8" fill="#223a7a"/><rect x="22" y="42" width="36" height="36" rx="10" fill="#e8ecff"/><rect x="2" y="48" width="22" height="9" rx="4" fill="#e8ecff"/><rect x="56" y="48" width="22" height="9" rx="4" fill="#e8ecff"/><rect x="26" y="76" width="11" height="26" rx="5" fill="#e8ecff"/><rect x="43" y="76" width="11" height="26" rx="5" fill="#e8ecff"/><rect x="30" y="52" width="20" height="10" rx="3" fill="#7a8cff"/></g>');
   h+='<u class="cm"></u><u class="cm c2"></u><u class="vg"></u>';
   return h};
