@@ -1,0 +1,21 @@
+# Her gönderimde ve pull request'te: sürüm kontrolü + tarayıcı testleri.
+name: Testler
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Playwright kur
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Testleri çalıştır
+        run: node tests/calistir.js
