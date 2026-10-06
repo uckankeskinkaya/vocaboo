@@ -6,7 +6,7 @@ const { sayfaAc } = require('./yardimci');
   const o = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms));
     const calls = []; let sonraki = { data: 'ok' };
-    sb = { rpc: async (n, a) => { calls.push([n, a]); return typeof sonraki === 'function' ? sonraki(n, a) : sonraki; }, from: () => ({}), auth: {} };
+    sb = { rpc: async (n, a) => { if (n !== 'quest_list') calls.push([n, a]); return typeof sonraki === 'function' ? sonraki(n, a) : sonraki; }, from: () => ({}), auth: {} };
     prof = { id: 'me', username: 'ali', avatar: 'p:fox', frame: null, xp: 100, best_score: 5, best_streak: 2, words_solved: 3, words_failed: 1, total_points: 10, daily_streak: 0 };
     const metin = () => document.getElementById('online').innerText.replace(/\s+/g, ' ');
     const r = {};
