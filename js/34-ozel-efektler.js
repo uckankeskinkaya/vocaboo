@@ -158,15 +158,19 @@ const BL={
     o:'background:linear-gradient(135deg,#ffe0a0,#ffb04a);color:#4a2a00;border:2px solid #fff0d0;border-radius:14px;box-shadow:0 0 14px rgba(255,190,90,.45)',
     r:'background:linear-gradient(135deg,#ffb0d0,#e8508a);color:#fff;border:2px solid #ffd8e8;border-radius:14px;box-shadow:0 0 14px rgba(232,80,138,.45)'}
 };
-let css='';
-for(const k in BL){const b=BL[k];
+function blCss(k){const b=BL[k];let css='';
   css+=E(k)+'{'+b.e+(b.f?';font-family:'+b.f:'')+'}\n';
   css+=':root[data-theme="'+k+'"] .tile.f:not(.g):not(.o):not(.r){'+b.fl+'}\n';
   css+=':root[data-theme="'+k+'"][data-scene] .tile.cu:not(.g):not(.o):not(.r){border-color:var(--ac);box-shadow:0 0 14px var(--ac)}\n';
   ['g','o','r'].forEach(c=>css+=S(k,c)+'{'+b[c]+(b.f?';font-family:'+b.f:'')+'}\n');
   // sonuç ekranındaki küçük kutular da aynı tasarım, kenarlık inceltilir
   css+=':root[data-theme="'+k+'"] .row.sm .tile{border-width:1px!important;box-shadow:none}\n';
+  return css;
 }
+let css='';
+for(const k in BL)css+=blCss(k);
+// Yeni temalar başka dosyalardan eklenebilsin: dokunuş efekti (fx) ve harf blokları (bl)
+window.TEMAEK=(k,fx,bl)=>{if(fx)FX[k]=fx;if(bl){BL[k]=bl;document.head.insertAdjacentHTML('beforeend','<style class="ozel-blok-ek">'+blCss(k)+'</style>')}};
 document.head.insertAdjacentHTML('beforeend','<style id="ozel-bloklar">'+css+`
 :root[data-scene] .tile.f:not(.g):not(.o):not(.r){animation:pop .18s}
 </style>`);

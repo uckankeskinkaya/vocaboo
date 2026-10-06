@@ -27,6 +27,6 @@ const _p=thPrev;thPrev=function(k,price,owned){
   b.onclick=()=>{$('tpvg')?kapat():ac()};
 };
 const _e=thPrevEnd;thPrevEnd=function(keep){kapat();return _e(keep)};
-// Kaldırılmış bir tema kayıtlıysa varsayılana dön
-try{const t=localStorage.getItem('ka_theme');if(t&&!TM[t]){localStorage.removeItem('ka_theme');delete document.documentElement.dataset.theme;document.documentElement.dataset.anim='';if(typeof sahneKur==='function')sahneKur(null)}}catch(e){}
+// Kaldırılmış bir tema kayıtlıysa varsayılana dön (tüm dosyalar yüklendikten sonra: sonradan eklenen temalar da tanınsın)
+addEventListener('DOMContentLoaded',()=>{try{const t=localStorage.getItem('ka_theme');if(t&&!TM[t]){localStorage.removeItem('ka_theme');delete document.documentElement.dataset.theme;document.documentElement.dataset.anim='';if(typeof sahneKur==='function')sahneKur(null)}}catch(e){}});
 })();
