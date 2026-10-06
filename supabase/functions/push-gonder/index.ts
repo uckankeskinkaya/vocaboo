@@ -1,5 +1,5 @@
 // Web Push gönderici. Üç kapı var: (1) pg_cron'dan gelen x-cron-secret başlığı (günlük hatırlatma), (2) giriş yapmış kullanıcının kendi cihazına deneme bildirimi,
-// (3) yöneticinin bildirimi açık herkese toplu duyurusu (admin_push_prep ile hazırlanan satır).
+// (3) yöneticinin bildirimi açık herkese toplu duyurusu (admin_push_prep ile hazırlanan satır), (4) kullanıcının hata bildirimi -> yöneticilere.
 // VAPID anahtarları ilk çağrıda üretilir ve sadece public.push_config tablosunda durur. verify_jwt kapalı: kimlik doğrulama kodun içinde.
 import webpush from "npm:web-push@3.6.7";
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -49,6 +49,23 @@ Deno.serve(async (req: Request) => {
     duyuruId = dy.id;
     const { data: subs } = await sb.from("push_subs").select("endpoint,p256dh,auth").eq("active", true).limit(5000);
     targets = (subs || []).map((s: any) => ({ ...s, title: dy.title, body: dy.body }));
+  } else if (body && body.bug) {
+    // Hata bildirimi: gönderen kullanıcı kendi az önceki kaydını bildirir; bildirimi açık yöneticilere gider (tek kullanımlık).
+    const jwt = (req.headers.get("authorization") || "").replace(/^Bearer /i, "");
+    const { data: u } = await sb.auth.getUser(jwt);
+    if (!u || !u.user) return json({ err: "yetki" }, 401);
+    const { data: bg } = await sb.from("bug_reports").update({ notified_at: new Date().toISOString() })
+      .eq("id", Number(body.bug)).eq("user_id", u.user.id).is("notified_at", null)
+      .gt("ts", new Date(Date.now() - 120000).toISOString()).select("id,kat,msg").maybeSingle();
+    if (!bg) return json({ err: "yok" }, 404);
+    const { data: pr } = await sb.from("profiles").select("username").eq("id", u.user.id).single();
+    const { data: ad } = await sb.from("profiles").select("id").eq("admin", true).limit(20);
+    const ids = (ad || []).map((x: any) => x.id);
+    if (!ids.length) return json({ sent: 0, dead: 0, total: 0, fails: [] });
+    const { data: subs } = await sb.from("push_subs").select("endpoint,p256dh,auth").eq("active", true).in("user_id", ids);
+    const kat: Record<string, string> = { oyun: "Oyun", online: "Online", gorunum: "Görünüm", hesap: "Hesap", diger: "Diğer" };
+    const metin = ((pr && pr.username) || "?") + " · " + (kat[bg.kat] || "Diğer") + ": " + String(bg.msg).slice(0, 120);
+    targets = (subs || []).map((s: any) => ({ ...s, title: "🐞 Yeni hata bildirimi", body: metin }));
   } else {
     return json({ ok: true, init: true });
   }
