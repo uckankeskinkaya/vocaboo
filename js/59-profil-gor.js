@@ -4,9 +4,9 @@
 // Ayrıca yönetici "Şüpheli raporu" puanlı ve nedenli yeni hâliyle burada.
 (function(){
 Object.assign(EN,{'Profil':'Profile','Doğruluk':'Accuracy','Çözülen kelime':'Solved words','Seri rekoru':'Streak record','En uzun seri':'Longest streak','Günlük seri':'Daily streak','İlk denemede':'First try','Katılım':'Joined','Öğretmen':'Teacher','Sınıf':'Class','Profil bulunamadı.':'Profile not found.','Profil yüklenemedi.':'Could not load profile.',
-  'Yüksek':'High','Orta':'Medium','Şüpheli raporu':'Suspicious report','Şüpheli kimse yok 🎉':'No suspects 🎉'});
+  'Çevrimiçi':'Online','Yüksek':'High','Orta':'Medium','Şüpheli raporu':'Suspicious report','Şüpheli kimse yok 🎉':'No suspects 🎉'});
 RX.push([/^Seviye (\d+)$/,'Level $1']);
-document.head.insertAdjacentHTML('beforeend','<style>.ntx{margin:2px 0 10px;font-size:12.5px;line-height:1.45;color:var(--dim);font-weight:500}</style>');
+document.head.insertAdjacentHTML('beforeend','<style>.act{display:inline-block;vertical-align:middle;width:11px;height:11px;margin:0 8px 0 2px;border-radius:50%;background:var(--g);box-shadow:0 0 0 0 color-mix(in srgb,var(--g) 55%,transparent);animation:actp 2s ease-out infinite}@keyframes actp{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--g) 55%,transparent)}70%,100%{box-shadow:0 0 0 7px transparent}}@media(prefers-reduced-motion:reduce){.act{animation:none}}.chip.onl{background:color-mix(in srgb,var(--g) 18%,var(--panel));color:var(--g);border:1px solid var(--g)}.chip.onl .act{width:8px;height:8px;margin:0 4px 0 0}.ntx{margin:2px 0 10px;font-size:12.5px;line-height:1.45;color:var(--dim);font-weight:500}</style>');
 let SON=null;
 {const _f=aFriends;aFriends=function(t){SON=()=>_f.call(this,t);return _f.apply(this,arguments)}}
 {const _b=aBoard;aBoard=function(t,c){SON=()=>_b.call(this,t,c);return _b.apply(this,arguments)}}
@@ -20,7 +20,7 @@ async function aPView(u,geri){
   const S=(x,y)=>'<div class="st"><b>'+x+'</b><span>'+y+'</span></div>';
   const tarih=(()=>{try{return new Date(P.joined).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'})}catch(e){return ''}})();
   panel('<div class="pf-h">'+frameWrap(av(P.avatar,84),P.frame)+'<h2>'+esc(P.username)+(P.me?' (sen)':'')+'</h2><span class="chip">'+esc(titleOf(P))+'</span>'
-    +(P.teacher?' <span class="chip">🎓 Öğretmen</span>':P.cls?' <span class="chip">Sınıf</span>':'')
+    +(P.teacher?' <span class="chip">🎓 Öğretmen</span>':P.cls?' <span class="chip">Sınıf</span>':'')+(P.on?' <span class="chip onl"><i class="act"></i> Çevrimiçi</span>':'')
     +'<div class="pbar"><i style="width:'+pct+'%"></i></div><small>Seviye '+L+'</small>'+(tarih?'<small>Katılım: '+esc(tarih)+'</small>':'')+'</div>'
     +'<div class="sg3">'+S(t?Math.round(n/t*100)+'%':'-','Doğruluk')+S(n,'Çözülen kelime')+S(n?Math.round((P.first_try||0)/n*100)+'%':'-','İlk denemede')+S(P.best_score||0,'Seri rekoru')+S(P.best_streak||0,'En uzun seri')+S(P.daily_streak||0,'Günlük seri')+'</div>'
     +bdHTML(P)+btn('ob','Geri'));

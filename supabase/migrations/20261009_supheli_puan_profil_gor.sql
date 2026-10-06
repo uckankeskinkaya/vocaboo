@@ -57,3 +57,22 @@ revoke all on function public.admin_suspects() from public, anon;
 revoke all on function public.profile_view(text) from public, anon;
 grant execute on function public.admin_suspects() to authenticated;
 grant execute on function public.profile_view(text) to authenticated;
+
+-- Profil görüntülemede çevrimiçi bilgisi (son 45 sn içinde uygulamayı açık tutan)
+create or replace function public.profile_view(_u text)
+ returns jsonb language plpgsql stable security definer set search_path to 'public' as $$
+declare p public.profiles;
+begin
+  if auth.uid() is null then raise exception 'giris'; end if;
+  select * into p from profiles where username = lower(btrim(_u)) and not coalesce(banned, false);
+  if not found then return null; end if;
+  return jsonb_build_object('username', p.username, 'avatar', p.avatar, 'frame', p.frame, 'xp', p.xp,
+    'words_solved', p.words_solved, 'words_failed', p.words_failed, 'first_try', p.first_try,
+    'best_score', p.best_score, 'best_streak', p.best_streak, 'best_daily_streak', p.best_daily_streak,
+    'daily_streak', case when p.last_daily >= (now() at time zone 'Europe/Istanbul')::date - 1 then p.daily_streak else 0 end,
+    'daily_wins', p.daily_wins, 'weekly_wins', p.weekly_wins, 'weekly_podiums', p.weekly_podiums,
+    'joined', p.created_at, 'teacher', coalesce(p.teacher, false), 'cls', coalesce(p.cls, false), 'me', p.id = auth.uid(),
+    'on', coalesce(p.last_seen > now() - interval '45 seconds', false));
+end $$;
+revoke all on function public.profile_view(text) from public, anon;
+grant execute on function public.profile_view(text) to authenticated;
