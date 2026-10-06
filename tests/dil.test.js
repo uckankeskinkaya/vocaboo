@@ -82,7 +82,7 @@ const out=await s.sayfa.evaluate(async()=>{
   toast('Davet bağlantısı kopyalandı');toast('Odaya katılıyorsun: AB12');toast('Odaya katılmak için giriş yap');sweep();sonuc['davet_bildirimleri']=[...document.querySelectorAll('.toast')].map(t=>t.textContent);
   // Nasıl oynanır ve Tekrar et
   const nk=(ad,sel)=>{sweep();const e=document.querySelector(sel);const l=[];if(e){const w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const t=n.nodeValue.trim();if(t)l.push(t)}}sonuc[ad]=l.length?l:['HATA öğe yok: '+sel]};
-  for(let i=0;i<4;i++){nasilOynanir();for(let k=0;k<i;k++)document.getElementById('hnx').click();await wait(60);nk('nasil_oynanir_'+(i+1),'#how')}
+  prof.cls=true;for(let i=0;i<10;i++){nasilOynanir();for(let k=0;k<i;k++)document.getElementById('hnx').click();await wait(60);nk('nasil_oynanir_'+(i+1),'#how')}
   document.getElementById('how').hidden=true;
   await ekran('ayarlar_yardim',()=>aSettings());
   const kel=(w)=>({w,d:'a thing called '+w,ex:'We use the '+w+' often.',n:1,ok:0});

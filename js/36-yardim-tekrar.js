@@ -32,19 +32,27 @@ document.head.insertAdjacentHTML('beforeend',`<style id="yardim-css">
 </style>`);
 // ---- Nasıl oynanır? ----
 const tile=(c,h)=>'<b style="background:var(--'+c+')">'+h+'</b>';
+const li=(i,t)=>'<li><i>'+i+'</i> '+t+'</li>';
 const SL=[
   ()=>'<h2>Gizli kelimeyi bul</h2><p>Gizli bir İngilizce kelime var. İpucu olarak anlamını görürsün. Harfleri yaz ve Gönder\'e bas.</p><div class="hex">'+tile('g','S')+tile('o','H')+tile('r','O')+tile('g','W')+tile('r','E')+tile('g','R')+'</div>',
-  ()=>'<h2>Renkler ne demek?</h2><div class="hl">'+tile('g','A')+'<span>Doğru harf, doğru yerde</span></div><div class="hl">'+tile('o','B')+'<span>Harf kelimede var ama yeri yanlış</span></div><div class="hl">'+tile('r','C')+'<span>Harf kelimede yok</span></div>',
-  ()=>'<h2>Oyun modları</h2><ul><li><i>📅</i> Günlük: herkes aynı kelimeyi çözer, 3 hak</li><li><i>⚡</i> Seri: 3 can, giderek zorlaşan kelimeler</li><li><i>📚</i> Alıştırma: seviyeni seç, rahat çalış</li><li><i>🌐</i> Online: arkadaşınla ya da sınıfla yarış</li></ul>',
-  ()=>'<h2>Puan, Pazar ve bonus</h2><p>Kelimeleri bildikçe puan kazanırsın. Pazar\'dan tema ve çerçeve alabilirsin.</p><p><i>🎁</i> Her gün ilk oyununa bonus puan var, art arda gelince büyür.</p><p><i>🏆</i> Haftanın en iyileri ödül kazanır.</p>'
+  ()=>'<h2>Renkler ne demek?</h2><div class="hl">'+tile('g','A')+'<span>Doğru harf, doğru yerde</span></div><div class="hl">'+tile('o','B')+'<span>Harf kelimede var ama yeri yanlış</span></div><div class="hl">'+tile('r','C')+'<span>Harf kelimede yok</span></div><p>Yeşil harfler kilitlenir, onları tekrar yazman gerekmez.</p>',
+  ()=>'<h2>Kutuları kullan</h2><ul>'+li('👆','Bir kutuya dokunursan seçilir, yazdığın harf o kutuya gider.')+li('⌫','Seçili kutuda Sil\'e basarsan sadece o kutudaki harf silinir.')+li('↔️','Bir harfi tutup başka kutuya sürükleyerek yerini değiştirebilirsin.')+li('💡','Üçüncü tahminden sonra ? düğmesi çıkar: ilk harfi ve örnek cümleyi verir, biraz puan düşer.')+'</ul>',
+  ()=>'<h2>Oyun modları</h2><ul>'+li('📅','Günlük: herkes aynı kelimeyi çözer, 3 hak')+li('⚡','Seri: 3 can, giderek zorlaşan kelimeler')+li('📚','Alıştırma: seviyeni seç, rahat çalış')+li('🌐','Online: arkadaşınla ya da sınıfla yarış')+li('🏆','Skor tablosu: haftalık ve tüm zamanların en iyileri')+'</ul>',
+  ()=>'<h2>Alıştırma ve Türkçe yardım</h2><ul>'+li('🇹🇷','Açıklama İngilizce gelir. Anlamazsan TR düğmesine bas, o cümlenin Türkçesini görürsün.')+li('🔊','Kelime bitince hoparlör düğmesiyle doğru söylenişini dinleyebilirsin.')+li('📖','Öğrendiğin kelimeler Menü, Defterim bölümünde birikir. 4 kelime olunca Tekrar et testi açılır.')+li('✈️','İnternet yoksa da alıştırma çalışır, ama puan ve XP verilmez.')+'</ul>',
+  ()=>'<h2>Online ve sınıf yarışı</h2><ul>'+li('🏠','Online bölümünde Oda kur\'a bas, 4 harfli kodu ya da bağlantıyı arkadaşlarına gönder.')+li('👥','1v1 ya da grup oyna. Arena modunda sorular tek tek gelir ve canlı sıralama görürsün.')+li('👋','Maçta kendi profil kartına dokunarak rakibe emoji gönderebilirsin.')+'</ul>',
+  ()=>'<h2>Görevler ve başarılar</h2><ul>'+li('🎯','Her gün 3 yeni görev gelir. Bitirince Ödülü al\'a bas, 🪙 kazan.')+li('🎁','Üç görevi de bitirirsen ekstra ödül var.')+li('🏅','Başarılar kalıcıdır, uzun vadeli hedeflerin için ödül verir.')+li('📊','İlerlemeni Profil, Menü, İstatistik ekranından takip edebilirsin.')+'</ul>',
+  ()=>'<h2>Puan, Pazar ve bonus</h2><p>Kelimeleri bildikçe puan kazanırsın. Pazar\'dan tema ve çerçeve alabilirsin.</p><p><i>🎁</i> Her gün ilk oyununa bonus puan var, art arda gelince büyür.</p><p><i>🏆</i> Haftanın en iyileri ödül kazanır.</p><p><i>🖼️</i> Profilindeki avatara dokunarak avatarını, fotoğrafını ve çerçeveni değiştirebilirsin.</p>',
+  ()=>(typeof clsOK==='function'&&clsOK())?'<h2>Sınıf ödevleri</h2><ul>'+li('📚','Menü, Ödevlerim bölümünde öğretmeninin verdiği kelime ödevleri görünür.')+li('⏰','Her ödevde kaç kelime kaldığını ve son günü görürsün.')+li('🔔','Bildirimleri açarsan son gün yaklaşınca hatırlatma gelir.')+'</ul>':'',
+  ()=>'<h2>Telefona ekle</h2><p>Siteyi ana ekrana eklersen uygulama gibi açılır, daha hızlı yüklenir ve bildirim alabilirsin.</p><ul>'+li('🍎','iPhone: Safari\'de Paylaş düğmesi, sonra Ana Ekrana Ekle.')+li('🤖','Android: Chrome menüsü, sonra Uygulamayı yükle ya da Ana ekrana ekle.')+li('🔔','Ayarlar\'dan Bildirimleri aç. iPhone\'da bunun için önce ana ekrana eklemelisin.')+'</ul>'
 ];
 let hi=0;
 function howClose(){const e=$('how');if(e)e.hidden=true;try{localStorage.setItem('ka_how','1')}catch(x){}}
 function howRender(){
   let e=$('how');if(!e){e=document.createElement('div');e.id='how';e.setAttribute('role','dialog');e.setAttribute('aria-modal','true');document.body.appendChild(e)}
   e.hidden=false;
-  const son=hi===SL.length-1;
-  e.innerHTML='<div class="hw"><div class="hk">'+(son?'':'<button id="hsk">Atla</button>')+'</div><div class="hs">'+SL[hi]()+'</div><div class="hd">'+SL.map((_,i)=>'<i'+(i===hi?' class="on"':'')+'></i>').join('')+'</div><div class="hb">'+(hi?'<button id="hbk">Geri</button>':'')+'<button class="m" id="hnx">'+(son?'Başla':'İleri')+'</button></div></div>';
+  const L=SL.map(f=>f()).filter(Boolean);if(hi>=L.length)hi=L.length-1;
+  const son=hi===L.length-1;
+  e.innerHTML='<div class="hw"><div class="hk">'+(son?'':'<button id="hsk">Atla</button>')+'</div><div class="hs">'+L[hi]+'</div><div class="hd">'+L.map((_,i)=>'<i'+(i===hi?' class="on"':'')+'></i>').join('')+'</div><div class="hb">'+(hi?'<button id="hbk">Geri</button>':'')+'<button class="m" id="hnx">'+(son?'Başla':'İleri')+'</button></div></div>';
   if($('hsk'))$('hsk').onclick=howClose;
   if($('hbk'))$('hbk').onclick=()=>{hi--;howRender()};
   $('hnx').onclick=()=>{if(son){howClose();return}hi++;howRender()};

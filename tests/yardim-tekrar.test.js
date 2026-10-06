@@ -10,7 +10,7 @@ const { sayfaAc } = require('./yardimci');
     document.getElementById('game').hidden = true; document.getElementById('home').hidden = false;
     window.nasilOynanir(); r.acildi = !document.getElementById('how').hidden; r.slayt1 = document.querySelector('#how h2').textContent;
     tik('hnx'); r.slayt2 = document.querySelector('#how h2').textContent; r.geriVar = !!document.getElementById('hbk');
-    tik('hnx'); tik('hnx'); r.slayt4 = document.querySelector('#how h2').textContent; r.sonDugme = document.getElementById('hnx').textContent; r.atlaYok = !document.getElementById('hsk');
+    for (let i = 0; i < 20 && document.getElementById('hnx').textContent !== 'Başla'; i++) tik('hnx'); r.slayt4 = document.querySelector('#how h2').textContent; r.sonDugme = document.getElementById('hnx').textContent; r.atlaYok = !document.getElementById('hsk');
     tik('hnx'); r.kapandi = document.getElementById('how').hidden; r.bayrak = localStorage.getItem('ka_how');
     // 2) Ayarlar'da düğme
     loadProf = async () => {}; prof = { id: 'a', username: 'ali', xp: 10, banned: false, total_points: 0, points_spent: 0 };
@@ -34,7 +34,7 @@ const { sayfaAc } = require('./yardimci');
     r.defter = JSON.parse(localStorage.getItem('ka_book')).map(x => x.w).sort().join(',');
     return r;
   });
-  assert.ok(o.acildi && /Gizli kelimeyi bul/.test(o.slayt1)); assert.match(o.slayt2, /Renkler/); assert.ok(o.geriVar); assert.match(o.slayt4, /Pazar/); assert.strictEqual(o.sonDugme, 'Başla'); assert.ok(o.atlaYok);
+  assert.ok(o.acildi && /Gizli kelimeyi bul/.test(o.slayt1)); assert.match(o.slayt2, /Renkler/); assert.ok(o.geriVar); assert.match(o.slayt4, /Telefona ekle/); assert.strictEqual(o.sonDugme, 'Başla'); assert.ok(o.atlaYok);
   assert.ok(o.kapandi); assert.strictEqual(o.bayrak, '1'); assert.ok(o.ayarDugme && o.ayardanAcildi);
   assert.ok(o.az, '4 kelimeden azken Tekrar et düğmesi çıkmamalı'); assert.match(o.dugme, /Tekrar et \(5 kelime\)/);
   assert.strictEqual(o.secenek, 4); assert.ok(o.maskeli, 'örnek cümlede kelime gizlenmeli'); assert.ok(o.yanlisGoster);
