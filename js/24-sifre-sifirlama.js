@@ -20,15 +20,16 @@ function aForgot(){
 
 // Yeni şifre belirleme. manual=false: geçici kodla girildi, zorunlu. manual=true: profilden isteğe bağlı.
 function aNewPw(manual){
-  panel('<p><b>'+(manual?'Şifreni değiştir':'Yeni şifre belirle')+'</b></p><p class="cap">'+(manual?'':'Geçici kodla giriş yaptın. Devam etmek için kendi şifreni belirle. ')+'En az 8 karakter.</p><input id="p1" type="password" autocomplete="new-password" placeholder="Yeni şifre" style="'+SEL+'"><input id="p2" type="password" autocomplete="new-password" placeholder="Yeni şifre (tekrar)" style="'+SEL+'"><p id="pe" style="color:var(--r)"></p>'+btn('pk','Kaydet')+btn('ob',manual?'Geri':'Çıkış yap'));
+  panel('<p><b>'+(manual?'Şifreni değiştir':'Yeni şifre belirle')+'</b></p><p class="cap">'+(manual?'':'Geçici kodla giriş yaptın. Devam etmek için kendi şifreni belirle. ')+'En az 8 karakter, en az 1 harf ve en az 1 rakam.</p><input id="p1" type="password" autocomplete="new-password" placeholder="Yeni şifre" style="'+SEL+'"><div class="pwl" id="p1k"></div><input id="p2" type="password" autocomplete="new-password" placeholder="Yeni şifre (tekrar)" style="'+SEL+'"><p id="pe" style="color:var(--r)"></p>'+btn('pk','Kaydet')+btn('ob',manual?'Geri':'Çıkış yap'));
   $('ob').onclick=manual?aProfile:async()=>{await sb.auth.signOut();prof=null;rHome();aAuth()};
+  pwListe('p1','p1k');
   $('pk').onclick=async()=>{
     const a=$('p1').value,b=$('p2').value,e=t=>{$('pe').textContent=t};
-    if(a.length<8)return e('Şifre en az 8 karakter olmalı.');
+    {const h=pwHata(a);if(h)return e(h)}
     if(a!==b)return e('İki şifre aynı değil.');
     e('Bekle...');$('pk').disabled=true;
     const r=await sb.auth.updateUser({password:a});$('pk').disabled=false;
-    if(r.error)return e(/same|different/i.test(r.error.message||'')?'Yeni şifre eskisinden farklı olmalı.':/weak|short|least|password/i.test(r.error.message||'')?'Şifre kabul edilmedi. Daha uzun ya da farklı bir şifre dene.':'Şifre değiştirilemedi. Biraz sonra tekrar dene.');
+    if(r.error)return e(/same|different/i.test(r.error.message||'')?'Yeni şifre eskisinden farklı olmalı.':/weak|short|least|password|contain/i.test(r.error.message||'')?'Şifre kurala uymuyor: en az 8 karakter, en az 1 harf ve 1 rakam.':'Şifre değiştirilemedi. Biraz sonra tekrar dene.');
     if(!manual){const c=await sb.rpc('pw_changed');if(c.error||c.data!==true)return e('Şifre değişti ama doğrulanamadı. Çıkış yapıp yeni şifrenle giriş yap.')}
     toast('Şifren değişti.');
     if(manual)aProfile();else oExit();

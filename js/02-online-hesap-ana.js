@@ -199,10 +199,21 @@ async function loadProf(){
 function panel(h){$('home').hidden=true;$('online').hidden=false;on(h)}
 function noSb(){panel('<p>Bu özellik için Supabase ayarı gerekli.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit()}
 
+// Şifre kuralları (Supabase Auth ile aynı): en az 8 karakter, en az 1 harf, en az 1 rakam
+const PWK=[[p=>p.length>=8,'En az 8 karakter'],[p=>/[a-zA-Z]/.test(p),'En az 1 harf'],[p=>/[0-9]/.test(p),'En az 1 rakam']];
+const pwHata=p=>{const k=PWK.find(x=>!x[0](p));return k?{'En az 8 karakter':'Şifre en az 8 karakter olmalı.','En az 1 harf':'Şifrede en az 1 harf olmalı.','En az 1 rakam':'Şifrede en az 1 rakam olmalı (0-9).'}[k[1]]:''};
+const pwSunucu=m=>/should contain|weak|at least|characters/i.test(m||'');
+function pwListe(inp,kut){
+  const i=$(inp),k=$(kut);if(!i||!k)return;
+  const ciz=()=>{const p=i.value;k.innerHTML=PWK.map(x=>{const ok=x[0](p);return '<span class="pwk'+(ok?' ok':'')+'">'+(ok?'✓':'○')+' '+x[1]+'</span>'}).join('')};
+  i.addEventListener('input',ciz);ciz();
+}
+document.head.insertAdjacentHTML('beforeend','<style>.pwl{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 2px}.pwk{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--dim);background:var(--panel)}.pwk.ok{color:var(--g);border-color:var(--g)}</style>');
 function aAuth(msg){
   if(!sb){noSb();return}
-  panel(heroHTML()+(msg?'<p><b>'+esc(msg)+'</b></p>':'')+'<p>Kullanıcı adı (3-16 karakter: a-z, 0-9, _)</p><input id="au" maxlength="16" autocapitalize="none" autocomplete="username" style="'+SEL+'"><p>Şifre (en az 8 karakter)</p><input id="ap" type="password" autocomplete="current-password" style="'+SEL+'"><p>Sınıf kodu (sınıftansan gir, dışarıdansan boş bırak)</p><input id="ac" maxlength="40" autocapitalize="none" autocomplete="off" style="'+SEL+'"><p id="ae" style="color:var(--r)"></p>'+btn('al','Giriş yap')+btn('as','Kayıt ol')+btn('af','Şifremi unuttum')+'<p>Mail ya da telefon istenmez. Şifreni unutursan "Şifremi unuttum" ile yöneticiye talep gönderebilirsin.</p>'+(prof?btn('ob','Ana menü'):''));
+  panel(heroHTML()+(msg?'<p><b>'+esc(msg)+'</b></p>':'')+'<p>Kullanıcı adı (3-16 karakter: a-z, 0-9, _)</p><input id="au" maxlength="16" autocapitalize="none" autocomplete="username" style="'+SEL+'"><p>Şifre</p><input id="ap" type="password" autocomplete="current-password" style="'+SEL+'"><div class="pwl" id="apk"></div><p style="margin:2px 0 0;font-size:12.5px;line-height:1.4;color:var(--dim)">Yeni kayıtta şifre en az 8 karakter olmalı, içinde en az 1 harf ve en az 1 rakam bulunmalı. Örnek: kedi2024</p><p>Sınıf kodu (sınıftansan gir, dışarıdansan boş bırak)</p><input id="ac" maxlength="40" autocapitalize="none" autocomplete="off" style="'+SEL+'"><p id="ae" style="color:var(--r)"></p>'+btn('al','Giriş yap')+btn('as','Kayıt ol')+btn('af','Şifremi unuttum')+'<p>Mail ya da telefon istenmez. Şifreni unutursan "Şifremi unuttum" ile yöneticiye talep gönderebilirsin.</p>'+(prof?btn('ob','Ana menü'):''));
   if(prof)$('ob').onclick=()=>oExit();
+  pwListe('ap','apk');
   $('al').onclick=()=>aGo(false);
   $('as').onclick=()=>aGo(true);
   $('af').onclick=()=>aForgot();
@@ -210,11 +221,11 @@ function aAuth(msg){
 async function aGo(reg){
   const u=$('au').value.trim().toLowerCase(),p=$('ap').value,err=t=>{$('ae').textContent=t};
   if(!/^[a-z0-9_]{3,16}$/.test(u))return err('Kullanıcı adı 3-16 karakter olmalı: a-z, 0-9 ve _.');
-  if(p.length<8)return err('Şifre en az 8 karakter olmalı.');
+  if(reg){const h=pwHata(p);if(h)return err(h)}else if(p.length<8)return err('Şifre en az 8 karakter olmalı.');
   err('Bekle...');
   const em=u+MD;
   const r=reg?await sb.auth.signUp({email:em,password:p,options:{data:{username:u,code:($('ac').value||'').trim()}}}):await sb.auth.signInWithPassword({email:em,password:p});
-  if(r.error)return err(reg?(/registered|exists/i.test(r.error.message)?'Bu kullanıcı adı alınmış.':'Kayıt yapılamadı. Sınıf kodunu ve kullanıcı adını kontrol et.'):'Kullanıcı adı ya da şifre yanlış.');
+  if(r.error)return err(reg?(/registered|exists/i.test(r.error.message)?'Bu kullanıcı adı alınmış.':pwSunucu(r.error.message)?'Şifre kurala uymuyor: en az 8 karakter, en az 1 harf ve 1 rakam.':'Kayıt yapılamadı. Sınıf kodunu ve kullanıcı adını kontrol et.'):'Kullanıcı adı ya da şifre yanlış.');
   if(!r.data.session)return err('Hesap açıldı ama oturum başlamadı. Supabase ayarlarında Confirm email kapalı olmalı.');
   await loadProf();
   if(!prof)return err('Profil oluşturulamadı. SQL kurulumunu kontrol et.');
