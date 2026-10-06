@@ -30,7 +30,7 @@ pStart=async function(l){
   return _ps.apply(this,arguments);
 };
 // Yerel alıştırma kelimesini paketten seç (paket yoksa eski yerleşik liste kullanılır)
-const goruldu=[new Set(),new Set(),new Set(),new Set()];
+const goruldu=[new Set(),new Set(),new Set(),new Set(),new Set()];
 {const _n=next;next=function(){
   if(mode==='practice'&&!(typeof SR!=='undefined'&&SR)&&typeof PK!=='undefined'&&PK&&PK.d){
     const L=PK.d.map((r,i)=>[r,i]).filter(([r])=>r[0]===lv&&/^[a-z]+$/.test(r[1]));
