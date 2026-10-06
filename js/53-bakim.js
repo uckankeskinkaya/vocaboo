@@ -79,6 +79,13 @@ async function aAdMaint(){
     MN.on=!on;toast(!on?'Bakım modu AÇIK':'Bakım modu kapatıldı');aAdMaint();
   });
 }
+// Ayarlar'ın en altında sürüm numarası (hangi sürümü gördüğünü anlamak için)
+const SURUM=((document.querySelector('script[src*="js/53-"]')||{}).src||'').split('v=')[1]||'?';
+{const _as=aSettings;aSettings=function(){
+  _as.apply(this,arguments);
+  const o=document.getElementById('online');if(o&&!document.getElementById('srm'))o.insertAdjacentHTML('beforeend','<p class="cap" id="srm" style="text-align:center;opacity:.6;margin-top:14px">Sürüm '+SURUM+'</p>');
+}}
+RX.push([/^Sürüm (\w+)$/,(m,v)=>'Version '+v]);
 // Yeni sürüm: servis çalışanı sayfayı eski önbellekten açtıysa ve yenisi indiyse küçük bir çubuk gösterilir
 if('serviceWorker' in navigator)navigator.serviceWorker.addEventListener('message',e=>{
   if(!e.data||e.data.t!=='yeni-surum'||document.getElementById('upb'))return;
