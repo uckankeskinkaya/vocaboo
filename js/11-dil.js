@@ -33,7 +33,7 @@ const EN={
 'Aydınlık':'Light','Karanlık':'Dark','Gün batımı':'Sunset','Nane':'Mint','Orman':'Forest','Deniz':'Sea','Kahve':'Coffee','Lavanta':'Lavender'};
 const RX=[[/^Merhaba, /,'Hello, '],[/^(\d+) puan$/,'$1 pts'],[/^\+(\d+) puan$/,'+$1 pts'],[/^Kalan hak: (\d+)$/,'Tries left: $1'],[/^(\d+) harf$/,'$1 letters'],
 [/^Seviye (.+)$/,'Level $1'],[/\bSeri (\d+) Pas (\d+)/,'Streak $1 Skips $2'],[/^Pas \((\d+)\)$/,'Skip ($1)'],[/^Seri: (\d+)/,'Streak: $1'],[/^Puan: /,'Score: '],
-[/^1 can kaybettin, kalan: (\d+)$/,'You lost 1 life, left: $1'],[/\(-10 puan\)/,'(-10 pts)'],[/^Örnek cümle: /,'Example sentence: '],[/^İpucu: ilk harf (.), (\d+) harf/,'Hint: first letter $1, $2 letters'],
+[/^1 can kaybettin, kalan: (\d+)$/,'You lost 1 life, left: $1'],[/\(-20 puan\)/,'(-20 pts)'],[/^Örnek cümle: /,'Example sentence: '],[/^İpucu: ilk harf (.), (\d+) harf/,'Hint: first letter $1, $2 letters'],
 [/^Rozetler \((.+)\)$/,'Badges ($1)'],[/^Bu oyundaki kelimeler \((\d+)\)$/,'Words in this game ($1)'],[/^Kelime defterim \((\d+)\)$/,'My word book ($1)'],
 [/^Arkadaşların \((\d+)\)$/,'Your friends ($1)'],[/^Sınıftakiler \((\d+)\)$/,'Classmates ($1)'],[/^Başlat \((\d+) oyuncu\)$/,'Start ($1 players)'],[/^(\d+) kelime$/,'$1 words'],[/^rekor (\d+)$/,'best $1'],
 [/^Gerçekten çıkmak istiyor musun\? /,'Do you really want to quit? '],[/^Doğru (\d+)/,'Correct $1'],[/^Kelime (\d+)\/(\d+)$/,'Word $1/$2'],[/^Ses: (Açık|Kapalı)$/,m=>'Sound: '+(/Açık/.test(m)?'On':'Off')]];
