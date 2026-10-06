@@ -16,7 +16,7 @@ function mnKaldir(){const o=document.getElementById('mnov');if(o)o.remove();cons
 function mnGoster(giris){
   mnKaldir();
   const o=document.createElement('div');o.id='mnov';
-  o.innerHTML='<div style="font-size:44px">🔧</div><h2>Bakımdayız</h2><p id="mnm"></p><button class="lvl" id="mnr" style="justify-content:center">Yeniden dene</button><button class="lvl" id="mng" style="justify-content:center">Yönetici girişi</button><div id="mnf" hidden style="display:none;flex-direction:column;gap:8px;align-items:center;width:100%"><input id="mnu" placeholder="Kullanıcı adı" autocapitalize="none" autocomplete="username" maxlength="16"><input id="mnp" type="password" placeholder="Şifre" autocomplete="current-password" maxlength="72"><button class="lvl" id="mns" style="justify-content:center">Giriş yap</button></div><p id="mne" style="color:#ff8b8b"></p>';
+  o.innerHTML='<div style="font-size:44px">🔧</div><h2>Bakımdayız</h2><p id="mnm"></p><button class="lvl" id="mnr" style="justify-content:center">Yeniden dene</button><button class="lvl" id="mng" style="justify-content:center">Yönetici girişi</button><div id="mnf" style="display:none;flex-direction:column;gap:8px;align-items:center;width:100%"><input id="mnu" placeholder="Kullanıcı adı" autocapitalize="none" autocomplete="username" maxlength="16"><input id="mnp" type="password" placeholder="Şifre" autocomplete="current-password" maxlength="72"><button class="lvl" id="mns" style="justify-content:center">Giriş yap</button></div><p id="mne" style="color:#ff8b8b"></p>';
   document.body.appendChild(o);
   document.getElementById('mnm').textContent=MN.msg||'Uygulamayı güncelliyoruz. Birazdan tekrar dene.';
   document.getElementById('mnr').onclick=mnKontrol;

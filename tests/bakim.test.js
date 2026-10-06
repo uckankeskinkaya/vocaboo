@@ -28,6 +28,7 @@ const { sayfaAc } = require('./yardimci');
     prof = null; localStorage.removeItem('sb-test-auth-token'); document.getElementById('mnbn').remove(); yonetici = false;
     await mnKontrol(); await w(30);
     document.getElementById('mng').click();
+    r.formGorunur = document.getElementById('mnf').offsetHeight > 0 && document.getElementById('mnu').offsetHeight > 0 && document.getElementById('mns').offsetHeight > 0;
     document.getElementById('mnu').value = 'ali'; document.getElementById('mnp').value = 'sifre123'; await mnGiris(); await w(30);
     r.yoneticiDegilReddedildi = !!document.getElementById('mnov') && /sadece yöneticiler/.test(document.getElementById('mne').textContent) && cikis === 2;
     // 5) yönetici girişi başarılı
