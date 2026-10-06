@@ -56,13 +56,13 @@ async function aBoard(tab,col){
   if(!sb){noSb();return}
   panel('<p>Yükleniyor...</p>');
   const wk=dStr(dayNum()-((dayNum()+3)%7)-(tab==='last'?7:0));let d=[],err=false;
-  if(tab==='fr'){const r=await sb.rpc('friend_list');err=!!r.error;if(!err)d=[{u:prof.username,a:prof.avatar,f:prof.frame,xp:prof.xp,v:prof.best_score}].concat(r.data.friends.map(x=>({u:x.u,a:x.im,f:x.fr,xp:x.xp,v:x.bs})))}
+  if(tab==='fr'){const r=await sb.rpc('friend_list');err=!!r.error;if(!err)d=(prof.cls||prof.teacher?[{u:prof.username,a:prof.avatar,f:prof.frame,xp:prof.xp,v:prof.best_score}]:[]).concat(r.data.friends.filter(x=>x.c).map(x=>({u:x.u,a:x.im,f:x.fr,xp:x.xp,v:x.bs})))}
   else if(tab==='week'||tab==='last'){
-    const [p,w]=await Promise.all([sb.from('profiles').select('id,username,avatar,frame,xp').eq('banned',false).limit(500),sb.from('weekly_scores').select('user_id,best_score').eq('week',wk).limit(500)]);
+    const [p,w]=await Promise.all([sb.from('profiles').select('id,username,avatar,frame,xp').eq('banned',false).or('cls.eq.true,teacher.eq.true').limit(500),sb.from('weekly_scores').select('user_id,best_score').eq('week',wk).limit(500)]);
     err=!!(p.error||w.error);const m={};(w.data||[]).forEach(x=>{m[x.user_id]=x.best_score});
     d=(p.data||[]).map(x=>({u:x.username,a:x.avatar,f:x.frame,xp:x.xp,v:m[x.id]}));
   }else{
-    const r=await sb.from('profiles').select('username,avatar,frame,xp,best_score,best_daily_streak').eq('banned',false).limit(500);err=!!r.error;
+    const r=await sb.from('profiles').select('username,avatar,frame,xp,best_score,best_daily_streak').eq('banned',false).or('cls.eq.true,teacher.eq.true').limit(500);err=!!r.error;
     d=(r.data||[]).map(x=>({u:x.username,a:x.avatar,f:x.frame,xp:x.xp,v:x[col]}));
   }
   if(err){panel('<p>Skor tablosu yüklenemedi.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit();return}

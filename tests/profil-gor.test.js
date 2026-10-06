@@ -16,7 +16,7 @@ const { sayfaAc } = require('./yardimci');
         if (n === 'invite_send') return { data: { err: 'aktif degil' }, error: null };
         if (n === 'admin_users') return { data: [], error: null };
         return { data: null, error: null }; },
-      from: () => { const q = { select: () => q, limit: () => q, eq: () => q, in: () => q, then: f => f({ data: [{ username: 'veli', avatar: 'p:fox', frame: null, xp: 3122, best_score: 2905, best_daily_streak: 3 }], error: null }) }; return q; },
+      from: () => { const q = { select: () => q, limit: () => q, eq: () => q, or: () => q, in: () => q, then: f => f({ data: [{ username: 'veli', avatar: 'p:fox', frame: null, xp: 3122, best_score: 2905, best_daily_streak: 3 }], error: null }) }; return q; },
       auth: {}, removeChannel() {} };
     // Arkadaş listesi -> profil -> geri
     await aFriends('f'); await wait(100);

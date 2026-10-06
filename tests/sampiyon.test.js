@@ -6,7 +6,7 @@ const { sayfaAc } = require('./yardimci');
   const o = await s.sayfa.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms)); const r = {};
     let cevap = null, calls = []; loadProf = async () => { calls.push('loadProf'); };
-    sb = { rpc: async n => { calls.push(n); return n === 'champ_week' ? cevap : { data: null, error: null }; }, from: () => { const q = { select: () => q, eq: () => q, gt: () => q, order: () => q, limit: () => q, single: () => q, then: r => r({ data: [], error: null }) }; return q; }, auth: {} };
+    sb = { rpc: async n => { calls.push(n); return n === 'champ_week' ? cevap : { data: null, error: null }; }, from: () => { const q = { select: () => q, eq: () => q, or: () => q, gt: () => q, order: () => q, limit: () => q, single: () => q, then: r => r({ data: [], error: null }) }; return q; }, auth: {} };
     const kutu = () => document.getElementById('cf').hidden ? null : document.getElementById('cft').textContent;
     const gecen = dStr(dayNum() - ((dayNum() + 3) % 7) - 7);
     const podyum = [{ r: 1, u: 'ali', s: 485 }, { r: 2, u: 'veli', s: 440 }];

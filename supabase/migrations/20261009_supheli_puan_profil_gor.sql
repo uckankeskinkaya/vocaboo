@@ -76,3 +76,12 @@ begin
 end $$;
 revoke all on function public.profile_view(text) from public, anon;
 grant execute on function public.profile_view(text) to authenticated;
+
+-- Geçen haftanın şampiyonları podyumu: sadece sınıftan kişiler (sınıf üyesi ya da öğretmen) görünür
+do $$
+declare s text;
+begin
+  s := pg_get_functiondef('public.champ_week'::regproc);
+  s := replace(s, 'from weekly_champs c join profiles p on p.id = c.user_id where c.week = w)', 'from weekly_champs c join profiles p on p.id = c.user_id where c.week = w and (coalesce(p.cls, false) or coalesce(p.teacher, false)))');
+  execute s;
+end $$;
