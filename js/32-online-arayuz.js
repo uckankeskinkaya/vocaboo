@@ -88,7 +88,7 @@ function oSetupYeni(){
   if(!ar){
     h+='<h3>Kaç kişi?</h3><div class="opp"><button class="ot'+(S.ppl===2?' on':'')+'" data-ppl="2"><i>👥</i><div><b>1v1</b><small>2 kişi</small></div></button><button class="ot'+(S.ppl===50?' on':'')+'" data-ppl="50"><i>🎉</i><div><b>Grup</b><small>Aynı anda 50 kişiye kadar</small></div></button></div>';
   }
-  h+='<h3>Seviye</h3>'+chips('lv',[[-1,'Karışık']].concat(LBL.map((l,i)=>[i,l]).filter(x=>x[0]!==3)),S.lv,4,'lv');
+  h+='<h3>Seviye</h3>'+chips('lv',[[-1,'Karışık']].concat(LBL.map((l,i)=>[i,l]).filter(x=>x[0]<2||x[0]===4)),S.lv,4,'lv');
   if(ar)h+='<h3>Moderatör</h3><div class="onote">Arena\'da sen moderatörsün, soruları sunucu sorar</div>';
   else if(S.ppl>2)h+='<h3>Moderatör (sadece grup)</h3>'+chips('mod',[[0,'Ben de oynarım'],[1,'Moderatör olurum, takip ederim']],S.mod);
   const mn=MODES.find(m=>m[0]===S.k)[2],ex=S.k==='c'?S.cnt+' kelime':S.k==='s'?(S.dur/60)+' dakika':S.q+' soru, '+S.t+' sn',kisi=ar?'Grup':S.ppl===2?'1v1':'Grup';

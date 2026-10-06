@@ -122,4 +122,25 @@ async function aAdPush(){
   };
 }
 RX.push([/^(\d+)\/(\d+) cihaza gönderildi(?: \((\d+) geçersiz kayıt temizlendi\))?$/,(m,a,b,c)=>a+'/'+b+' devices notified'+(c?' ('+c+' invalid removed)':'')]);
+
+// --- 5) 1v1 Puan yarışında sınırsız pas: bilmediğin kelimeyi geç (0 puan, yanlış sayılır, cevap gösterilir)
+Object.assign(EN,{'Pas geçtin. Cevap:':'Skipped. Answer:','Kelimeyi geç (0 puan)':'Skip word (0 points)'});
+const pas1v1=()=>mode==='online'&&cfg&&cfg.max===2&&cfg.m==='c'&&typeof MSV!=='undefined'&&MSV&&started&&!over;
+{const _d=draw;draw=function(){
+  const r=_d.apply(this,arguments);
+  const pb=$('passbtn');
+  if(pb&&pas1v1()){pb.hidden=false;const b=pb.querySelector('b');if(b)b.textContent='∞';pb.setAttribute('aria-label','Kelimeyi geç (0 puan)');pb.title='Kelimeyi geç (0 puan)'}
+  return r;
+}}
+$('passbtn').addEventListener('click',async()=>{
+  if(!pas1v1()||busy)return;
+  busy=true;let r;try{r=await sb.rpc('m_pass')}catch(e){r={error:e}}busy=false;
+  if(r.error||!r.data){$('res').textContent=r.error&&/hizli/.test(r.error.message||'')?'Çok hızlı, biraz bekle.':'Bağlantı hatası, tekrar dene.';return}
+  const d=r.data;
+  word=String(d.ans||'').toUpperCase();def=d.def||'';SRVEX=d.ex||'';
+  ost.p=+d.score||0;ost.w=+d.solved||0;ost.q=(ost.q||0)+1;ost.a=1;ost.fin=!!d.fin;
+  try{ch.track(mine())}catch(e){}
+  sfx('lose');
+  finish('Pas geçtin. Cevap: <b>'+esc(word)+'</b>'+(d.fin?'<br>Son kelime!':''));draw();
+});
 })();

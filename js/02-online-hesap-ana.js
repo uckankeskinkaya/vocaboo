@@ -39,7 +39,7 @@ function oHome(){
 }
 
 function oSetup(){
-  on('<p>Kişi</p><select id="s1" style="'+SEL+'"><option value="2">1v1 (2 kişi)</option><option value="50">Grup</option></select><p>Mod</p><select id="s2" style="'+SEL+'"><option value="c15">Puan yarışı, 15 kelime</option><option value="c20">Puan yarışı, 20 kelime</option><option value="s180">Hayatta kalma, 3 dakika</option><option value="s300">Hayatta kalma, 5 dakika</option></select><p>Seviye</p><select id="s3" style="'+SEL+'"><option value="-1">Karışık (B1 ile B2)</option>'+LBL.map((l,i)=>i===3?'':'<option value="'+i+'">'+l+'</option>').join('')+'</select><p>Moderatör modu (sadece grup)</p><select id="s4" style="'+SEL+'"><option value="0">Kapalı, ben de oynarım</option><option value="1">Açık, ben oyunu takip ederim</option></select>'+btn('ok2','Odayı kur')+btn('ob','Geri'));
+  on('<p>Kişi</p><select id="s1" style="'+SEL+'"><option value="2">1v1 (2 kişi)</option><option value="50">Grup</option></select><p>Mod</p><select id="s2" style="'+SEL+'"><option value="c15">Puan yarışı, 15 kelime</option><option value="c20">Puan yarışı, 20 kelime</option><option value="s180">Hayatta kalma, 3 dakika</option><option value="s300">Hayatta kalma, 5 dakika</option></select><p>Seviye</p><select id="s3" style="'+SEL+'"><option value="-1">Karışık (B1 ile B1+)</option>'+LBL.map((l,i)=>i===2||i===3?'':'<option value="'+i+'">'+l+'</option>').join('')+'</select><p>Moderatör modu (sadece grup)</p><select id="s4" style="'+SEL+'"><option value="0">Kapalı, ben de oynarım</option><option value="1">Açık, ben oyunu takip ederim</option></select>'+btn('ok2','Odayı kur')+btn('ob','Geri'));
   $('ob').onclick=oHome;
   $('ok2').onclick=()=>{
     const m=$('s2').value;

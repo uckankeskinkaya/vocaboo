@@ -27,7 +27,7 @@ const EN={
 'Rastgele maç (1v1)':'Random match (1v1)','Oda kur':'Create room','Ya da oda kodunu gir':'Or enter a room code','Odaya katıl':'Join room','Oyuncu:':'Player:','Rakip aranıyor...':'Searching for opponent...',
 'Oda kodu':'Room code','Kurucunun başlatması bekleniyor.':'Waiting for the host to start.','Rakip':'Opponent','Sen':'You','Kişi':'Players','Mod':'Mode','Seviye':'Level','Odayı kur':'Create room',
 '1v1 (2 kişi)':'1v1 (2 players)','Grup':'Group','Puan yarışı, 15 kelime':'Points race, 15 words','Puan yarışı, 20 kelime':'Points race, 20 words','Hayatta kalma, 3 dakika':'Survival, 3 minutes','Hayatta kalma, 5 dakika':'Survival, 5 minutes',
-'Karışık (B1 ile B2)':'Mixed (B1 to B2)','Elendin!':'Eliminated!','Son kelime!':'Last word!','Oda dolu.':'Room is full.',
+'Karışık (B1 ile B1+)':'Mixed (B1 to B1+)','Elendin!':'Eliminated!','Son kelime!':'Last word!','Oda dolu.':'Room is full.',
 'Ses':'Sound','Titreşim':'Vibration','Müzik':'Music','Renk körü modu':'Colorblind mode','Müzik sesi:':'Music volume:','Tema seç':'Choose theme','Ana ekrana ekle':'Add to home screen',
 'Titreşim iPhone ve iPad tarayıcılarında çalışmaz.':'Vibration does not work in iPhone and iPad browsers.','Yönetici paneli':'Admin panel','Arayüz dili':'Interface language',
 'Aydınlık':'Light','Karanlık':'Dark','Gün batımı':'Sunset','Nane':'Mint','Orman':'Forest','Deniz':'Sea','Kahve':'Coffee','Lavanta':'Lavender'};
