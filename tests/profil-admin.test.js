@@ -10,7 +10,7 @@ const { sayfaAc } = require('./yardimci');
     prof = { id: 'me', username: 'ali', avatar: 'p:fox', frame: null, xp: 100, best_score: 5, best_streak: 2, words_solved: 3, words_failed: 1, total_points: 10, daily_streak: 0 };
     const metin = () => document.getElementById('online').innerText.replace(/\s+/g, ' ');
     const r = {};
-    aProfile(); aPMenu(); document.getElementById('un').click(); await wait(50);
+    aProfile(); document.getElementById('pfed').click(); await wait(50);
     const ayarla = async (v, cevap) => { sonraki = cevap; document.getElementById('nu').value = v; document.getElementById('nk').click(); await wait(80); return document.getElementById('ne') ? document.getElementById('ne').textContent : '(ekran değişti)'; };
     r.kisa = await ayarla('ab', { data: 'ok' }); r.ayni = await ayarla('ali', { data: 'ok' }); r.cagri_yok = calls.length;
     r.var = await ayarla('veli', { data: 'var' }); r.bekle = await ayarla('veli2', { data: 'bekle' }); r.gecersiz = await ayarla('admin', { data: 'gecersiz' });

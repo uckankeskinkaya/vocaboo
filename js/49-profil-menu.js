@@ -14,10 +14,10 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 const PM=[
   ['İlerleme',[['qgb','Günlük görevler ve ödüller'],['qab','Kazandığın başarılar'],['stb','Detaylı oyun istatistikleri'],['tb2','Sonraki unvana ne kadar kaldı'],['bb','Tüm rozetler']]],
   ['Kelimeler',[['nb','Kaydettiğin kelimeler ve tekrar']]],
-  ['Görünüm',[['pp','Galeriden kendi fotoğrafın'],['pv','Hazır karakterlerden birini seç'],['fr','Profil resmine çerçeve tak']]],
-  ['Hesap',[['un','Sıralamada görünen adın'],['pwc','Yeni şifre belirle'],['lo','Bu cihazdan oturumu kapat']]]
+  ['Hesap',[['pwc','Yeni şifre belirle'],['lo','Bu cihazdan oturumu kapat']]]
 ];
 let PMD=null;
+const PMX=new Set(['pp','pv','fr','un']); // avatara / isme taşındı
 {const _p=aProfile;aProfile=function(){
   _p.apply(this,arguments);
   const l=document.querySelector('.lst');if(!l)return;
@@ -27,6 +27,40 @@ let PMD=null;
   const m=document.createElement('button');m.className='pmb';m.id='pmb';
   m.innerHTML='<span>☰</span><div>Menü<small>Görevler, avatar, hesap ayarları…</small></div>';
   l.replaceWith(m);m.onclick=aPMenu;
+  pfEkle();
+}}
+document.head.insertAdjacentHTML('beforeend',`<style>
+.pfav{position:relative;cursor:pointer;border:0;background:none;padding:0;-webkit-tap-highlight-color:transparent}
+.pfav i{position:absolute;right:-2px;bottom:-2px;width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-style:normal;font-size:14px;border:2px solid var(--panel)}
+.pfnm{display:flex;align-items:center;gap:6px}
+.pfed{border:1px solid var(--line);background:var(--panel);border-radius:50%;width:28px;height:28px;font-size:14px;padding:0;display:grid;place-items:center}
+.pfpop{display:flex;flex-direction:column;gap:6px;width:min(280px,90%);margin:4px auto 2px}
+.pfpop button{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--line);border-radius:14px;background:var(--panel);font-size:14px;font-weight:600;text-align:left;opacity:0;transform:translateY(-8px) scale(.96);animation:pfin .26s cubic-bezier(.2,.9,.3,1.2) forwards}
+.pfpop button:nth-child(2){animation-delay:.06s}.pfpop button:nth-child(3){animation-delay:.12s}
+.pf-h .pfav>div:first-child,.pf-h .pfav>img{box-shadow:0 0 0 3px var(--ac)}
+@keyframes pfin{to{opacity:1;transform:none}}
+.unw{background:color-mix(in srgb,var(--o,#e8a33d) 18%,transparent);border:1px solid var(--o,#e8a33d);border-radius:12px;padding:10px 12px;font-size:13px;margin:6px 0}
+@media(prefers-reduced-motion:reduce){.pfpop button{animation:none;opacity:1;transform:none}}
+</style>`);
+function pfEkle(){
+  const h=document.querySelector('.pf-h');if(!h||$('pfav'))return;
+  const av=h.firstElementChild,nm=h.querySelector('h2');if(!av||!nm)return;
+  const b=document.createElement('button');b.className='pfav';b.id='pfav';b.setAttribute('aria-label','Profil görünümünü değiştir');
+  av.replaceWith(b);b.append(av);b.insertAdjacentHTML('beforeend','<i>✎</i>');
+  const w=document.createElement('div');w.className='pfnm';nm.replaceWith(w);w.append(nm);
+  w.insertAdjacentHTML('beforeend','<button class="pfed" id="pfed" aria-label="Kullanıcı adını değiştir">✏️</button>');
+  $('pfed').onclick=()=>aUsername();
+  b.onclick=()=>{
+    const o=$('pfpop');if(o){o.remove();return}
+    const p=document.createElement('div');p.className='pfpop';p.id='pfpop';
+    p.innerHTML='<button id="pf1"><span>🎭</span>Avatarını değiştir</button><button id="pf2"><span>📷</span>Profil fotoğrafı yükle</button><button id="pf3"><span>🖼️</span>Çerçeveni değiştir</button>';
+    nm.closest('.pfnm').after(p);
+    $('pf1').onclick=()=>aAvatar();$('pf2').onclick=()=>$('pf').click();$('pf3').onclick=()=>aFrames();
+  };
+}
+{const _u=aUsername;aUsername=function(){
+  _u.apply(this,arguments);
+  const i=$('nu');if(i&&!$('unw'))i.insertAdjacentHTML('beforebegin','<div class="unw" id="unw">⚠️ Kullanıcı adını günde yalnızca 1 kez değiştirebilirsin. Dikkatli seç!</div>');
 }}
 function aPMenu(){
   if(!PMD){aProfile();return}
@@ -41,10 +75,10 @@ function aPMenu(){
   });
   // başka dosyaların eklediği tanımsız düğmeler "Diğer" grubuna
   const dig=document.createElement('div');dig.className='lst';
-  Object.keys(PMD).forEach(id=>{if(id!=='pf'&&!kul.has(id))dig.append(PMD[id])});
+  Object.keys(PMD).forEach(id=>{if(id!=='pf'&&!PMX.has(id)&&!kul.has(id))dig.append(PMD[id])});
   if(dig.children.length){const h=document.createElement('h4');h.textContent='Diğer';k.append(h,dig)}
   if(PMD.pf)k.append(PMD.pf);
   $('ob').onclick=()=>aProfile();
 }
 window.aPMenu=aPMenu;
-Object.assign(EN,{'Menü':'Menu','Görevler, avatar, hesap ayarları…':'Quests, avatar, account settings…','Profile dön':'Back to profile','İlerleme':'Progress','Kelimeler':'Words','Görünüm':'Look','Hesap':'Account','Diğer':'Other','Günlük görevler ve ödüller':'Daily quests and rewards','Kazandığın başarılar':'Achievements you earned','Detaylı oyun istatistikleri':'Detailed game stats','Sonraki unvana ne kadar kaldı':'Progress to the next title','Tüm rozetler':'All badges','Kaydettiğin kelimeler ve tekrar':'Saved words and review','Galeriden kendi fotoğrafın':'Your own photo','Hazır karakterlerden birini seç':'Pick a ready character','Profil resmine çerçeve tak':'Put a frame on your picture','Sıralamada görünen adın':'Name shown on leaderboards','Yeni şifre belirle':'Set a new password','Bu cihazdan oturumu kapat':'Sign out on this device'});
+Object.assign(EN,{'Profil görünümünü değiştir':'Change profile look','Kullanıcı adını değiştir':'Change username','Avatarını değiştir':'Change avatar','Profil fotoğrafı yükle':'Upload profile photo','Çerçeveni değiştir':'Change frame','⚠️ Kullanıcı adını günde yalnızca 1 kez değiştirebilirsin. Dikkatli seç!':'⚠️ You can change your username only once a day. Choose carefully!','Menü':'Menu','Görevler, avatar, hesap ayarları…':'Quests, avatar, account settings…','Profile dön':'Back to profile','İlerleme':'Progress','Kelimeler':'Words','Görünüm':'Look','Hesap':'Account','Diğer':'Other','Günlük görevler ve ödüller':'Daily quests and rewards','Kazandığın başarılar':'Achievements you earned','Detaylı oyun istatistikleri':'Detailed game stats','Sonraki unvana ne kadar kaldı':'Progress to the next title','Tüm rozetler':'All badges','Kaydettiğin kelimeler ve tekrar':'Saved words and review','Galeriden kendi fotoğrafın':'Your own photo','Hazır karakterlerden birini seç':'Pick a ready character','Profil resmine çerçeve tak':'Put a frame on your picture','Sıralamada görünen adın':'Name shown on leaderboards','Yeni şifre belirle':'Set a new password','Bu cihazdan oturumu kapat':'Sign out on this device'});
