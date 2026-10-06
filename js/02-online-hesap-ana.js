@@ -60,6 +60,7 @@ function oKanal(code,ozel){
   ch.on('presence',{event:'sync'},oSync);
   ch.on('broadcast',{event:'start'},e=>oBegin(e.payload));
   ch.on('broadcast',{event:'end'},()=>oEnd());['kq','kr','kf'].forEach(ev=>ch.on('broadcast',{event:ev},e=>kOn(ev,e.payload)));
+  ch.on('broadcast',{event:'emo'},e=>{try{if(typeof tepkiGeldi==='function')tepkiGeldi(e.payload)}catch(x){}});
   ch.subscribe(s=>{
     if(k!==ch)return;
     if(s==='SUBSCRIBED'){ch.track(mine());oLobby()}
