@@ -60,6 +60,7 @@ const { sayfaAc } = require('./yardimci');
     await ekran('hata_gunlugu', () => aAdErrors());
     AU = { u1: { id: 'u1', u: 'veli', c: true, b: false, a: false, t: false, bs: 3, xp: 100 } };
     await ekran('admin_kullanici', () => aAdUser('u1'));
+    await ekran('admin_para', () => aAdPoints('u1', 'veli', ''));
     await ekran('bakim_yonetici', () => aAdMaint());
     await ekran('bakim_ekrani', async () => { MN.msg = ''; mnGoster(true); document.getElementById('mne').textContent = 'Bakım sürüyor: sadece yöneticiler giriş yapabilir.' }, '#mnov');
     document.getElementById('mnov').remove();

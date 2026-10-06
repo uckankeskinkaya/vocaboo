@@ -1,5 +1,6 @@
 // v34: İngilizce arayüz çevirileri: görevler, istatistik, öğretmen paneli, ödev, hata mesajları. (tests/dil-yeni.test.js ile doğrulanır)
 Object.assign(EN,{
+'Para ekle':'Add coins','Pazar bakiyesine eklenir (🪙). En fazla 10.000.000.':'Added to the Market balance (🪙). Up to 10,000,000.','Miktar':'Amount','1 ile 10.000.000 arasında bir sayı yaz.':'Enter a number between 1 and 10,000,000.','Eklenemedi.':'Could not add.',
 'CSV indir':'Download CSV',
 'Metinde < ve > karakterleri kullanılamaz.':'The characters < and > cannot be used in the text.',
 '✓ Alındı':'✓ Claimed','🎁 Üç görevi de bitirince ekstra ödül:':'🎁 Extra reward for finishing all three:','📚 Ödevlerim':'📚 My assignments','🎓 Öğretmen paneli':'🎓 Teacher panel',
@@ -25,6 +26,7 @@ Object.assign(EN,{
 // Birleşik metinler: ' · ' ile bölününce her parça ayrı çevrilir
 RX.unshift([/^Seviye (\d+) · (.+)$/,(m,a,b)=>'Level '+a+' · '+l1(b)]);
 RX.push(
+ [/^Hesap: (.+)$/,(m,a)=>'Account: '+a],[/^([\d.,]+) 🪙 eklendi$/,(m,a)=>a+' 🪙 added'],
  [/^Bağlantı sorunu, yerel alıştırma açıldı \((.*)\)$/,(m,a)=>'Connection problem, local practice opened ('+a+')'],
  [/^Son uyarı: (.+) hesabı tamamen silinecek\. Emin misin\?$/,(m,a)=>'Final warning: the account '+a+' will be permanently deleted. Are you sure?'],
  [/^(.+) kalıcı olarak silinsin mi\? Hesabı, skorları, arkadaşlıkları ve satın alımları geri alınamaz şekilde silinir\.$/,(m,a)=>'Permanently delete '+a+'? Their account, scores, friendships and purchases will be deleted and cannot be restored.'],

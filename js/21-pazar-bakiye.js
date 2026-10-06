@@ -72,7 +72,7 @@ async function aFrames(){
   await shopOwned();
   const cur=myFrame(),lvOf=k=>{const r=FRM[k][3];return r.lv||(r.title?(TT.find(y=>y[1]===r.title)||[999])[0]:999)};
   panel('<p>Avatar çerçevesi</p><div class="fg">'+[''].concat(Object.keys(FRM).sort((a,b)=>lvOf(a)-lvOf(b))).map(k=>{
-    const f=FRM[k],ok=!k||prof.admin||unlocked(UNL.find(x=>x.id==='frame:'+k),prof),r=f&&f[3],rq=ok?'':(r.lv?'Seviye '+r.lv:r.title?'Unvan: '+r.title:'Pazardan alınır');
+    const f=FRM[k],ok=!k||unlocked(UNL.find(x=>x.id==='frame:'+k),prof),r=f&&f[3],rq=ok?'':(r.lv?'Seviye '+r.lv:r.title?'Unvan: '+r.title:'Pazardan alınır');
     return '<button class="ft'+(k===cur?' cur':'')+(ok?'':' lk')+'" data-f="'+k+'">'+frameHtml(av(prof.avatar,56),k)+'<b>'+(k?f[0]:'Çerçevesiz')+'</b>'+(rq?'<small>'+rq+'</small>':'')+'</button>';
   }).join('')+'</div>'+btn('ob','Profil'));
   document.querySelectorAll('.ft').forEach(b=>b.onclick=async()=>{

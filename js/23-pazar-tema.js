@@ -70,7 +70,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 // Pazar: çerçeve ve tema sekmeleri (fiyatlar ve sahiplik sunucuda)
 const PREMT=['seker','safak','siber','volkan','nebula','aurora'];
-const ownedHas=id=>!!prof&&(prof.admin||(prof.owned||[]).includes(id));
+const ownedHas=id=>!!prof&&(prof.owned||[]).includes(id);
 const thTile=(k,x,cl,at)=>{const t=TM[k];return '<button class="tt'+cl+'" '+at+' style="--b:'+t[2]+';--f:'+t[4]+';--a:'+t[6]+';--p1:'+t[8]+';--p2:'+t[9]+';--p3:'+t[10]+'"><i></i><span>'+t[0]+(t[12]?'<em> 🎬</em>':t[11]?'<em> ✦</em>':'')+'</span>'+(x?'<small>'+x+'</small>':'')+'</button>'};
 async function aShop(tab){
   tab=tab||'f';

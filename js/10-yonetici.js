@@ -10,8 +10,8 @@ async function annCheck(){
 }
 function aAdmin(){
   if(!prof||!prof.admin){toast('Yetkin yok.');return}
-  panel('<p><b>Yönetici paneli</b></p>'+btn('ad1','Kullanıcılar')+btn('ad6','Şifre talepleri')+btn('ad2','Kelimeler')+btn('ad3','Sınıf kodu ve duyuru')+btn('ad4','Şüpheli raporu')+btn('adl','Seviye ayarla (kendin)')+btn('ad5','Tüm skorları sıfırla')+btn('ob','Geri'));
-  $('ad1').onclick=()=>aAdUsers('');$('ad6').onclick=()=>aAdPw();if(typeof pwBadge==='function')pwBadge();$('ad2').onclick=()=>aAdWords(null,'');$('ad3').onclick=aAdSettings;$('ad4').onclick=aAdSus;$('adl').onclick=()=>aAdLevel(prof.id,prof.username);
+  panel('<p><b>Yönetici paneli</b></p>'+btn('ad1','Kullanıcılar')+btn('ad6','Şifre talepleri')+btn('ad2','Kelimeler')+btn('ad3','Sınıf kodu ve duyuru')+btn('ad4','Şüpheli raporu')+btn('ad5','Tüm skorları sıfırla')+btn('ob','Geri'));
+  $('ad1').onclick=()=>aAdUsers('');$('ad6').onclick=()=>aAdPw();if(typeof pwBadge==='function')pwBadge();$('ad2').onclick=()=>aAdWords(null,'');$('ad3').onclick=aAdSettings;$('ad4').onclick=aAdSus;
   $('ad5').onclick=()=>cfAsk('Tüm kullanıcıların skorları (haftalık ve tüm zamanlar) sıfırlanacak. Emin misin?','Sıfırla','Vazgeç',async()=>{const r=await sb.rpc('admin_reset_all');toast(r.error?'Yapılamadı':'Skorlar sıfırlandı')});
   $('ob').onclick=aSettings;
 }
@@ -26,10 +26,10 @@ async function aAdUsers(q){
 }
 function aAdUser(id,q){
   const x=AU[id];if(!x)return;
-  panel('<p><b>'+esc(x.u)+'</b>: '+(x.c?'sınıf':'dışarıdan')+(x.b?', engelli':'')+', rekor '+x.bs+', Sv.'+lvlOf(x.xp||0)+', '+(x.xp||0)+' XP</p>'+btn('u1','Skorunu sıfırla')+btn('u2','Avatarını sil')+btn('u3',x.c?'Sınıftan çıkar':'Sınıfa al')+btn('u4',x.b?'Engeli kaldır':'Engelle')+btn('u5','Seviye ayarla')+(x.a?'':btn('u7','Şifre sıfırla'))+(x.a?'':'<button class="lvl" id="u6" style="justify-content:center;color:var(--r);border-color:var(--r)">Kullanıcıyı sil</button>')+btn('ob','Geri'));
+  panel('<p><b>'+esc(x.u)+'</b>: '+(x.c?'sınıf':'dışarıdan')+(x.b?', engelli':'')+', rekor '+x.bs+', Sv.'+lvlOf(x.xp||0)+', '+(x.xp||0)+' XP</p>'+btn('u1','Skorunu sıfırla')+btn('u2','Avatarını sil')+btn('u3',x.c?'Sınıftan çıkar':'Sınıfa al')+btn('u4',x.b?'Engeli kaldır':'Engelle')+(id===prof.id?'':btn('u5','Seviye ayarla'))+btn('u8p','Para ekle')+(x.a?'':btn('u7','Şifre sıfırla'))+(x.a?'':'<button class="lvl" id="u6" style="justify-content:center;color:var(--r);border-color:var(--r)">Kullanıcıyı sil</button>')+btn('ob','Geri'));
   const act=(b,a,t)=>$(b).onclick=()=>cfAsk(t+' ('+x.u+')?','Evet','Vazgeç',async()=>{const r=await sb.rpc('admin_user_act',{_id:id,_act:a});toast(r.error||r.data!=='ok'?'Yapılamadı':'Tamam');aAdUsers(q||'')});
   act('u1','reset','Skor sıfırlansın');act('u2','avatar','Avatar silinsin');act('u3',x.c?'cls_off':'cls_on',x.c?'Sınıftan çıkarılsın':'Sınıfa alınsın');act('u4',x.b?'unban':'ban',x.b?'Engel kalksın':'Engellensin');
-  $('ob').onclick=()=>aAdUsers(q||'');$('u5').onclick=()=>aAdLevel(id,x.u,q);
+  $('ob').onclick=()=>aAdUsers(q||'');if($('u5'))$('u5').onclick=()=>aAdLevel(id,x.u,q);$('u8p').onclick=()=>aAdPoints(id,x.u,q);
   if($('u7'))$('u7').onclick=()=>aAdPwGo(id,x.u,()=>aAdUser(id,q));
   if($('u6'))$('u6').onclick=()=>cfAsk(x.u+' kalıcı olarak silinsin mi? Hesabı, skorları, arkadaşlıkları ve satın alımları geri alınamaz şekilde silinir.','Devam','Vazgeç',()=>cfAsk('Son uyarı: '+x.u+' hesabı tamamen silinecek. Emin misin?','Evet, sil','Vazgeç',async()=>{
     const r=await sb.rpc('admin_user_delete',{_id:id});
@@ -83,4 +83,18 @@ async function aAdSus(){
   if(r.error){panel('<p>'+adErr(r)+'</p>'+btn('ob','Geri'));$('ob').onclick=aAdmin;return}
   panel('<p>Son 24 saat. Ortalama tahmin aralığı 2 sn altı bot belirtisi, ilk deneme yüzde 70 üstü şüpheli.</p>'+(r.data.length?r.data.map(x=>'<div class="pl" style="flex-direction:column;align-items:stretch"><b>'+esc(x.u)+'</b><small style="color:var(--dim)">'+x.n+' tahmin, ortalama '+x.sec+' sn, ilk deneme %'+(x.ft==null?'-':x.ft)+', rekor '+x.bs+'</small></div>').join(''):'<p>Henüz veri yok.</p>')+btn('ob','Geri'));
   $('ob').onclick=aAdmin;
+}
+
+// Yönetici: kullanıcıya (kendin dahil) Pazar parası ekle. Sunucu admin_add_points: 1 - 10.000.000, kayıt altına alınır.
+function aAdPoints(id,nm,q){
+  panel('<p><b>Para ekle</b></p><p>Hesap: '+esc(nm)+'</p><p class="cap">Pazar bakiyesine eklenir (🪙). En fazla 10.000.000.</p><input id="pn" type="number" inputmode="numeric" min="1" max="10000000" placeholder="Miktar" style="'+SEL+'"><div style="display:flex;gap:6px;margin:8px 0"><button class="lvl" data-m="10000" style="margin:0;justify-content:center">10 B</button><button class="lvl" data-m="100000" style="margin:0;justify-content:center">100 B</button><button class="lvl" data-m="1000000" style="margin:0;justify-content:center">1 M</button></div><p id="pe" style="color:var(--r)"></p>'+btn('pk','Ekle')+btn('ob','Geri'));
+  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{$('pn').value=b.dataset.m});
+  $('ob').onclick=()=>aAdUser(id,q);
+  $('pk').onclick=async()=>{
+    const n=Math.floor(+$('pn').value);
+    if(!(n>=1&&n<=10000000)){$('pe').textContent='1 ile 10.000.000 arasında bir sayı yaz.';return}
+    $('pk').disabled=true;const r=await sb.rpc('admin_add_points',{_id:id,_n:n});$('pk').disabled=false;
+    if(r.error||r.data!=='ok'){$('pe').textContent='Eklenemedi.';return}
+    toast(n.toLocaleString('tr-TR')+' 🪙 eklendi');if(id===prof.id)try{loadProf()}catch(e){}aAdUser(id,q);
+  };
 }
