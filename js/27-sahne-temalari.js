@@ -129,9 +129,9 @@ const SD=[
 
 ['synthwave','Synthwave',1,'#12012e','28,8,56',.66,'#fff0fb','#c9a0e0','#ff4fd8','#2a0524',['rgba(255,61,154,.5)','rgba(120,60,255,.45)','rgba(255,184,107,.4)'],
  ['https://fonts.googleapis.com/css2?family=Audiowide&display=swap',"'Audiowide'"],110000,
- ()=>ps(30,()=>'left:'+f1(R(0,100))+'%;top:'+f1(R(0,40))+'%;--z:'+f1(R(1,2.5))+'px;--t:'+f1(R(2,5))+'s;--d:-'+f1(R(0,5))+'s')+'<u class="s"></u><u class="m"></u><u class="m b"></u>',
+ ()=>ps(16,()=>'left:'+f1(R(0,100))+'%;top:'+f1(R(0,40))+'%;--z:'+f1(R(1,2.5))+'px;--t:'+f1(R(2,5))+'s;--d:-'+f1(R(0,5))+'s')+'<u class="s"></u><u class="m"></u><u class="m b"></u>',
 `§S{background:linear-gradient(#12012e 0%,#3a0a63 40%,#ff3d9a 62%,#ffb86b 66%,#1a0033 66%)}
-§S::before{content:'';position:absolute;left:-50%;right:-50%;bottom:0;height:34%;background-image:linear-gradient(90deg,rgba(255,79,216,.7) 1px,transparent 1px),linear-gradient(rgba(255,79,216,.7) 1px,transparent 1px);background-size:56px 56px;transform:perspective(240px) rotateX(60deg);transform-origin:50% 100%;animation:sc-grid 1.8s linear infinite;-webkit-mask:linear-gradient(transparent,#000);mask:linear-gradient(transparent,#000)}
+§S::before{content:'';position:absolute;left:-50%;right:-50%;bottom:0;height:calc(34% + 56px);background-image:linear-gradient(90deg,rgba(255,79,216,.7) 1px,transparent 1px),linear-gradient(rgba(255,79,216,.7) 1px,transparent 1px);background-size:56px 56px;transform:perspective(240px) rotateX(60deg);transform-origin:50% 100%;will-change:transform;animation:sc-gridt 1.8s linear infinite;-webkit-mask:linear-gradient(transparent,#000);mask:linear-gradient(transparent,#000)}
 §S i{left:var(--x);width:var(--z);height:var(--z);border-radius:50%;background:#fff;animation:sc-tw var(--t) ease-in-out var(--d) infinite}
 §S .s{left:50%;top:32%;width:190px;height:190px;margin-left:-95px;border-radius:50%;background:linear-gradient(#ffe45c,#ff3d9a);-webkit-mask:linear-gradient(#000 58%,transparent 58% 64%,#000 64% 71%,transparent 71% 78%,#000 78% 86%,transparent 86% 94%,#000 94%);mask:linear-gradient(#000 58%,transparent 58% 64%,#000 64% 71%,transparent 71% 78%,#000 78% 86%,transparent 86% 94%,#000 94%);animation:sc-fl 4s ease-in-out infinite}
 §S .m{left:-6%;bottom:34%;width:40%;height:14%;background:#2a0a4d;clip-path:polygon(0 100%,35% 0,55% 60%,75% 20%,100% 100%)}
@@ -252,6 +252,7 @@ document.head.insertAdjacentHTML('beforeend',`<style id="sahne-css">
 @keyframes sc-tw{0%,100%{opacity:.12}50%{opacity:1}}
 @keyframes sc-pan{from{transform:translateX(-40vw)}to{transform:translateX(140vw)}}
 @keyframes sc-grid{to{background-position:0 56px}}
+@keyframes sc-gridt{from{transform:perspective(240px) rotateX(60deg) translateY(-56px)}to{transform:perspective(240px) rotateX(60deg) translateY(0)}}
 @keyframes sc-spin{to{transform:rotate(360deg)}}
 @keyframes sc-fl{0%,100%{opacity:.55}50%{opacity:1}}
 @keyframes sc-drift{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
