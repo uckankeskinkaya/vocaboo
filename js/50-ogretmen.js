@@ -2,7 +2,7 @@
 // ve sadece sınıf öğrencilerinin ilerlemesini görür. Kullanıcı yönetimi, engelleme, şifre gibi yetkileri YOKTUR.
 const isT=()=>!!(prof&&(prof.teacher||prof.admin)),clsOK=()=>!!(prof&&(prof.cls||isT()));
 if(!W[4])W[4]=[];
-const HE={kelime:'Kelime 3-14 harf, sadece a-z olmalı.',tanim:'Tanım 3-200 karakter olmalı.',tr:'Türkçesi en fazla 100 karakter.',cumle:'Örnek cümle kelimeyi içermeli.',var:'Bu kelime zaten sınıf listende.',dolu:'Sınıf listesi dolu (500).',yok:'Kelime bulunamadı.'};
+const HE={kelime:'Kelime 3-14 harf, sadece a-z olmalı.',tanim:'Tanım 3-200 karakter olmalı.',tr:'Türkçesi en fazla 200 karakter.',cumle:'Örnek cümle kelimeyi içermeli.',var:'Bu kelime zaten sınıf listende.',dolu:'Sınıf listesi dolu (500).',yok:'Kelime bulunamadı.'};
 // Sınıf kelimeleri seviyesi: sadece sınıf üyesi/öğretmen için alıştırma ve oda seviyelerinde görünür
 function lvSync(){
   const var_=LV.length>4,ok=clsOK();
@@ -71,7 +71,7 @@ async function aTWords(msg){
 }
 function aTWord(id){
   const x=id?TW[id]:{w:'',d:'',tr:'',x:''},f=(i,l,v,m)=>'<p>'+l+'</p><input id="'+i+'" maxlength="'+m+'" autocapitalize="none" value="'+esc(v||'')+'" style="'+SEL+'">';
-  panel('<p><b>'+(id?'Kelimeyi düzenle':'Yeni kelime')+'</b></p>'+f('tw','Kelime (a-z, 3-14 harf)',x.w,14)+f('td','İngilizce tanım',x.d,200)+f('tt','Türkçesi (isteğe bağlı)',x.tr,100)+f('tx','Örnek cümle (isteğe bağlı, kelimeyi içermeli)',x.x,200)+'<p id="te" style="color:var(--r)"></p>'+btn('ts','Kaydet')+(id?btn('tdl','Sil'):'')+btn('ob','Geri'));
+  panel('<p><b>'+(id?'Kelimeyi düzenle':'Yeni kelime')+'</b></p>'+f('tw','Kelime (a-z, 3-14 harf)',x.w,14)+f('td','İngilizce tanım',x.d,200)+f('tt','Tanımın Türkçesi (isteğe bağlı, alıştırmada TR düğmesiyle görünür)',x.tr,200)+f('tx','Örnek cümle (isteğe bağlı, kelimeyi içermeli)',x.x,200)+'<p id="te" style="color:var(--r)"></p>'+btn('ts','Kaydet')+(id?btn('tdl','Sil'):'')+btn('ob','Geri'));
   $('ob').onclick=()=>aTWords();
   $('ts').onclick=async()=>{
     $('ts').disabled=true;
@@ -86,7 +86,7 @@ function aTWord(id){
 // Çevrimdışı kelime paketi eskidi: bir sonraki girişte yeniden indirilsin
 function pkTemizle(){try{localStorage.removeItem('ka_pack')}catch(e){}if(typeof PK!=='undefined')PK=null}
 function aTBulk(){
-  panel('<p><b>Toplu kelime ekle</b></p><p class="cap">Her satıra bir kelime: <b>kelime | İngilizce tanım | Türkçesi | örnek cümle</b>. Türkçe ve örnek cümle boş bırakılabilir. Excel\'den yapıştırırsan sekmeyle ayrılmış da olur. En fazla 100 satır.</p><textarea id="tb" rows="9" placeholder="budget | a plan for money | bütçe | We need a budget.\nharvest | to gather crops | hasat" style="'+SEL+';width:100%;font-family:inherit"></textarea><p id="te"></p>'+btn('ts','Ekle')+btn('ob','Geri'));
+  panel('<p><b>Toplu kelime ekle</b></p><p class="cap">Her satıra bir kelime: <b>kelime | İngilizce tanım | tanımın Türkçesi | örnek cümle</b>. Türkçe ve örnek cümle boş bırakılabilir. Excel\'den yapıştırırsan sekmeyle ayrılmış da olur. En fazla 100 satır.</p><textarea id="tb" rows="9" placeholder="budget | a plan for money | bütçe | We need a budget.\nharvest | to gather crops | hasat" style="'+SEL+';width:100%;font-family:inherit"></textarea><p id="te"></p>'+btn('ts','Ekle')+btn('ob','Geri'));
   $('ob').onclick=aTeacher;
   $('ts').onclick=async()=>{
     const L=$('tb').value.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,100);
@@ -108,4 +108,4 @@ function aTBulk(){
   a.insertAdjacentHTML('afterend',btn('u8',x.t?'Öğretmen yetkisini al':'Öğretmen yap'));
   $('u8').onclick=()=>cfAsk(x.u+(x.t?' için öğretmen yetkisi alınsın mı?':' öğretmen yapılsın mı? Sınıf öğrencilerinin ilerlemesini görür ve kendi kelimelerini ekler.'),'Evet','Vazgeç',async()=>{const r=await sb.rpc('admin_teacher',{_id:id,_on:!x.t});toast(r.error||r.data!=='ok'?'Yapılamadı':'Tamam');aAdUsers(q||'')});
 }}
-Object.assign(EN,{'Öğretmen paneli':'Teacher panel','Sınıf özeti':'Class overview','Zorlanılan kelimeler':'Hard words','Sınıf kelimelerim':'My class words','Toplu kelime ekle':'Bulk add words','Sınıf':'Class','Öğretmenin kelimeleri':"Teacher's words",'Öğretmen yap':'Make teacher','Öğretmen yetkisini al':'Remove teacher role','+ Yeni kelime':'+ New word','Kelimeyi düzenle':'Edit word','Yeni kelime':'New word','İngilizce tanım':'English definition','Türkçesi (isteğe bağlı)':'Turkish (optional)','Kaydet':'Save','Öğrenci':'Students','Son 24 saatte aktif':'Active in last 24h','Bu hafta çözülen':'Solved this week','Sınıf özeti, zor kelimeler, kendi kelimelerin':'Class overview, hard words, your own words'});
+Object.assign(EN,{'Öğretmen paneli':'Teacher panel','Sınıf özeti':'Class overview','Zorlanılan kelimeler':'Hard words','Sınıf kelimelerim':'My class words','Toplu kelime ekle':'Bulk add words','Sınıf':'Class','Öğretmenin kelimeleri':"Teacher's words",'Öğretmen yap':'Make teacher','Öğretmen yetkisini al':'Remove teacher role','+ Yeni kelime':'+ New word','Kelimeyi düzenle':'Edit word','Yeni kelime':'New word','İngilizce tanım':'English definition','Tanımın Türkçesi (isteğe bağlı, alıştırmada TR düğmesiyle görünür)':'Turkish translation of the definition (optional, shown with the TR button in practice)','Kaydet':'Save','Öğrenci':'Students','Son 24 saatte aktif':'Active in last 24h','Bu hafta çözülen':'Solved this week','Sınıf özeti, zor kelimeler, kendi kelimelerin':'Class overview, hard words, your own words'});

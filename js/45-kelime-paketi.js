@@ -3,20 +3,21 @@
 // - Alıştırma modunda açıklama dili seçilebilir (Ayarlar): İngilizce / Türkçe / İkisi.
 // Paket giriş yapınca sunucudan (words_pack) bir kez indirilir, tarayıcıda saklanır; çevrimdışı alıştırma da bunu kullanır.
 const PK_KEY='ka_pack',PK_GUN=7;
-let PK=null,TRD={};
-function pkIndeks(){TRD={};if(PK)PK.d.forEach(r=>{TRD[String(r[1]).toLowerCase()]=r[3]||''})}
-function pkYukle(){try{const o=JSON.parse(localStorage.getItem(PK_KEY));if(o&&Array.isArray(o.d)&&o.d.length>1000){PK=o;pkIndeks()}}catch(e){}}
+let PK=null,TRD={},DTRD={};
+function pkIndeks(){TRD={};DTRD={};if(PK)PK.d.forEach(r=>{const k=String(r[1]).toLowerCase();TRD[k]=r[3]||'';DTRD[k]=r[5]||''})}
+function pkYukle(){try{const o=JSON.parse(localStorage.getItem(PK_KEY));if(o&&o.v===2&&Array.isArray(o.d)&&o.d.length>1000){PK=o;pkIndeks()}}catch(e){}}
 async function pkIndir(zorla){
   if(!sb||!prof||!navigator.onLine)return false;
   if(!zorla&&PK&&Date.now()-PK.t<PK_GUN*864e5)return true;
   try{
     const r=await sb.rpc('words_pack');
     if(r.error||!Array.isArray(r.data)||r.data.length<1000)return false;
-    PK={t:Date.now(),d:r.data};pkIndeks();
+    PK={t:Date.now(),d:r.data,v:2};pkIndeks();
     try{localStorage.setItem(PK_KEY,JSON.stringify(PK))}catch(e){}
     return true;
   }catch(e){return false}
 }
+const dtrOf=w=>DTRD[String(w||'').toLowerCase()]||'';
 const trOf=w=>{const t=TRD[String(w||'').toLowerCase()];return t||''};
 pkYukle();
 {const _lp=loadProf;loadProf=async function(){const r=await _lp.apply(this,arguments);setTimeout(()=>pkIndir(),800);return r}}
@@ -46,11 +47,11 @@ function trBtn(){
   return b;
 }
 {const _n=next;next=function(){
-  const tr=(typeof SR!=='undefined'&&SR&&SR.tr)||null;
+  const tr=(typeof SR!=='undefined'&&SR&&(SR.dtr||SR.tr))||null;
   _n.apply(this,arguments);
   const b=trBtn();
   if(mode!=='practice'){b.hidden=true;return}
-  TRC.t=tr||trOf(word)||'';TRC.en=$('def').innerHTML;TRC.tr=false;
+  TRC.t=tr||dtrOf(word)||trOf(word)||'';TRC.en=$('def').innerHTML;TRC.tr=false;
   b.hidden=!TRC.t;b.style.background='transparent';b.style.color='var(--g)';
 }}
 {const _f=finish;finish=function(){
