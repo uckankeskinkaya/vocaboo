@@ -1,4 +1,4 @@
--- ============ BAKIM MODU ============
+-- ============ BAKIM MODU (1/2: işlevler) ============
 -- Açıkken yönetici olmayan hiç kimse (anon dahil, giriş yapmış olanlar dahil) hiçbir tablo/işlev isteği yapamaz.
 -- Kapı: PostgREST'in her istekten önce çalıştırdığı "db_pre_request" işlevi (maint_gate). İstemci ekranı sadece bilgi içindir, güvenlik buradadır.
 -- İzinli olanlar: maint_get (herkes), is_admin (giriş yapmış herkes, "yönetici miyim" sorusu), service_role (kenar işlevleri), yöneticiler.
@@ -46,8 +46,7 @@ end $$;
 revoke execute on function public.maint_gate() from public;
 grant execute on function public.maint_gate() to anon, authenticated, service_role;
 
-alter role authenticator set pgrst.db_pre_request = 'public.maint_gate';
-notify pgrst, 'reload config';
+-- (Kapıyı devreye alan 2 satır ayrı dosyada: 20261008_bakim_kapisini_ac.sql. Önce bu dosyayı çalıştır, sonra o dosyayı.)
 
 -- ============ ÖDEV SON GÜN HATIRLATMASI ============
 -- Son günü bugün/yarın olan ve bitirmediği ödevi olan sınıf öğrencilerine (bildirimi açık olanlara) günde 1 bildirim.
