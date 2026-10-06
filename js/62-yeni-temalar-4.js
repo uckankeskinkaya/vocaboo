@@ -199,11 +199,12 @@ const FR={
   balon:id=>['<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#78c6ef"/><stop offset=".55" stop-color="#ffe2c4"/><stop offset="1" stop-color="#ffb08a"/></linearGradient></defs>'
       +'<circle cx="100" cy="100" r="60" fill="none" stroke="url(#'+id+')" stroke-width="14"/><circle cx="100" cy="100" r="67" fill="none" stroke="#fff" stroke-width="2"/><circle cx="100" cy="100" r="53" fill="none" stroke="#fff" stroke-width="2"/>'
       +[[200,'#fff'],[235,'#fff'],[320,'#fff']].map((a,i)=>{const p=P2(a[0],60);return '<g opacity=".95"><ellipse cx="'+f(p[0])+'" cy="'+f(p[1])+'" rx="9" ry="4.5" fill="#fff"/><ellipse cx="'+f(p[0]+5)+'" cy="'+f(p[1]-2)+'" rx="6" ry="4" fill="#fff"/></g>'}).join(''),
-    '<g class="fr-or">'+[[0,'#ff5d73','#ffd166',.42],[120,'#4cc9f0','#ffffff',.36],[240,'#7b61ff','#ffb3c7',.38]].map(b=>{const p=P2(b[0]-90,82);return '<g class="x">'+minib(p[0],p[1],b[3],b[1],b[2])+'</g>'}).join('')+'</g>'
+    '<g class="x">'+[[-150,'#ff5d73','#ffd166',5.2,0],[-90,'#4cc9f0','#ffffff',6.4,-2.1],[-30,'#7b61ff','#ffb3c7',5.8,-3.6],[175,'#06d6a0','#ffd166',6.8,-1.2],[5,'#ff9f1c','#2ec4b6',6,-4.4]].map(b=>{const p=P2(b[0],72);return '<g class="fr-up" style="animation-duration:'+b[3]+'s;animation-delay:'+b[4]+'s">'+minib(p[0],p[1],.4,b[1],b[2])+'</g>'}).join('')+'</g>'
       +[[-60,'#ff5d73'],[60,'#4cc9f0'],[180,'#7b61ff']].map(b=>{const p=P2(b[0]-90,60);return '<circle cx="'+f(p[0])+'" cy="'+f(p[1])+'" r="5" fill="'+b[1]+'" stroke="#fff" stroke-width="2"/>'}).join('')],
   yaprak:()=>{let a='<circle cx="100" cy="100" r="60" fill="none" stroke="#7a3a14" stroke-width="5"/>',b='';
     for(let i=0;i<16;i++){const g=i*22.5+(i%2?6:0),p=P2(g,60+(i%2?4:-3)),k=i%2?.62:.72;
       a+='<g transform="translate('+f(p[0])+' '+f(p[1])+') rotate('+f(g+90+(i%2?30:-25))+') scale('+k+') translate(-20 -20)">'+yaprak(YR[i%5])+'</g>'}
+    b+='<g class="x">'+[[40,28,'#e8552a',5.4,0,-14],[112,16,'#f39a2b',6.2,-1.8,12],[168,40,'#f7c33c',5.8,-3.1,-10],[22,96,'#c23b22',6.6,-2.4,14],[182,100,'#d9662f',5.0,-4,-12],[76,6,'#f7c33c',6.0,-0.9,10]].map(l=>'<g class="fr-fall" style="--w:'+l[5]+'px;animation-duration:'+l[3]+'s;animation-delay:'+l[4]+'s"><g transform="translate('+l[0]+' '+l[1]+') scale(.42) translate(-20 -20)">'+yaprak(l[2])+'</g></g>').join('')+'</g>';
     b+='<g class="x"><g class="fr-sl" style="transform-origin:150px 150px"><g transform="translate(150 150) rotate(30) scale(.55) translate(-20 -2)">'+yaprak('#f7c33c')+'</g></g>'
       +'<g class="fr-sl" style="transform-origin:46px 160px;animation-delay:-1.4s"><g transform="translate(46 160) rotate(-40) scale(.48) translate(-20 -2)">'+yaprak('#c23b22')+'</g></g></g>';
     return [a,b]},
@@ -211,8 +212,8 @@ const FR={
     const yap=(x,y,r,k)=>'<g transform="translate('+x+' '+y+') rotate('+r+') scale('+k+')"><path d="M0 0 C12 -18 34 -22 52 -8 C36 -6 18 2 0 0Z" fill="#1fae7a"/><path d="M0 0 C16 -10 32 -12 50 -8" stroke="#0e7a55" stroke-width="1.6" fill="none"/></g>';
     return ['<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5e7a"/><stop offset=".5" stop-color="#ff9a5a"/><stop offset="1" stop-color="#ffcf7a"/></linearGradient></defs>'
       +'<g class="x">'+yap(150,152,-30,.95)+yap(150,152,40,.8)+yap(52,44,200,.7)+'</g>'
-      +'<circle cx="100" cy="100" r="60" fill="none" stroke="url(#'+id+')" stroke-width="12"/><circle cx="100" cy="100" r="66.5" fill="none" stroke="#2fe0b0" stroke-width="2"/><circle cx="100" cy="100" r="53.5" fill="none" stroke="#2fe0b0" stroke-width="2"/>',
-      '<g class="fr-ns" style="transform-origin:146px 146px">'+cic(146,146,1.05,'#ff2f63','#b8164a')+'</g><g class="x"><g class="fr-ns" style="transform-origin:56px 50px;animation-delay:-2s">'+cic(56,50,.6,'#ff7aa0','#d43a6a')+'</g></g>']},
+      +'<g class="sp hb"><circle cx="100" cy="100" r="60" fill="none" stroke="url(#'+id+')" stroke-width="12"/></g><circle cx="100" cy="100" r="66.5" fill="none" stroke="#2fe0b0" stroke-width="2"/><circle cx="100" cy="100" r="53.5" fill="none" stroke="#2fe0b0" stroke-width="2"/>',
+      '<g class="x">'+[[60,150,'#ff2f63',5.6,0,-16],[120,164,'#ff7aa0',6.4,-2,14],[170,110,'#ff9a5a',5.2,-3.2,-12],[30,60,'#ff5e7a',6.0,-1.2,12],[150,34,'#ffcf7a',5.8,-4.1,-14]].map(q=>'<g class="fr-fall" style="--w:'+q[5]+'px;animation-duration:'+q[3]+'s;animation-delay:'+q[4]+'s"><path transform="translate('+q[0]+' '+q[1]+') rotate('+(q[5]*5)+')" d="M0 -7 C6 -5 7 4 0 8 C-7 4 -6 -5 0 -7Z" fill="'+q[2]+'"/></g>').join('')+'</g><g class="fr-ns" style="transform-origin:146px 146px">'+cic(146,146,1.05,'#ff2f63','#b8164a')+'</g><g class="x"><g class="fr-ns" style="transform-origin:56px 50px;animation-delay:-2s">'+cic(56,50,.6,'#ff7aa0','#d43a6a')+'</g></g>']},
   kamp:id=>{let a='<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1232"/><stop offset=".7" stop-color="#22336e"/><stop offset="1" stop-color="#3a2a5a"/></linearGradient></defs>'
       +'<circle cx="100" cy="100" r="60" fill="none" stroke="url(#'+id+')" stroke-width="14"/><circle cx="100" cy="100" r="67" fill="none" stroke="#ffb347" stroke-width="1.6" opacity=".7"/><circle cx="100" cy="100" r="53" fill="none" stroke="#ffb347" stroke-width="1.6" opacity=".7"/>';
     [[200,1.6],[222,1.1],[245,1.8],[268,1.2],[292,1.7],[316,1.1],[338,1.5]].forEach((g,i)=>{const p=P2(g[0],60);a+='<circle class="fr-tw" style="animation-delay:-'+(i*.45)+'s" cx="'+f(p[0])+'" cy="'+f(p[1])+'" r="'+g[1]+'" fill="#fff"/>'});
@@ -231,7 +232,9 @@ if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
     return '<span class="rk rk-'+k+(z<40?' sm':'')+'" style="--s:'+z+'px">'+h+'<svg class="rk-b" viewBox="0 0 200 200" aria-hidden="true">'+sv[0]+'</svg><svg class="rk-f" viewBox="0 0 200 200" aria-hidden="true">'+sv[1]+'</svg></span>';
   };
   document.head.insertAdjacentHTML('beforeend',`<style id="cerceve-4">
-.rk .fr-or{transform-box:view-box;transform-origin:100px 100px;animation:fr-or 24s linear infinite}
+.rk .hb{animation-duration:9s}
+.rk .fr-up{opacity:0;animation:fr-up 5s ease-in infinite}
+.rk .fr-fall{opacity:0;animation:fr-fall 5.5s linear infinite}
 .rk .fr-sl{animation:fr-sl 3.2s ease-in-out infinite alternate}
 .rk .fr-ns{animation:fr-ns 4s ease-in-out infinite alternate}
 .rk .fr-tw{animation:sc-tw 2.4s ease-in-out infinite}
@@ -240,7 +243,8 @@ if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
 .rk-balon .rk-b{filter:drop-shadow(0 calc(var(--s)*.03) calc(var(--s)*.06) rgba(90,80,150,.3))}
 .rk-kamp .rk-b{filter:drop-shadow(0 0 calc(var(--s)*.07) rgba(255,160,60,.35))}
 .rk-hibiskus .rk-b{filter:drop-shadow(0 0 calc(var(--s)*.06) rgba(255,94,122,.35))}
-@keyframes fr-or{to{transform:rotate(360deg)}}
+@keyframes fr-up{0%{transform:translateY(16px);opacity:0}15%{opacity:1}75%{opacity:1}100%{transform:translateY(-52px);opacity:0}}
+@keyframes fr-fall{0%{transform:translate(0,-8px) rotate(0);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translate(var(--w),38px) rotate(160deg);opacity:0}}
 @keyframes fr-sl{from{transform:rotate(-12deg)}to{transform:rotate(12deg)}}
 @keyframes fr-ns{from{transform:rotate(-6deg) scale(1)}to{transform:rotate(6deg) scale(1.05)}}
 @keyframes fr-kv{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(var(--w),-34px);opacity:0}}
