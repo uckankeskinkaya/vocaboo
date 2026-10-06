@@ -162,20 +162,39 @@ $('mOnline').onclick=oHome;
 // Gerçek e-posta değil: sadece Supabase giriş sistemi e-posta biçimi istediği için kullanıcı adından üretilir.
 const MD='@kelimeavi.app';
 let prof=null;
+// Oturum önbelleği: şifre tekrar sorulmasın, açılış hızlı olsun. Profil özeti (gizli bilgi yok) tarayıcıda tutulur; ağ yoksa ya da yavaşsa onunla açılır,
+// arka planda sunucudan tazelenir. Sadece oturum gerçekten geçersizse (çıkış / süresi dolmuş / engel) giriş ekranı gelir.
+const PC_KEY='ka_prof';
+const pcGet=()=>{try{const o=JSON.parse(localStorage.getItem(PC_KEY));return o&&o.id&&o.username?o:null}catch(e){return null}};
+const pcSet=p=>{try{localStorage.setItem(PC_KEY,JSON.stringify(p))}catch(e){}};
+const pcClear=()=>{try{localStorage.removeItem(PC_KEY)}catch(e){}};
+const hasSess=()=>{try{for(let i=0;i<localStorage.length;i++){if(/^sb-.*-auth-token$/.test(localStorage.key(i)))return true}}catch(e){}return false};
+const netErr=e=>!!e&&(!navigator.onLine||/fetch|network|retryable|timeout|failed|abort/i.test(String(e.name||'')+' '+String(e.message||''))||e.status===0||e.status>=500);
+const pcStale=()=>{const c=pcGet();return c&&hasSess()?Object.assign({},c,{_stale:1}):null};
 if(window.supabase&&SB_URL.indexOf('PASTE')!==0){
   sb=supabase.createClient(SB_URL,SB_KEY);
-  $('online').hidden=false;on('<p>Yükleniyor...</p>');
+  sb.auth.onAuthStateChange(ev=>{if(ev==='SIGNED_OUT')pcClear()});
+  const c0=pcStale();
+  if(c0){prof=c0;addEventListener('DOMContentLoaded',()=>{if(prof&&prof._stale&&$('game').hidden&&$('online').hidden)rHome()})}
+  else{$('online').hidden=false;on('<p>Yükleniyor...</p>')}
   sb.auth.getSession().then(async r=>{
-    if(r.data&&r.data.session)await loadProf();
-    if(prof&&typeof pwMust==='function'&&await pwMust()){aNewPw();return}
+    if((r.data&&r.data.session)||(prof&&prof._stale))await loadProf();
+    if(prof&&!prof._stale&&typeof pwMust==='function'&&await pwMust()){aNewPw();return}
     if(prof)oExit();else aAuth();
-  }).catch(()=>aAuth());
+  }).catch(()=>{if(prof)oExit();else aAuth()});
+  addEventListener('online',()=>{if(prof&&prof._stale)loadProf()});
 }else $('home').hidden=false;
 async function loadProf(){
-  const u=await sb.auth.getUser();
-  if(!u.data||!u.data.user){prof=null;rHome();return}
-  const r=await sb.from('profiles').select('*').eq('id',u.data.user.id).single();
-  prof=r.data||null;if(prof&&prof.banned){await sb.auth.signOut();prof=null;rHome();aAuth('Hesabın engellendi.');return}rHome();checkBadges();fbadge();
+  let u;try{u=await sb.auth.getUser()}catch(e){u={error:e}}
+  if(!u.data||!u.data.user){
+    const c=pcStale();
+    if(c&&netErr(u.error)){prof=c;rHome();return}
+    prof=null;rHome();return}
+  let r;try{r=await sb.from('profiles').select('*').eq('id',u.data.user.id).single()}catch(e){r={error:e}}
+  if(r.error&&netErr(r.error)){const c=pcStale();if(c&&c.id===u.data.user.id){prof=c;rHome();return}}
+  prof=r.data||null;if(prof&&prof.banned){await sb.auth.signOut();pcClear();prof=null;rHome();aAuth('Hesabın engellendi.');return}
+  if(prof)pcSet(prof);
+  rHome();checkBadges();fbadge();
 }
 function panel(h){$('home').hidden=true;$('online').hidden=false;on(h)}
 function noSb(){panel('<p>Bu özellik için Supabase ayarı gerekli.</p>'+btn('ob','Ana menü'));$('ob').onclick=()=>oExit()}

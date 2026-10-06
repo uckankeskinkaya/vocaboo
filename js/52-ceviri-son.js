@@ -1,5 +1,6 @@
 // v34: İngilizce arayüz çevirileri: görevler, istatistik, öğretmen paneli, ödev, hata mesajları. (tests/dil-yeni.test.js ile doğrulanır)
 Object.assign(EN,{
+'CSV indir':'Download CSV',
 'Metinde < ve > karakterleri kullanılamaz.':'The characters < and > cannot be used in the text.',
 '✓ Alındı':'✓ Claimed','🎁 Üç görevi de bitirince ekstra ödül:':'🎁 Extra reward for finishing all three:','📚 Ödevlerim':'📚 My assignments','🎓 Öğretmen paneli':'🎓 Teacher panel',
 'Son 30 gün, sınıf öğrencileri. En az 2 kişinin denediği, çözülemeyenler öne çıkar.':'Last 30 days, class students. Words tried by at least 2 people and not solved come first.',

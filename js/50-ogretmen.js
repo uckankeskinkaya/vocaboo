@@ -19,6 +19,14 @@ function lvSync(){
   m.insertAdjacentHTML('beforebegin','<button class="pmb" id="hcb"><span>🎓</span><div>Öğretmen paneli<small>Sınıf özeti, zor kelimeler, kendi kelimelerin</small></div></button>');
   $('hcb').onclick=aTeacher;
 }}
+// CSV: Excel'in Türkçe karakterleri doğru okuması için BOM ve ; ayracı; formül enjeksiyonuna karşı =,+,-,@ ile başlayan hücreler kaçırılır
+function csvHucre(v){let t=String(v==null?'':v);if(/^[=+\-@\t\r]/.test(t))t="'"+t;return /[";\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t}
+function csvIndir(ad,satirlar){
+  const metin='\ufeff'+satirlar.map(r=>r.map(csvHucre).join(';')).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([metin],{type:'text/csv;charset=utf-8'}));a.download=ad;
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);
+}
+const tarihDamga=()=>new Date().toISOString().slice(0,10);
 function tErr(r){return /function|PGRST202|schema cache/i.test((r.error&&r.error.message)||'')?'Bu özellik sunucuda henüz kurulmadı.':'Yüklenemedi. Biraz sonra tekrar dene.'}
 function aTeacher(){
   if(!isT()){toast('Yetkin yok.');return}
@@ -33,8 +41,9 @@ async function aTClass(){
   const bugun=d.filter(x=>x.ls!==null&&x.ls<86400).length,hf=d.reduce((a,x)=>a+(+x.w7||0),0),akt=d.filter(x=>x.d7>0).length;
   panel('<p><b>Sınıf özeti</b></p><div class="sg3">'+S(d.length,'Öğrenci')+S(bugun,'Son 24 saatte aktif')+S(hf,'Bu hafta çözülen')+'</div><p class="cap">Son 7 günde oynayan: '+akt+'/'+d.length+'</p>'
     +(d.length?d.map(x=>{const t=(+x.ws||0)+(+x.wf||0);return '<button class="lvl" data-s="'+esc(x.id)+'" style="display:block;text-align:left"><b>'+esc(x.u)+'</b><br><small>Bu hafta '+x.w7+' kelime · '+x.d7+'/7 gün · doğruluk '+(t?Math.round(x.ws/t*100)+'%':'-')+' · '+(x.ls===null?'hiç girmedi':lastSeen(x.ls))+'</small></button>'}).join(''):'<p>Sınıfta henüz öğrenci yok.</p>')
-    +btn('ob','Geri'));
+    +btn('csv','CSV indir')+btn('ob','Geri'));
   $('ob').onclick=aTeacher;
+  $('csv').onclick=()=>csvIndir('sinif-ozeti-'+tarihDamga()+'.csv',[['Kullanıcı adı','Seviye','Çözülen kelime','Yanlış','Doğruluk %','Günlük seri','Son 7 gün çözülen','Son 7 gün oynadığı gün','Son görülme']].concat(d.map(x=>{const t=(+x.ws||0)+(+x.wf||0);return [x.u,lvlOf(x.xp||0),x.ws,x.wf,t?Math.round(x.ws/t*100):'',x.ds||0,x.w7,x.d7,x.ls===null?'hiç girmedi':lastSeen(x.ls)]})));
   document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>aTStudent(b.dataset.s,d.find(x=>x.id===b.dataset.s)));
 }
 async function aTStudent(id,x){

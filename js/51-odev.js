@@ -67,8 +67,9 @@ async function aTAssignView(id){
   const d=r.data,n=d.n;
   panel('<p><b>'+esc(d.title)+'</b></p><p class="cap">'+n+' kelime · '+gunTxt(d.due)+'</p>'
     +(d.students.length?d.students.map(s=>'<div class="wvr"><div style="display:flex;justify-content:space-between"><b class="w">'+esc(s.u)+(s.done>=n?' ✓':'')+'</b><small>'+s.done+'/'+n+'</small></div>'+bar(s.done,n,s.done>=n)+'</div>').join(''):'<p>Sınıfta öğrenci yok.</p>')
-    +btn('ad','Ödevi sil')+btn('ob','Geri'));
+    +btn('csv','CSV indir')+btn('ad','Ödevi sil')+btn('ob','Geri'));
   $('ob').onclick=()=>aTAssign();
+  $('csv').onclick=()=>csvIndir('odev-'+tarihDamga()+'.csv',[['Ödev','Öğrenci','Çözülen','Toplam','Durum','Son gün'],].concat(d.students.map(x=>[d.title,x.u,x.done,n,x.done>=n?'Tamamladı':x.done>0?'Devam ediyor':'Başlamadı',d.due||''])));
   $('ad').onclick=()=>cfAsk('"'+d.title+'" ödevi silinsin mi? Öğrencilerin listesinden kalkar.','Sil','Vazgeç',async()=>{const x=await sb.rpc('teacher_assign_del',{_id:id});aTAssign(x.error||x.data!=='ok'?'Silinemedi':'Ödev silindi')});
 }
 async function aTAssignNew(){

@@ -19,7 +19,7 @@ const { sayfaAc } = require('./yardimci');
       teacher_assign_progress: { title: 'Week 1', due: null, n: 2, students: [{ u: 'ayse', done: 2 }, { u: 'veli', done: 0 }] },
       h_list: [{ id: 3, title: 'Week 1', due: '2099-01-01', n: 2, done: 1 }, { id: 5, title: 'Done', due: null, n: 3, done: 3 }, { id: 6, title: 'Late', due: '2020-01-01', n: 3, done: 0 }],
       admin_errors: [{ msg: 'Boom', src: 'a.js:1', n: 3, uname: 'ali', ts: new Date().toISOString() }],
-      push_pub: null, push_test: 'ok'
+      push_pub: null, push_test: 'ok', maint_get: { on: true, msg: '' }
     };
     sb = { rpc: async (n, a) => ({ data: D[n] !== undefined ? D[n] : null, error: null }), functions: { invoke: async () => ({}) } };
     loadProf = async () => {};
@@ -60,6 +60,9 @@ const { sayfaAc } = require('./yardimci');
     await ekran('hata_gunlugu', () => aAdErrors());
     AU = { u1: { id: 'u1', u: 'veli', c: true, b: false, a: false, t: false, bs: 3, xp: 100 } };
     await ekran('admin_kullanici', () => aAdUser('u1'));
+    await ekran('bakim_yonetici', () => aAdMaint());
+    await ekran('bakim_ekrani', async () => { MN.msg = ''; mnGoster(true); document.getElementById('mne').textContent = 'Bakım sürüyor: sadece yöneticiler giriş yapabilir.' }, '#mnov');
+    document.getElementById('mnov').remove();
     await ekran('ayarlar', () => aSettings());
     // bildirim ayarları (açık)
     bdDestek = () => true; bdSub = async () => ({ endpoint: 'https://x.example/a' });
