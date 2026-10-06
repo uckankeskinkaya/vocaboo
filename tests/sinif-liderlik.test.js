@@ -13,16 +13,21 @@ const { sayfaAc } = require('./yardimci');
     await aBoard('all'); await aBoard('week'); await aBoard('last');
     await aBoard('fr'); await wait(50);
     r.arkadaslar = [...document.querySelectorAll('#online .lbu b')].map(e => e.textContent);
+    // sınıf dışı: tablo kapalı, sorgu yapılmaz
     prof = { id: 'p2', username: 'disari', avatar: null, frame: null, xp: 1, best_score: 10, cls: false };
-    await aBoard('fr'); await wait(50);
-    r.disaridaki = [...document.querySelectorAll('#online .lbu b')].map(e => e.textContent);
+    r.filtreOnce = r.filtre.length; await aBoard('all'); await wait(50);
+    r.kapali = { yazi: document.getElementById('online').innerText.replace(/\s+/g, ' '), satir: document.querySelectorAll('#online .lbr').length, sorgu: r.filtre.length - r.filtreOnce };
+    // yönetici sınıfta olmasa da görür
+    prof = { id: 'p3', username: 'yonetici', avatar: null, frame: null, xp: 1, best_score: 10, cls: false, admin: true };
+    await aBoard('all'); await wait(50); r.yoneticiGorur = document.querySelectorAll('#online .lbr').length > 0;
     return r;
   });
-  assert.strictEqual(o.filtre.length, 3, 'tüm zamanlar, haftalık ve geçen hafta sorgularında filtre olmalı: ' + o.filtre);
+  assert.strictEqual(o.filtreOnce, 3, 'tüm zamanlar, haftalık ve geçen hafta sorgularında filtre olmalı: ' + o.filtre);
   assert.ok(o.filtre.every(f => f === 'profiles:cls.eq.true,teacher.eq.true'), o.filtre.join('|'));
   assert.ok(o.arkadaslar.includes('sinifli') && o.arkadaslar.includes('ben (sen)') && !o.arkadaslar.includes('disarida'), 'sınıf dışı arkadaş görünmemeli: ' + o.arkadaslar);
-  assert.ok(o.disaridaki.includes('sinifli') && !o.disaridaki.includes('disari') && !o.disaridaki.includes('disarida'), 'sınıf dışı kullanıcı kendini tabloda görmemeli: ' + o.disaridaki);
+  assert.match(o.kapali.yazi, /Skor tablosu sadece sınıf içindir/); assert.strictEqual(o.kapali.satir, 0, 'sınıf dışı kullanıcı tabloyu görmemeli'); assert.strictEqual(o.kapali.sorgu, 0, 'sınıf dışı için sorgu yapılmamalı');
+  assert.ok(o.yoneticiGorur, 'yönetici tabloyu görmeli');
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok sınıf liderliği: tüm sekmelerde sadece sınıf, sınıf dışı arkadaş ve kullanıcı görünmez');
+  console.log('ok sınıf liderliği: tüm sekmelerde sadece sınıf, sınıf dışı kullanıcıya tablo kapalı');
   await s.kapat();
 })().catch(e => { console.error('HATA sınıf liderliği:', e.message); process.exit(1); });

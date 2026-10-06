@@ -8,7 +8,7 @@ const { sayfaAc } = require('./yardimci');
       const u = [['deneme2', 'elmas', 'p:fox', 485], ['fatih', 'altin', 'p:panda', 440], ['ceyda', 'sakura', 'p:cat', 300], ['cess', null, null, 90], ['ben', 'zumrut', 'p:fox', 80], ['can', null, 'p:panda', 80], ['sifir', null, null, 0]]
         .map(([username, frame, avatar, best_score], i) => ({ id: 'id' + i, username, frame, avatar, xp: 500 - i * 50, best_score, best_daily_streak: i % 3 }));
       sb = { from: t => { const q = { select: () => q, eq: () => q, or: () => q, limit: () => q, then: r => r({ data: t === 'profiles' ? u : [{ user_id: 'id3', best_score: 60 }], error: null }) }; return q; }, rpc: async () => ({ data: null, error: { message: 'x' } }) };
-      prof = { id: 'id4', username: 'ben', avatar: 'p:fox', frame: 'zumrut', xp: 100, best_score: 80 };
+      prof = { id: 'id4', username: 'ben', avatar: 'p:fox', frame: 'zumrut', xp: 100, best_score: 80, cls: true };
       await aBoard('all');
     });
     const o = await s.sayfa.evaluate(() => ({

@@ -85,3 +85,12 @@ begin
   s := replace(s, 'from weekly_champs c join profiles p on p.id = c.user_id where c.week = w)', 'from weekly_champs c join profiles p on p.id = c.user_id where c.week = w and (coalesce(p.cls, false) or coalesce(p.teacher, false)))');
   execute s;
 end $$;
+
+-- Geçen haftanın şampiyonları: sınıf dışındaki kullanıcılara hiç gösterilmez (sınıf üyesi, öğretmen ve yönetici görür)
+do $$
+declare s text;
+begin
+  s := pg_get_functiondef('public.champ_week'::regproc);
+  s := replace(s, 'select max(week) into w from weekly_champs;', 'if not (coalesce((select cls from profiles where id = u), false) or is_teacher() or is_admin()) then return null; end if;' || chr(10) || '  select max(week) into w from weekly_champs;');
+  execute s;
+end $$;
