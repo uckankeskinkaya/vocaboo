@@ -80,4 +80,46 @@ const engel=e=>{
   e.preventDefault();
 };
 ['copy','cut','contextmenu','selectstart','dragstart'].forEach(ev=>document.addEventListener(ev,engel,true));
+
+// --- 4) Yönetici: bildirimi açık herkese toplu bildirim (ör. "Güncelleme bitti")
+Object.assign(EN,{'Bildirim gönder':'Send notification','📣 Toplu bildirim':'📣 Broadcast notification','Başlık':'Title','Mesaj':'Message','Hazır mesajlar':'Templates','Gönder':'Send','Gönderiliyor...':'Sending...','Biraz bekle, 2 dakikada bir gönderilebilir':'Wait a bit, you can send once every 2 minutes','Başlık 1-60, mesaj 1-200 karakter olmalı':'Title must be 1-60 and message 1-200 characters','Gönderilemedi':'Could not send','Bildirimi açık kimse yok':'Nobody has notifications on'});
+const BHZ=[['Güncelleme bitti 🎉','Vocaboo güncellendi! Yeni özellikleri görmek için uygulamayı aç.'],['Bakım bitti ✅','Bakım tamamlandı, oyun tekrar açık. Hadi bir tur at! 🐥'],['Günün kelimesi seni bekliyor 🔤','Bugünün kelimesini henüz çözmedin. Serini bozma!'],['Sınıf yarışı başlıyor ⚔️','Online bölümüne gel, oda birazdan açılıyor.']];
+{const _a=aAdmin;aAdmin=function(){
+  _a.apply(this,arguments);
+  const a=$('ad9')||$('ad4');if(!a||$('ad10'))return;
+  a.insertAdjacentHTML('afterend',btn('ad10','Bildirim gönder'));$('ad10').onclick=aAdPush;
+}}
+async function aAdPush(){
+  panel('<p>Yükleniyor...</p>');
+  const r=await sb.rpc('admin_push_count');
+  if(r.error||!r.data){panel('<p>'+(typeof adErr==='function'?adErr(r):'Yapılamadı')+'</p>'+btn('ob','Geri'));$('ob').onclick=aAdmin;return}
+  const d=r.data;
+  panel('<p><b>📣 Toplu bildirim</b></p><p class="cap">Bildirimleri açmış herkese gider: <b>'+(+d.kisi||0)+'</b> kişi, '+(+d.cihaz||0)+' cihaz.'+(d.son?' Son gönderim: '+esc(new Date(d.son).toLocaleString('tr-TR')):'')+'</p>'
+    +'<p>Başlık</p><input id="bpt" maxlength="60" value="Vocaboo" style="'+SEL+'">'
+    +'<p>Mesaj</p><textarea id="bpb" rows="3" maxlength="200" style="'+SEL+';width:100%;font-family:inherit"></textarea>'
+    +'<p>Hazır mesajlar</p>'+BHZ.map((x,i)=>'<button class="lvl" data-bh="'+i+'" style="display:block;text-align:left"><b>'+esc(x[0])+'</b><br><small>'+esc(x[1])+'</small></button>').join('')
+    +'<p id="bpe" style="color:var(--r)"></p>'+btn('bps','Gönder')+btn('ob','Geri'));
+  $('ob').onclick=aAdmin;
+  $('online').querySelectorAll('[data-bh]').forEach(b=>b.onclick=()=>{const x=BHZ[+b.dataset.bh];$('bpt').value=x[0];$('bpb').value=x[1]});
+  $('bps').onclick=()=>{
+    const t=$('bpt').value.trim(),m=$('bpb').value.trim();
+    if(!t||!m||t.length>60||m.length>200){$('bpe').textContent='Başlık 1-60, mesaj 1-200 karakter olmalı';return}
+    if(!(+d.kisi)){$('bpe').textContent='Bildirimi açık kimse yok';return}
+    cfAsk(d.kisi+' kişiye gönderilsin mi? “'+t+' — '+m+'”','Gönder','Vazgeç',async()=>{
+      $('bps').disabled=true;$('bpe').textContent='Gönderiliyor...';
+      try{
+        const p=await sb.rpc('admin_push_prep',{_t:t,_b:m});
+        if(p.error||!p.data){throw 0}
+        if(p.data.err){$('bpe').textContent=p.data.err==='bekle'?'Biraz bekle, 2 dakikada bir gönderilebilir':'Başlık 1-60, mesaj 1-200 karakter olmalı';$('bps').disabled=false;return}
+        const ss=await sb.auth.getSession(),tok=ss&&ss.data&&ss.data.session&&ss.data.session.access_token;if(!tok)throw 0;
+        const res=await fetch(SB_URL+'/functions/v1/push-gonder',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok,apikey:SB_KEY},body:JSON.stringify({duyuru:p.data.id})});
+        const j=await res.json().catch(()=>null);
+        if(!res.ok||!j)throw 0;
+        toast(j.sent+'/'+j.total+' cihaza gönderildi'+(j.dead?' ('+j.dead+' geçersiz kayıt temizlendi)':''));
+        aAdPush();
+      }catch(e){$('bpe').textContent='Gönderilemedi';$('bps').disabled=false}
+    });
+  };
+}
+RX.push([/^(\d+)\/(\d+) cihaza gönderildi(?: \((\d+) geçersiz kayıt temizlendi\))?$/,(m,a,b,c)=>a+'/'+b+' devices notified'+(c?' ('+c+' invalid removed)':'')]);
 })();
