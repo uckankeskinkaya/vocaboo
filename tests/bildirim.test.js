@@ -6,7 +6,7 @@ const { sayfaAc } = require('./yardimci');
   const o = await s.sayfa.evaluate(async () => {
     const r = {}, w = ms => new Promise(x => setTimeout(x, ms)), cagri = [];
     prof = { username: 'ali' };
-    sb = { rpc: async (n, a) => { cagri.push(n); return { data: n === 'push_test' ? 'ok' : true } }, functions: { invoke: async (n, a) => { cagri.push('fn:' + n + ':' + a.body.test); return {} } } };
+    sb = { rpc: async (n, a) => { cagri.push(n); return { data: n === 'push_test' ? 'ok' : true } }, functions: { invoke: async (n, a) => { cagri.push('fn:' + n + ':' + a.body.test); return { data: { sent: 1, dead: 0, total: 1 } } } } };
     r.anahtar = bdKey('AQID').join(',') === '1,2,3';
     let sub = null;
     bdDestek = () => true;

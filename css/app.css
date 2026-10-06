@@ -25,7 +25,9 @@ h1{font-size:18px;margin:0;font-weight:800;letter-spacing:-.3px}
 .mark i{width:7px;height:7px;border-radius:2px}
 #logo{width:34px;height:34px;border-radius:10px;object-fit:contain}
 #score{font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
-#home,#online,#menu{flex:1;min-height:0;overflow-y:auto;animation:in .25s ease both}
+#home,#online,#menu{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;animation:in .25s ease both}
+/* Dikey ekranda kartlar sıkışıp kırpılmasın: kaydırılabilir kapların çocukları küçülmez, taşan kısım kaydırılır */
+#home>*,#online>*,#menu>*{flex-shrink:0}
 #home{display:flex;flex-direction:column;gap:12px}
 @keyframes in{from{opacity:0;transform:translateY(6px)}}
 .greet h2{margin:6px 0 2px;font-size:28px;font-weight:800;letter-spacing:-.6px}
@@ -186,7 +188,7 @@ h1{font-size:18px;margin:0;font-weight:800;letter-spacing:-.3px}
 .wvr{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:10px 14px;margin-bottom:8px}
 .wvr b.w{font-size:16px}.wvr small{display:block;color:var(--dim);line-height:1.4;margin-top:3px}
 /* v3: uygulama kabuğu (alt menü, masaüstünde yan menü) */
-#app{padding-bottom:86px}
+#app{padding-bottom:calc(var(--navh,72px) + 14px)}
 body:has(#game:not([hidden])) #app{padding-bottom:14px}
 body:has(#game:not([hidden])) #nav{display:none}
 header{position:sticky;top:0;z-index:5;padding:4px 0}

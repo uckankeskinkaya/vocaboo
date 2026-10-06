@@ -30,3 +30,7 @@ const _as3=aSettings;aSettings=function(){
   o.insertAdjacentHTML('beforebegin','<p>Performans</p><div class="seg"><button data-pf="auto">Otomatik</button><button data-pf="low">Hafif</button><button data-pf="full">Tam</button></div>');
   document.querySelectorAll('[data-pf]').forEach(b=>{b.classList.toggle('on',b.dataset.pf===PF());b.onclick=()=>{try{localStorage.setItem('ka_perf',b.dataset.pf)}catch(e){}applyPerf();aSettings()}});
 };
+
+// Alt menünün gerçek yüksekliği (iPhone alt çubuğu dahil) içeriğin altına boşluk olarak verilir; son kart menünün altında kalmasın
+(function(){const f=()=>{const n=document.getElementById('nav');if(n&&n.offsetHeight>0)document.documentElement.style.setProperty('--navh',n.offsetHeight+'px')};
+addEventListener('load',f);addEventListener('resize',f);addEventListener('orientationchange',()=>setTimeout(f,250));setTimeout(f,300);setTimeout(f,1500)})();
