@@ -95,15 +95,14 @@ const ada=o=>{
 const bulut=(c)=>{let s='';for(let x=-40;x<840;x+=rr(50,90))s+='<circle cx="'+fx(x)+'" cy="'+fx(rr(40,70))+'" r="'+fx(rr(40,70))+'" fill="'+c+'"/>';return s};
 const balloon=(c1,c2,st)=>sv('xb','0 0 60 90','<path d="M30 2 C52 2 58 22 54 36 C50 50 38 58 34 64 L26 64 C22 58 10 50 6 36 C2 22 8 2 30 2Z" fill="'+c1+'"/><path d="M30 2 C40 10 42 40 34 64 L26 64 C18 40 20 10 30 2Z" fill="'+c2+'"/><path d="M26 64 L24 76 M34 64 L36 76" stroke="#6a4a32" stroke-width="1.2"/><rect x="22" y="76" width="16" height="11" rx="2" fill="#a07a52"/>',st);
 const adHtml=()=>{
-  ADN=0;
   let h='<u class="su"></u><u class="sr"></u>';
   h+=many(4,i=>'<u class="cl" style="top:'+fx(4+i*14+rr(0,5))+'%;--t:'+fx(rr(70,120))+'s;--d:-'+fx(rr(0,110))+'s;--s:'+fx(rr(.5,1))+'"></u>');
   h+=ada({cls:'uz',st:'right:14%;top:2%;width:min(18vw,90px);--d:-1s',tree:[[120,50]]});
   h+=ada({cls:'uz',st:'left:44%;top:24%;width:min(14vw,70px);--d:-3s'});
-  h+='<u class="zp">'+sv('xzp','0 0 120 50','<ellipse cx="56" cy="20" rx="50" ry="17" fill="#f2b84a"/><path d="M10 20 Q56 4 102 20" stroke="#d9952a" stroke-width="2" fill="none"/><path d="M10 20 Q56 36 102 20" stroke="#d9952a" stroke-width="2" fill="none"/><path d="M100 20 L118 8 L118 32Z" fill="#e0573a"/><rect x="40" y="36" width="30" height="9" rx="3" fill="#7a5230"/><rect x="44" y="38" width="5" height="4" fill="#ffe9a0"/><rect x="53" y="38" width="5" height="4" fill="#ffe9a0"/><rect x="62" y="38" width="5" height="4" fill="#ffe9a0"/>','width:min(30vw,120px);height:auto')+'</u>';
+  h+='<u class="zp">'+sv('xzp','0 0 120 50','<g transform="translate(120 0) scale(-1 1)"><ellipse cx="56" cy="20" rx="50" ry="17" fill="#f2b84a"/><path d="M10 20 Q56 4 102 20" stroke="#d9952a" stroke-width="2" fill="none"/><path d="M10 20 Q56 36 102 20" stroke="#d9952a" stroke-width="2" fill="none"/><path d="M100 20 L118 8 L118 32Z" fill="#e0573a"/><rect x="40" y="36" width="30" height="9" rx="3" fill="#7a5230"/><rect x="44" y="38" width="5" height="4" fill="#ffe9a0"/><rect x="53" y="38" width="5" height="4" fill="#ffe9a0"/><rect x="62" y="38" width="5" height="4" fill="#ffe9a0"/></g>','width:min(30vw,120px);height:auto')+'</u>';
   h+=ada({st:'left:-8%;top:5%;width:min(64vw,330px);--d:0s',mill:150,tree:[[60,52],[92,48]],fall:520,flowers:1});
   h+=ada({st:'right:-10%;top:30%;width:min(48vw,250px);--d:-2.5s',house:70,tree:[[160,50]],flowers:1});
-  h+=ada({st:'left:18%;bottom:16%;width:min(54vw,270px);--d:-4s',tree:[[50,52],[190,50],[150,50]],fall:300,flowers:1});
+  h+=ada({st:'left:14%;top:50%;width:min(54vw,270px);--d:-4s',tree:[[50,52],[190,50],[150,50]],fall:300,flowers:1});
   h+='<u class="bw" style="left:70%;--t:60s;--d:-20s">'+balloon('#ff7a5c','#ffd36b','width:42px;height:auto')+'</u>';
   h+='<u class="bw" style="left:8%;--t:75s;--d:-55s">'+balloon('#7a8cff','#9fe7ff','width:32px;height:auto')+'</u>';
   for(let k=0;k<2;k++){const top=rr(14,44),d=rr(0,40);for(let j=0;j<4;j++)h+='<u class="bd" style="top:calc('+fx(top)+'% + '+(j%2)*10+'px);--d:-'+fx(d+j*.6)+'s">'+sv('xbd','0 0 20 10','<g class="xf"><path d="M0 2 Q5 -2 10 5 Q15 -2 20 2" fill="none" stroke="#3a5a7a" stroke-width="1.8"/></g>','width:18px;height:auto')+'</u>'}
@@ -135,7 +134,7 @@ const adCss=BASE+`
 §O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 65%,rgba(120,180,240,.25))}`;
 // Menü sahnesi de aynı adalarla
 if(typeof SCN!=='undefined'&&SCN.adalar){
-  SCN.adalar.html=()=>{ADN=0;return cloud(4).replace(/<u /g,'<u class="c" ')+ada({st:'left:-10%;top:16%;width:min(56vw,280px);--d:0s',mill:150,tree:[[60,52]],fall:420,flowers:1})+ada({st:'right:-8%;top:46%;width:min(44vw,230px);--d:-2s',house:70,tree:[[160,50]],flowers:1})+ada({cls:'uz',st:'right:20%;top:6%;width:min(16vw,80px);--d:-3s'})};
+  SCN.adalar.html=()=>{return cloud(4).replace(/<u /g,'<u class="c" ')+ada({st:'left:-10%;top:16%;width:min(56vw,280px);--d:0s',mill:150,tree:[[60,52]],fall:420,flowers:1})+ada({st:'right:-8%;top:46%;width:min(44vw,230px);--d:-2s',house:70,tree:[[160,50]],flowers:1})+ada({cls:'uz',st:'right:20%;top:6%;width:min(16vw,80px);--d:-3s'})};
   document.head.insertAdjacentHTML('beforeend','<style>#sahne[data-s="adalar"] svg{position:absolute;display:block;overflow:visible}#sahne[data-s="adalar"] .xad{height:auto;filter:drop-shadow(0 14px 14px rgba(40,90,140,.22));animation:os3-bob 7s ease-in-out var(--d) infinite}#sahne[data-s="adalar"] .uz{opacity:.55}#sahne[data-s="adalar"] .xwf{animation:os3-fall .7s linear infinite}#sahne[data-s="adalar"] .xml{transform-origin:0 4px;animation:os3-spin 9s linear infinite}</style>');
   if(document.documentElement.dataset.theme==='adalar'&&typeof sahneKur==='function')sahneKur('adalar');
 }
