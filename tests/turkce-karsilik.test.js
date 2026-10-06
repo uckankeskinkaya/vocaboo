@@ -16,26 +16,23 @@ const { sayfaAc } = require('./yardimci');
     // kelime defteri
     bookSet([{ w: 'budget', d: 'a plan for money', ex: 'We need a budget.', n: 1 }]); aBook();
     r.defter = document.getElementById('wvl').innerText;
-    // alıştırma açıklama dili
+    // alıştırma: cümle İngilizce açılır, TR düğmesi o cümleyi çevirir
     mode = 'practice'; SR = { def: 'a plan for money', tr: 'para planı', len: 6, lvl: 0, tries: 5, guesses: [] };
-    try { localStorage.setItem('ka_trdef', 'en') } catch (e) {}
-    SR = { def: 'a plan for money', tr: 'para planı', len: 6, lvl: 0, tries: 5, guesses: [] }; next(); r.en = document.getElementById('def').innerText;
-    localStorage.setItem('ka_trdef', 'tr');
-    SR = { def: 'a plan for money', tr: 'para planı', len: 6, lvl: 0, tries: 5, guesses: [] }; next(); r.tr = document.getElementById('def').innerText;
-    localStorage.setItem('ka_trdef', 'both');
-    SR = { def: 'a plan for money', tr: 'para planı', len: 6, lvl: 0, tries: 5, guesses: [] }; next(); r.both = document.getElementById('def').innerText;
-    // ayar düğmesi
-    aSettings(); r.ayar = document.getElementById('s7') && document.getElementById('s7').innerText;
+    next(); r.en = document.getElementById('def').innerText;
+    const bt = document.getElementById('trbtn'); r.btnGorunur = !bt.hidden;
+    bt.click(); r.tr = document.getElementById('def').innerText;
+    bt.click(); r.geri = document.getElementById('def').innerText;
+    SR = { def: 'a plan for money', tr: 'para planı', len: 6, lvl: 0, tries: 5, guesses: [] }; next(); r.yeniEn = document.getElementById('def').innerText;
+    mode = 'daily'; next(); r.gizli = document.getElementById('trbtn').hidden;
     return r;
   });
   assert.ok(o.indi && o.sayi >= 1100 && o.sakli && o.ikinci);
   assert.strictEqual(o.trBudget, 'para planı');
   assert.match(o.defter, /para planı/);
-  assert.match(o.en, /^A plan for money\./); assert.doesNotMatch(o.en, /para/);
+  assert.match(o.en, /^A plan for money\./); assert.doesNotMatch(o.en, /para/); assert.ok(o.btnGorunur && o.gizli);
   assert.match(o.tr, /^Para planı\./); assert.doesNotMatch(o.tr, /plan for/);
-  assert.match(o.both, /A plan for money\./); assert.match(o.both, /Para planı/);
-  assert.match(o.ayar, /Alıştırma açıklaması: İkisi birden/);
+  assert.match(o.geri, /^A plan for money\./); assert.match(o.yeniEn, /^A plan for money\./);
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok türkçe karşılık: paket indirme/saklama, kelime defterinde Türkçe, alıştırmada açıklama dili (İngilizce/Türkçe/ikisi)');
+  console.log('ok türkçe karşılık: paket indirme/saklama, kelime defterinde Türkçe, alıştırmada açıklama dili (cümle başına TR düğmesi)');
   await s.kapat();
 })().catch(e => { console.error('HATA türkçe karşılık:', e.message); process.exit(1); });

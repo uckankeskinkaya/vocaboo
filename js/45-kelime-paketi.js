@@ -27,30 +27,35 @@ pkYukle();
   return t?h.replace('</div><small>','</div><small style="color:var(--g);font-weight:700">'+esc(t)+'</small><small>'):h;
 }}
 
-// --- Alıştırma: açıklama dili (en | tr | both)
-const TD=()=>{try{return localStorage.getItem('ka_trdef')||'en'}catch(e){return'en'}};
-const TDAD={en:'İngilizce',tr:'Türkçe',both:'İkisi birden'};
-Object.assign(EN,{'Alıştırma açıklaması':'Practice clue','İngilizce':'English','Türkçe':'Turkish','İkisi birden':'Both','Türkçesi:':'Turkish:'});
-RX.push([/^Alıştırma açıklaması: (İngilizce|Türkçe|İkisi birden)$/,(m,v)=>'Practice clue: '+({'İngilizce':'English','Türkçe':'Turkish','İkisi birden':'Both'})[v]]);
+// --- Alıştırma: cümle İngilizce açılır; takılınca "TR" düğmesi o cümleyi Türkçeye çevirir (tekrar basınca İngilizceye döner)
+Object.assign(EN,{'Türkçesi:':'Turkish:','Bu cümleyi Türkçe göster':'Show this sentence in Turkish','Türkçe karşılık bulunamadı':'No Turkish translation found'});
+const TRC={t:'',en:'',tr:false};
+function trBtn(){
+  let b=$('trbtn');
+  if(!b){b=document.createElement('button');b.id='trbtn';b.hidden=true;b.textContent='TR';b.setAttribute('aria-label','Bu cümleyi Türkçe göster');
+    b.style.cssText='width:48px;border-radius:16px;border:1px solid var(--g);background:transparent;color:var(--g);font-size:15px;font-weight:800';
+    $('hintbtn').insertAdjacentElement('beforebegin',b);
+    b.onclick=()=>{
+      if(!TRC.t){toast('Türkçe karşılık bulunamadı');return}
+      const cap=x=>x.charAt(0).toUpperCase()+x.slice(1),harf='<small>'+word.length+' harf</small>';
+      TRC.tr=!TRC.tr;
+      $('def').innerHTML=TRC.tr?cap(TRC.t)+'.'+harf:TRC.en;
+      b.style.background=TRC.tr?'var(--g)':'transparent';b.style.color=TRC.tr?'#fff':'var(--g)';
+    };
+  }
+  return b;
+}
 {const _n=next;next=function(){
   const tr=(typeof SR!=='undefined'&&SR&&SR.tr)||null;
   _n.apply(this,arguments);
-  if(mode!=='practice')return;
-  const t=tr||trOf(word);
-  if(!t)return;
-  const d=TD(),cap=s=>s.charAt(0).toUpperCase()+s.slice(1),harf='<small>'+word.length+' harf</small>';
-  if(d==='tr')$('def').innerHTML=cap(t)+'.'+harf;
-  else if(d==='both')$('def').innerHTML=cap(def)+'.<br><span style="color:var(--g);font-weight:700">'+esc(cap(t))+'</span>'+harf;
+  const b=trBtn();
+  if(mode!=='practice'){b.hidden=true;return}
+  TRC.t=tr||trOf(word)||'';TRC.en=$('def').innerHTML;TRC.tr=false;
+  b.hidden=!TRC.t;b.style.background='transparent';b.style.color='var(--g)';
 }}
 {const _f=finish;finish=function(){
   _f.apply(this,arguments);
   if(mode!=='practice')return;
   const t=trOf(word);if(!t||$('trres'))return;
   $('res').insertAdjacentHTML('afterbegin','<div id="trres" style="color:var(--g);font-weight:700;margin-bottom:2px">Türkçesi: '+esc(t)+'</div>');
-}}
-{const _as=aSettings;aSettings=function(){
-  _as.apply(this,arguments);
-  const a=$('s5')||$('s2');if(!a||$('s7'))return;
-  a.insertAdjacentHTML('afterend',btn('s7','Alıştırma açıklaması: '+TDAD[TD()]));
-  $('s7').onclick=()=>{const s=['en','tr','both'];try{localStorage.setItem('ka_trdef',s[(s.indexOf(TD())+1)%3])}catch(e){}aSettings()};
 }}
