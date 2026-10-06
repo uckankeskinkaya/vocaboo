@@ -39,7 +39,7 @@ async function startStreak(){
   if(busy)return;busy=true;
   const r=await sb.rpc('run_start');busy=false;
   if(r.error){toast('Bağlantı hatası');return}
-  sess=[];mode='streak';run={lives:3,streak:0,first:0,passes:0,score:0,dead:false,max:0};SR=r.data;next();
+  sess=[];mode='streak';run={lives:+r.data.lives||3,streak:+r.data.streak||0,first:0,passes:+r.data.passes||0,score:+r.data.score||0,dead:false,max:0};SR=r.data;next();
 }
 async function nextStreak(){
   if(busy)return;busy=true;
