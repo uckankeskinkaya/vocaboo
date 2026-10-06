@@ -4,9 +4,12 @@ import webpush from "npm:web-push@3.6.7";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
-const json = (o: unknown, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json" } });
+// Tarayıcıdan (test bildirimi) çağrılabilsin diye CORS: kimlik doğrulama yine kodun içinde (x-cron-secret ya da kullanıcı JWT'si).
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret", "Access-Control-Allow-Methods": "POST, OPTIONS" };
+const json = (o: unknown, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json", ...cors } });
 
 Deno.serve(async (req: Request) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const { data: cfg } = await sb.from("push_config").select("*").eq("id", 1).single();
   if (!cfg) return json({ err: "ayar yok" }, 500);
   if (!cfg.vapid_public || !cfg.vapid_private) {
@@ -35,6 +38,7 @@ Deno.serve(async (req: Request) => {
   }
   webpush.setVapidDetails("https://uckankeskinkaya.github.io/vocaboo/", cfg.vapid_public, cfg.vapid_private);
   const dead: string[] = [];
+  const fails: { status?: number; msg: string }[] = [];
   let ok = 0;
   await Promise.all(targets.map(async (t) => {
     try {
@@ -42,8 +46,9 @@ Deno.serve(async (req: Request) => {
       ok++;
     } catch (e: any) {
       if (e && (e.statusCode === 404 || e.statusCode === 410)) dead.push(t.endpoint);
+      else { console.error("push hatası", e && e.statusCode, e && e.body); if (fails.length < 3) fails.push({ status: e && e.statusCode, msg: String((e && (e.body || e.message)) || e).slice(0, 120) }); }
     }
   }));
   if (dead.length) await sb.rpc("push_dead", { _e: dead });
-  return json({ sent: ok, dead: dead.length, total: targets.length });
+  return json({ sent: ok, dead: dead.length, total: targets.length, fails });
 });

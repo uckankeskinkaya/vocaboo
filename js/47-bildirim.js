@@ -42,12 +42,18 @@ async function bdTest(){
     const t=await sb.rpc('push_test');
     if(t.data==='bekle'){toast('Biraz bekle, sonra tekrar dene');return}
     if(t.data!=='ok'){toast('Bildirim aboneliği bulunamadı');return}
-    const x=await sb.functions.invoke('push-gonder',{body:{test:true}});
-    const d=x&&x.data;
-    if(!d||x.error)toast('Sunucuya ulaşılamadı');
+    // Doğrudan çağrı (aynı Supabase adresi, CSP'ye uygun); kullanıcının kendi oturum anahtarıyla
+    const ss=await sb.auth.getSession(),tok=ss&&ss.data&&ss.data.session&&ss.data.session.access_token;
+    if(!tok){toast('Önce giriş yap');return}
+    let res,d=null;
+    try{res=await fetch(SB_URL+'/functions/v1/push-gonder',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok,apikey:SB_KEY},body:JSON.stringify({test:true})});d=await res.json().catch(()=>null)}catch(e){res=null}
+    if(!res)toast('Sunucuya ulaşılamadı');
+    else if(res.status===429)toast('Biraz bekle, sonra tekrar dene');
+    else if(res.status===401)toast('Oturum doğrulanamadı, çıkış yapıp tekrar gir');
+    else if(!res.ok||!d)toast('Sunucu hatası ('+res.status+')');
     else if(d.sent>0)toast('Test bildirimi gönderildi, birkaç saniye içinde gelir');
     else if(d.dead>0)toast('Cihaz kaydı geçersiz. Bildirimi kapatıp yeniden aç');
-    else toast('Sunucu bildirim gönderemedi. Bildirimi kapatıp yeniden aç');
+    else toast('Sunucu bildirim gönderemedi'+(d.fails&&d.fails[0]&&d.fails[0].status?' ('+d.fails[0].status+')':'')+'. Bildirimi kapatıp yeniden aç');
   }catch(e){toast('Gönderilemedi')}
 }
 {const _as=aSettings;aSettings=function(){
@@ -63,4 +69,4 @@ async function bdTest(){
   };
   if($('s9'))$('s9').onclick=bdTest;
 }}
-Object.assign(EN,{'Bildirimler: Açık':'Notifications: On','Bildirimler: Kapalı':'Notifications: Off','Test bildirimi gönder':'Send test notification','Bildirim için giriş yapmalısın':'Log in to enable notifications','Bu tarayıcı bildirimi desteklemiyor (iPhone: önce "Ana ekrana ekle")':'This browser does not support notifications (iPhone: "Add to Home Screen" first)','Bildirim izni verilmedi':'Notification permission denied','Bildirim açılamadı':'Could not enable notifications','Bildirimler kapatıldı':'Notifications turned off','Önce bildirimleri aç':'Turn notifications on first','Biraz bekle, sonra tekrar dene':'Wait a bit, then try again','Bildirim aboneliği bulunamadı':'No subscription found','Test bildirimi gönderildi':'Test notification sent','Gönderilemedi':'Could not send','Test bildirimi gönderildi, birkaç saniye içinde gelir':'Test notification sent, it should arrive in a few seconds','Sunucuya ulaşılamadı':'Could not reach the server','Cihaz kaydı geçersiz. Bildirimi kapatıp yeniden aç':'This device registration is invalid. Turn notifications off and on again','Sunucu bildirim gönderemedi. Bildirimi kapatıp yeniden aç':'The server could not send the notification. Turn notifications off and on again'});
+Object.assign(EN,{'Bildirimler: Açık':'Notifications: On','Bildirimler: Kapalı':'Notifications: Off','Test bildirimi gönder':'Send test notification','Bildirim için giriş yapmalısın':'Log in to enable notifications','Bu tarayıcı bildirimi desteklemiyor (iPhone: önce "Ana ekrana ekle")':'This browser does not support notifications (iPhone: "Add to Home Screen" first)','Bildirim izni verilmedi':'Notification permission denied','Bildirim açılamadı':'Could not enable notifications','Bildirimler kapatıldı':'Notifications turned off','Önce bildirimleri aç':'Turn notifications on first','Biraz bekle, sonra tekrar dene':'Wait a bit, then try again','Bildirim aboneliği bulunamadı':'No subscription found','Test bildirimi gönderildi':'Test notification sent','Gönderilemedi':'Could not send','Test bildirimi gönderildi, birkaç saniye içinde gelir':'Test notification sent, it should arrive in a few seconds','Sunucuya ulaşılamadı':'Could not reach the server','Önce giriş yap':'Log in first','Oturum doğrulanamadı, çıkış yapıp tekrar gir':'Session could not be verified, log out and in again','Cihaz kaydı geçersiz. Bildirimi kapatıp yeniden aç':'This device registration is invalid. Turn notifications off and on again','Sunucu bildirim gönderemedi. Bildirimi kapatıp yeniden aç':'The server could not send the notification. Turn notifications off and on again'});

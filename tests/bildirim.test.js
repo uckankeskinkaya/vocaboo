@@ -6,7 +6,8 @@ const { sayfaAc } = require('./yardimci');
   const o = await s.sayfa.evaluate(async () => {
     const r = {}, w = ms => new Promise(x => setTimeout(x, ms)), cagri = [];
     prof = { username: 'ali' };
-    sb = { rpc: async (n, a) => { cagri.push(n); return { data: n === 'push_test' ? 'ok' : true } }, functions: { invoke: async (n, a) => { cagri.push('fn:' + n + ':' + a.body.test); return { data: { sent: 1, dead: 0, total: 1 } } } } };
+    window.fetch = async (u, o) => { cagri.push('fetch:' + u.split('/').pop() + ':' + JSON.parse(o.body).test + ':' + (o.headers.Authorization || '').slice(0, 6)); return new Response(JSON.stringify({ sent: 1, dead: 0, total: 1 }), { status: 200 }) };
+    sb = { auth: { getSession: async () => ({ data: { session: { access_token: 'tok123' } } }) }, rpc: async (n, a) => { cagri.push(n); return { data: n === 'push_test' ? 'ok' : true } }, functions: { invoke: async (n, a) => { cagri.push('fn:' + n + ':' + a.body.test); return { data: { sent: 1, dead: 0, total: 1 } } } } };
     r.anahtar = bdKey('AQID').join(',') === '1,2,3';
     let sub = null;
     bdDestek = () => true;
@@ -18,7 +19,7 @@ const { sayfaAc } = require('./yardimci');
     document.getElementById('s8').click(); await w(80);
     r.acik = document.getElementById('s8').innerText.includes('Açık') && !!document.getElementById('s9');
     document.getElementById('s9').click(); await w(80);
-    r.test = cagri.includes('push_test') && cagri.includes('fn:push-gonder:true');
+    r.test = cagri.includes('push_test') && cagri.includes('fetch:push-gonder:true:Bearer');
     document.getElementById('s8').click(); await w(80);
     r.kapandi = cagri.includes('push_remove') && cagri.includes('unsub') && document.getElementById('s8').innerText.includes('Kapalı');
     return r;
