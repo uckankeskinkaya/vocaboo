@@ -1,7 +1,7 @@
 // v33: Ödev listesi. Öğretmen sınıf kelimelerinden ödev oluşturur (başlık, son gün, kelimeler); sınıftaki öğrenciler
 // Menü > Ödevlerim'den çözer. İlerleme sunucuda, doğru çözülen kelimelerden (guess_log) hesaplanır; kelimeler öğrenciye gösterilmez.
 let ODEV=0;
-const OE={baslik:'Başlık 2-60 karakter olmalı.',tarih:'Son gün geçmiş olamaz.',kelime:'En az 1, en fazla 50 sınıf kelimesi seç.',dolu:'En fazla 30 aktif ödev olabilir.'};
+const OE={baslik:'Başlık 2-60 karakter olmalı (< ve > kullanılamaz).',tarih:'Son gün geçmiş olamaz.',kelime:'En az 1, en fazla 50 sınıf kelimesi seç.',dolu:'En fazla 30 aktif ödev olabilir.'};
 const gunTxt=d=>{
   if(!d)return 'Son gün yok';
   const t=new Date();t.setHours(0,0,0,0);const k=Math.round((new Date(d+'T00:00:00')-t)/864e5);

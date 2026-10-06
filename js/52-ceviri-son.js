@@ -1,5 +1,6 @@
 // v34: İngilizce arayüz çevirileri: görevler, istatistik, öğretmen paneli, ödev, hata mesajları. (tests/dil-yeni.test.js ile doğrulanır)
 Object.assign(EN,{
+'Metinde < ve > karakterleri kullanılamaz.':'The characters < and > cannot be used in the text.',
 '✓ Alındı':'✓ Claimed','🎁 Üç görevi de bitirince ekstra ödül:':'🎁 Extra reward for finishing all three:','📚 Ödevlerim':'📚 My assignments','🎓 Öğretmen paneli':'🎓 Teacher panel',
 'Son 30 gün, sınıf öğrencileri. En az 2 kişinin denediği, çözülemeyenler öne çıkar.':'Last 30 days, class students. Words tried by at least 2 people and not solved come first.',
 'Bu kelimeler sadece sınıftakilere ve sana "Sınıf" seviyesinde (alıştırma ve oda kurarken) görünür.':'These words are only visible to your class and you, at the "Class" level (in practice and when creating rooms).',
@@ -12,7 +13,7 @@ Object.assign(EN,{
 'Kelime 3-14 harf, sadece a-z olmalı.':'The word must be 3-14 letters, a-z only.','Tanım 3-200 karakter olmalı.':'The definition must be 3-200 characters.','Türkçesi en fazla 200 karakter.':'The Turkish text can be at most 200 characters.',
 'Örnek cümle kelimeyi içermeli.':'The example sentence must contain the word.','Bu kelime zaten sınıf listende.':'This word is already in your class list.','Sınıf listesi dolu (500).':'The class list is full (500).','Kelime bulunamadı.':'Word not found.',
 'Yüklenemedi. Biraz sonra tekrar dene.':'Could not load. Try again in a bit.','Bu özellik sunucuda henüz kurulmadı.':'This feature is not set up on the server yet.',
-'Başlık 2-60 karakter olmalı.':'The title must be 2-60 characters.','Son gün geçmiş olamaz.':'The due date cannot be in the past.','En az 1, en fazla 50 sınıf kelimesi seç.':'Pick between 1 and 50 class words.','En fazla 30 aktif ödev olabilir.':'There can be at most 30 active assignments.',
+'Başlık 2-60 karakter olmalı (< ve > kullanılamaz).':'The title must be 2-60 characters (< and > not allowed).','Son gün geçmiş olamaz.':'The due date cannot be in the past.','En az 1, en fazla 50 sınıf kelimesi seç.':'Pick between 1 and 50 class words.','En fazla 30 aktif ödev olabilir.':'There can be at most 30 active assignments.',
 'Ödevler yüklenemedi. Biraz sonra tekrar dene.':'Could not load assignments. Try again in a bit.','Kaydedilemedi.':'Could not save.','Kaydedildi':'Saved','Silindi':'Deleted'
 ,'Hesap açıldı ama oturum başlamadı. Supabase ayarlarında Confirm email kapalı olmalı.':'Account created but no session started. "Confirm email" must be turned off in Supabase settings.',
 'Profil oluşturulamadı. SQL kurulumunu kontrol et.':'Could not create the profile. Check the SQL setup.','Fotoğraf kaydedilemedi.':'Could not save the photo.','Görsel açılamadı.':'Could not open the image.',

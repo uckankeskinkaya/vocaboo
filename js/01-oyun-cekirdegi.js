@@ -81,7 +81,7 @@ function next(){
   $('back').textContent=mode==='practice'?'Seviyeler':'Çık';
   $('score').textContent=sc()+' puan';
   hud();
-  $('def').innerHTML=def.charAt(0).toUpperCase()+def.slice(1)+'.<small>'+word.length+' harf</small>';
+  $('def').innerHTML=esc(def.charAt(0).toUpperCase()+def.slice(1))+'.<small>'+word.length+' harf</small>';
   draw();
 }
 
@@ -146,7 +146,7 @@ function press(k){
 
 function finish(msg){noteWord();
   over=true;hud();$('score').textContent=sc()+' puan';
-  $('res').innerHTML=msg+'<br><span style="color:var(--dim)">'+word+': '+def+'. <button class="sbtn" id="spk" aria-label="Dinle">🔊</button> <button class="sbtn" id="shr">Paylaş</button> <button class="sbtn" id="kw">Kelimeler</button></span><div class="row2"><button id="lv2">'+(mode==='practice'?'Seviyeler':mode==='streak'?'Ana menü':'Çık')+'</button><button class="m" id="nx">'+(mode==='streak'&&run.dead?'Yeniden oyna':mode==='online'&&ost.fin?'Sonuçlar':mode==='daily'?'Ana menü':'Sonraki kelime')+'</button></div>';
+  $('res').innerHTML=msg+'<br><span style="color:var(--dim)">'+esc(word)+': '+esc(def)+'. <button class="sbtn" id="spk" aria-label="Dinle">🔊</button> <button class="sbtn" id="shr">Paylaş</button> <button class="sbtn" id="kw">Kelimeler</button></span><div class="row2"><button id="lv2">'+(mode==='practice'?'Seviyeler':mode==='streak'?'Ana menü':'Çık')+'</button><button class="m" id="nx">'+(mode==='streak'&&run.dead?'Yeniden oyna':mode==='online'&&ost.fin?'Sonuçlar':mode==='daily'?'Ana menü':'Sonraki kelime')+'</button></div>';
   $('lv2').onclick=()=>$('back').click();$('spk').onclick=()=>speak(word);$('shr').onclick=shareRes;$('kw').onclick=showWords;
   $('nx').onclick=mode==='daily'?()=>oExit():mode==='online'?oNext:mode==='streak'?(run.dead?startStreak:nextStreak):(mode==='practice'&&PSV&&sb&&prof?pNext:next);
 }

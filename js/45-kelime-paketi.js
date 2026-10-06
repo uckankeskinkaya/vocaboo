@@ -40,7 +40,7 @@ function trBtn(){
       if(!TRC.t){toast('Türkçe karşılık bulunamadı');return}
       const cap=x=>x.charAt(0).toUpperCase()+x.slice(1),harf='<small>'+word.length+' harf</small>';
       TRC.tr=!TRC.tr;
-      $('def').innerHTML=TRC.tr?cap(TRC.t)+'.'+harf:TRC.en;
+      $('def').innerHTML=TRC.tr?esc(cap(TRC.t))+'.'+harf:TRC.en;
       b.style.background=TRC.tr?'var(--g)':'transparent';b.style.color=TRC.tr?'#fff':'var(--g)';
     };
   }

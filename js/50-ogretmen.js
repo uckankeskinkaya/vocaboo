@@ -2,7 +2,7 @@
 // ve sadece sınıf öğrencilerinin ilerlemesini görür. Kullanıcı yönetimi, engelleme, şifre gibi yetkileri YOKTUR.
 const isT=()=>!!(prof&&(prof.teacher||prof.admin)),clsOK=()=>!!(prof&&(prof.cls||isT()));
 if(!W[4])W[4]=[];
-const HE={kelime:'Kelime 3-14 harf, sadece a-z olmalı.',tanim:'Tanım 3-200 karakter olmalı.',tr:'Türkçesi en fazla 200 karakter.',cumle:'Örnek cümle kelimeyi içermeli.',var:'Bu kelime zaten sınıf listende.',dolu:'Sınıf listesi dolu (500).',yok:'Kelime bulunamadı.'};
+const HE={karakter:'Metinde < ve > karakterleri kullanılamaz.',kelime:'Kelime 3-14 harf, sadece a-z olmalı.',tanim:'Tanım 3-200 karakter olmalı.',tr:'Türkçesi en fazla 200 karakter.',cumle:'Örnek cümle kelimeyi içermeli.',var:'Bu kelime zaten sınıf listende.',dolu:'Sınıf listesi dolu (500).',yok:'Kelime bulunamadı.'};
 // Sınıf kelimeleri seviyesi: sadece sınıf üyesi/öğretmen için alıştırma ve oda seviyelerinde görünür
 function lvSync(){
   const var_=LV.length>4,ok=clsOK();
