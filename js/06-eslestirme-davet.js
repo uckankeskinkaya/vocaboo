@@ -26,7 +26,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&(!$('wv').hidden||!$('cf').h
 addEventListener('beforeunload',e=>{if(!$('game').hidden&&!over&&mode!=='practice'){e.preventDefault();e.returnValue=''}});
 async function tick(){
   if(!sb||!prof||document.hidden)return;
-  const r=await sb.rpc('app_tick');if(r.error)return;
+  const r=await sb.rpc('app_tick');if(r.error||!r.data)return;
   const d=r.data,b=$('fb');if(!window._ch){window._ch=1;champCheck()}if(!window._an){window._an=1;annCheck()}
   if(b){b.textContent=d.fr;b.hidden=!(d.fr>0)}
   if(d.inv&&d.inv.id!==invSeen&&$('game').hidden&&$('cf').hidden){
