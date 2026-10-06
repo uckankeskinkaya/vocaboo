@@ -19,7 +19,7 @@ function mkSeq(seed,l){
 function mine(){return{n:myName,t:t0,h:isHost?1:0,c:isHost?cfg:null,mo:(isHost&&cfg&&cfg.mod)?1:0,q:ost.q||0,p:ost.p,w:ost.w,a:ost.a,d:ost.fin?1:0,im:myThumb,ti:titleOf(prof),fr:(prof&&prof.frame)||''}}
 function plist(){
   const s=ch.presenceState();
-  return Object.keys(s).map(k=>{const v=s[k][s[k].length-1];return{k,n:String(v.n||'?').slice(0,12),t:+v.t||0,h:v.h,c:v.c,mo:v.mo?1:0,q:+v.q||0,p:+v.p||0,w:+v.w||0,a:v.a,d:v.d,im:String(v.im||'').slice(0,6000),ti:String(v.ti||'').slice(0,20),fr:String(v.fr||'').slice(0,12)}});
+  return Object.keys(s).map(k=>{const v=s[k][s[k].length-1];return{k,n:String(v.n||'?').slice(0,16),t:+v.t||0,h:v.h,c:v.c,mo:v.mo?1:0,q:+v.q||0,p:+v.p||0,w:+v.w||0,a:v.a,d:v.d,im:String(v.im||'').slice(0,6000),ti:String(v.ti||'').slice(0,20),fr:String(v.fr||'').slice(0,12)}});
 }
 function rank(L){return L.filter(x=>!(x.h&&x.mo)).sort((a,b)=>cfg&&cfg.m==='s'?(b.w-a.w)||(b.p-a.p):(b.p-a.p))}
 
@@ -39,7 +39,7 @@ function oHome(){
 }
 
 function oSetup(){
-  on('<p>Kişi</p><select id="s1" style="'+SEL+'"><option value="2">1v1 (2 kişi)</option><option value="50">Grup</option></select><p>Mod</p><select id="s2" style="'+SEL+'"><option value="c15">Puan yarışı, 15 kelime</option><option value="c20">Puan yarışı, 20 kelime</option><option value="s180">Hayatta kalma, 3 dakika</option><option value="s300">Hayatta kalma, 5 dakika</option></select><p>Seviye</p><select id="s3" style="'+SEL+'"><option value="-1">Karışık (B1 ile B2+)</option>'+LBL.map((l,i)=>'<option value="'+i+'">'+l+'</option>').join('')+'</select><p>Moderatör modu (sadece grup)</p><select id="s4" style="'+SEL+'"><option value="0">Kapalı, ben de oynarım</option><option value="1">Açık, ben oyunu takip ederim</option></select>'+btn('ok2','Odayı kur')+btn('ob','Geri'));
+  on('<p>Kişi</p><select id="s1" style="'+SEL+'"><option value="2">1v1 (2 kişi)</option><option value="50">Grup</option></select><p>Mod</p><select id="s2" style="'+SEL+'"><option value="c15">Puan yarışı, 15 kelime</option><option value="c20">Puan yarışı, 20 kelime</option><option value="s180">Hayatta kalma, 3 dakika</option><option value="s300">Hayatta kalma, 5 dakika</option></select><p>Seviye</p><select id="s3" style="'+SEL+'"><option value="-1">Karışık (B1 ile B2)</option>'+LBL.map((l,i)=>i===3?'':'<option value="'+i+'">'+l+'</option>').join('')+'</select><p>Moderatör modu (sadece grup)</p><select id="s4" style="'+SEL+'"><option value="0">Kapalı, ben de oynarım</option><option value="1">Açık, ben oyunu takip ederim</option></select>'+btn('ok2','Odayı kur')+btn('ob','Geri'));
   $('ob').onclick=oHome;
   $('ok2').onclick=()=>{
     const m=$('s2').value;
@@ -117,7 +117,7 @@ function oHud(){
   if(ost.m==='s'){
     const r=Math.max(0,Math.ceil((ost.end-Date.now())/1000));
     $('badge').textContent='Doğru '+ost.w+'  '+Math.floor(r/60)+':'+String(r%60).padStart(2,'0');
-  }else $('badge').textContent='Kelime '+(si+1)+'/'+ost.n;
+  }else $('badge').textContent='Kelime '+Math.min(si+1,ost.n||(cfg&&cfg.n)||15)+'/'+(ost.n||(cfg&&cfg.n)||15);
 }
 function oWin(p){
   ost.p+=p;ost.w++;ost.q=(ost.q||0)+1;

@@ -23,7 +23,8 @@ const PMX=new Set(['pp','pv','fr','un']); // avatara / isme taşındı
   const l=document.querySelector('.lst');if(!l)return;
   // düğmeleri (tıklama işlevleriyle birlikte) menü için sakla, profilde tek "Menü" düğmesi bırak
   PMD={};l.querySelectorAll('.rw').forEach(b=>{PMD[b.id]=b});
-  const pf=$('pf');if(pf)PMD.pf=pf;
+  // dosya seçici listeyle birlikte silinmesin: "Profil fotoğrafı yükle" ona tıklar
+  const pf=$('pf');if(pf){PMD.pf=pf;l.before(pf)}
   const m=document.createElement('button');m.className='pmb';m.id='pmb';
   m.innerHTML='<span>☰</span><div>Menü<small>Görevler, avatar, hesap ayarları…</small></div>';
   l.replaceWith(m);m.onclick=aPMenu;
@@ -55,7 +56,7 @@ function pfEkle(){
     const p=document.createElement('div');p.className='pfpop';p.id='pfpop';
     p.innerHTML='<button id="pf1"><span>🎭</span>Avatarını değiştir</button><button id="pf2"><span>📷</span>Profil fotoğrafı yükle</button><button id="pf3"><span>🖼️</span>Çerçeveni değiştir</button>';
     nm.closest('.pfnm').after(p);
-    $('pf1').onclick=()=>aAvatar();$('pf2').onclick=()=>$('pf').click();$('pf3').onclick=()=>aFrames();
+    $('pf1').onclick=()=>aAvatar();$('pf2').onclick=()=>{const f=$('pf')||PMD&&PMD.pf;if(f)f.click()};$('pf3').onclick=()=>aFrames();
   };
 }
 {const _u=aUsername;aUsername=function(){

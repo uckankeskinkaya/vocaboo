@@ -13,7 +13,7 @@ async function aFriends(tab){
     const r=await sb.rpc('class_list');
     const d=r.data||[];
     panel(hd+'<p>Sınıftakiler ('+d.length+')</p>'+d.map(x=>row({id:x.id,on:x.on,ls:x.ls,u:x.u,im:x.im,fr:x.fr,t:titleOf({xp:x.xp})+', rekor '+x.bs})).join('')+btn('ob','Ana menü'));
-    bar();document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>oInvite(b.dataset.i,b.dataset.n));return;
+    bar();$('online').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>oInvite(b.dataset.i,b.dataset.n));return;
   }
   const r=await sb.rpc('friend_list');
   if(r.error){panel(hd+'<p>Yüklenemedi, tekrar dene.</p>'+btn('ob','Ana menü'));bar();return}
@@ -34,6 +34,6 @@ async function aFriends(tab){
   act('[data-a]','a',id=>sb.rpc('friend_respond',{_id:id,_acc:true}));
   act('[data-r]','r',id=>sb.rpc('friend_respond',{_id:id,_acc:false}));
   act('[data-x]','x',id=>sb.rpc('friend_remove',{_id:id}));
-  document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>oInvite(b.dataset.i,b.dataset.n));
+  $('online').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>oInvite(b.dataset.i,b.dataset.n));
 }
 $('fbtn').onclick=()=>aFriends('f');

@@ -5,14 +5,14 @@
 const PK_KEY='ka_pack',PK_GUN=7;
 let PK=null,TRD={},DTRD={};
 function pkIndeks(){TRD={};DTRD={};if(PK)PK.d.forEach(r=>{const k=String(r[1]).toLowerCase();TRD[k]=r[3]||'';DTRD[k]=r[5]||''})}
-function pkYukle(){try{const o=JSON.parse(localStorage.getItem(PK_KEY));if(o&&o.v===2&&Array.isArray(o.d)&&o.d.length>1000){PK=o;pkIndeks()}}catch(e){}}
+function pkYukle(){try{const o=JSON.parse(localStorage.getItem(PK_KEY));if(o&&o.v===3&&Array.isArray(o.d)&&o.d.length>300){PK=o;pkIndeks()}}catch(e){}}
 async function pkIndir(zorla){
   if(!sb||!prof||!navigator.onLine)return false;
   if(!zorla&&PK&&Date.now()-PK.t<PK_GUN*864e5)return true;
   try{
     const r=await sb.rpc('words_pack');
-    if(r.error||!Array.isArray(r.data)||r.data.length<1000)return false;
-    PK={t:Date.now(),d:r.data,v:2};pkIndeks();
+    if(r.error||!Array.isArray(r.data)||r.data.length<300)return false;
+    PK={t:Date.now(),d:r.data,v:3};pkIndeks();
     try{localStorage.setItem(PK_KEY,JSON.stringify(PK))}catch(e){}
     return true;
   }catch(e){return false}

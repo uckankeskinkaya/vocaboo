@@ -85,7 +85,7 @@ async function aShop(tab){
     :'<p class="cap">Önizlemek için bir temaya dokun</p><div class="tg">'+items.map(it=>thTile(it.id.slice(6),pr(it),it.owned?' cur':'','data-i="'+it.id+'" data-p="'+it.price+'"')).join('')+'</div><p class="cap">Temalar hayran yapımıdır; hiçbir oyun veya şirketle bağlantısı yoktur.</p>';
   panel('<div class="bal">🪙 '+d.bal.toLocaleString()+'<small>Bakiye</small></div><div class="seg sm">'+sg('sf','Çerçeveler',tab==='f')+sg('st','Temalar',tab==='t')+'</div>'+body+'<p class="cap">✓ Alabilirsin</p>');
   $('sf').onclick=()=>aShop('f');$('st').onclick=()=>aShop('t');
-  document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
+  $('online').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
     const id=b.dataset.i,nm=id.startsWith('frame:')?FRM[id.slice(6)][0]:TM[id.slice(6)][0];
     if(tab==='t'){thPrev(id.slice(6),+b.dataset.p,b.classList.contains('cur'));return}
     if(b.classList.contains('cur')){toast('Çerçeveler menüsünden uygula');return}
@@ -152,6 +152,7 @@ async function pStart(l){
     // Geçici ağ sorunu olabilir: bir kez daha dene, olmazsa yerel alıştırmaya geç (oyun kilitlenmesin)
     await new Promise(x=>setTimeout(x,700));r=await dene();
     if(pFail(r)){next();return}
+    if(r.error&&/kelime yok/.test(r.error.message||'')){toast(l===4?'Öğretmen henüz sınıf kelimesi eklemedi.':'Bu seviyede kelime yok.');return}
     if(r.error||!r.data){
       const m=String((r.error&&r.error.message)||'boş cevap').slice(0,70);
       try{console.warn('p_next hatası:',r.error||r)}catch(e){}

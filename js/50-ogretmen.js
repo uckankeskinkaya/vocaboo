@@ -44,7 +44,7 @@ async function aTClass(){
     +btn('csv','CSV indir')+btn('ob','Geri'));
   $('ob').onclick=aTeacher;
   $('csv').onclick=()=>csvIndir('sinif-ozeti-'+tarihDamga()+'.csv',[['Kullanıcı adı','Seviye','Çözülen kelime','Yanlış','Doğruluk %','Günlük seri','Son 7 gün çözülen','Son 7 gün oynadığı gün','Son görülme']].concat(d.map(x=>{const t=(+x.ws||0)+(+x.wf||0);return [x.u,lvlOf(x.xp||0),x.ws,x.wf,t?Math.round(x.ws/t*100):'',x.ds||0,x.w7,x.d7,x.ls===null?'hiç girmedi':lastSeen(x.ls)]})));
-  document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>aTStudent(b.dataset.s,d.find(x=>x.id===b.dataset.s)));
+  $('online').querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>aTStudent(b.dataset.s,d.find(x=>x.id===b.dataset.s)));
 }
 async function aTStudent(id,x){
   panel('<p>Yükleniyor...</p>');
