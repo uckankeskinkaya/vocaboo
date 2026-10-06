@@ -26,7 +26,7 @@ addEventListener('pointerup',e=>{
     const el=document.elementFromPoint(e.clientX,e.clientY),t=el&&el.closest('[data-s]');
     if(t&&+t.dataset.s!==d.s){const j=+t.dataset.s,a=cur[d.s];cur[d.s]=cur[j];cur[j]=a;sfx('key')}
     draw();
-  }else if(!cur[d.s]){sel=d.s;draw()}
+  }else{sel=d.s;draw()}
 });
 addEventListener('pointercancel',()=>{if(dg){if(dg.g){dg.g.remove();draw()}dg=null}});
 function vsLive(L){

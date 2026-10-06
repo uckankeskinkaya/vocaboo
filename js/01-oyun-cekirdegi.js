@@ -124,7 +124,7 @@ function draw(){
 
 function press(k){
   if(over)return;
-  if(k==='DEL'){for(let i=cur.length-1;i>=0;i--)if(cur[i]){cur[i]='';break}sel=-1;sfx('key')}
+  if(k==='DEL'){if(sel>=0&&cur[sel]){cur[sel]='';sfx('key')}else{for(let i=cur.length-1;i>=0;i--)if(cur[i]){cur[i]='';break}sel=-1;sfx('key')}}
   else if(k==='ENTER'){
     if(full().length<word.length){$('res').textContent='Boş kutuları doldur.';return}
     const gs=full();if(mode==='streak'||mode==='daily'||(mode==='online'&&MSV)||(mode==='practice'&&PSV&&sb&&prof)){srvGuess(gs);return}
