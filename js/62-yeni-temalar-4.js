@@ -1,4 +1,4 @@
-// v42 (taslak, onay bekliyor): Dört yeni sahneli tema ve onlarla eşleşen dört çerçeve.
+// v42: Dört yeni sahneli tema ve onlarla eşleşen dört çerçeve.
 // Temalar: Balon Festivali, Sonbahar Ormanı, Tropik Gün Batımı, Kamp Gecesi. Her biri: menü sahnesi (#sahne), oyun sahnesi
 // (#oyunsahne, OSEKLE), tema renkleri + arayüz stili, harf blokları ve dokunuş efekti (TEMAEK, js/34).
 // Kural: sahnenin asıl öğeleri ekranın görünen bölgelerinde (üst bant, kenarlar, kartlar arası boşluklar) durur.
