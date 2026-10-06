@@ -141,7 +141,7 @@ const peCss=BASE+`
 §O .hl{left:-10%;right:-10%;border-radius:50% 50% 0 0}
 §O .hl.a{bottom:-8%;height:34%;background:#f7b3c9}
 §O .hl.b{bottom:-16%;height:28%;background:#f08aa9}
-§O .tr{left:-8%;top:-2%;width:min(104vw,86vh);height:auto;transform-origin:15% 100%;animation:os2-sway 9s ease-in-out infinite}
+§O .tr{left:-14%;bottom:-3%;width:min(124vw,98vh);height:auto;transform-origin:15% 100%;animation:os2-sway 9s ease-in-out infinite}
 §O .tr2{right:-12%;bottom:6%;width:min(70vw,60vh);height:auto;opacity:.85;transform-origin:80% 100%;animation:os2-sway 11s ease-in-out -3s infinite}
 §O .bl1,§O .bl2,§O .bl3{animation:os2-bob 7s ease-in-out infinite}
 §O .bl2{animation-delay:-2s}§O .bl3{animation-delay:-4s}
@@ -194,16 +194,17 @@ const kiCss=BASE+`
 §O .vg{background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(120,170,220,.4))}`;
 
 /* ───── YAĞMURLU GECE ───── */
-const bldg=()=>{let h='',x=0;const cols=['#0b1022','#101733','#0d1428','#141b3c'];
+const KEDI='<path d="M2 22 L2 12 Q0 8 4 7 L4 1 L8 5 L16 5 L20 1 L20 7 Q24 9 22 14 L22 22Z" fill="#05070f"/><path d="M20 20 Q32 20 31 11" stroke="#05070f" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="8" cy="9" r="1.1" fill="#ffe14a"/><circle cx="15" cy="9" r="1.1" fill="#ffe14a"/>';
+const bldg=()=>{let h='',x=0,n=0;const cols=['#0b1022','#101733','#0d1428','#141b3c'];
   while(x<400){const w=rr(26,56),ht=rr(90,235),y=250-ht;h+='<rect x="'+fx(x)+'" y="'+fx(y)+'" width="'+fx(w)+'" height="'+fx(ht)+'" fill="'+cols[Math.floor(rr(0,4))]+'"/>';
     for(let wy=y+8;wy<246;wy+=11)for(let wx=x+5;wx<x+w-6;wx+=9)if(Math.random()<.4)h+='<rect class="wi" x="'+fx(wx)+'" y="'+fx(wy)+'" width="4.5" height="5.5" fill="'+(Math.random()<.2?'#7fd1ff':'#ffd27a')+'" style="'+tm(2,6)+'"/>';
-    x+=w+rr(0,4)}
+    if(n===2)h+='<g transform="translate('+fx(x+w*.3)+' '+fx(y-31)+') scale(1.4)">'+KEDI+'</g>';
+    n++;x+=w+rr(0,4)}
   return h};
 const yaHtml=()=>{
   let h='<u class="fl"></u><u class="cl" style="top:4%;--t:70s;--d:-10s"></u><u class="cl" style="top:12%;--t:95s;--d:-50s"></u>';
   h+=sv('bo','0 0 120 260','<path d="M70 0 L40 90 L62 90 L30 190 L90 70 L66 70 L96 0Z" fill="#fff" opacity=".95"/><path d="M70 0 L40 90 L62 90 L30 190 L90 70 L66 70 L96 0Z" fill="#aaccff" opacity=".6" transform="translate(2 0)"/>');
   h+=sv('ci','0 0 400 250',bldg()+'<g transform="translate(300 20)"><path d="M0 0 l6 -7 l6 7z" fill="#0d1428"/></g>');
-  h+=sv('ct','0 0 60 40','<path d="M4 40 L4 24 Q2 18 8 16 L8 6 L14 12 L26 12 L32 6 L32 16 Q38 18 34 26 L34 40Z" fill="#05070f"/><circle cx="13" cy="19" r="2" fill="#ffe14a"/><circle cx="25" cy="19" r="2" fill="#ffe14a"/><path d="M34 34 Q52 34 50 18" stroke="#05070f" stroke-width="4" fill="none"/>');
   h+='<u class="lp"></u>'+sv('lm','0 0 30 160','<rect x="13" y="30" width="4" height="130" fill="#0a0d1a"/><rect x="6" y="22" width="18" height="10" rx="3" fill="#ffe8a0"/>');
   h+='<u class="lc"></u>';
   h+=many(46,()=>'<i class="rn" style="--x:'+fx(rr(0,100))+'%;--h:'+fx(rr(14,30))+'px;--w:-30px;--t:'+fx(rr(.55,1.1))+'s;--d:-'+fx(rr(0,2))+'s"></i>');
@@ -216,7 +217,6 @@ const yaCss=BASE+`
 §O .bo{left:30%;top:0;width:min(22vw,90px);height:auto;filter:drop-shadow(0 0 10px #9cf);animation:os2-bolt 9s linear infinite}
 §O .ci{left:0;right:0;bottom:12%;width:100%;height:auto}
 §O .wi{animation:os2-win var(--t) ease-in-out var(--d) infinite}
-§O .ct{left:6%;bottom:36%;width:42px;height:auto}
 §O .lp{left:76%;bottom:6%;width:130px;height:55%;background:conic-gradient(from 180deg at 50% 0,transparent 160deg,rgba(255,232,160,.0) 165deg,rgba(255,232,160,.3) 180deg,rgba(255,232,160,0) 195deg,transparent 200deg);transform:translateX(-35%);display:none}
 §O .lm{right:12%;bottom:10%;height:min(44vh,300px);width:auto;filter:drop-shadow(0 0 14px rgba(255,220,140,.9))}
 §O .lc{right:calc(12% - 70px);bottom:6%;width:170px;height:45vh;background:linear-gradient(rgba(255,226,150,.28),transparent 90%);clip-path:polygon(40% 0,60% 0,100% 100%,0 100%)}
