@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  pages: write
 concurrency:
   group: pages-yayin
   cancel-in-progress: false
@@ -42,3 +43,12 @@ jobs:
           git add -A
           git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit -qm "Yayın ${GITHUB_SHA::7}"
           git push -f "https://x-access-token:${TOKEN}@github.com/${REPO}.git" gh-pages
+      - name: Pages yayınını elle tetikle
+        # Branch push'u Pages derlemesini bazen başlatmıyor; derlemeyi API ile iste (hata olursa iş başarısız sayılmasın).
+        continue-on-error: true
+        env:
+          TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          curl -sS -X POST -H "Authorization: Bearer ${TOKEN}" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${REPO}/pages/builds" | head -c 300
