@@ -36,7 +36,7 @@ const { sayfaAc } = require('./yardimci');
     cevap = { pw_changed: { data: true, error: null } }; await kaydet('yeniSifre1', 'yeniSifre1');
     r.son_guncelleme = JSON.stringify(yaz[yaz.length - 1]); r.basari_toast = toasts().includes('Şifren değişti.');
     // --- profilden isteğe bağlı değiştirme
-    aProfile(); r.profil_satiri = !!document.getElementById('pwc');
+    aProfile(); aPMenu(); r.profil_satiri = !!document.getElementById('pwc');
     document.getElementById('pwc').click(); await wait(30); r.manuel_geri = document.getElementById('ob').textContent;
     calls.length = 0; await kaydet('yeniSifre2', 'yeniSifre2'); r.manuel_pw_changed_cagrilmaz = calls.filter(c => c[0] === 'pw_changed').length;
     // --- yönetici

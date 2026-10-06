@@ -11,7 +11,7 @@ const { sayfaAc } = require('./yardimci');
     await aStats(); r.dolu = document.body.innerText;
     sb = { rpc: async () => ({ data: { t: { solved: 0, failed: 0 }, dist: [0, 0, 0, 0, 0], days: [], letters: [], modes: {} } }) };
     await aStats(); r.bos = document.body.innerText;
-    aProfile(); r.dugme = !!document.getElementById('stb');
+    aProfile(); aPMenu(); r.dugme = !!document.getElementById('stb');
     return r;
   });
   assert.match(o.dolu, /%86/); assert.match(o.dolu, /2\.1/); assert.match(o.dolu, /Kaç denemede çözdün/); assert.match(o.dolu, /Zorlandığın harfler/); assert.match(o.dolu, /Seri Modu/);

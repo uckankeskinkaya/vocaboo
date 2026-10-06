@@ -19,7 +19,7 @@ const { sayfaAc } = require('./yardimci');
     await aQuests('g'); r.g = document.body.innerText;
     document.querySelector('[data-q="s5"]').click(); await new Promise(x => setTimeout(x, 200)); r.sonra = document.body.innerText;
     await aQuests('b'); r.b = document.body.innerText;
-    aProfile(); r.profil = !!document.getElementById('qgb') && !!document.getElementById('qab');
+    aProfile(); aPMenu(); r.profil = !!document.getElementById('qgb') && !!document.getElementById('qab');
     r.cagri = cagri;
     return r;
   });
