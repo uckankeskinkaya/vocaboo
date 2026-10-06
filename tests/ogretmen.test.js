@@ -1,4 +1,4 @@
-// Hoca paneli: sınıf seviyesi görünürlüğü, panel ekranları, kelime ekleme/toplu ekleme, yönetici hoca yetkisi düğmesi.
+// Öğretmen paneli: sınıf seviyesi görünürlüğü, panel ekranları, kelime ekleme/toplu ekleme, yönetici hoca yetkisi düğmesi.
 const assert = require('node:assert');
 const { sayfaAc } = require('./yardimci');
 (async () => {
@@ -26,11 +26,11 @@ const { sayfaAc } = require('./yardimci');
     r.toplu = document.getElementById('te').innerText.includes('2 kelime eklendi') && document.getElementById('te').innerText.includes('2. satır');
     prof = { id: 'a', username: 'root', admin: true }; AU = { u1: { id: 'u1', u: 'veli', c: true, b: false, t: false, bs: 0, xp: 0 } };
     aAdUser('u1', ''); await w(30);
-    r.hocaBtn = document.getElementById('u8') && document.getElementById('u8').innerText === 'Hoca yap';
+    r.hocaBtn = document.getElementById('u8') && document.getElementById('u8').innerText === 'Öğretmen yap';
     return r;
   });
   for (const [k, v] of Object.entries(o)) assert.ok(v, k + ' başarısız');
   assert.deepStrictEqual(s.hatalar, []);
-  console.log('ok hoca paneli: sınıf seviyesi, özet, öğrenci, zor kelimeler, kelime ekleme/toplu ekleme, yönetici yetki düğmesi');
+  console.log('ok öğretmen paneli: sınıf seviyesi, özet, öğrenci, zor kelimeler, kelime ekleme/toplu ekleme, yönetici yetki düğmesi');
   await s.kapat();
 })().catch(e => { console.error('HATA hoca:', e.message); process.exit(1); });

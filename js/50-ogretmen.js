@@ -1,28 +1,28 @@
-// v32: Hoca paneli. Hoca (yönetici "Hoca yetkisi ver" ile atar) kendi kelimelerini ekler (Sınıf kelimeleri = seviye 4)
+// v32: Öğretmen paneli. Öğretmen (yönetici "Öğretmen yetkisi ver" ile atar) kendi kelimelerini ekler (Sınıf kelimeleri = seviye 4)
 // ve sadece sınıf öğrencilerinin ilerlemesini görür. Kullanıcı yönetimi, engelleme, şifre gibi yetkileri YOKTUR.
 const isT=()=>!!(prof&&(prof.teacher||prof.admin)),clsOK=()=>!!(prof&&(prof.cls||isT()));
 if(!W[4])W[4]=[];
 const HE={kelime:'Kelime 3-14 harf, sadece a-z olmalı.',tanim:'Tanım 3-200 karakter olmalı.',tr:'Türkçesi en fazla 100 karakter.',cumle:'Örnek cümle kelimeyi içermeli.',var:'Bu kelime zaten sınıf listende.',dolu:'Sınıf listesi dolu (500).',yok:'Kelime bulunamadı.'};
-// Sınıf kelimeleri seviyesi: sadece sınıf üyesi/hoca için alıştırma ve oda seviyelerinde görünür
+// Sınıf kelimeleri seviyesi: sadece sınıf üyesi/öğretmen için alıştırma ve oda seviyelerinde görünür
 function lvSync(){
   const var_=LV.length>4,ok=clsOK();
   if(ok===var_)return;
-  if(ok){LV.push(['Sınıf',10,'Hocanın kelimeleri']);LBL.push('Sınıf')}else{LV.pop();LBL.pop()}
+  if(ok){LV.push(['Sınıf',10,'Öğretmenin kelimeleri']);LBL.push('Sınıf')}else{LV.pop();LBL.pop()}
   $('lvls').innerHTML=LV.map((l,i)=>'<button class="lvl" data-i="'+i+'"><span><b>'+l[0]+'</b><small>'+l[2]+'</small></span><span>x'+l[1]+'</span></button>').join('');
   document.querySelectorAll('#lvls .lvl').forEach(b=>b.onclick=()=>{sess=[];mode='practice';lv=+b.dataset.i;(PSV&&sb&&prof)?pStart(lv):next()});
 }
 {const _r=rHome;rHome=function(){_r.apply(this,arguments);lvSync()}}
-// Profil: Hoca paneli girişi
+// Profil: Öğretmen paneli girişi
 {const _p=aProfile;aProfile=function(){
   _p.apply(this,arguments);
   const m=$('pmb');if(!m||!isT()||$('hcb'))return;
-  m.insertAdjacentHTML('beforebegin','<button class="pmb" id="hcb"><span>🎓</span><div>Hoca paneli<small>Sınıf özeti, zor kelimeler, kendi kelimelerin</small></div></button>');
+  m.insertAdjacentHTML('beforebegin','<button class="pmb" id="hcb"><span>🎓</span><div>Öğretmen paneli<small>Sınıf özeti, zor kelimeler, kendi kelimelerin</small></div></button>');
   $('hcb').onclick=aTeacher;
 }}
 function tErr(r){return /function|PGRST202|schema cache/i.test((r.error&&r.error.message)||'')?'Bu özellik sunucuda henüz kurulmadı.':'Yüklenemedi. Biraz sonra tekrar dene.'}
 function aTeacher(){
   if(!isT()){toast('Yetkin yok.');return}
-  panel('<p><b>🎓 Hoca paneli</b></p><div class="lst"><button class="rw" id="t1"><span>👥</span>Sınıf özeti</button><button class="rw" id="t2"><span>🧩</span>Zorlanılan kelimeler</button><button class="rw" id="t3"><span>📚</span>Sınıf kelimelerim</button><button class="rw" id="t4"><span>📋</span>Toplu kelime ekle</button></div>'+btn('ob','Geri'));
+  panel('<p><b>🎓 Öğretmen paneli</b></p><div class="lst"><button class="rw" id="t1"><span>👥</span>Sınıf özeti</button><button class="rw" id="t2"><span>🧩</span>Zorlanılan kelimeler</button><button class="rw" id="t3"><span>📚</span>Sınıf kelimelerim</button><button class="rw" id="t4"><span>📋</span>Toplu kelime ekle</button></div>'+btn('ob','Geri'));
   $('t1').onclick=aTClass;$('t2').onclick=aTHard;$('t3').onclick=()=>aTWords();$('t4').onclick=aTBulk;$('ob').onclick=()=>aProfile();
 }
 async function aTClass(){
@@ -105,7 +105,7 @@ function aTBulk(){
 {const _a=aAdUser;aAdUser=function(id,q){
   _a.apply(this,arguments);
   const x=AU[id],a=$('u3');if(!x||!a||$('u8'))return;
-  a.insertAdjacentHTML('afterend',btn('u8',x.t?'Hoca yetkisini al':'Hoca yap'));
-  $('u8').onclick=()=>cfAsk(x.u+(x.t?' için hoca yetkisi alınsın mı?':' hoca yapılsın mı? Sınıf öğrencilerinin ilerlemesini görür ve kendi kelimelerini ekler.'),'Evet','Vazgeç',async()=>{const r=await sb.rpc('admin_teacher',{_id:id,_on:!x.t});toast(r.error||r.data!=='ok'?'Yapılamadı':'Tamam');aAdUsers(q||'')});
+  a.insertAdjacentHTML('afterend',btn('u8',x.t?'Öğretmen yetkisini al':'Öğretmen yap'));
+  $('u8').onclick=()=>cfAsk(x.u+(x.t?' için öğretmen yetkisi alınsın mı?':' öğretmen yapılsın mı? Sınıf öğrencilerinin ilerlemesini görür ve kendi kelimelerini ekler.'),'Evet','Vazgeç',async()=>{const r=await sb.rpc('admin_teacher',{_id:id,_on:!x.t});toast(r.error||r.data!=='ok'?'Yapılamadı':'Tamam');aAdUsers(q||'')});
 }}
-Object.assign(EN,{'Hoca paneli':'Teacher panel','Sınıf özeti':'Class overview','Zorlanılan kelimeler':'Hard words','Sınıf kelimelerim':'My class words','Toplu kelime ekle':'Bulk add words','Sınıf':'Class','Hocanın kelimeleri':"Teacher's words",'Hoca yap':'Make teacher','Hoca yetkisini al':'Remove teacher role','+ Yeni kelime':'+ New word','Kelimeyi düzenle':'Edit word','Yeni kelime':'New word','İngilizce tanım':'English definition','Türkçesi (isteğe bağlı)':'Turkish (optional)','Kaydet':'Save','Öğrenci':'Students','Son 24 saatte aktif':'Active in last 24h','Bu hafta çözülen':'Solved this week','Sınıf özeti, zor kelimeler, kendi kelimelerin':'Class overview, hard words, your own words'});
+Object.assign(EN,{'Öğretmen paneli':'Teacher panel','Sınıf özeti':'Class overview','Zorlanılan kelimeler':'Hard words','Sınıf kelimelerim':'My class words','Toplu kelime ekle':'Bulk add words','Sınıf':'Class','Öğretmenin kelimeleri':"Teacher's words",'Öğretmen yap':'Make teacher','Öğretmen yetkisini al':'Remove teacher role','+ Yeni kelime':'+ New word','Kelimeyi düzenle':'Edit word','Yeni kelime':'New word','İngilizce tanım':'English definition','Türkçesi (isteğe bağlı)':'Turkish (optional)','Kaydet':'Save','Öğrenci':'Students','Son 24 saatte aktif':'Active in last 24h','Bu hafta çözülen':'Solved this week','Sınıf özeti, zor kelimeler, kendi kelimelerin':'Class overview, hard words, your own words'});
