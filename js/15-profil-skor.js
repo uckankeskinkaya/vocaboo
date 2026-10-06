@@ -71,7 +71,7 @@ async function aBoard(tab,col){
   d.forEach((x,i)=>{x.r=i&&x.v===d[i-1].v?d[i-1].r:i+1});
   const me=prof&&d.find(x=>x.u===prof.username),medal=['🥇','🥈','🥉'];
   const sg=(id,t,on)=>'<button id="'+id+'"'+(on?' class="on"':'')+'>'+t+'</button>';
-  const row=x=>'<div class="lbr'+(x.r<=3?' t'+x.r:'')+(x===me?' me':'')+'"><span class="lbn">'+(x.r<=3?medal[x.r-1]:x.r)+'</span><span class="lba">'+frameWrap(av(x.a,x.r<=3?48:44),x.f)+'</span><span class="lbu"><b>'+esc(x.u||'?')+(x===me?' (sen)':'')+'</b><small>Seviye '+lvlOf(x.xp||0)+'</small></span><span class="lbv">'+x.v+'</span></div>';
+  const row=x=>'<div class="lbr'+(x.r<=3?' t'+x.r:'')+(x===me?' me':'')+'" data-pu="'+esc(x.u||'')+'" style="cursor:pointer"><span class="lbn">'+(x.r<=3?medal[x.r-1]:x.r)+'</span><span class="lba">'+frameWrap(av(x.a,x.r<=3?48:44),x.f)+'</span><span class="lbu"><b>'+esc(x.u||'?')+(x===me?' (sen)':'')+'</b><small>Seviye '+lvlOf(x.xp||0)+'</small></span><span class="lbv">'+x.v+'</span></div>';
   panel('<div class="seg sm">'+sg('t1','Tüm zamanlar',tab==='all')+sg('t2','Haftalık',tab==='week')+sg('t3','Geçen hafta',tab==='last')+sg('t4','Arkadaşlar',tab==='fr')+'</div>'
     +(tab==='all'?'<div class="seg sm">'+sg('c1','Seri rekoru',col==='best_score')+sg('c2','Günlük seri',col!=='best_score')+'</div>':'<p class="cap">'+(tab==='fr'?'Senin ve arkadaşlarının Seri rekoru.':tab==='last'?'Geçen haftanın sıralaması.':'Bu haftanın Seri Modu puanı. Pazartesi sıfırlanır.')+'</p>')
     +(me?'<div class="lbme"><span>Sıran</span><b>'+me.r+'</b><span>/ '+d.length+'</span></div>':'')

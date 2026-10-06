@@ -94,7 +94,7 @@ async function aAdPush(){
   const r=await sb.rpc('admin_push_count');
   if(r.error||!r.data){panel('<p>'+(typeof adErr==='function'?adErr(r):'Yapılamadı')+'</p>'+btn('ob','Geri'));$('ob').onclick=aAdmin;return}
   const d=r.data;
-  panel('<p><b>📣 Toplu bildirim</b></p><p class="cap">Bildirimleri açmış herkese gider: <b>'+(+d.kisi||0)+'</b> kişi, '+(+d.cihaz||0)+' cihaz.'+(d.son?' Son gönderim: '+esc(new Date(d.son).toLocaleString('tr-TR')):'')+'</p>'
+  panel('<p><b>📣 Toplu bildirim</b></p><p class="ntx">Bildirimleri açmış herkese gider: <b>'+(+d.kisi||0)+'</b> kişi, '+(+d.cihaz||0)+' cihaz.'+(d.son?' Son gönderim: '+esc(new Date(d.son).toLocaleString('tr-TR')):'')+'</p>'
     +'<p>Başlık</p><input id="bpt" maxlength="60" value="Vocaboo" style="'+SEL+'">'
     +'<p>Mesaj</p><textarea id="bpb" rows="3" maxlength="200" style="'+SEL+';width:100%;font-family:inherit"></textarea>'
     +'<p>Hazır mesajlar</p>'+BHZ.map((x,i)=>'<button class="lvl" data-bh="'+i+'" style="display:block;text-align:left"><b>'+esc(x[0])+'</b><br><small>'+esc(x[1])+'</small></button>').join('')

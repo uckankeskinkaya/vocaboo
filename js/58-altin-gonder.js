@@ -15,7 +15,7 @@ function aAdGold(){
     +(hedef==='liste'?'<p>Kullanıcı adları (virgül ya da alt alta)</p><textarea id="gl" rows="4" style="'+SEL+';width:100%;font-family:inherit" autocapitalize="none"></textarea>':'')
     +'<p>Kişi başı miktar</p><input id="gn" type="number" inputmode="numeric" min="1" max="1000000" placeholder="Miktar (1 - 1.000.000)" style="'+SEL+'">'
     +'<div style="display:flex;gap:6px;margin:8px 0">'+[100,500,1000,5000].map(v=>'<button class="lvl" data-gm="'+v+'" style="margin:0;justify-content:center">'+nf(v)+'</button>').join('')+'</div>'
-    +'<p class="cap">Seçilen gruba, kişi başı bu kadar 🪙 eklenir. Pazar bakiyesine gider, geri alınamaz. Engelli hesaplar hariç.</p><p id="ge" style="color:var(--r)"></p>'+btn('gs','Önizle ve gönder')+btn('ob','Geri'));
+    +'<p class="ntx">Seçilen gruba, kişi başı bu kadar 🪙 eklenir. Pazar bakiyesine gider, geri alınamaz. Engelli hesaplar hariç.</p><p id="ge" style="color:var(--r)"></p>'+btn('gs','Önizle ve gönder')+btn('ob','Geri'));
   $('ob').onclick=aAdmin;
   const n=$('gn');n.value=tut;n.oninput=()=>{tut=n.value};
   const l=$('gl');if(l){l.value=lst;l.oninput=()=>{lst=l.value}}
