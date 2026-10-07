@@ -55,9 +55,9 @@ function saveBest(){
   return b;
 }
 $('passbtn').onclick=async()=>{
-  if(over||mode!=='streak'||run.passes<1||busy)return;
+  if(over||mode!=='streak'||run.passes<1||busy||guesses.length)return;
   busy=true;const r=await sb.rpc('run_pass');busy=false;
-  if(r.error){toast('Bağlantı hatası');return}
+  if(r.error){toast(/tahmin yapildi/.test(r.error.message||'')?'Tahmin yaptıktan sonra pas geçilemez.':'Bağlantı hatası');return}
   Object.assign(run,{lives:r.data.lives,streak:r.data.streak,passes:r.data.passes,score:r.data.score});
   SR=r.data;next();
 };
@@ -97,7 +97,7 @@ function full(){return locked().map((x,i)=>x||cur[i]||'').join('')}
 function draw(){
   const n=word.length,rows=tries,gw=$('gridwrap');
   $('hintbtn').hidden=!(guesses.length>=3&&!over&&!hintUsed);
-  const pb=$('passbtn');pb.hidden=!(mode==='streak'&&run.passes>0&&!over);pb.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.6v12.8a1 1 0 0 0 1.55.83l9.1-6.4a1 1 0 0 0 0-1.66l-9.1-6.4A1 1 0 0 0 5 5.6z"/><rect x="17" y="5" width="2.6" height="14" rx="1.2"/></svg><span>Pas</span><b>'+(+run.passes||0)+'</b>';pb.setAttribute('aria-label','Pas, '+(+run.passes||0)+' hakkın var');
+  const pb=$('passbtn');pb.hidden=!(mode==='streak'&&run.passes>0&&!over&&!guesses.length);pb.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.6v12.8a1 1 0 0 0 1.55.83l9.1-6.4a1 1 0 0 0 0-1.66l-9.1-6.4A1 1 0 0 0 5 5.6z"/><rect x="17" y="5" width="2.6" height="14" rx="1.2"/></svg><span>Pas</span><b>'+(+run.passes||0)+'</b>';pb.setAttribute('aria-label','Pas, '+(+run.passes||0)+' hakkın var');
   const kr=['QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
   $('kb').innerHTML=kr.map((r,ri)=>'<div class="kr">'+(ri===2?'<button class="k w" data-k="DEL">Sil</button>':'')+[...r].map(ch=>'<button class="k '+(ks[ch]||'')+'" data-k="'+ch+'"'+(ks[ch]==='r'?' disabled':'')+'>'+ch+'</button>').join('')+(ri===2?'<button class="k w" data-k="ENTER">Gönder</button>':'')+'</div>').join('');
   $('kb').hidden=over;

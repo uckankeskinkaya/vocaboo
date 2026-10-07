@@ -10,7 +10,7 @@ const EN={
 'Günlük konuşma kelimeleri':'Everyday words','Biraz daha zor':'A bit harder','Akıcı kullanım':'Fluent usage','İleri kelimeler':'Advanced words','Ana menü':'Main menu','Seviyeler':'Levels','Çık':'Exit','Geri':'Back',
 'Sil':'Del','Gönder':'Submit','Pas':'Skip','Boş kutuları doldur.':'Fill in the empty boxes.','Doğru!':'Correct!','Haklar bitti. Cevap:':'Out of tries. Answer:','Paylaş':'Share','Kelimeler':'Words',
 'Sonraki kelime':'Next word','Yeniden oyna':'Play again','Sonuçlar':'Results','Kapat':'Close','Devam et':'Keep going','Vazgeç':'Cancel','Tamam':'OK','Evet':'Yes','İptal':'Cancel',
-'Seri bitti.':'Streak over.','Pas hakkı kazandın!':'You earned a skip!','Bağlantı hatası':'Connection error','Bağlantı hatası, tekrar dene.':'Connection error, try again.','Yükleniyor...':'Loading...','Bekle...':'Please wait...',
+'Seri bitti.':'Streak over.','Pas hakkı kazandın!':'You earned a skip!','Bağlantı hatası':'Connection error','Tahmin yaptıktan sonra pas geçilemez.':'You can\'t skip after guessing.','Bağlantı hatası, tekrar dene.':'Connection error, try again.','Yükleniyor...':'Loading...','Bekle...':'Please wait...',
 'Seri modu için giriş yap':'Log in for Streak mode','Online için giriş yap':'Log in for Online','Günlük için giriş yap':'Log in for Daily','Arkadaşlar için giriş yap':'Log in for Friends',
 'Kullanıcı adı (3-16 karakter: a-z, 0-9, _)':'Username (3-16 chars: a-z, 0-9, _)','Şifre (en az 8 karakter)':'Password (min 8 characters)',
 'Sınıf kodu (sınıftansan gir, dışarıdansan boş bırak)':'Class code (enter if you are in a class, otherwise leave blank)','Giriş yap':'Log in','Kayıt ol':'Sign up',
