@@ -54,8 +54,12 @@ function mgHtml(){
     +svg('yr','0 0 400 20',yirtik(3),'none')
     +svg('fa fa1','0 0 200 200',firca(204,8,70,128,17,11)+firca(196,44,120,112,9,5)+damla(52,148,6,2),'xMaxYMin meet')
     +svg('fa fa2','0 0 200 200',firca(-4,192,132,84,19,23)+firca(6,150,60,104,8,9)+damla(168,40,5,4),'xMinYMax meet')
-    +svg('fa fa3','0 0 120 120',damla(60,60,9,31),'xMidYMid meet');
+    +svg('fa fa3','0 0 120 120',damla(60,60,9,31),'xMidYMid meet')
+    +[[40,'6.5s','-1s'],[55,'8s','-4.5s'],[70,'7s','-2.5s']].map(d=>svg('dr','0 0 10 60','<rect x="4.2" y="0" width="1.6" height="42" fill="'+INK+'"/><circle cx="5" cy="46" r="3.6" fill="'+INK+'"/>','xMidYMin meet','left:'+d[0]+'%;--t:'+d[1]+';--d:'+d[2])).join('')
+    +[['bm bm1','BAM!','-12deg','0s'],['bm bm2','ZAP!','10deg','-4s'],['bm bm3','WHAM','-6deg','-8s']].map(b=>svg(b[0],'0 0 100 100',patlama()+'<text x="50" y="58" text-anchor="middle" font-family="Impact,\'Arial Black\',sans-serif" font-weight="900" font-size="'+(b[1].length>4?17:21)+'" fill="'+INK+'" transform="rotate(-6 50 50)">'+b[1]+'</text>','xMidYMid meet','--r:'+b[2]+';--d:'+b[3])).join('');
 }
+// Patlama balonu: sivri kenarlı beyaz yıldız, siyah çerçeveli
+function patlama(){let p='';for(let i=0;i<20;i++){const a=i/20*6.283,r=i%2?33:48;p+=f(50+Math.cos(a)*r)+','+f(50+Math.sin(a)*r)+' '}return '<polygon points="'+p+'" fill="#fff" stroke="'+INK+'" stroke-width="3.2" stroke-linejoin="round"/>'}
 const mgCss=X=>`${X}{background:${KAGIT}}
 ${X} .ht{width:72vmin;height:72vmin}
 ${X} .ht1{right:0;top:0;background:radial-gradient(${INK} 1.2px,transparent 1.6px) 0 0/7px 7px;-webkit-mask:radial-gradient(circle at 100% 0,#000,transparent 68%);mask:radial-gradient(circle at 100% 0,#000,transparent 68%);opacity:.5}
@@ -64,11 +68,19 @@ ${X} .slw{left:-30%;top:-30%;width:160%;height:160%;-webkit-mask:linear-gradient
 ${X} svg.sl{position:absolute;inset:0;width:100%;height:100%;will-change:transform;animation:mg-j .7s steps(1) infinite}
 ${X} svg.yr{position:absolute;left:0;top:0;width:100%;height:2.4vh}
 ${X} svg.fa{position:absolute;height:auto;aspect-ratio:1}
+${X} svg.fa1,${X} svg.fa2{will-change:transform,opacity;animation:mg-fa 10s ease-out var(--d,0s) infinite}
+${X} svg.fa1{--tx:14%;--ty:-10%}${X} svg.fa2{--tx:-14%;--ty:10%;--d:-3.5s}
+${X} svg.dr{position:absolute;top:1.6%;width:3vmin;height:auto;aspect-ratio:10/60;transform-origin:50% 0;opacity:0;will-change:transform,opacity;animation:mg-dr var(--t) ease-in var(--d) infinite}
+${X} svg.bm{position:absolute;width:24vmin;height:24vmin;opacity:0;will-change:transform,opacity;animation:mg-bm 12s ease-out var(--d) infinite}
+${X} svg.bm1{left:3%;top:19%}${X} svg.bm2{right:3%;top:19%}${X} svg.bm3{left:37%;top:18%}
 ${X} svg.fa1{right:-6%;top:5%;width:62vmin}
 ${X} svg.fa2{left:-8%;bottom:4%;width:66vmin}
-${X} svg.fa3{right:8%;bottom:30%;width:22vmin;will-change:transform;animation:mg-d 5s ease-in-out infinite alternate}`;
+${X} svg.fa3{right:8%;bottom:30%;width:22vmin;animation:mg-d 5s ease-in-out infinite alternate}`;
 const mgKf=`@keyframes mg-j{0%,49%{transform:rotate(0)}50%,100%{transform:rotate(1.6deg) scale(1.01)}}
-@keyframes mg-d{from{transform:scale(.92)}to{transform:scale(1.08)}}`;
+@keyframes mg-d{from{transform:scale(.92)}to{transform:scale(1.08)}}
+@keyframes mg-fa{0%{opacity:0;transform:translate(var(--tx),var(--ty))}6%{opacity:1;transform:none}80%{opacity:1}92%,100%{opacity:0;transform:none}}
+@keyframes mg-dr{0%{transform:scaleY(.08);opacity:0}8%{opacity:1}55%{transform:scaleY(1);opacity:1}88%{transform:scaleY(1.06) translateY(7vh);opacity:0}100%{opacity:0}}
+@keyframes mg-bm{0%{opacity:0;transform:scale(.3) rotate(calc(var(--r)*2))}3%{opacity:1;transform:scale(1.2) rotate(var(--r))}6%{transform:scale(1) rotate(var(--r))}24%{opacity:1;transform:scale(1.04) rotate(var(--r))}28%,100%{opacity:0;transform:scale(1.15) rotate(var(--r))}}`;
 
 // ---------- Tema kaydı (js/62 ile aynı biçim) ----------
 SCN[KEY]={html:mgHtml,font:'https://fonts.googleapis.com/css2?family=Bangers&display=swap'};
@@ -109,8 +121,10 @@ function halka(){
   const d=P=>P.map((p,i)=>(i?'L':'M')+f(p[0])+' '+f(p[1])).join('')+'Z';
   let h='<path fill-rule="evenodd" d="'+d(O)+d(I)+'" fill="'+INK+'"/>';
   // kuru fırça: halka üstünde beyaz kesik yaylar
+  h+='<g class="fr-ms">';
   [[20,70,61],[110,170,58.5],[200,250,62],[280,330,59.5]].forEach((y,i)=>{const a0=y[0]*Math.PI/180,a1=y[1]*Math.PI/180,r=y[2];
     h+='<path d="M'+f(100+Math.cos(a0)*r)+' '+f(100+Math.sin(a0)*r)+'A'+r+' '+r+' 0 0 1 '+f(100+Math.cos(a1)*r)+' '+f(100+Math.sin(a1)*r)+'" fill="none" stroke="#fff" stroke-width="'+(1+i%2*.6)+'" stroke-dasharray="'+(6+i*2)+' '+(4+i)+'" opacity=".8"/>'});
+  h+='</g>';
   h+='<circle cx="100" cy="100" r="70.2" fill="none" stroke="#fff" stroke-width="1.3" opacity=".9"/><circle cx="100" cy="100" r="51.5" fill="none" stroke="#fff" stroke-width="1.6"/>';
   // yarım ton noktaları: sol altta halkanın dışında küçülen noktalar
   for(let i=0;i<26;i++){const a=(100+i*4.6)*Math.PI/180,r=73+(i%2)*3.4;h+='<circle cx="'+f(100+Math.cos(a)*r)+'" cy="'+f(100+Math.sin(a)*r)+'" r="'+f(2.4-i*.07)+'" fill="'+INK+'"/>'}
@@ -123,7 +137,7 @@ function cizgiler(){
   return h;
 }
 const FRK={
-  [KEY]:()=>[halka(),'<g class="x"><g class="fr-mj">'+cizgiler()+'</g>'+damla(34,160,5,6)+damla(168,36,3.6,8)+'</g>']
+  [KEY]:()=>[halka(),'<g class="x"><g class="fr-mj">'+cizgiler()+'</g>'+damla(34,160,5,6)+damla(168,36,3.6,8)+'<g class="fr-md"><rect x="108" y="166" width="2.6" height="20" fill="'+INK+'"/><circle cx="109.3" cy="190" r="4.6" fill="'+INK+'"/></g><path class="fr-mp" d="M164 52l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#fff" stroke="'+INK+'" stroke-width="1.6" stroke-linejoin="round"/></g>']
 };
 if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
   FRM[KEY]=['Manga Fırçası',4,'svg',{shop:1},0,'•','out','',[INK,'#555','#aaa','#ffffff']];
@@ -133,6 +147,6 @@ if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
     const m=/(?:width="|width:)(\d+)/.exec(h),z=m?+m[1]:40,sv=FRK[k]();
     return '<span class="rk rk-'+k+(z<40?' sm':'')+'" style="--s:'+z+'px">'+h+'<svg class="rk-b" viewBox="0 0 200 200" aria-hidden="true">'+sv[0]+'</svg><svg class="rk-f" viewBox="0 0 200 200" aria-hidden="true">'+sv[1]+'</svg></span>';
   };
-  document.head.insertAdjacentHTML('beforeend','<style id="cerceve-manga">.rk .fr-mj{transform-box:view-box;transform-origin:100px 100px;animation:fr-mj .6s steps(1) infinite}\n.rk-manga .rk-b{filter:drop-shadow(1.5px 1.5px 0 rgba(0,0,0,.25))}\n@keyframes fr-mj{0%,49%{transform:rotate(0)}50%,100%{transform:rotate(3.5deg)}}</style>');
+  document.head.insertAdjacentHTML('beforeend','<style id="cerceve-manga">.rk .fr-mj{transform-box:view-box;transform-origin:100px 100px;animation:fr-mj .6s steps(1) infinite}\n.rk-manga .rk-b{filter:drop-shadow(1.5px 1.5px 0 rgba(0,0,0,.25))}\n.rk .fr-ms{transform-box:view-box;transform-origin:100px 100px;animation:fr-ms 9s linear infinite}\n.rk .fr-md{transform-box:fill-box;transform-origin:50% 0;opacity:0;animation:fr-md 4.6s ease-in infinite}\n.rk .fr-mp{transform-box:fill-box;transform-origin:center;animation:fr-mp 2.8s ease-in-out infinite}\n@keyframes fr-ms{to{transform:rotate(360deg)}}\n@keyframes fr-md{0%{transform:scaleY(.1);opacity:0}10%{opacity:1}60%{transform:scaleY(1);opacity:1}90%{transform:scaleY(1.05) translateY(14px);opacity:0}100%{opacity:0}}\n@keyframes fr-mp{0%,100%{transform:scale(.55) rotate(0);opacity:.3}50%{transform:scale(1) rotate(45deg);opacity:1}}\n@keyframes fr-mj{0%,49%{transform:rotate(0)}50%,100%{transform:rotate(3.5deg)}}</style>');
 }
 })();
