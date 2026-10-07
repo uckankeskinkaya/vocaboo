@@ -1,4 +1,4 @@
-// v44 (taslak, onay bekliyor): Manga teması (siyah-beyaz, fırça/mürekkep) ve eşleşen "Manga Fırçası" çerçevesi.
+// v44: Manga teması (siyah-beyaz, fırça/mürekkep) ve eşleşen "Manga Fırçası" çerçevesi.
 // Tema: kağıt zemin, kalın siyah panel çizgileri ve sert gölge, yarım ton (screentone) noktaları, hız çizgileri (kare kare titreyen),
 // elle çizilmiş fırça darbeleri ve mürekkep damlaları. Harf durumları renksiz: doğru = siyah, yeri yanlış = noktalı ton, yok = çizgili gri.
 // Performans: animasyonlar yalnızca transform (iki durumlu adım), sahne başına birkaç öğe; hafif modda durur.
@@ -56,7 +56,7 @@ function mgHtml(){
     +svg('fa fa2','0 0 200 200',firca(-4,192,132,84,19,23)+firca(6,150,60,104,8,9)+damla(168,40,5,4),'xMinYMax meet')
     +svg('fa fa3','0 0 120 120',damla(60,60,9,31),'xMidYMid meet')
     +[[40,'6.5s','-1s'],[55,'8s','-4.5s'],[70,'7s','-2.5s']].map(d=>svg('dr','0 0 10 60','<rect x="4.2" y="0" width="1.6" height="42" fill="'+INK+'"/><circle cx="5" cy="46" r="3.6" fill="'+INK+'"/>','xMidYMin meet','left:'+d[0]+'%;--t:'+d[1]+';--d:'+d[2])).join('')
-    +[['bm bm1','BOOM!','-12deg','0s'],['bm bm2','ZAP!','10deg','-4s'],['bm bm3','WHAM','-6deg','-8s']].map(b=>svg(b[0],'0 0 100 100',patlama()+'<text x="50" y="58" text-anchor="middle" font-family="Impact,\'Arial Black\',sans-serif" font-weight="900" font-size="'+(b[1].length>4?17:21)+'" fill="'+INK+'" transform="rotate(-6 50 50)">'+b[1]+'</text>','xMidYMid meet','--r:'+b[2]+';--d:'+b[3])).join('');
+    +[['bm bm1','BOOM!','-12deg','0s'],['bm bm2','BOOM!','10deg','-4s'],['bm bm3','BOOM!','-6deg','-8s']].map(b=>svg(b[0],'0 0 100 100',patlama()+'<text x="50" y="58" text-anchor="middle" font-family="Impact,\'Arial Black\',sans-serif" font-weight="900" font-size="'+(b[1].length>4?17:21)+'" fill="'+INK+'" transform="rotate(-6 50 50)">'+b[1]+'</text>','xMidYMid meet','--r:'+b[2]+';--d:'+b[3])).join('');
 }
 // Patlama balonu: sivri kenarlı beyaz yıldız, siyah çerçeveli
 function patlama(){let p='';for(let i=0;i<20;i++){const a=i/20*6.283,r=i%2?33:48;p+=f(50+Math.cos(a)*r)+','+f(50+Math.sin(a)*r)+' '}return '<polygon points="'+p+'" fill="#fff" stroke="'+INK+'" stroke-width="3.2" stroke-linejoin="round"/>'}
