@@ -48,15 +48,21 @@ function hiz(n,seed){
 }
 
 // ---------- Sahne ----------
-function mgHtml(){
+function mgHtml(v){
   return '<u class="ht ht1"></u><u class="ht ht2"></u>'
-    +'<u class="slw">'+svg('sl','0 0 100 100',hiz(64,7),'none')+'</u>'
+    +'<u class="slw'+(v==='o'?' yo':'')+'">'+svg('sl','0 0 100 100',hiz(64,7),'none')+'</u>'
     +svg('yr','0 0 400 20',yirtik(3),'none')
     +svg('fa fa1','0 0 200 200',firca(204,8,70,128,17,11)+firca(196,44,120,112,9,5)+damla(52,148,6,2),'xMaxYMin meet')
     +svg('fa fa2','0 0 200 200',firca(-4,192,132,84,19,23)+firca(6,150,60,104,8,9)+damla(168,40,5,4),'xMinYMax meet')
     +svg('fa fa3','0 0 120 120',damla(60,60,9,31),'xMidYMid meet')
     +[[40,'6.5s','-1s'],[55,'8s','-4.5s'],[70,'7s','-2.5s']].map(d=>svg('dr','0 0 10 60','<rect x="4.2" y="0" width="1.6" height="42" fill="'+INK+'"/><circle cx="5" cy="46" r="3.6" fill="'+INK+'"/>','xMidYMin meet','left:'+d[0]+'%;--t:'+d[1]+';--d:'+d[2])).join('')
-    +[['bm bm1','BOOM!','-12deg','0s'],['bm bm2','BOOM!','10deg','-4s'],['bm bm3','BOOM!','-6deg','-8s']].map(b=>svg(b[0],'0 0 100 100',patlama()+'<text x="50" y="58" text-anchor="middle" font-family="Impact,\'Arial Black\',sans-serif" font-weight="900" font-size="'+(b[1].length>4?17:21)+'" fill="'+INK+'" transform="rotate(-6 50 50)">'+b[1]+'</text>','xMidYMid meet','--r:'+b[2]+';--d:'+b[3])).join('');
+    +[['bm bm1','BOOM!','-12deg','0s'],['bm bm2','BOOM!','10deg','-4s'],['bm bm3','BOOM!','-6deg','-8s']].map(b=>svg(b[0],'0 0 100 100',patlama()+'<text x="50" y="58" text-anchor="middle" font-family="Impact,\'Arial Black\',sans-serif" font-weight="900" font-size="'+(b[1].length>4?17:21)+'" fill="'+INK+'" transform="rotate(-6 50 50)">'+b[1]+'</text>','xMidYMid meet','--r:'+b[2]+';--d:'+b[3])).join('')
+    +(v==='o'
+      // oyun ekranı: yoğun odak çizgileri (CSS .yo), köşelerde koyu yarım ton, ekranı kesen beyaz-siyah kılıç çizgisi
+      ?'<u class="ht ht3"></u><u class="ht ht4"></u>'+svg('ks','0 0 100 8','<path d="M0 6L100 1.4" stroke="#fff" stroke-width="3.2"/><path d="M0 6L100 1.4" stroke="'+INK+'" stroke-width="1.1"/>','none')
+      // ana ekran: sağ üstte titreyen "DO DO DO" ses efekti, sayfa kenarında çerçeve çizgileri
+      :svg('sf','0 0 120 60','<text x="60" y="26" text-anchor="middle" font-family="Impact,\'Arial Black\',sans-serif" font-weight="900" font-size="26" fill="#fff" stroke="'+INK+'" stroke-width="5" paint-order="stroke" letter-spacing="2" transform="rotate(-5 60 30)">DO DO</text><text x="64" y="52" text-anchor="middle" font-family="Impact,\'Arial Black\',sans-serif" font-weight="900" font-size="26" fill="#fff" stroke="'+INK+'" stroke-width="5" paint-order="stroke" letter-spacing="2" transform="rotate(-5 60 30)">DO DO</text>','xMidYMid meet')
+        +svg('pg','0 0 100 100','<path d="M100 0V100H0" fill="none" stroke="'+INK+'" stroke-width="2.2"/><path d="M96.2 0V96.2H0" fill="none" stroke="'+INK+'" stroke-width=".7"/>','none'));
 }
 // Patlama balonu: sivri kenarlı beyaz yıldız, siyah çerçeveli
 function patlama(){let p='';for(let i=0;i<20;i++){const a=i/20*6.283,r=i%2?33:48;p+=f(50+Math.cos(a)*r)+','+f(50+Math.sin(a)*r)+' '}return '<polygon points="'+p+'" fill="#fff" stroke="'+INK+'" stroke-width="3.2" stroke-linejoin="round"/>'}
@@ -66,6 +72,12 @@ ${X} .ht1{right:0;top:0;background:radial-gradient(${INK} 1.2px,transparent 1.6p
 ${X} .ht2{left:0;bottom:0;background:radial-gradient(${INK} 1.9px,transparent 2.4px) 0 0/10px 10px;-webkit-mask:radial-gradient(circle at 0 100%,#000,transparent 66%);mask:radial-gradient(circle at 0 100%,#000,transparent 66%);opacity:.55}
 ${X} .slw{left:-30%;top:-30%;width:160%;height:160%;-webkit-mask:linear-gradient(transparent 22%,#000 48%);mask:linear-gradient(transparent 22%,#000 48%);opacity:.34}
 ${X} svg.sl{position:absolute;inset:0;width:100%;height:100%;will-change:transform;animation:mg-j .7s steps(1) infinite}
+${X} .slw.yo{opacity:.55;-webkit-mask:linear-gradient(transparent 14%,#000 36%);mask:linear-gradient(transparent 14%,#000 36%)}
+${X} .ht3{right:0;bottom:0;background:radial-gradient(${INK} 1.7px,transparent 2.1px) 0 0/9px 9px;-webkit-mask:radial-gradient(circle at 100% 100%,#000,transparent 62%);mask:radial-gradient(circle at 100% 100%,#000,transparent 62%);opacity:.55}
+${X} .ht4{left:0;top:0;background:radial-gradient(${INK} 1.4px,transparent 1.8px) 0 0/8px 8px;-webkit-mask:radial-gradient(circle at 0 0,#000,transparent 60%);mask:radial-gradient(circle at 0 0,#000,transparent 60%);opacity:.4}
+${X} svg.ks{position:absolute;left:0;top:43%;width:100%;height:8vmin;opacity:0;will-change:transform,opacity;animation:mg-ks 7s ease-in 1.5s infinite}
+${X} svg.sf{position:absolute;right:3%;top:5.2%;width:30vmin;height:auto;aspect-ratio:2/1;will-change:transform;animation:mg-sf .5s steps(1) infinite}
+${X} svg.pg{position:absolute;inset:0;width:100%;height:100%;opacity:.8}
 ${X} svg.yr{position:absolute;left:0;top:0;width:100%;height:2.4vh}
 ${X} svg.fa{position:absolute;height:auto;aspect-ratio:1}
 ${X} svg.fa1,${X} svg.fa2{will-change:transform,opacity;animation:mg-fa 10s ease-out var(--d,0s) infinite}
@@ -77,13 +89,15 @@ ${X} svg.fa1{right:-6%;top:5%;width:62vmin}
 ${X} svg.fa2{left:-8%;bottom:4%;width:66vmin}
 ${X} svg.fa3{right:8%;bottom:30%;width:22vmin;animation:mg-d 5s ease-in-out infinite alternate}`;
 const mgKf=`@keyframes mg-j{0%,49%{transform:rotate(0)}50%,100%{transform:rotate(1.6deg) scale(1.01)}}
+@keyframes mg-ks{0%,92%{opacity:0;transform:translateX(-60%)}93%{opacity:1;transform:translateX(-30%)}97%{opacity:1;transform:translateX(30%)}100%{opacity:0;transform:translateX(60%)}}
+@keyframes mg-sf{0%,49%{transform:translate(0,0) rotate(-1deg)}50%,100%{transform:translate(1.5px,-1.5px) rotate(1deg)}}
 @keyframes mg-d{from{transform:scale(.92)}to{transform:scale(1.08)}}
 @keyframes mg-fa{0%{opacity:0;transform:translate(var(--tx),var(--ty))}6%{opacity:1;transform:none}80%{opacity:1}92%,100%{opacity:0;transform:none}}
 @keyframes mg-dr{0%{transform:scaleY(.08);opacity:0}8%{opacity:1}55%{transform:scaleY(1);opacity:1}88%{transform:scaleY(1.06) translateY(7vh);opacity:0}100%{opacity:0}}
 @keyframes mg-bm{0%{opacity:0;transform:scale(.3) rotate(calc(var(--r)*2))}3%{opacity:1;transform:scale(1.2) rotate(var(--r))}6%{transform:scale(1) rotate(var(--r))}24%{opacity:1;transform:scale(1.04) rotate(var(--r))}28%,100%{opacity:0;transform:scale(1.15) rotate(var(--r))}}`;
 
 // ---------- Tema kaydı (js/62 ile aynı biçim) ----------
-SCN[KEY]={html:mgHtml,font:'https://fonts.googleapis.com/css2?family=Bangers&display=swap'};
+SCN[KEY]={html:()=>mgHtml('m'),font:'https://fonts.googleapis.com/css2?family=Bangers&display=swap'};
 TM[KEY]=['Manga',0,KAGIT,'255,255,255',INK,'#555','#111','#ffffff','rgba(17,17,17,.55)','rgba(120,120,120,.45)','rgba(255,255,255,.7)',0,1];
 if(typeof PREMT!=='undefined'&&!PREMT.includes(KEY))PREMT.push(KEY);
 const T=':root[data-theme="'+KEY+'"]',S='#sahne[data-s="'+KEY+'"]';
@@ -106,7 +120,7 @@ ${T} .k.w{background:${INK};color:#fff;border:2px solid ${INK};box-shadow:2px 2p
 document.head.insertAdjacentHTML('beforeend','<style id="sahne-manga">'+css+'</style>');
 try{const t=localStorage.getItem('ka_theme');if(t===KEY&&typeof sahneKur==='function'){document.documentElement.dataset.theme=t;sahneKur(t)}}catch(e){}
 Object.assign(EN,{'Manga':'Manga','Manga Fırçası':'Manga Brush'});
-if(window.OSEKLE)OSEKLE(KEY,{html:mgHtml,css:mgCss('§O')+'\n'+mgKf});
+if(window.OSEKLE)OSEKLE(KEY,{html:()=>mgHtml('o'),css:mgCss('§O')+'\n'+mgKf});
 if(window.TEMAEK)TEMAEK(KEY,{t:'txt',m:'out',n:6,c:[INK,'#555'],s:[14,24],g:['✦','✸','!','?']},{f:"'Bangers',cursive",
   e:'background:#fff;border:2.5px solid '+INK+';border-radius:5px;box-shadow:3px 3px 0 '+INK,
   fl:'box-shadow:3px 3px 0 '+INK+',0 0 0 3px #fff,0 0 0 5px '+INK,
