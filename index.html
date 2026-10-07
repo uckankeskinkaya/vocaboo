@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm/@supabase/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://bzijkiljqlruwupqwtcm.supabase.co wss://bzijkiljqlruwupqwtcm.supabase.co; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vocaboo</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#293c77">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vocaboo">
+<script>try{if(top!==self)top.location=self.location}catch(e){document.documentElement.style.display="none"}try{var t=localStorage.getItem("ka_theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/app.css?v=efc30011">
+</head>
+<body>
+<div id="app">
+  <header><div class="brand"><span id="mark" class="mark"><i style="background:var(--g)"></i><i style="background:var(--g)"></i><i style="background:var(--o)"></i><i style="background:var(--r)"></i><i style="background:var(--g)"></i><i style="background:var(--g)"></i></span><img id="logo" alt="" hidden><h1>vocaboo</h1></div><span id="hr"><button id="fbtn" aria-label="Arkadaşlar">👥<i id="fb" hidden></i></button><span id="score">0 puan</span></span></header>
+  <div id="home" hidden>
+    <div class="greet"><h2 id="hi">Hoş geldin</h2><p>Bugün hangi kelimeyi avlıyoruz?</p></div>
+    <div class="rules"><span style="--c:var(--g)">Yeri doğru</span><span style="--c:var(--o)">Yeri yanlış</span><span style="--c:var(--r)">Kelimede yok</span></div>
+    <button class="cd feat" id="mDaily"><span class="tag">Günün kelimesi</span><b>Herkes aynı kelimeyi çözüyor</b><small>Sadece 3 hak. Her gün yeni bir kelime.</small><span class="go">Oyna</span></button>
+    <div class="grid">
+      <button class="cd" id="mStreak"><span class="ic">⚡</span><b>Seri Modu</b><small>3 can, giderek zorlaşan kelimeler</small></button>
+      <button class="cd" id="mPractice"><span class="ic">📚</span><b>Alıştırma</b><small>Seviyeni seç, rahat çalış</small></button>
+      <button class="cd" id="mOnline"><span class="ic">🌐</span><b>Online</b><small>1v1 ya da grup, oda koduyla</small></button>
+      <button class="cd" id="mLb"><span class="ic">🏆</span><b>Skor tablosu</b><small>Haftalık ve tüm zamanlar</small></button>
+    </div>
+    <div class="dock">
+      <button class="cd" id="mProf"><span class="avs" id="hav"></span><span><b id="profT">Profil</b><br><small id="profS">Giriş yap veya kayıt ol</small></span></button>
+      <button class="cd" id="mSet"><span class="ic" style="margin:0">⚙️</span></button>
+    </div>
+  </div>
+  <div id="online" hidden></div>
+  <div id="menu" hidden>
+    <p>Tanımı oku, İngilizce kelimeyi bul. Yeşil: yeri doğru. Turuncu: harf var ama yeri yanlış. Kırmızı: harf kelimede yok ve klavyeden elenir. 3. denemeden sonra ? butonuyla örnek cümle ipucu alabilirsin, ama 20 puan düşer.</p>
+    <div id="lvls"></div>
+    <button class="lvl" id="toHome" style="justify-content:center">Ana menü</button>
+  </div>
+  <div id="game" hidden>
+    <div id="top"><button id="back">Seviyeler</button><span id="badge"></span></div>
+    <div id="live" hidden></div>
+    <div id="defrow"><div id="def"></div><button id="hintbtn" hidden aria-label="İpucu al, 20 puan düşer">?</button><button id="passbtn" hidden>Pas</button></div>
+    <div id="hinttxt" hidden></div>
+    <div id="gridwrap"></div>
+    <div id="res"></div>
+    <div id="kb"></div>
+  </div>
+</div>
+<script src="js/01-oyun-cekirdegi.js?v=63337339"></script>
+<script src="js/02-online-hesap-ana.js?v=62644f24"></script>
+<script src="js/03-muzik-ses.js?v=aa0acf43"></script>
+<script src="js/04-sunucu-kelime.js?v=a8a239ab"></script>
+<script src="js/05-arkadaslar.js?v=74dfe023"></script>
+<script src="js/06-eslestirme-davet.js?v=53c00653"></script>
+<script src="js/07-kelime-defteri.js?v=fa279b00"></script>
+<script src="js/08-avatar.js?v=2c8f9a0f"></script>
+<script src="js/09-moderator.js?v=07ce5b11"></script>
+<script src="js/10-yonetici.js?v=d569793a"></script>
+<script src="js/11-dil.js?v=c4a34c50"></script>
+<script src="js/12-arena.js?v=252acc09"></script>
+<script src="js/13-tema-istatistik.js?v=90277293"></script>
+<script src="js/14-performans.js?v=44ce4f17"></script>
+<script src="js/15-profil-skor.js?v=f4b2040d"></script>
+<script src="js/16-seviye-unvan.js?v=4604325c"></script>
+<script src="js/17-cerceveler.js?v=5dd3f82f"></script>
+<script src="js/18-kullanici-adi-seviye.js?v=19ba73b3"></script>
+<script src="js/19-sunucu-oda.js?v=386957c6"></script>
+<script src="js/20-cerceve-vitrin.js?v=6bc77581"></script>
+<script src="js/21-pazar-bakiye.js?v=bceb892a"></script>
+<script src="js/22-cerceve-bayrak.js?v=5f2b4ffa"></script>
+<script src="js/23-pazar-tema.js?v=09a26eed"></script>
+<script src="js/24-sifre-sifirlama.js?v=92d4d414"></script>
+<script src="js/25-ceviri-ek.js?v=abaf82a7"></script>
+<script src="js/26-oda-oyunculari.js?v=e647d044"></script>
+<script src="js/27-sahne-temalari.js?v=113615e1"></script>
+<script src="js/29-gece-sehri.js?v=bcf12970"></script>
+<script src="js/30-rutbe-cerceveleri.js?v=7078062f"></script>
+<script src="js/31-gunluk-bonus.js?v=6977a1b0"></script>
+<script src="js/32-online-arayuz.js?v=6adb9e01"></script>
+<script src="js/33-dokunus.js?v=b16c50e3"></script>
+<script src="js/34-ozel-efektler.js?v=1830890c"></script>
+<script src="js/35-oyun-sahneleri.js?v=fe69fd36"></script>
+<script src="js/35b-oyun-sahneleri-2.js?v=12eed53c"></script>
+<script src="js/35c-yeni-temalar.js?v=5518e41a"></script>
+<script src="js/36-yardim-tekrar.js?v=c35c82b6"></script>
+<script src="js/37-oda-baglantisi.js?v=b3fed1e1"></script>
+<script src="js/38-guclu-renkler.js?v=dad7a78f"></script>
+<script src="js/39-onizleme-mac.js?v=b7afd314"></script>
+<script src="js/40-giris-siniri.js?v=3acba82e"></script>
+<script src="js/42-gorevler.js?v=9d1b1c69"></script>
+<script src="js/43-istatistik.js?v=99e7c1d0"></script>
+<script src="js/44-tepkiler.js?v=594df92a"></script>
+<script src="js/45-kelime-paketi.js?v=0f9874f7"></script>
+<script src="js/46-cevrimdisi.js?v=7e30363d"></script>
+<script src="js/47-bildirim.js?v=42a5bf76"></script>
+<script src="js/48-izleme.js?v=f20e2c9e"></script>
+<script src="js/49-profil-menu.js?v=5b9e3496"></script>
+<script src="js/50-ogretmen.js?v=eb50087c"></script>
+<script src="js/51-odev.js?v=27a3d537"></script>
+<script src="js/52-ceviri-son.js?v=e5f60211"></script>
+<script src="js/53-bakim.js?v=ce5f6583"></script>
+<script src="js/54-sinif-duzeltmeleri.js?v=ae903edb"></script>
+<script src="js/55-tema-onizleme.js?v=3b4b6779"></script>
+<script src="js/56-sayfa-kaydirma.js?v=e78c27e8"></script>
+<script src="js/57-hata-bildir.js?v=fc04c80d"></script>
+<script src="js/58-altin-gonder.js?v=7f07de36"></script>
+<script src="js/59-profil-gor.js?v=7412e4c2"></script>
+<script src="js/60-performans-uyum.js?v=c341f6d6"></script>
+<script src="js/61-market-iade.js?v=472b61b1"></script>
+<script src="js/62-yeni-temalar-4.js?v=811535c0"></script>
+<script src="js/63-online-tani.js?v=dfa89e03"></script>
+<script src="js/64-manga-tema.js?v=e428cb4f"></script>
+</body>
+</html>
