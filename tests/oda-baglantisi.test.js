@@ -20,7 +20,7 @@ const { sayfaAc } = require('./yardimci');
     // 3) Pazar: alabilirsin işareti
     sb.rpc = async n => n === 'shop_list' ? { data: { bal: 100000, owned: [], items: [{ id: 'theme:kod', price: 100000, owned: false }, { id: 'theme:cyber', price: 150000, owned: false }] }, error: null } : { data: null };
     aShop('t'); await wait(80);
-    const m = document.getElementById('online').innerText; r.alabilir = /100[.,]000 ✓/.test(m); r.alamaz = !/150[.,]000 ✓/.test(m); r.aciklama = /Alabilirsin/.test(m);
+    const hap = re => [...document.querySelectorAll('#online .ypr')].find(e => re.test(e.textContent)); r.alabilir = !!hap(/100[.,]000/) && hap(/100[.,]000/).classList.contains('ok'); r.alamaz = !!hap(/150[.,]000/) && !hap(/150[.,]000/).classList.contains('ok'); r.aciklama = !/✓/.test(document.getElementById('online').innerText);
     return r;
   });
   assert.strictEqual(o.adres, '', 'adresteki ?oda temizlenmeli'); assert.ok(o.bilgilendirme.some(t => /giriş yap/.test(t)), 'giriş yoksa uyarı');
