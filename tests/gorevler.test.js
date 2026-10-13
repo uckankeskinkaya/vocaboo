@@ -23,7 +23,7 @@ const { sayfaAc } = require('./yardimci');
     r.cagri = cagri;
     return r;
   });
-  assert.match(o.kart, /Günlük görevler/); assert.match(o.kart, /1\/3/); assert.ok(o.rozet, 'alınabilir ödül işareti yok');
+  assert.match(o.kart, /Görevler/); assert.match(o.kart, /1\/3/); assert.ok(o.rozet, 'alınabilir ödül işareti yok');
   assert.match(o.g, /5 kelime çöz/); assert.match(o.g, /1 kelimeyi ilk denemede bil/); assert.match(o.g, /Ödülü al/); assert.match(o.g, /Üç görevi de bitirince/);
   assert.match(o.sonra, /Alındı/);
   assert.match(o.b, /Isınma/); assert.match(o.b, /İlk arkadaş/); assert.ok(o.profil);
