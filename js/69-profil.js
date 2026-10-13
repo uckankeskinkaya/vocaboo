@@ -41,6 +41,21 @@ document.head.insertAdjacentHTML('beforeend',`<style id="profil-yeni">
 /* Rozetler */
 #online>.bdr{border-radius:18px!important;cursor:pointer;margin-bottom:10px!important}
 #online>.bdr::after{content:'›';margin-left:6px;color:var(--dim);font-size:20px}
+.bdr{transition:border-radius .2s}
+#online>.bdr::after{transition:transform .2s;display:inline-block}
+#online>.bdr.acik{border-bottom-left-radius:6px!important;border-bottom-right-radius:6px!important;margin-bottom:4px!important}
+#online>.bdr.acik::after{transform:rotate(90deg)}
+.yrz{margin:0 0 10px;padding:10px;border:1px solid var(--line);border-radius:6px 6px 18px 18px;background:color-mix(in srgb,var(--panel) 80%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);animation:yrz .22s ease-out;max-height:46vh;overflow-y:auto}
+@keyframes yrz{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.yrzg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.yrzi{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;text-align:center;background:color-mix(in srgb,var(--fg) 4%,transparent)}
+.yrzi span{font-size:24px;line-height:1.1;filter:grayscale(1);opacity:.45}
+.yrzi.on span{filter:none;opacity:1}
+.yrzi b{font-size:11px;line-height:1.2}
+.yrzi small{font-size:10px;color:var(--dim)}
+.yrzi.on small{color:var(--ac);font-weight:700}
+.yrzi u{display:block;width:80%;height:3px;border-radius:3px;margin:2px 0;background:color-mix(in srgb,var(--dim) 25%,transparent);text-decoration:none;overflow:hidden}
+.yrzi u i{display:block;height:100%;background:var(--ac)}
 /* Kısa yollar */
 .ypk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:10px}
 .ypk button{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:9px;row-gap:1px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel) 70%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:var(--sh);text-align:left;color:var(--fg)}
@@ -64,8 +79,17 @@ function duzenle(){
     const i=document.createElement('span');i.className='yi';i.innerHTML=k;t.prepend(i);
   });
   // Rozetler: dokununca tüm rozetler
-  const bd=o.querySelector(':scope>.bdr');
-  if(bd&&typeof PMD!=='undefined'&&PMD&&PMD.bb)bd.onclick=()=>PMD.bb.click();
+  const bd=o.querySelector(':scope>.bdr'),ph=o.querySelector(':scope>.pf-h');
+  if(bd&&ph){
+    ph.after(bd);
+    const P=prof||{},L=(typeof BD!=='undefined'?BD:[]).slice().sort((x,y)=>y[2](P)-x[2](P));
+    const BIx=typeof BI!=='undefined'?BI:{};
+    const m=document.createElement('div');m.className='yrz';m.hidden=true;
+    m.innerHTML='<div class="yrzg">'+L.map(b=>{const on=!!b[2](P),i=BIx[b[0]]||['',null,0],cur=i[1]?Math.min(i[1](P)||0,i[2]):0;
+      return '<div class="yrzi'+(on?' on':'')+'"><span>'+b[1]+'</span><b>'+esc(b[0])+'</b>'+(on?'<small>Kazanıldı</small>':(i[1]?'<u><i style="width:'+Math.round(cur/i[2]*100)+'%"></i></u><small>'+cur+' / '+i[2]+'</small>':'<small>'+esc(i[0]||'Kilitli')+'</small>'))+'</div>'}).join('')+'</div>';
+    bd.after(m);bd.setAttribute('role','button');bd.setAttribute('aria-expanded','false');
+    bd.onclick=()=>{m.hidden=!m.hidden;bd.classList.toggle('acik',!m.hidden);bd.setAttribute('aria-expanded',String(!m.hidden))};
+  }
   // Kısa yollar
   const m=$('pmb');if(!m||o.querySelector('.ypk'))return;
   const var_=KISA.filter(k=>typeof PMD!=='undefined'&&PMD&&PMD[k[0]]);
@@ -86,5 +110,5 @@ function duzenle(){
 const _p=aProfile;
 aProfile=function(){const r=_p.apply(this,arguments);try{duzenle()}catch(e){}return r};
 Object.assign(EN,{'Görevler':'Quests','Günlük ödüller':'Daily rewards','Başarılar':'Achievements','Kazandıkların':'Earned','İstatistikler':'Statistics','Detaylı oyun':'Detailed stats',
-  'Kelime defteri':'Word book','Kaydettiklerin':'Saved words','Ayarlar':'Settings','Avatar, şifre…':'Avatar, password…','Ayarlar ve hesap':'Settings & account','Avatar, şifre, oturum…':'Avatar, password, session…'});
+  'Kelime defteri':'Word book','Kaydettiklerin':'Saved words','Ayarlar':'Settings','Avatar, şifre…':'Avatar, password…','Kazanıldı':'Earned','Ayarlar ve hesap':'Settings & account','Avatar, şifre, oturum…':'Avatar, password, session…'});
 })();

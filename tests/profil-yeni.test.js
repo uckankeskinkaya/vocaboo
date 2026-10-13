@@ -16,7 +16,7 @@ const { sayfaAc } = require('./yardimci');
     r.tanimsiz = /undefined/.test(el.innerText);
     const tikla = async id => { el = ac(); el.querySelector('.ypk [data-yk="' + id + '"]').click(); await w(80); return el.innerText.slice(0, 200).replace(/\s+/g, ' '); };
     r.gorev = await tikla('qab'); r.defter = await tikla('nb');
-    el = ac(); el.querySelector('.bdr').click(); await w(80); r.rozet = el.innerText.slice(0, 120).replace(/\s+/g, ' ');
+    el = ac(); r.rozetUstte = el.querySelector('.pf-h').nextElementSibling.classList.contains('bdr'); el.querySelector('.bdr').click(); await w(80); const z = el.querySelector('.yrz'); r.rozet = !!z && !z.hidden && z.querySelectorAll('.yrzi').length; el.querySelector('.bdr').click(); r.kapandi = z.hidden;
     el = ac(); el.querySelector('.ypk [data-ya]').click(); await w(80); r.menu = !!document.getElementById('pmn');
     return r;
   });
@@ -24,7 +24,7 @@ const { sayfaAc } = require('./yardimci');
   assert.strictEqual(o.ikon, 6); assert.strictEqual(o.tanimsiz, false, 'profilde "undefined" görünmemeli');
   
   assert.notStrictEqual(o.defter, o.gorev, 'Kelime defteri farklı ekran açmalı');
-  assert.match(o.rozet, /Rozet|Badge/i, 'rozet şeridi rozetleri açmalı: ' + o.rozet);
+  assert.ok(o.rozetUstte, 'rozetler profil kartının altında'); assert.ok(o.rozet > 5, 'rozet menüsü açılmalı'); assert.ok(o.kapandi, 'tekrar dokununca kapanmalı');
   assert.ok(o.menu, 'Ayarlar ve hesap menüsü açılmalı');
   assert.deepStrictEqual(s.hatalar, []);
   console.log('ok yeni profil: kısa yollar, rozet şeridi ve menü çalışıyor, istatistik ikonları');
