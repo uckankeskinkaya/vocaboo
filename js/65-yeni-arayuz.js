@@ -67,7 +67,10 @@ document.head.insertAdjacentHTML('beforeend',`<style id="yeni-arayuz">
 #mStreak .yr{margin-top:auto;width:100%}
 #mStreak .yr b{display:block;font-size:20px!important;font-weight:800;letter-spacing:-.4px;line-height:1}
 #mStreak .yr small{display:block!important;margin-top:1px}
-#mStreak .yr svg{display:block;width:100%;height:20px;margin-top:5px;fill:none;stroke:var(--ac);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#mStreak .yr svg{display:block;width:100%;height:40px;margin-top:5px;fill:none;stroke:var(--ac);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* Ana ekran kartları yarı saydam + bulanık: tema arka planı görünür ama yazılarla karışmaz */
+#home>#gbonus,#home>#mQuest,#home>#mst,#home .grid .cd{background:color-mix(in srgb,var(--panel) 62%,transparent)!important;-webkit-backdrop-filter:blur(12px) saturate(1.2)!important;backdrop-filter:blur(12px) saturate(1.2)!important}
+:root[data-perf=low] #home>#gbonus,:root[data-perf=low] #home>#mQuest,:root[data-perf=low] #home>#mst,:root[data-perf=low] #home .grid .cd{background:color-mix(in srgb,var(--panel) 85%,transparent)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 /* Skor tablosu: sınıfın ilk 3'ü, profil fotoğraflarıyla */
 #home #mLb{grid-column:1/-1;display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:9px;row-gap:6px;padding:11px 12px!important}
 #home #mLb>small{display:none}
@@ -82,6 +85,8 @@ document.head.insertAdjacentHTML('beforeend',`<style id="yeni-arayuz">
 #mLb .yt .yu{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #mLb .yt strong{font-variant-numeric:tabular-nums;color:var(--dim);font-weight:800;font-size:12.5px}
 }
+/* Açılış animasyonu bitince bırakılır (kalıcı opacity/transform arka plan bulanıklığını engelliyordu) */
+#home{animation-fill-mode:backwards!important}
 /* Alt menü: buzlu cam, aktif sekme hapı */
 #nav{-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}
 #nav button{border-radius:16px}
@@ -104,7 +109,7 @@ function kahraman(){
 function seriKutusu(){
   const e=$('mStreak');if(!e)return;
   let r=e.querySelector('.yr');
-  if(!r){e.insertAdjacentHTML('beforeend','<span class="yr"><b></b><small>Seri rekoru</small><svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path d="M2 26 L18 20 L32 23 L48 13 L62 16 L78 7 L98 3"/></svg></span>');r=e.querySelector('.yr')}
+  if(!r){e.insertAdjacentHTML('beforeend','<span class="yr"><b></b><small>Seri rekoru</small><svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><path d="M2 29 L30 27.5 L44 28.5 L60 21 L72 22.5 L87 7 L98 1"/></svg></span>');r=e.querySelector('.yr')}
   r.querySelector('b').textContent=String((prof&&+prof.best_score)||0);
 }
 function xpCubugu(){
@@ -141,6 +146,8 @@ async function ilk3(){
 function kisaYazi(){
   const b=$('gbonus')&&$('gbonus').querySelector('b');if(b&&b.textContent==='Günün ilk oyun bonusu')b.textContent='Günlük bonus';
   const q=$('mQuest')&&$('mQuest').querySelector('b');if(q&&q.textContent==='Günlük görevler')q.textContent='Görevler';
+  const pr=$('mPractice')&&$('mPractice').querySelector('small');if(pr&&pr.textContent!=='Seviye seç')pr.textContent='Seviye seç';
+  const on=$('mOnline')&&$('mOnline').querySelector('small');if(on&&on.textContent!=='1v1 ya da grup')on.textContent='1v1 ya da grup';
   const qs=$('qS');if(qs&&/^Bugünkü 3 görevi tamamla/.test(qs.textContent))qs.textContent='3 görev, ödüller';
 }
 function guncelle(){try{kisaYazi();ikonla();kahraman();seriKutusu();xpCubugu();ilk3()}catch(e){}}
@@ -149,5 +156,5 @@ const _rh=rHome;rHome=function(){const r=_rh.apply(this,arguments);guncelle();re
 new MutationObserver(()=>{if(!$('home').hidden)guncelle()}).observe($('home'),{childList:true,subtree:false,attributes:true,attributeFilter:['hidden']});
 guncelle();
 RX.push([/^Sonraki seviye: (\d+)$/,'Next level: $1']);
-Object.assign(EN,{'Seri rekoru':'Best streak','Maks.':'Max','Tümü ›':'All ›','Günlük bonus':'Daily bonus','Görevler':'Quests','3 görev, ödüller':'3 quests, rewards','Sonraki seviye: ':'Next level: ','En yüksek seviye':'Max level'});
+Object.assign(EN,{'Seri rekoru':'Best streak','Maks.':'Max','Tümü ›':'All ›','Günlük bonus':'Daily bonus','Görevler':'Quests','Seviye seç':'Pick a level','1v1 ya da grup':'1v1 or group','3 görev, ödüller':'3 quests, rewards','Sonraki seviye: ':'Next level: ','En yüksek seviye':'Max level'});
 })();
