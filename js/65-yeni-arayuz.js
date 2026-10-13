@@ -14,7 +14,7 @@ const IK={
   qi:SV('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>')
 };
 document.head.insertAdjacentHTML('beforeend',`<style id="yeni-arayuz">
-@media (max-width:899px){
+@media all{
 #home:not([hidden]){display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-content:start}
 #home>*{grid-column:1/-1;min-width:0;order:9}
 #home>.greet{order:0}#home>#mDaily{order:1}#home>#gbonus{order:2;grid-column:1}#home>#mQuest{order:3;grid-column:2}#home>#mst{order:4}#home>.grid{order:5}
