@@ -47,7 +47,7 @@ const { sayfaAc } = require('./yardimci');
     oBegin({ c: { max: 2, m: 'c', n: 15, dur: 0, l: -1, mod: 0 }, seed: 1 });
     await wait(6800);
     const live = document.getElementById('live');
-    r.vs = { yazi: live.innerText.replace(/\s+/g, ' '), cerceve: live.querySelectorAll('.mv.r .fq').length, rozet: document.getElementById('badge').textContent };
+    r.vs = { yazi: live.innerText.replace(/\s+/g, ' '), cerceve: live.querySelectorAll('.yo.r .fq').length, rozet: document.getElementById('badge').textContent };
     // 6) rekabetçi modda kopyalama engelli
     await wait(500);
     r.nocp = document.body.classList.contains('nocp');
@@ -61,7 +61,7 @@ const { sayfaAc } = require('./yardimci');
   assert.ok(o.sinifVar, 'sınıf üyesi Sınıf seviyesini görmeli');
   assert.ok(o.toasts.includes('Öğretmen henüz sınıf kelimesi eklemedi.'), 'boş sınıf seviyesi uyarısı: ' + o.toasts.join('|'));
   assert.ok(o.pfVar, 'fotoğraf seçici (#pf) sayfada kalmalı'); assert.strictEqual(o.pfTik, 1, '"Profil fotoğrafı yükle" seçiciyi açmalı');
-  assert.match(o.vs.yazi, /uzunkullaniciad1/); assert.match(o.vs.yazi, /240 puan/, 'rakibin puanı sunucudan gelmeli: ' + o.vs.yazi);
+  assert.match(o.vs.yazi, /uzunkullaniciad1/); assert.match(o.vs.yazi, /\b240\b/, 'rakibin puanı sunucudan gelmeli: ' + o.vs.yazi);
   assert.strictEqual(o.vs.cerceve, 1, 'rakibin çerçevesi görünmeli'); assert.strictEqual(o.vs.rozet, 'Kelime 1/15');
   assert.ok(o.nocp && o.kopyaEngel, 'maçta kopyalama engellenmeli'); assert.ok(o.kopyaSerbest, 'maç dışında kopyalama serbest');
   assert.deepStrictEqual(s.hatalar, []);
