@@ -23,6 +23,16 @@ document.head.insertAdjacentHTML('beforeend',`<style id="oyun-ekrani">
 #passbtn b{background:var(--ac)!important;color:var(--acf)!important;min-width:20px!important;height:20px!important;font-size:11.5px!important}
 #passbtn:active{background:color-mix(in srgb,var(--ac) 10%,var(--panel))!important}
 #hintbtn{border:1px solid var(--line)!important;background:var(--panel)!important;color:var(--ac)!important;box-shadow:var(--sh);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font-size:20px!important}
+/* Pas: yalnız simge + kalan hak rozeti */
+#passbtn{position:relative;padding:0 12px!important;justify-content:center;min-width:56px}
+#passbtn>span:not(.yp){display:none!important}
+#passbtn .yp{width:34px;height:34px;border-radius:11px}
+#passbtn .yp svg{width:18px!important;height:18px!important}
+#passbtn b{position:absolute;top:-6px;right:-6px;box-shadow:0 0 0 2px var(--bg)}
+/* Sil ve Gönder: simge */
+.k.w svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+/* Boş harf kutuları yarı saydam: tema arka planı görünür (yazılı, renkli ve imleçteki kutular tam opak) */
+#gridwrap .tile:not(.g):not(.o):not(.r):not(.f):not(.cu){opacity:.55}
 :root[data-perf=low] #passbtn,:root[data-perf=low] #hintbtn{-webkit-backdrop-filter:none;backdrop-filter:none}
 </style>`);
 // Seri rozeti: yazıyı simgelere çevir (yazı başka yerden değişse de yeniden çizilir)
@@ -45,5 +55,15 @@ function pasCiz(){
   const w=document.createElement('span');w.className='yp';w.innerHTML=PAS;s.replaceWith(w);
 }
 new MutationObserver(pasCiz).observe(P,{childList:true});
+// Sil / Gönder tuşları: yazı yerine simge (klavye her çizildiğinde)
+const SIL='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h10.5A1.5 1.5 0 0121 6.5v11a1.5 1.5 0 01-1.5 1.5H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>';
+const GON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5v6.5a3.5 3.5 0 01-3.5 3.5H5"/><path d="M9.5 10.5L5 15l4.5 4.5"/></svg>';
+function tuslar(){
+  const kb=$('kb');if(!kb)return;
+  kb.querySelectorAll('.k.w[data-k]').forEach(b=>{if(b.querySelector('svg'))return;const sil=b.dataset.k==='DEL';
+    b.setAttribute('aria-label',sil?'Sil':'Gönder');b.title=sil?'Sil':'Gönder';b.innerHTML=sil?SIL:GON});
+}
+new MutationObserver(tuslar).observe($('kb'),{childList:true,subtree:true});
+tuslar();
 pasCiz();rozet();
 })();
