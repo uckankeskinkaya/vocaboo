@@ -62,7 +62,7 @@ const _al=window.alert;window.alert=m=>_al(LG()==='en'?trs(String(m)):m);
 
 // Alt menü
 const IC={m:'<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 016 0"/>',p:'<path d="M8 5v14l11-7z"/>',r:'<path d="M6 20V10M12 20V4M18 20v-7"/>',f:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M17 11a3 3 0 100-6M21 20c0-2-1.5-3.5-3-4"/>',u:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',s:'<path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="16" cy="8" r="2"/><circle cx="8" cy="16" r="2"/>'};
-const NV=[['p','Oyna',()=>oExit()],['r','Sıralama',()=>aBoard()],['f','Arkadaşlar',()=>aFriends('f')],['m','Pazar',()=>aShop()],['u','Profil',()=>prof?aProfile():aAuth()],['s','Ayarlar',()=>aSettings()]];
+const NV=[['p','Oyna',()=>oExit()],['f','Arkadaşlar',()=>aFriends('f')],['m','Pazar',()=>aShop()],['u','Profil',()=>prof?aProfile():aAuth()],['s','Ayarlar',()=>aSettings()]];
 document.body.insertAdjacentHTML('beforeend','<nav id="nav">'+NV.map(x=>'<button><svg viewBox="0 0 24 24">'+IC[x[0]]+'</svg><span>'+x[1]+'</span></button>').join('')+'</nav>');
 function setTab(i){document.querySelectorAll('#nav button').forEach((b,j)=>b.classList.toggle('on',j===i))}
 document.querySelectorAll('#nav button').forEach((b,i)=>b.onclick=()=>{
@@ -71,7 +71,7 @@ document.querySelectorAll('#nav button').forEach((b,i)=>b.onclick=()=>{
   if(i>0)NV[i][2]();
   setTab(i);
 });
-$('fb')&&document.querySelectorAll('#nav button')[2].appendChild($('fb'));
+$('fb')&&document.querySelectorAll('#nav button')[NV.findIndex(x=>x[0]==='f')].appendChild($('fb'));
 const _oe=oExit;oExit=function(m){_oe(m);setTab(0)};
 const _as=aSettings;
 aSettings=function(){
