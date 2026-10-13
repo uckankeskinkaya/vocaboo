@@ -32,12 +32,18 @@ document.head.insertAdjacentHTML('beforeend',`<style id="profil-yeni">
 #online>.pf-h>small:last-of-type{grid-column:2}
 #online>.pf-h>small+small{grid-column:1/-1;text-align:center;margin-top:6px!important;padding-top:8px!important;border-top:1px solid var(--line)}
 /* İstatistikler */
-#online>.sg3{gap:8px!important;margin-bottom:10px!important}
-#online>.sg3 .st{display:grid!important;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:8px;row-gap:4px;align-items:center;text-align:left!important;padding:9px 10px!important;border-radius:16px!important;background:color-mix(in srgb,var(--panel) 70%,transparent)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-#online>.sg3 .st .yi{grid-row:1;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:color-mix(in srgb,var(--ac) 13%,transparent);color:var(--ac)}
-#online>.sg3 .st .yi svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-#online>.sg3 .st b{font-size:15px!important;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#online>.sg3 .st span:not(.yi){grid-column:1/-1;font-size:10.5px!important;line-height:1.2}
+#online .sg3{gap:8px!important;margin-bottom:10px!important}
+#online .sg3 .st{display:grid!important;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:8px;row-gap:4px;align-items:center;text-align:left!important;padding:9px 10px!important;border-radius:16px!important;background:color-mix(in srgb,var(--panel) 70%,transparent)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+#online .sg3 .st .yi{grid-row:1;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:color-mix(in srgb,var(--ac) 13%,transparent);color:var(--ac)}
+#online .sg3 .st .yi svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#online .sg3 .st b{font-size:15px!important;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#online .sg3 .st span:not(.yi){grid-column:1/-1;font-size:10.5px!important;line-height:1.2}
+/* İstatistikler profil kartının içinde */
+#online>.pf-h>.sg3.ykt{grid-column:1/-1;margin:10px 0 0!important;gap:6px!important}
+#online .sg3.ykt .st{background:color-mix(in srgb,var(--fg) 4%,transparent)!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:8px!important;border-radius:14px!important}
+#online .sg3.ykt .st .yi{width:24px;height:24px;border-radius:8px}
+#online .sg3.ykt .st .yi svg{width:14px;height:14px}
+#online .sg3.ykt .st b{font-size:14px!important}
 /* Rozetler */
 #online>.bdr{border-radius:18px!important;cursor:pointer;margin-bottom:10px!important}
 #online>.bdr::after{content:'›';margin-left:6px;color:var(--dim);font-size:20px}
@@ -67,7 +73,7 @@ document.head.insertAdjacentHTML('beforeend',`<style id="profil-yeni">
 .ypk button{position:relative}
 #online .pmb{border-radius:18px!important;padding:11px 12px!important;margin-top:0!important;margin-bottom:8px}
 #online .pmb>span.yi{font-size:0}
-:root[data-perf=low] #online>.sg3 .st,:root[data-perf=low] .ypk button{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--panel)}
+:root[data-perf=low] #online .sg3 .st,:root[data-perf=low] .ypk button{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--panel)}
 </style>`);
 function duzenle(){
   const o=$('online');if(!o||!o.querySelector(':scope>.pf-h'))return;
@@ -80,6 +86,7 @@ function duzenle(){
   });
   // Rozetler: dokununca tüm rozetler
   const bd=o.querySelector(':scope>.bdr'),ph=o.querySelector(':scope>.pf-h');
+  const sg=o.querySelector(':scope>.sg3');if(sg&&ph){sg.classList.add('ykt');ph.appendChild(sg)}
   if(bd&&ph){
     ph.after(bd);
     const P=prof||{},L=(typeof BD!=='undefined'?BD:[]).slice().sort((x,y)=>y[2](P)-x[2](P));
