@@ -15,15 +15,6 @@ function ayYildiz(x0,y0,G){
   return '<circle cx="'+f(x0+.5*G)+'" cy="'+f(y0+.5*G)+'" r="'+f(.25*G)+'" fill="'+BEYAZ+'"/><circle cx="'+f(x0+.5625*G)+'" cy="'+f(y0+.5*G)+'" r="'+f(.2*G)+'" fill="'+KIR+'"/>'
     +yildiz(x0+.9583*G,y0+.5*G,.125*G,-Math.PI/2);
 }
-// Flama dizisi: (x1,y1)-(x2,y2) arası sarkan ip, n adet kırmızı-beyaz üçgen; her biri ipten sallanır
-function flama(x1,y1,x2,y2,sark,n,w,h,cls){
-  const cx=(x1+x2)/2,cy=(y1+y2)/2+sark,P=t=>[(1-t)*(1-t)*x1+2*(1-t)*t*cx+t*t*x2,(1-t)*(1-t)*y1+2*(1-t)*t*cy+t*t*y2];
-  let o='<path d="M'+f(x1)+' '+f(y1)+'Q'+f(cx)+' '+f(cy)+' '+f(x2)+' '+f(y2)+'" fill="none" stroke="#fff" stroke-width="'+f(w*.09)+'" opacity=".85"/>';
-  for(let i=0;i<n;i++){const t=(i+.5)/n,[x,y]=P(t),k=i%2?BEYAZ:KIR;
-    o+='<g class="'+cls+'" style="animation-delay:-'+f(i*.23)+'s;transform-origin:'+f(x)+'px '+f(y)+'px"><path d="M'+f(x-w/2)+' '+f(y)+'L'+f(x+w/2)+' '+f(y)+'L'+f(x)+' '+f(y+h)+'Z" fill="'+k+'" stroke="'+(i%2?KIR:BEYAZ)+'" stroke-width="'+f(w*.06)+'" stroke-linejoin="round"/>'
-      +(i%2?'':'<g transform="translate('+f(x-w*.19)+' '+f(y+h*.12)+') scale('+f(w*.0042)+')">'+ayYildiz(0,0,100)+'</g>')+'</g>'}
-  return o;
-}
 function anitkabir(){
   let k='<path d="M0 100V78h400v22z" fill="#2a0207"/><path d="M60 78V70h280v8z" fill="#3a040b"/><path d="M90 70V62h220v8z" fill="#3a040b"/>';
   k+='<rect x="110" y="30" width="180" height="32" fill="#3a040b"/><rect x="104" y="24" width="192" height="8" fill="#4a0610"/>';
@@ -39,21 +30,19 @@ function fisek(i){
   return h+'<circle cx="50" cy="50" r="3" fill="'+c+'"/>';
 }
 function cmHtml(v){
-  return '<u class="foto"></u><u class="ck"></u>'
+  return '<u class="foto'+(v==='o'?' fs2':'')+'"></u><u class="ck"></u>'
     +many(26,i=>'<i style="left:'+f((i*37.3)%100)+'%;top:'+f((i*23.7)%55)+'%;--z:'+f(1+(i%3)*.7)+'px;--t:'+f(2+(i%5)*.6)+'s;--d:-'+f(i*.3)+'s"></i>')
     +[[12,14,'0s'],[70,8,'-1.6s'],[44,24,'-3.1s'],[86,30,'-4.4s'],[24,36,'-2.3s']].map((p,i)=>svg('fs','0 0 100 100',fisek(i),'xMidYMid meet','left:'+p[0]+'%;top:'+p[1]+'%;--d:'+p[2])).join('')
-    +(v==='o'?'':svg('fl','0 0 200 44',flama(4,4,196,4,14,8,16,22,'pn'),'xMidYMin meet'))
     +'<u class="tr"><b>29 EKİM</b><span>1923 · 103. YIL</span></u>'
     +(v==='o'?'<u class="soz"><b>“Ne mutlu Türküm diyene!”</b><span>Mustafa Kemal Atatürk</span></u>':'')
     +svg('ak','0 0 400 100',anitkabir(),'xMidYMax meet');
 }
 const cmCss=X=>`${X}{background:radial-gradient(120% 70% at 50% 0%,#b30f22 0%,#7a0716 45%,#3d030b 100%)}
-${X} .foto{inset:0;background:url(img/ataturk-at.jpg) 50% 100%/cover no-repeat;filter:grayscale(1) contrast(1.1);opacity:.42;mix-blend-mode:luminosity}
-${X} svg.fl{position:absolute;right:3%;top:calc(env(safe-area-inset-top,0px) + 88px);width:min(44vw,210px);height:auto;aspect-ratio:200/44;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
-${X} svg.fl .pn{animation:cm-pn 2.4s ease-in-out infinite alternate}
+${X} .foto{left:38%;right:-14%;top:-60px;height:calc(58vh + 60px);background:url(img/ataturk-at.jpg) 50% 0/cover no-repeat;opacity:.75;-webkit-mask:linear-gradient(90deg,transparent,#000 30%),linear-gradient(#000 50%,transparent 100%);-webkit-mask-composite:source-in;mask:linear-gradient(90deg,transparent,#000 30%) intersect,linear-gradient(#000 50%,transparent 100%)}
+${X} .foto.fs2{height:100%;background-image:url(img/ataturk-selam.jpg);background-position:50% 20%;filter:grayscale(1) contrast(1.05);opacity:.3;mix-blend-mode:luminosity;-webkit-mask:linear-gradient(#000 60%,transparent 100%);mask:linear-gradient(#000 60%,transparent 100%)}
 ${X} .ck{inset:0;background:radial-gradient(60vmin 40vmin at 80% 18%,rgba(255,80,90,.35),transparent 70%)}
 ${X} i{width:var(--z);height:var(--z);border-radius:50%;background:#fff;animation:sc-tw var(--t) ease-in-out var(--d) infinite}
-${X} .tr{right:5%;top:calc(env(safe-area-inset-top,0px) + 132px);display:flex;flex-direction:column;align-items:flex-end;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4);animation:cm-tr 3.4s ease-in-out infinite alternate}
+${X} .tr{right:5%;top:calc(env(safe-area-inset-top,0px) + 74px);display:flex;flex-direction:column;align-items:flex-end;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4);animation:cm-tr 3.4s ease-in-out infinite alternate}
 ${X} .tr b{font:900 clamp(22px,6vw,34px)/1 'Arial Black',system-ui,sans-serif;letter-spacing:.03em}
 ${X} .tr span{font:800 clamp(10px,2.6vw,13px)/1.2 system-ui,sans-serif;letter-spacing:.18em;opacity:.85;margin-top:3px}
 ${X} svg.fs{position:absolute;width:30vmin;height:30vmin;margin:-15vmin 0 0 -15vmin;opacity:0;will-change:transform,opacity;animation:cm-fs 5.5s ease-out var(--d) infinite}
@@ -80,9 +69,10 @@ ${T} .feat .go{background:#fff;color:${KIR}}
 ${T} #mDaily.feat{position:relative;overflow:hidden;isolation:isolate}
 ${T} #mDaily.feat::after{content:'';position:absolute;right:-5%;top:50%;width:min(36%,190px);aspect-ratio:1;transform:translateY(-50%) rotate(-8deg);z-index:-1;opacity:.28;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='38' cy='50' r='25' fill='%23fff'/%3E%3Ccircle cx='44.25' cy='50' r='20' fill='%23d30915'/%3E%3Cpolygon points='83.6,50 64.7,56.1 76.4,40.1 76.4,59.9 64.7,43.9' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
 ${T} #mDaily .tag::after{content:' · 29 Ekim 1923'}
-${T} #home .greet{padding-right:min(46vw,214px);min-height:118px}
+${T} #home .greet{padding-right:42%;min-height:118px}
+${S} .tr{display:none}
 ${T} #home .greet p{font-size:0!important}
-${T} #home .greet p::after{content:'“Ne mutlu Türküm diyene!” — Atatürk';font-size:13px;font-style:italic;font-weight:600;color:#ffe3e6}
+${T} #home .greet p::after{content:'“Ne mutlu Türküm diyene!”  — Atatürk · 29 Ekim 1923, 103. yıl';font-size:13px;font-style:italic;font-weight:600;color:#ffe3e6}
 ${T} :is(.cd,.pl,.sc,.bi,.lvl,#def,.cfb,.mstat,.tt){border-color:rgba(255,255,255,.22)}
 ${T} .k:not(.g):not(.o):not(.r):not(.w){background:rgba(255,255,255,.92);color:${KOYU};border-color:transparent;box-shadow:0 3px 0 rgba(0,0,0,.35);-webkit-backdrop-filter:none;backdrop-filter:none}
 ${T} .k.w{background:#fff;color:${KIR}}
@@ -118,7 +108,12 @@ function cerceve(id){
     +'<g class="x" mask="url(#'+id+'k)" opacity=".42"><g class="fr-ry">'+isin+'</g></g>'
     +'<circle cx="100" cy="100" r="53" fill="none" stroke="#fff" stroke-width="2.6"/>';
   // ön: yanlardan sarkan flamalar, parlayan yıldızlar, üstte yuvarlak bayrak madalyonu
-  const o='<g class="x">'+flama(84,30,8,112,10,5,13,19,'fr-pn')+flama(116,30,192,112,10,5,13,19,'fr-pn')
+  const kd=(sg)=>{const x=v=>100+sg*v;return '<g class="fr-kd" style="transform-origin:'+x(18)+'px 30px">'
+      +'<path d="M'+x(18)+' 30C'+x(62)+' 26 '+x(84)+' 58 '+x(78)+' 98C'+x(74)+' 128 '+x(90)+' 150 '+x(80)+' 176" fill="none" stroke="'+KIR+'" stroke-width="11" stroke-linecap="round"/>'
+      +'<path d="M'+x(18)+' 30C'+x(62)+' 26 '+x(84)+' 58 '+x(78)+' 98C'+x(74)+' 128 '+x(90)+' 150 '+x(80)+' 176" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="7 9" class="fr-ak"/>'
+      +'<path d="M'+x(80)+' 176l'+(sg*-9)+' 12l'+(sg*10)+' -4l'+(sg*6)+' 9l'+(sg*2)+' -17z" fill="'+KIR+'"/></g>'};
+  const kf=[[22,'#fff',0],[34,KIR,-.8],[166,'#fff',-1.6],[178,KIR,-2.4],[12,'#fff',-3.1],[188,KIR,-.4],[28,KIR,-2],[172,'#fff',-1.2]].map(c=>'<rect class="fr-kf" style="animation-delay:'+c[2]+'s" x="'+c[0]+'" y="-6" width="5" height="9" rx="1.2" fill="'+c[1]+'"/>').join('');
+  const o='<g class="x">'+kd(-1)+kd(1)+kf
       +[[30,150,0],[170,150,-1.2],[100,190,-.6]].map(t=>'<g class="fr-cy" style="animation-delay:'+t[2]+'s;transform-origin:'+t[0]+'px '+t[1]+'px">'+yildiz(t[0],t[1],5,0)+'</g>').join('')
       +'<circle class="fr-hl" cx="100" cy="30" r="27" fill="url(#'+id+'r)"/></g>'
     +'<g transform="translate(100 30)"><circle r="18.5" fill="'+KIR+'" stroke="#fff" stroke-width="3.2"/><g transform="translate(-15 -11.2) scale(.225)">'+ayYildiz(0,0,100)+'</g></g>';
@@ -136,7 +131,12 @@ if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
   document.head.insertAdjacentHTML('beforeend',`<style id="cerceve-cumhuriyet">
 .rk .fr-ry{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 22s linear infinite}
 .rk .fr-gl{transform-box:fill-box;transform-origin:center;animation:fr-gl 3s ease-in-out infinite alternate}
-.rk .fr-pn{animation:cm-pn 1.9s ease-in-out infinite alternate}
+.rk .fr-kd{animation:fr-kd 2.6s ease-in-out infinite alternate}
+.rk .fr-ak{animation:fr-ak 1.2s linear infinite}
+.rk .fr-kf{transform-box:fill-box;transform-origin:center;opacity:0;animation:fr-kf 3.2s linear infinite}
+@keyframes fr-kd{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@keyframes fr-ak{to{stroke-dashoffset:-32}}
+@keyframes fr-kf{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translate(6px,205px) rotate(540deg);opacity:0}}
 .rk .fr-cy{animation:fr-cy 2.4s ease-in-out infinite}
 .rk .fr-hl{transform-box:fill-box;transform-origin:center;animation:fr-hl 2.2s ease-in-out infinite}
 @keyframes fr-hl{0%,100%{transform:scale(.85);opacity:.35}50%{transform:scale(1.15);opacity:1}}
