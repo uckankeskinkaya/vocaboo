@@ -73,7 +73,7 @@ ${T} #mDaily .tag::after{content:' · 29 Ekim 1923'}
 ${T} #home .greet{padding-right:42%;min-height:118px}
 ${S} .tr{display:none}
 ${T} #home .greet p{font-size:0!important}
-${T} #home .greet p::after{content:'“Ne mutlu Türküm diyene!”  — Atatürk · 29 Ekim 1923, 103. yıl';font-size:13px;font-style:italic;font-weight:600;color:#ffe3e6}
+${T} #home .greet p::after{content:'“Egemenlik kayıtsız şartsız milletindir.” — Atatürk · 29 Ekim 1923, 103. yıl';font-size:13px;font-style:italic;font-weight:600;color:#ffe3e6}
 ${T} :is(.cd,.pl,.sc,.bi,.lvl,#def,.cfb,.mstat,.tt){border-color:rgba(255,255,255,.22)}
 ${T} .k:not(.g):not(.o):not(.r):not(.w){background:rgba(255,255,255,.92);color:${KOYU};border-color:transparent;box-shadow:0 3px 0 rgba(0,0,0,.35);-webkit-backdrop-filter:none;backdrop-filter:none}
 ${T} .k.w{background:#fff;color:${KIR}}
@@ -99,25 +99,16 @@ if(window.TEMAEK)TEMAEK(KEY,{t:'txt',m:'out',n:6,c:['#ffffff',KIR],s:[14,22],g:[
 
 // ---------- Çerçeve: Cumhuriyet (kırmızı-beyaz dönen halka, ay-yıldız, dalgalanan bayrak, parlayan yıldızlar) ----------
 function cerceve(id){
-  // arka: kırmızı parıltı + yavaş dönen kırmızı-beyaz ışın patlaması; avatarın çevresinde yalnız ince beyaz çizgi (halka yok)
-  let isin='';for(let i=0;i<24;i++){const a=i/24*6.283,w=.075;isin+='<path d="M100 100L'+f(100+Math.cos(a-w)*98)+' '+f(100+Math.sin(a-w)*98)+'L'+f(100+Math.cos(a+w)*98)+' '+f(100+Math.sin(a+w)*98)+'Z" fill="'+(i%2?'#fff':KIR)+'"/>'}
-  const b='<defs><radialGradient id="'+id+'g"><stop offset=".45" stop-color="'+KIR+'" stop-opacity=".95"/><stop offset=".75" stop-color="'+KIR+'" stop-opacity=".35"/><stop offset="1" stop-color="'+KIR+'" stop-opacity="0"/></radialGradient>'
-      +'<radialGradient id="'+id+'m"><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'
-      +'<mask id="'+id+'k"><circle cx="100" cy="100" r="98" fill="url(#'+id+'m)"/></mask>'
-      +'<radialGradient id="'+id+'r"><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset=".72" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>'
-    +'<circle class="fr-gl" cx="100" cy="100" r="92" fill="url(#'+id+'g)"/>'
-    +'<g class="x" mask="url(#'+id+'k)" opacity=".42"><g class="fr-ry">'+isin+'</g></g>'
-    +'<circle cx="100" cy="100" r="53" fill="none" stroke="#fff" stroke-width="2.6"/>';
-  // ön: yanlardan sarkan flamalar, parlayan yıldızlar, üstte yuvarlak bayrak madalyonu
-  const kd=(sg)=>{const x=v=>100+sg*v;return '<g class="fr-kd" style="transform-origin:'+x(18)+'px 30px">'
-      +'<path d="M'+x(18)+' 30C'+x(62)+' 26 '+x(84)+' 58 '+x(78)+' 98C'+x(74)+' 128 '+x(90)+' 150 '+x(80)+' 176" fill="none" stroke="'+KIR+'" stroke-width="11" stroke-linecap="round"/>'
-      +'<path d="M'+x(18)+' 30C'+x(62)+' 26 '+x(84)+' 58 '+x(78)+' 98C'+x(74)+' 128 '+x(90)+' 150 '+x(80)+' 176" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="7 9" class="fr-ak"/>'
-      +'<path d="M'+x(80)+' 176l'+(sg*-9)+' 12l'+(sg*10)+' -4l'+(sg*6)+' 9l'+(sg*2)+' -17z" fill="'+KIR+'"/></g>'};
-  const kf=[[22,'#fff',0],[34,KIR,-.8],[166,'#fff',-1.6],[178,KIR,-2.4],[12,'#fff',-3.1],[188,KIR,-.4],[28,KIR,-2],[172,'#fff',-1.2]].map(c=>'<rect class="fr-kf" style="animation-delay:'+c[2]+'s" x="'+c[0]+'" y="-6" width="5" height="9" rx="1.2" fill="'+c[1]+'"/>').join('');
-  const o='<g class="x">'+kd(-1)+kd(1)+kf
-      +[[30,150,0],[170,150,-1.2],[100,190,-.6]].map(t=>'<g class="fr-cy" style="animation-delay:'+t[2]+'s;transform-origin:'+t[0]+'px '+t[1]+'px">'+yildiz(t[0],t[1],5,0)+'</g>').join('')
-      +'<circle class="fr-hl" cx="100" cy="30" r="27" fill="url(#'+id+'r)"/></g>'
-    +'<g transform="translate(100 30)"><circle r="18.5" fill="'+KIR+'" stroke="#fff" stroke-width="3.2"/><g transform="translate(-15 -11.2) scale(.225)">'+ayYildiz(0,0,100)+'</g></g>';
+  // "Ay-yıldız yörüngesi": avatarı saran büyük beyaz hilal + çevresinde dönen, ışık izi bırakan yıldız. Arkada kırmızı nabız.
+  const b='<defs><radialGradient id="'+id+'g"><stop offset=".5" stop-color="'+KIR+'" stop-opacity=".9"/><stop offset=".78" stop-color="'+KIR+'" stop-opacity=".3"/><stop offset="1" stop-color="'+KIR+'" stop-opacity="0"/></radialGradient>'
+      +'<mask id="'+id+'h"><rect width="200" height="200" fill="#fff"/><circle cx="121" cy="92" r="66" fill="#000"/></mask>'
+      +'<linearGradient id="'+id+'i" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".95"/></linearGradient></defs>'
+    +'<circle class="fr-gl" cx="100" cy="100" r="94" fill="url(#'+id+'g)"/>'
+    +'<g class="x"><circle class="fr-dl" cx="100" cy="100" r="80" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="1.5 7" opacity=".55"/></g>';
+  const o='<g class="fr-hh"><circle cx="100" cy="100" r="74" fill="#fff" mask="url(#'+id+'h)"/></g>'
+    +'<g class="fr-yo"><path d="M100 22A78 78 0 0 1 167.5 61" fill="none" stroke="url(#'+id+'i)" stroke-width="4" stroke-linecap="round" transform="rotate(-60 100 100)"/>'
+      +'<g transform="rotate(0 100 100)">'+yildiz(100,22,11,0).replace('fill="#ffffff"','fill="#fff" class="fr-yp"')+'</g></g>'
+    +'<g class="x">'+[[36,40,0],[170,150,-.8],[150,30,-1.6],[44,168,-2.3]].map(t=>'<g class="fr-cy" style="animation-delay:'+t[2]+'s;transform-origin:'+t[0]+'px '+t[1]+'px">'+yildiz(t[0],t[1],3.6,0)+'</g>').join('')+'</g>';
   return [b,o];
 }
 let CN=0;
@@ -130,22 +121,18 @@ if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
     return '<span class="rk rk-'+k+(z<40?' sm':'')+'" style="--s:'+z+'px">'+h+'<svg class="rk-b" viewBox="0 0 200 200" aria-hidden="true">'+sv[0]+'</svg><svg class="rk-f" viewBox="0 0 200 200" aria-hidden="true">'+sv[1]+'</svg></span>';
   };
   document.head.insertAdjacentHTML('beforeend',`<style id="cerceve-cumhuriyet">
-.rk .fr-ry{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 22s linear infinite}
-.rk .fr-gl{transform-box:fill-box;transform-origin:center;animation:fr-gl 3s ease-in-out infinite alternate}
-.rk .fr-kd{animation:fr-kd 2.6s ease-in-out infinite alternate}
-.rk .fr-ak{animation:fr-ak 1.2s linear infinite}
-.rk .fr-kf{transform-box:fill-box;transform-origin:center;opacity:0;animation:fr-kf 3.2s linear infinite}
-@keyframes fr-kd{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
-@keyframes fr-ak{to{stroke-dashoffset:-32}}
-@keyframes fr-kf{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translate(6px,205px) rotate(540deg);opacity:0}}
+.rk .fr-gl{transform-box:fill-box;transform-origin:center;animation:fr-gl 2.6s ease-in-out infinite alternate}
+.rk .fr-dl{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 30s linear infinite reverse}
+.rk .fr-hh{transform-box:view-box;transform-origin:100px 100px;animation:fr-hh 6s ease-in-out infinite alternate}
+.rk .fr-yo{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 4.5s linear infinite}
+.rk .fr-yp{transform-box:fill-box;transform-origin:center;animation:fr-yp 1.1s ease-in-out infinite alternate}
 .rk .fr-cy{animation:fr-cy 2.4s ease-in-out infinite}
-.rk .fr-hl{transform-box:fill-box;transform-origin:center;animation:fr-hl 2.2s ease-in-out infinite}
-@keyframes fr-hl{0%,100%{transform:scale(.85);opacity:.35}50%{transform:scale(1.15);opacity:1}}
-@keyframes fr-gl{from{transform:scale(.94);opacity:.8}to{transform:scale(1.04);opacity:1}}
-@keyframes fr-cy{0%,100%{transform:scale(.4);opacity:.25}50%{transform:scale(1.15);opacity:1}}
-@keyframes cm-pn{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
-.rk-cumhuriyet .rk-b{filter:none}
 @keyframes fr-cd{to{transform:rotate(360deg)}}
+@keyframes fr-hh{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+@keyframes fr-yp{from{transform:scale(.85)}to{transform:scale(1.2)}}
+@keyframes fr-gl{from{transform:scale(.92);opacity:.75}to{transform:scale(1.05);opacity:1}}
+@keyframes fr-cy{0%,100%{transform:scale(.4);opacity:.25}50%{transform:scale(1.15);opacity:1}}
+.rk-cumhuriyet .rk-f{filter:drop-shadow(0 0 calc(var(--s)*.05) rgba(255,255,255,.7))}
 </style>`);
 }
 })();
