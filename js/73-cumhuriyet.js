@@ -64,7 +64,8 @@ if(typeof PREMT!=='undefined'&&!PREMT.includes(KEY))PREMT.push(KEY);
 const T=':root[data-theme="'+KEY+'"]',S='#sahne[data-s="'+KEY+'"]';
 let css=T+'{--bg:'+KOYU+';--panel:rgba(70,6,16,.78);--fg:#fff;--dim:#ffc9cf;--line:rgba(255,255,255,.18);--key:rgba(255,255,255,.12);--ac:#fff;--acf:'+KIR+';--m1:rgba(227,10,23,.6);--m2:rgba(255,255,255,.5);--m3:rgba(120,6,18,.6);--sh:0 10px 30px rgba(0,0,0,.35);color-scheme:dark}\n'
  +T+' body::before{display:none}\n'+cmCss(S)+'\n'+cmKf+'\n'
- +T+` .feat{background:linear-gradient(135deg,${KIR},#a5000f)!important;color:#fff}
+ +T+` .feat{background:linear-gradient(135deg,rgba(227,10,23,.62),rgba(165,0,15,.62))!important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25)!important;color:#fff}
+${T} .feat .tag,${T} .feat b,${T} .feat small{text-shadow:0 1px 6px rgba(0,0,0,.35)}
 ${T} .feat .go{background:#fff;color:${KIR}}
 ${T} #mDaily.feat{position:relative;overflow:hidden;isolation:isolate}
 ${T} #mDaily.feat::after{content:'';position:absolute;right:-5%;top:50%;width:min(36%,190px);aspect-ratio:1;transform:translateY(-50%) rotate(-8deg);z-index:-1;opacity:.28;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='38' cy='50' r='25' fill='%23fff'/%3E%3Ccircle cx='44.25' cy='50' r='20' fill='%23d30915'/%3E%3Cpolygon points='83.6,50 64.7,56.1 76.4,40.1 76.4,59.9 64.7,43.9' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
