@@ -1,7 +1,7 @@
 // v53 (taslak, onay bekliyor): 29 Ekim Cumhuriyet Bayramı teması ve "Cumhuriyet" çerçevesi.
-// Tema: arka planda Atatürk'ün at üstündeki fotoğrafı (img/ataturk-at.jpg), koyu kırmızı gök, sağ üstte sallanan kırmızı-beyaz flamalar ve "29 EKİM · 1923 · 103. YIL", kırmızı-beyaz havai fişekler,
-// Anıtkabir silueti, "29 EKİM 1923" ve Atatürk'ün "Ne mutlu Türküm diyene!" sözü. Çerçeve: halka değil hareketli arka plan
-// (kırmızı parıltı, dönen ışınlar), yanlardan sarkan sallanan flamalar, üstte parlayan yuvarlak bayrak madalyonu. Performans: animasyonlar transform/opacity; hafif modda durur.
+// Tema: menüde Atatürk'ün at üstündeki fotoğrafı, oyunda selam veren fotoğrafı (gri, soluk); koyu kırmızı gök, ay-yıldız, kırmızı-beyaz havai fişekler,
+// Anıtkabir silueti. Menüde "Efendiler, yarın Cumhuriyeti ilan edeceğiz!", oyunda "Ne mutlu Türküm diyene!" sözü. Doğru harfler kırmızı.
+// Çerçeve: kırmızı halka üzerinde dönen beyaz dilimler, üstte "29 EKİM" kurdelesi, altta ay-yıldız madalyonu. Animasyonlar transform/opacity.
 (function(){
 if(typeof SCN==='undefined'||typeof TM==='undefined')return;
 const KEY='cumhuriyet',KIR='#e30a17',KOYU='#5c0611',BEYAZ='#ffffff';
@@ -69,13 +69,15 @@ ${T} .feat .tag,${T} .feat b,${T} .feat small{text-shadow:0 1px 6px rgba(0,0,0,.
 ${T} .feat .go{background:#fff;color:${KIR}}
 ${T} #mDaily.feat{position:relative;overflow:hidden;isolation:isolate}
 ${T} #mDaily.feat::after{content:'';position:absolute;right:-5%;top:50%;width:min(36%,190px);aspect-ratio:1;transform:translateY(-50%) rotate(-8deg);z-index:-1;opacity:.28;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='38' cy='50' r='25' fill='%23fff'/%3E%3Ccircle cx='44.25' cy='50' r='20' fill='%23d30915'/%3E%3Cpolygon points='83.6,50 64.7,56.1 76.4,40.1 76.4,59.9 64.7,43.9' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
+${T} #mDaily .yh i{background:rgba(255,255,255,.16);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 ${T} #mDaily .tag::after{content:' · 29 Ekim 1923'}
 ${T} #home .greet{padding-right:42%;min-height:118px}
 ${S} .tr{display:none}
 ${T} #home .greet p{font-size:0!important}
-${T} #home .greet p::after{content:'“Egemenlik kayıtsız şartsız milletindir.” — Atatürk · 29 Ekim 1923, 103. yıl';font-size:13px;font-style:italic;font-weight:600;color:#ffe3e6}
+${T} #home .greet p::after{content:'“Efendiler, yarın Cumhuriyeti ilan edeceğiz!” — Atatürk, 28 Ekim 1923 · 103. yıl';font-size:13px;font-style:italic;font-weight:600;color:#ffe3e6}
 ${T} :is(.cd,.pl,.sc,.bi,.lvl,#def,.cfb,.mstat,.tt){border-color:rgba(255,255,255,.22)}
 ${T} .k:not(.g):not(.o):not(.r):not(.w){background:rgba(255,255,255,.92);color:${KOYU};border-color:transparent;box-shadow:0 3px 0 rgba(0,0,0,.35);-webkit-backdrop-filter:none;backdrop-filter:none}
+${T} .k.g{background:${KIR};color:#fff;border:2px solid #fff;box-shadow:0 3px 0 rgba(0,0,0,.35)}
 ${T} .k.w{background:#fff;color:${KIR}}
 ${T} .k.r{background:rgba(255,255,255,.18);color:rgba(255,255,255,.45);opacity:1}
 :root[data-perf=low] ${S} svg *,:root[data-perf=low] #oyunsahne svg *{animation:none!important}
@@ -87,28 +89,29 @@ Object.assign(EN,{'29 Ekim Cumhuriyet':'Republic Day (29 Oct)','Cumhuriyet':'Rep
 if(window.OSEKLE)OSEKLE(KEY,{html:()=>cmHtml('o'),css:cmCss('§O')+'\n'+cmKf+`
 §O .tr{right:auto;left:0;width:100%;align-items:center;top:21%}
 §O .soz{bottom:auto;top:66.5%}
-§O .soz b{font-size:15px}§O .soz span{font-size:10px}
+§O .soz b{font-size:clamp(21px,6vw,30px);text-shadow:0 2px 14px rgba(0,0,0,.6)}§O .soz span{font-size:12px}
 @media (max-height:720px){§O .soz{display:none}}
 §O svg.ak{height:10vh;opacity:.7}`});
 if(window.TEMAEK)TEMAEK(KEY,{t:'txt',m:'out',n:6,c:['#ffffff',KIR],s:[14,22],g:['★','☾']},{
   e:'background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.55);border-radius:12px',
   fl:'border-color:#fff;box-shadow:0 0 14px rgba(255,255,255,.55)',
-  g:'background:linear-gradient(#2fbf71,#16944f);color:#fff;border:2px solid #d7ffe8;border-radius:12px',
+  g:'background:linear-gradient(#ff2b3a,#c8000f);color:#fff;border:2px solid #fff;border-radius:12px;box-shadow:0 0 12px rgba(255,60,70,.55)',
   o:'background:linear-gradient(#ffcf4a,#f2a20c);color:#3b1d00;border:2px solid #fff1c4;border-radius:12px',
-  r:'background:linear-gradient(#5c0611,#3a030a);color:rgba(255,255,255,.55);border:2px solid rgba(255,255,255,.25);border-radius:12px'});
+  r:'background:rgba(30,2,6,.72);color:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.18);border-radius:12px'});
 
-// ---------- Çerçeve: Cumhuriyet (kırmızı-beyaz dönen halka, ay-yıldız, dalgalanan bayrak, parlayan yıldızlar) ----------
+// ---------- Çerçeve: Cumhuriyet (kırmızı-beyaz dönen halka, "29 EKİM" kurdelesi, ay-yıldız madalyonu) ----------
 function cerceve(id){
-  // "Ay-yıldız yörüngesi": avatarı saran büyük beyaz hilal + çevresinde dönen, ışık izi bırakan yıldız. Arkada kırmızı nabız.
-  const b='<defs><radialGradient id="'+id+'g"><stop offset=".5" stop-color="'+KIR+'" stop-opacity=".9"/><stop offset=".78" stop-color="'+KIR+'" stop-opacity=".3"/><stop offset="1" stop-color="'+KIR+'" stop-opacity="0"/></radialGradient>'
-      +'<mask id="'+id+'h"><rect width="200" height="200" fill="#fff"/><circle cx="121" cy="92" r="66" fill="#000"/></mask>'
-      +'<linearGradient id="'+id+'i" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".95"/></linearGradient></defs>'
-    +'<circle class="fr-gl" cx="100" cy="100" r="94" fill="url(#'+id+'g)"/>'
-    +'<g class="x"><circle class="fr-dl" cx="100" cy="100" r="80" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="1.5 7" opacity=".55"/></g>';
-  const o='<g class="fr-hh"><circle cx="100" cy="100" r="74" fill="#fff" mask="url(#'+id+'h)"/></g>'
-    +'<g class="fr-yo"><path d="M100 22A78 78 0 0 1 167.5 61" fill="none" stroke="url(#'+id+'i)" stroke-width="4" stroke-linecap="round" transform="rotate(-60 100 100)"/>'
-      +'<g transform="rotate(0 100 100)">'+yildiz(100,22,11,0).replace('fill="#ffffff"','fill="#fff" class="fr-yp"')+'</g></g>'
-    +'<g class="x">'+[[36,40,0],[170,150,-.8],[150,30,-1.6],[44,168,-2.3]].map(t=>'<g class="fr-cy" style="animation-delay:'+t[2]+'s;transform-origin:'+t[0]+'px '+t[1]+'px">'+yildiz(t[0],t[1],3.6,0)+'</g>').join('')+'</g>';
+  // Normal halka: kırmızı halka üzerinde dönen beyaz dilimler (kırmızı-beyaz akış), beyaz kenarlar, üstte "29 EKİM" kurdelesi,
+  // altta ay-yıldızlı madalyon. Arkada hafif kırmızı parıltı. Küçük avatarlarda (.x) kurdele ve madalyon gizli.
+  const b='<defs><radialGradient id="'+id+'g"><stop offset=".62" stop-color="'+KIR+'" stop-opacity=".75"/><stop offset="1" stop-color="'+KIR+'" stop-opacity="0"/></radialGradient></defs>'
+    +'<circle class="fr-gl" cx="100" cy="100" r="80" fill="url(#'+id+'g)"/>';
+  const o='<circle cx="100" cy="100" r="65.5" fill="none" stroke="#fff" stroke-width="3"/>'
+    +'<circle cx="100" cy="100" r="59" fill="none" stroke="'+KIR+'" stroke-width="11"/>'
+    +'<circle class="fr-dl" cx="100" cy="100" r="59" fill="none" stroke="#fff" stroke-width="11" stroke-dasharray="9.27 9.27" opacity=".92"/>'
+    +'<circle cx="100" cy="100" r="52.5" fill="none" stroke="#fff" stroke-width="2.2"/>'
+    +'<g class="x"><rect x="68" y="31" width="64" height="18" rx="9" fill="'+KIR+'" stroke="#fff" stroke-width="2.5"/>'
+      +'<text x="100" y="44.2" text-anchor="middle" font-family="Arial Black,system-ui,sans-serif" font-weight="900" font-size="11" letter-spacing=".6" fill="#fff">29 EKİM</text>'
+      +'<g class="fr-cmm"><circle cx="100" cy="161" r="17" fill="'+KIR+'" stroke="#fff" stroke-width="3"/>'+ayYildiz(81,147,28).replace(/#e30a17/g,KIR)+'</g></g>';
   return [b,o];
 }
 let CN=0;
@@ -122,17 +125,12 @@ if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
   };
   document.head.insertAdjacentHTML('beforeend',`<style id="cerceve-cumhuriyet">
 .rk .fr-gl{transform-box:fill-box;transform-origin:center;animation:fr-gl 2.6s ease-in-out infinite alternate}
-.rk .fr-dl{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 30s linear infinite reverse}
-.rk .fr-hh{transform-box:view-box;transform-origin:100px 100px;animation:fr-hh 6s ease-in-out infinite alternate}
-.rk .fr-yo{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 4.5s linear infinite}
-.rk .fr-yp{transform-box:fill-box;transform-origin:center;animation:fr-yp 1.1s ease-in-out infinite alternate}
-.rk .fr-cy{animation:fr-cy 2.4s ease-in-out infinite}
+.rk .fr-dl{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 6s linear infinite}
+.rk .fr-cmm{transform-box:fill-box;transform-origin:center;animation:fr-cmm 1.6s ease-in-out infinite alternate}
 @keyframes fr-cd{to{transform:rotate(360deg)}}
-@keyframes fr-hh{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
-@keyframes fr-yp{from{transform:scale(.85)}to{transform:scale(1.2)}}
+@keyframes fr-cmm{from{transform:scale(.94)}to{transform:scale(1.06)}}
 @keyframes fr-gl{from{transform:scale(.92);opacity:.75}to{transform:scale(1.05);opacity:1}}
-@keyframes fr-cy{0%,100%{transform:scale(.4);opacity:.25}50%{transform:scale(1.15);opacity:1}}
-.rk-cumhuriyet .rk-f{filter:drop-shadow(0 0 calc(var(--s)*.05) rgba(255,255,255,.7))}
+.rk-cumhuriyet .rk-f{filter:drop-shadow(0 0 calc(var(--s)*.04) rgba(255,255,255,.55))}
 </style>`);
 }
 })();
