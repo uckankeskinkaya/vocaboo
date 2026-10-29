@@ -1,4 +1,4 @@
-// v53 (taslak, onay bekliyor): 29 Ekim Cumhuriyet Bayramı teması ve "Cumhuriyet" çerçevesi.
+// v53: 29 Ekim Cumhuriyet Bayramı teması (bütün kullanıcılara hediye). "Cumhuriyet" çerçevesi hazır ama kapalı (CERCEVE=false).
 // Tema: menüde Atatürk'ün at üstündeki fotoğrafı, oyunda selam veren fotoğrafı (gri, soluk); koyu kırmızı gök, ay-yıldız, kırmızı-beyaz havai fişekler,
 // Anıtkabir silueti. Menüde "Efendiler, yarın Cumhuriyeti ilan edeceğiz!", oyunda "Ne mutlu Türküm diyene!" sözü. Doğru harfler kırmızı.
 // Çerçeve: bayraktaki gibi avatarı saran hilal ve yıldız, kırmızı parlama, aşağı akan küçük yıldızlar. Animasyonlar transform/opacity.
@@ -112,7 +112,9 @@ function cerceve(id){
   return [b,o];
 }
 let CN=0;
-if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
+// Çerçeve şimdilik yayında değil (kullanıcı kararı); açmak için CERCEVE=true ve frame:cumhuriyet hediyesi.
+const CERCEVE=false;
+if(CERCEVE&&typeof FRM!=='undefined'&&typeof frameHtml==='function'){
   FRM[KEY]=['Cumhuriyet',4,'svg',{shop:1},0,'•','out','',[KIR,'#ffffff',KIR,'#ffffff']];
   if(typeof UNL!=='undefined')UNL.push({id:'frame:'+KEY,t:'frame',n:'Cumhuriyet',req:{shop:1}});
   const _fh=frameHtml;frameHtml=function(h,k){
