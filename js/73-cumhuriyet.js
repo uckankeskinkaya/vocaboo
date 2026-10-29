@@ -84,7 +84,7 @@ ${T} .k.r{background:rgba(255,255,255,.18);color:rgba(255,255,255,.45);opacity:1
 `;
 document.head.insertAdjacentHTML('beforeend','<style id="sahne-cumhuriyet">'+css+'</style>');
 try{const t=localStorage.getItem('ka_theme');if(t===KEY&&typeof sahneKur==='function'){document.documentElement.dataset.theme=t;sahneKur(t)}}catch(e){}
-Object.assign(EN,{'29 Ekim Cumhuriyet':'Republic Day (29 Oct)','Cumhuriyet':'Republic'});
+Object.assign(EN,{'29 Ekim Cumhuriyet':'Republic Day (29 Oct)','Cumhuriyet':'Republic','29 EKİM':'29 OCT'});
 // Oyun sahnesi: bayrak ve söz, tanım kartıyla harf kutuları arasındaki boşlukta görünür
 if(window.OSEKLE)OSEKLE(KEY,{html:()=>cmHtml('o'),css:cmCss('§O')+'\n'+cmKf+`
 §O .tr{right:auto;left:0;width:100%;align-items:center;top:21%}
