@@ -1,7 +1,7 @@
 // v53 (taslak, onay bekliyor): 29 Ekim Cumhuriyet Bayramı teması ve "Cumhuriyet" çerçevesi.
 // Tema: menüde Atatürk'ün at üstündeki fotoğrafı, oyunda selam veren fotoğrafı (gri, soluk); koyu kırmızı gök, ay-yıldız, kırmızı-beyaz havai fişekler,
 // Anıtkabir silueti. Menüde "Efendiler, yarın Cumhuriyeti ilan edeceğiz!", oyunda "Ne mutlu Türküm diyene!" sözü. Doğru harfler kırmızı.
-// Çerçeve: kırmızı halka üzerinde dönen beyaz dilimler, üstte "29 EKİM" kurdelesi, altta ay-yıldız madalyonu. Animasyonlar transform/opacity.
+// Çerçeve: bayraktaki gibi avatarı saran hilal ve yıldız, kırmızı parlama, aşağı akan küçük yıldızlar. Animasyonlar transform/opacity.
 (function(){
 if(typeof SCN==='undefined'||typeof TM==='undefined')return;
 const KEY='cumhuriyet',KIR='#e30a17',KOYU='#5c0611',BEYAZ='#ffffff';
@@ -84,7 +84,7 @@ ${T} .k.r{background:rgba(255,255,255,.18);color:rgba(255,255,255,.45);opacity:1
 `;
 document.head.insertAdjacentHTML('beforeend','<style id="sahne-cumhuriyet">'+css+'</style>');
 try{const t=localStorage.getItem('ka_theme');if(t===KEY&&typeof sahneKur==='function'){document.documentElement.dataset.theme=t;sahneKur(t)}}catch(e){}
-Object.assign(EN,{'29 Ekim Cumhuriyet':'Republic Day (29 Oct)','Cumhuriyet':'Republic','29 EKİM':'29 OCT'});
+Object.assign(EN,{'29 Ekim Cumhuriyet':'Republic Day (29 Oct)','Cumhuriyet':'Republic'});
 // Oyun sahnesi: bayrak ve söz, tanım kartıyla harf kutuları arasındaki boşlukta görünür
 if(window.OSEKLE)OSEKLE(KEY,{html:()=>cmHtml('o'),css:cmCss('§O')+'\n'+cmKf+`
 §O .tr{right:auto;left:0;width:100%;align-items:center;top:21%}
@@ -99,19 +99,16 @@ if(window.TEMAEK)TEMAEK(KEY,{t:'txt',m:'out',n:6,c:['#ffffff',KIR],s:[14,22],g:[
   o:'background:linear-gradient(#ffcf4a,#f2a20c);color:#3b1d00;border:2px solid #fff1c4;border-radius:12px',
   r:'background:rgba(30,2,6,.72);color:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.18);border-radius:12px'});
 
-// ---------- Çerçeve: Cumhuriyet (kırmızı-beyaz dönen halka, "29 EKİM" kurdelesi, ay-yıldız madalyonu) ----------
+// ---------- Çerçeve: Cumhuriyet (avatarı saran hilal, yıldız, kırmızı parlama, aşağı akan yıldızlar) ----------
 function cerceve(id){
-  // Normal halka: kırmızı halka üzerinde dönen beyaz dilimler (kırmızı-beyaz akış), beyaz kenarlar, üstte "29 EKİM" kurdelesi,
-  // altta ay-yıldızlı madalyon. Arkada hafif kırmızı parıltı. Küçük avatarlarda (.x) kurdele ve madalyon gizli.
-  const b='<defs><radialGradient id="'+id+'g"><stop offset=".62" stop-color="'+KIR+'" stop-opacity=".75"/><stop offset="1" stop-color="'+KIR+'" stop-opacity="0"/></radialGradient></defs>'
-    +'<circle class="fr-gl" cx="100" cy="100" r="80" fill="url(#'+id+'g)"/>';
-  const o='<circle cx="100" cy="100" r="65.5" fill="none" stroke="#fff" stroke-width="3"/>'
-    +'<circle cx="100" cy="100" r="59" fill="none" stroke="'+KIR+'" stroke-width="11"/>'
-    +'<circle class="fr-dl" cx="100" cy="100" r="59" fill="none" stroke="#fff" stroke-width="11" stroke-dasharray="9.27 9.27" opacity=".92"/>'
-    +'<circle cx="100" cy="100" r="52.5" fill="none" stroke="#fff" stroke-width="2.2"/>'
-    +'<g class="x"><rect x="68" y="31" width="64" height="18" rx="9" fill="'+KIR+'" stroke="#fff" stroke-width="2.5"/>'
-      +'<text x="100" y="44.2" text-anchor="middle" font-family="Arial Black,system-ui,sans-serif" font-weight="900" font-size="11" letter-spacing=".6" fill="#fff">29 EKİM</text>'
-      +'<g class="fr-cmm"><circle cx="100" cy="161" r="17" fill="'+KIR+'" stroke="#fff" stroke-width="3"/>'+ayYildiz(81,147,28).replace(/#e30a17/g,KIR)+'</g></g>';
+  // Bayraktaki gibi: avatarı soldan saran, içe doğru kapanan beyaz hilal (iç boşluğu avatarı içine alır), açık uçta beş köşeli yıldız.
+  // Arkada kırmızı parlama, avatarın çevresinden aşağı akan küçük yıldızlar. Küçük avatarlarda (.x) akan yıldızlar gizli, hilal büyütülür.
+  const b='<defs><radialGradient id="'+id+'g"><stop offset=".55" stop-color="'+KIR+'" stop-opacity=".95"/><stop offset=".8" stop-color="'+KIR+'" stop-opacity=".35"/><stop offset="1" stop-color="'+KIR+'" stop-opacity="0"/></radialGradient></defs>'
+    +'<circle class="fr-gl" cx="100" cy="100" r="90" fill="url(#'+id+'g)"/>'
+    +'<g class="x">'+[[30,.0],[52,-1.3],[78,-2.6],[122,-.6],[148,-1.9],[172,-3.2],[40,-3.8],[160,-4.4]].map(t=>'<g class="fr-ak" style="animation-delay:'+t[1]+'s">'+yildiz(t[0],22,4.6,0)+'</g>').join('')+'</g>';
+  const o='<defs><mask id="'+id+'h"><rect width="200" height="200" fill="#fff"/><circle cx="104" cy="100" r="56" fill="#000"/></mask></defs>'
+    +'<g class="fr-ay"><circle cx="92" cy="100" r="62" fill="#fff" mask="url(#'+id+'h)"/>'
+    +'<g class="fr-yp">'+yildiz(166,100,15,-Math.PI/2)+'</g></g>';
   return [b,o];
 }
 let CN=0;
@@ -124,13 +121,15 @@ if(typeof FRM!=='undefined'&&typeof frameHtml==='function'){
     return '<span class="rk rk-'+k+(z<40?' sm':'')+'" style="--s:'+z+'px">'+h+'<svg class="rk-b" viewBox="0 0 200 200" aria-hidden="true">'+sv[0]+'</svg><svg class="rk-f" viewBox="0 0 200 200" aria-hidden="true">'+sv[1]+'</svg></span>';
   };
   document.head.insertAdjacentHTML('beforeend',`<style id="cerceve-cumhuriyet">
-.rk .fr-gl{transform-box:fill-box;transform-origin:center;animation:fr-gl 2.6s ease-in-out infinite alternate}
-.rk .fr-dl{transform-box:view-box;transform-origin:100px 100px;animation:fr-cd 6s linear infinite}
-.rk .fr-cmm{transform-box:fill-box;transform-origin:center;animation:fr-cmm 1.6s ease-in-out infinite alternate}
-@keyframes fr-cd{to{transform:rotate(360deg)}}
-@keyframes fr-cmm{from{transform:scale(.94)}to{transform:scale(1.06)}}
-@keyframes fr-gl{from{transform:scale(.92);opacity:.75}to{transform:scale(1.05);opacity:1}}
-.rk-cumhuriyet .rk-f{filter:drop-shadow(0 0 calc(var(--s)*.04) rgba(255,255,255,.55))}
+.rk .fr-gl{transform-box:fill-box;transform-origin:center;animation:fr-gl 2.4s ease-in-out infinite alternate}
+.rk .fr-ay{transform-box:view-box;transform-origin:100px 100px}
+.rk.sm .fr-ay{transform:scale(1.34)}
+.rk .fr-yp{transform-box:fill-box;transform-origin:center;animation:fr-yp 1.4s ease-in-out infinite alternate}
+.rk .fr-ak{opacity:0;animation:fr-ak 4.8s linear infinite}
+@keyframes fr-gl{from{transform:scale(.92);opacity:.7}to{transform:scale(1.05);opacity:1}}
+@keyframes fr-yp{from{transform:scale(.9) rotate(-6deg)}to{transform:scale(1.12) rotate(6deg)}}
+@keyframes fr-ak{0%{transform:translateY(0);opacity:0}12%{opacity:1}80%{opacity:.8}100%{transform:translateY(160px);opacity:0}}
+.rk-cumhuriyet .rk-f{filter:drop-shadow(0 0 calc(var(--s)*.05) rgba(255,255,255,.6))}
 </style>`);
 }
 })();
