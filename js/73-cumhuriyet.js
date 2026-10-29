@@ -74,7 +74,7 @@ ${T} #mDaily .tag::after{content:' · 29 Ekim 1923'}
 ${T} #home .greet{padding-right:42%;min-height:118px}
 ${S} .tr{display:none}
 /* Masaüstü / yatay geniş ekran: fotoğraf sağ üstte yüz kartların üstünde kalacak boyutta, selamlama alanı fotoğraf kadar uzun */
-@media (orientation:landscape) and (min-width:900px){
+@media (orientation:landscape) and (min-width:640px){
   ${S} .foto{left:auto;right:0;top:0;width:min(46vw,780px);height:100vh;background-position:50% 0;opacity:.8;-webkit-mask:linear-gradient(90deg,transparent,#000 35%),linear-gradient(#000 70%,transparent 100%);-webkit-mask-composite:source-in;mask:linear-gradient(90deg,transparent,#000 35%) intersect,linear-gradient(#000 70%,transparent 100%)}
   ${T} #home .greet{min-height:calc(min(56vh,560px) - 150px);padding-right:44%;display:flex;flex-direction:column;justify-content:center}
   ${T} #home .greet p::after{content:'“Efendiler, yarın Cumhuriyeti ilan edeceğiz!”'!important;display:block;margin-top:8px;font-size:clamp(20px,1.9vw,30px)!important;line-height:1.3;max-width:24ch;text-shadow:0 2px 12px rgba(0,0,0,.35)}
