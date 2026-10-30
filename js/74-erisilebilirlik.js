@@ -2,11 +2,14 @@
 // 1) Klavyede turuncu tuş/kutuda koyu harf, yeşil tuş biraz koyu: harf kontrastı WCAG AA (4.5:1) üstünde.
 // 2) Ekran okuyucu: her tahminden sonra harf harf sonuç okunur (gizli aria-live alanı); sonuç mesajı (#res) da okunur.
 // 3) "Hareketi azalt" açıkken süs animasyonları kapalı kalır ama kutuların renk açılışı kısa bir geçişle görünür.
+// 5) Kelimede olmayan harf varsayılan olarak gri (kırmızı-yeşil ayrımı renk körlerinde zor).
 // 4) Seri Modu kartındaki çizgi artık sabit çizim değil: bu cihazda oynanan son Seri oyunlarının skorları (en fazla 8).
 //    2'den az oyun varsa çizgi yerine kısa bir not gösterilir.
 (function(){
 document.head.insertAdjacentHTML('beforeend',`<style id="erisilebilirlik">
 .k.o,.tile.o{color:#2b1600}
+/* Kelimede olmayan harf: kırmızı yerine gri (renk körü için yeşil-kırmızı ayrımına dayanmasın). Temalar kendi rengini korur. */
+:root{--r:#7a8394}
 .k.g{background:color-mix(in srgb,var(--g) 78%,#000)}
 .sr-only{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 @media (prefers-reduced-motion:reduce){
